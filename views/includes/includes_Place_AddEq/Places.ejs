@@ -1,0 +1,1173 @@
+
+
+
+<link rel="stylesheet" href="css/item_User.css">
+
+
+<section id="team" class="pb-5">
+    <div class="container">
+        <h5 class="section-title h1">الاماكن</h5>
+        
+ 
+
+        <div class="row">
+          <%for (var i = 0; i < dest.length; i++) {%>
+            <!-- Team member -->   
+            
+            <%if(  dest[i].nationality === "rya"){%>
+
+                <div class="col-xs-12 col-sm-6 col-md-4">
+
+                     
+                <div class="image-flip" >
+                    <div class="mainflip flip-0">
+  
+                     
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+
+
+                                    <p><img class="img-fluid" src="images/City_Picture/ria.png" alt="card image"></p>
+                                    
+                                    
+                            
+                                    
+
+                                    <h4 class="card-title">
+                                     <%=foo.firstNameA%>  <%=foo.lastNameA%>
+        
+                                          </h4>
+                                    
+  
+                                    <h4 class="card-title">
+                                  الرياض 
+  
+                                    </h4>
+                                    <p class="card-text">
+
+                                        <%if(dest[i].dist=== ""){%>
+                      
+                                            <%=dest[i].dist%>
+                                          
+                                          <%}%>
+                                          
+                                          <%if(dest[i].dist !== ""){%>
+                                          
+                                            حي <%=dest[i].dist%> 
+                                          
+                                          <%}%>
+
+                                          
+                                    </p>
+
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+  
+                        <div class="backside">
+                            <div class="card">
+                                
+
+                                    <form action="/delete_places_lessor" method="POST">
+                                        
+                                        <input type="hidden" name="dest" value="<%=i%>">
+                                        
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        
+
+                                   
+
+                                        <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                    
+                                    </form>
+
+
+                                    <div class="container">
+                                        <p class="card-text" style="text-align: center;">
+                                            <%=dest[i].desc%>
+                                        </p>
+
+                                    </div>
+                                
+
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title" ><%if(dest[i].dist=== ""){%>
+            
+                                        <a href="<%=dest[i].url%>" >   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      <%}%>
+                                      
+                                      <%if(dest[i].dist !== ""){%>
+                                      
+                                        <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      <%}%></h4>
+                                      
+                               
+                                    <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+                               
+                                  
+  
+  
+                                </div>
+                            </div>
+                        </div>
+                        
+  
+                    </div>
+                </div>
+            </div>
+            <%}%>
+
+
+            <%if(  dest[i].nationality === "jed"){%>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="image-flip" >
+                        <div class="mainflip flip-0">
+      
+                         
+                            <div class="frontside">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                     
+      
+      
+      
+      
+                                        <p><img class=" img-fluid" src="images/City_Picture/j.png" alt="card image"></p>
+                                       
+                                        <h4 class="card-title">
+                                            <%=foo.firstNameA%>  <%=foo.lastNameA%>
+               
+                                                 </h4>
+                                        <h4 class="card-title">
+                                            جدة
+            
+                                              </h4>
+                                              <p class="card-text">
+          
+                                                  <%if(dest[i].dist=== ""){%>
+                                
+                                                      <%=dest[i].dist%>
+                                                    
+                                                    <%}%>
+                                                    
+                                                    <%if(dest[i].dist !== ""){%>
+                                                    
+                                                      حي  <%=dest[i].dist%> 
+                                                    
+                                                    <%}%>
+                                              </p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+      
+                            <div class="backside">
+                                <div class="card">
+                                    <form action="/delete_places_lessor" method="POST">
+                                        <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
+                                        <input type="hidden" name="desc" value="<%=dest[i].desc%>">
+                                        <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                        <input type="hidden" name="dest" value="<%=i%>">
+                                        
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        
+
+                                   
+
+                                        <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                    
+                                    </form>
+
+                                    <div class="container">
+                                        <p class="card-text" style="text-align: center;">
+                                            <%=dest[i].desc%>
+                                        </p>
+
+                                    </div>
+                                    <div class="card-body text-center mt-4">
+                                        <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+            
+                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                          
+                                          <%}%>
+                                          
+                                          <%if(dest[i].dist !== ""){%>
+                                          
+                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                          
+                                          <%}%></h4>
+                                
+
+                                        <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+
+                                    
+                                    
+      
+      
+                                    </div>
+                                </div>
+                            </div>
+                            
+      
+                        </div>
+                    </div>
+                </div>
+                <%}%>
+
+
+                <%if(dest[i].nationality === "hfof"){%>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="image-flip" >
+                            <div class="mainflip flip-0">
+          
+                             
+                                <div class="frontside">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                         
+          
+          
+          
+          
+                                            <p><img class=" img-fluid" src="images/City_Picture/hafof.jpg" alt="card image"></p>
+                                           
+                                            <h4 class="card-title">
+                                                <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                   
+                                                     </h4>
+          
+                                            <h4 class="card-title">
+                                               الهفوف
+                
+                                                  </h4>
+                                                  <p class="card-text">
+              
+                                                      <%if(dest[i].dist=== ""){%>
+                                    
+                                                          <%=dest[i].dist%>
+                                                        
+                                                        <%}%>
+                                                        
+                                                        <%if(dest[i].dist !== ""){%>
+                                                        
+                                                          حي  <%=dest[i].dist%> 
+                                                        
+                                                        <%}%>
+                                                  </p>
+                                        </div>
+                                    </div>
+                                </div>
+          
+                                <div class="backside">
+                                    <div class="card">
+                                        <form action="/delete_places_lessor" method="POST">
+                                            <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
+                                            <input type="hidden" name="desc" value="<%=dest[i].desc%>">
+                                            <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                            <input type="hidden" name="dest" value="<%=i%>">
+                                            
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            
+    
+                                       
+    
+                                            <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                        
+                                        </form>
+                                    
+                                        <div class="container">
+                                            <p class="card-text" style="text-align: center;">
+                                                <%=dest[i].desc%>
+                                            </p>
+
+                                        </div>
+
+                                        <div class="card-body text-center mt-4">
+                                            <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+            
+                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                              
+                                              <%}%>
+                                              
+                                              <%if(dest[i].dist !== ""){%>
+                                              
+                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                              
+                                              <%}%></h4>
+                                         
+
+                                            <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+                                        
+          
+          
+                                        </div>
+                                    </div>
+                                </div>
+                                
+          
+                            </div>
+                        </div>
+                    </div>
+                    <%}%>
+
+
+                <%if(dest[i].nationality === "zhar"){%>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="image-flip" >
+                            <div class="mainflip flip-0">
+          
+                             
+                                <div class="frontside">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                         
+          
+          
+          
+          
+                                            <p><img class=" img-fluid" src="images/City_Picture/zah.png" alt="card image"></p>
+                                           
+                                            <h4 class="card-title">
+                                                <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                   
+                                                     </h4>
+                                            <h4 class="card-title">
+                                               الظهران
+                
+                                                  </h4>
+                                                  <p class="card-text">
+              
+                                                      <%if(dest[i].dist=== ""){%>
+                                    
+                                                          <%=dest[i].dist%>
+                                                        
+                                                        <%}%>
+                                                        
+                                                        <%if(dest[i].dist !== ""){%>
+                                                        
+                                                          حي  <%=dest[i].dist%> 
+                                                        
+                                                        <%}%>
+                                                  </p>
+                                        </div>
+                                    </div>
+                                </div>
+          
+                                <div class="backside">
+                                    <div class="card">
+                                        <form action="/delete_places_lessor" method="POST">
+                                            <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
+                                            <input type="hidden" name="desc" value="<%=dest[i].desc%>">
+                                            <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                            <input type="hidden" name="dest" value="<%=i%>">
+                                            
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            
+    
+                                       
+    
+                                            <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                        
+                                        </form>
+                                    
+                                        <div class="container">
+                                            <p class="card-text" style="text-align: center;">
+                                                <%=dest[i].desc%>
+                                            </p>
+
+                                        </div>
+
+                                        <div class="card-body text-center mt-4">
+                                            <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+            
+                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                              
+                                              <%}%>
+                                              
+                                              <%if(dest[i].dist !== ""){%>
+                                              
+                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                              
+                                              <%}%></h4>
+                                         
+                                        
+                                            <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+          
+          
+                                        </div>
+                                    </div>
+                                </div>
+                                
+          
+                            </div>
+                        </div>
+                    </div>
+                    <%}%>
+
+
+                    <%if(dest[i].nationality=== "taif"){%>
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <div class="image-flip" >
+                                <div class="mainflip flip-0">
+              
+                                 
+                                    <div class="frontside">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                             
+              
+              
+              
+              
+                                                <p><img class=" img-fluid" src="images/City_Picture/t.png" alt="card image"></p>
+                                               
+              
+                                                <h4 class="card-title">
+                                                    <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                       
+                                                         </h4>
+                                                <h4 class="card-title">
+                                                   الطائف
+                    
+                                                      </h4>
+                                                      <p class="card-text">
+                  
+                                                          <%if(dest[i].dist=== ""){%>
+                                        
+                                                              <%=dest[i].dist%>
+                                                            
+                                                            <%}%>
+                                                            
+                                                            <%if(dest[i].dist !== ""){%>
+                                                            
+                                                              حي  <%=dest[i].dist%> 
+                                                            
+                                                            <%}%>
+                                                      </p>
+                                            </div>
+                                        </div>
+                                    </div>
+              
+                                    <div class="backside">
+                                        <div class="card">
+                                            <form action="/delete_places_lessor" method="POST">
+                                                <input type="hidden" name="dest" value="<%=i%>">
+                                                
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                            
+                                            </form>
+
+                                            <div class="container">
+                                                <p class="card-text" style="text-align: center;">
+                                                    <%=dest[i].desc%>
+                                                </p>
+
+                                            </div>
+                                        
+                                            <div class="card-body text-center mt-4">
+                                                <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+            
+                                                    <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                  
+                                                  <%}%>
+                                                  
+                                                  <%if(dest[i].dist !== ""){%>
+                                                  
+                                                    <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                  
+                                                  <%}%></h4>
+                                            
+                                            
+              
+                                                <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+              
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+              
+                                </div>
+                            </div>
+                        </div>
+                        <%}%>
+
+
+                        <%if(dest[i].nationality === "dam"){%>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <div class="image-flip" >
+                                    <div class="mainflip flip-0">
+                  
+                                     
+                                        <div class="frontside">
+                                            <div class="card">
+                                                <div class="card-body text-center">
+                                                 
+                  
+                  
+                  
+                  
+                                                    <p><img class=" img-fluid" src="images/City_Picture/dam.png" alt="card image"></p>
+                                                   
+                                                    <h4 class="card-title">
+                                                        <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                           
+                                                             </h4>
+                  
+                                                    <h4 class="card-title">
+                                                        الدمام
+                        
+                                                          </h4>
+                                                          <p class="card-text">
+                      
+                                                              <%if(dest[i].dist=== ""){%>
+                                            
+                                                                  <%=dest[i].dist%>
+                                                                
+                                                                <%}%>
+                                                                
+                                                                <%if(dest[i].dist !== ""){%>
+                                                                
+                                                                  حي  <%=dest[i].dist%> 
+                                                                
+                                                                <%}%>
+                                                          </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                  
+                                        <div class="backside">
+                                            <div class="card">
+                                                <form action="/delete_places_lessor" method="POST">
+                                                    <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
+                                                    <input type="hidden" name="desc" value="<%=dest[i].desc%>">
+                                                    <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                    <input type="hidden" name="dest" value="<%=i%>">
+                                                    
+                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                    
+            
+                                               
+            
+                                                    <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                                
+                                                </form>
+
+                                                <div class="container">
+                                                    <p class="card-text" style="text-align: center;">
+                                                        <%=dest[i].desc%>
+                                                    </p>
+
+                                                </div>
+                                            
+                                                <div class="card-body text-center mt-4">
+                                                    <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+            
+                                                        <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                      
+                                                      <%}%>
+                                                      
+                                                      <%if(dest[i].dist !== ""){%>
+                                                      
+                                                        <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                      
+                                                      <%}%></h4>
+
+                                                
+                  
+                                                    <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                  
+                                    </div>
+                                </div>
+                            </div>
+                            <%}%>
+
+
+                            <%if(dest[i].nationality === "hafr"){%>
+                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                    <div class="image-flip" >
+                                        <div class="mainflip flip-0">
+                      
+                                         
+                                            <div class="frontside">
+                                                <div class="card">
+                                                    <div class="card-body text-center">
+                                                     
+                      
+                      
+                      
+                      
+                                                        <p><img class=" img-fluid" src="images/City_Picture/haf.png" alt="card image"></p>
+                                                       
+                                                        <h4 class="card-title">
+                                                            <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                               
+                                                                 </h4>
+                      
+                                                        <h4 class="card-title">
+                                                            حفر الباطن
+                            
+                                                              </h4>
+                                                              <p class="card-text">
+                          
+                                                                  <%if(dest[i].dist=== ""){%>
+                                                
+                                                                      <%=dest[i].dist%>
+                                                                    
+                                                                    <%}%>
+                                                                    
+                                                                    <%if(dest[i].dist !== ""){%>
+                                                                    
+                                                                      حي  <%=dest[i].dist%> 
+                                                                    
+                                                                    <%}%>
+                                                              </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                      
+                                            <div class="backside">
+                                                <div class="card">
+                                                    <form action="/delete_places_lessor" method="POST">
+                                                        <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
+                                                        <input type="hidden" name="desc" value="<%=dest[i].desc%>">
+                                                        <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                        <input type="hidden" name="dest" value="<%=i%>">
+                                                        
+                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                        
+                
+                                                   
+                
+                                                        <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                                    
+                                                    </form>
+                                                    <div class="container">
+                                                        <p class="card-text" style="text-align: center;">
+                                                            <%=dest[i].desc%>
+                                                        </p>
+
+                                                    </div>
+                                                    <div class="card-body text-center mt-4">
+                                                        <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+            
+                                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                          
+                                                          <%}%>
+                                                          
+                                                          <%if(dest[i].dist !== ""){%>
+                                                          
+                                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                          
+                                                          <%}%></h4>
+
+                                                    
+                                                        <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+                      
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                      
+                                        </div>
+                                    </div>
+                                </div>
+                                <%}%>
+
+                                <%if(dest[i].nationality === "khmis"){%>
+                                    <div class="col-xs-12 col-sm-6 col-md-4">
+                                        <div class="image-flip" >
+                                            <div class="mainflip flip-0">
+                          
+                                             
+                                                <div class="frontside">
+                                                    <div class="card">
+                                                        <div class="card-body text-center">
+                                                         
+                          
+                          
+                          
+                          
+                                                            <p><img class=" img-fluid" src="images/City_Picture/khmis.png" alt="card image"></p>
+                                                           
+                          
+                                                            <h4 class="card-title">
+                                                                <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                                   
+                                                                     </h4>
+                                                            <h4 class="card-title">
+                                                                خميس مشيط
+                                
+                                                                  </h4>
+                                                                  <p class="card-text">
+                              
+                                                                      <%if(dest[i].dist=== ""){%>
+                                                    
+                                                                          <%=dest[i].dist%>
+                                                                        
+                                                                        <%}%>
+                                                                        
+                                                                        <%if(dest[i].dist !== ""){%>
+                                                                        
+                                                                          حي  <%=dest[i].dist%> 
+                                                                        
+                                                                        <%}%>
+                                                                  </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                          
+                                                <div class="backside">
+                                                    <div class="card">
+                                                        <form action="/delete_places_lessor" method="POST">
+                                                            <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
+                                                            <input type="hidden" name="desc" value="<%=dest[i].desc%>">
+                                                            <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                            <input type="hidden" name="dest" value="<%=i%>">
+                                                            
+                                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                            
+                    
+                                                       
+                    
+                                                            <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                                        
+                                                        </form>
+                                                    
+                                                        <div class="container">
+                                                            <p class="card-text" style="text-align: center;">
+                                                                <%=dest[i].desc%>
+                                                            </p>
+
+                                                        </div>
+
+                                                        <div class="card-body text-center mt-4">
+                                                            <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+            
+                                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                              
+                                                              <%}%>
+                                                              
+                                                              <%if(dest[i].dist !== ""){%>
+                                                              
+                                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                              
+                                                              <%}%></h4>
+
+                                                            <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+                          
+                          
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                          
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%}%>
+
+                                    <%if(dest[i].nationality === "bry"){%>
+                                        <div class="col-xs-12 col-sm-6 col-md-4">
+                                            <div class="image-flip" >
+                                                <div class="mainflip flip-0">
+                              
+                                                 
+                                                    <div class="frontside">
+                                                        <div class="card">
+                                                            <div class="card-body text-center">
+                                                             
+                              
+                              
+                              
+                              
+                                                                <p><img class=" img-fluid" src="images/City_Picture/bry.png" alt="card image"></p>
+                                                               
+                                                                <h4 class="card-title">
+                                                                    <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                                       
+                                                                         </h4>
+                              
+                                                                <h4 class="card-title">
+                                                                    بريدة
+                                    
+                                                                      </h4>
+                                                                      <p class="card-text">
+                                  
+                                                                          <%if(dest[i].dist=== ""){%>
+                                                        
+                                                                              <%=dest[i].dist%>
+                                                                            
+                                                                            <%}%>
+                                                                            
+                                                                            <%if(dest[i].dist !== ""){%>
+                                                                            
+                                                                              حي  <%=dest[i].dist%> 
+                                                                            
+                                                                            <%}%>
+
+                                                                            <img src=" <%=dest[i].roomImage%>" alt="">
+                                                                      </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                              
+                                                    <div class="backside">
+                                                        <div class="card">
+                                                            <form action="/delete_places_lessor" method="POST">
+                                                                <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
+                                                                <input type="hidden" name="desc" value="<%=dest[i].desc%>">
+                                                                <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                                <input type="hidden" name="dest" value="<%=i%>">
+                                                                
+                                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                                
+                        
+                                                           
+                        
+                                                                <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                                            
+                                                            </form>
+
+                                                            <div class="container">
+                                                                <p class="card-text" style="text-align: center;">
+                                                                    <%=dest[i].desc%>
+                                                                </p>
+
+                                                            </div>
+                                                        
+                                                            <div class="card-body text-center mt-4">
+                                                                <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                        
+                                                                    <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                  
+                                                                  <%}%>
+                                                                  
+                                                                  <%if(dest[i].dist !== ""){%>
+                                                                  
+                                                                    <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                  
+                                                                  <%}%></h4>
+                                                               
+                                                            
+                                                                <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+                              
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                              
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <%}%>
+
+                                        <%if(dest[i].nationality === "tabok"){%>
+                                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                                <div class="image-flip" >
+                                                    <div class="mainflip flip-0">
+                                  
+                                                     
+                                                        <div class="frontside">
+                                                            <div class="card">
+                                                                <div class="card-body text-center">
+                                                                 
+                                  
+                                  
+                                  
+                                  
+                                                                    <p><img class=" img-fluid" src="images/City_Picture/t.png" alt="card image"></p>
+                                                                   
+                                                                    <h4 class="card-title">
+                                                                        <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                                           
+                                                                             </h4>
+                                  
+                                                                    <h4 class="card-title">
+                                                                        تبوك
+                                        
+                                                                          </h4>
+                                                                          <p class="card-text">
+                                      
+                                                                              <%if(dest[i].dist=== ""){%>
+                                                            
+                                                                                  <%=dest[i].dist%>
+                                                                                
+                                                                                <%}%>
+                                                                                
+                                                                                <%if(dest[i].dist !== ""){%>
+                                                                                
+                                                                                  حي  <%=dest[i].dist%> 
+                                                                                
+                                                                                <%}%>
+                                                                          </p>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                  
+                                                        <div class="backside">
+                                                            <div class="card">
+                                                                <form action="/delete_places_lessor" method="POST">
+                                                                    <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
+                                                                    <input type="hidden" name="desc" value="<%=dest[i].desc%>">
+                                                                    <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                                    <input type="hidden" name="dest" value="<%=i%>">
+                                                                    
+                                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                                    
+                            
+                                                               
+                            
+                                                                    <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                                                
+                                                                </form>
+
+
+                                                                <div class="container">
+                                                                    <p class="card-text" style="text-align: center;">
+                                                                        <%=dest[i].desc%>
+                                                                    </p>
+
+                                                                </div>
+
+                                                                <div class="card-body text-center mt-4">
+                                                                    <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                            
+                                                                        <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                      
+                                                                      <%}%>
+                                                                      
+                                                                      <%if(dest[i].dist !== ""){%>
+                                                                      
+                                                                        <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                      
+                                                                      <%}%></h4>
+                                                                
+                                                                    <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+                                  
+                                  
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <%}%>
+
+                                            <%if(dest[i].nationality === "makkah"){%>
+                                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                                    <div class="image-flip" >
+                                                        <div class="mainflip flip-0">
+                                      
+                                                         
+                                                            <div class="frontside">
+                                                                <div class="card">
+                                                                    <div class="card-body text-center">
+                                                                     
+                                      
+                                      
+                                      
+                                      
+                                                                        <p><img class=" img-fluid" src="images/City_Picture/makkah.png" alt="card image"></p>
+                                                                       
+                                                                        <h4 class="card-title">
+                                                                            <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                                               
+                                                                                 </h4>
+                                                                        <h4 class="card-title">
+                                                                            مكة
+                                            
+                                                                              </h4>
+                                                                              <p class="card-text">
+                                          
+                                                                                  <%if(dest[i].dist=== ""){%>
+                                                                
+                                                                                      <%=dest[i].dist%>
+                                                                                    
+                                                                                    <%}%>
+                                                                                    
+                                                                                    <%if(dest[i].dist !== ""){%>
+                                                                                    
+                                                                                      حي  <%=dest[i].dist%> 
+                                                                                    
+                                                                                    <%}%>
+                                                                              </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                      
+                                                            <div class="backside">
+                                                                <div class="card">
+                                                                    <form action="/delete_places_lessor" method="POST">
+                                                                        <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
+                                                                        <input type="hidden" name="desc" value="<%=dest[i].desc%>">
+                                                                        <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                                        <input type="hidden" name="dest" value="<%=i%>">
+                                                                        
+                                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                                        
+                                
+                                                                   
+                                
+                                                                        <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                                                    
+                                                                    </form>
+
+                                                                    <div class="container">
+                                                                    <p class="card-text" style="text-align: center;">
+                                                                        <%=dest[i].desc%>
+                                                                    </p>
+
+                                                                </div>
+                                                                
+                                                                    <div class="card-body text-center mt-4">
+                                                                        <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                
+                                                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                          
+                                                                          <%}%>
+                                                                          
+                                                                          <%if(dest[i].dist !== ""){%>
+                                                                          
+                                                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                          
+                                                                          <%}%></h4>
+                                                                    
+                                                                        <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+                                      
+                                                                       
+                                      
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                      
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <%}%>
+                                                <%if(dest[i].nationality === "madinah"){%>
+                                                    <div class="col-xs-12 col-sm-6 col-md-4">
+                                                        <div class="image-flip" >
+                                                            <div class="mainflip flip-0">
+                                          
+                                                             
+                                                                <div class="frontside">
+                                                                    <div class="card">
+                                                                        <div class="card-body text-center">
+                                                                         
+                                          
+                                          
+                                          
+                                          
+                                                                            <p><img class=" img-fluid" src="images/City_Picture/m.png" alt="card image"></p>
+                                                                           
+                                                                            <h4 class="card-title">
+                                                                                <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                                                   
+                                                                                     </h4>
+
+                                                                            <h4 class="card-title">
+                                                                                المدينة المنورة 
+                                                
+                                                                                  </h4>
+                                                                                  <p class="card-text">
+                                              
+                                                                                      <%if(dest[i].dist=== ""){%>
+                                                                    
+                                                                                          <%=dest[i].dist%>
+                                                                                        
+                                                                                        <%}%>
+                                                                                        
+                                                                                        <%if(dest[i].dist !== ""){%>
+                                                                                        
+                                                                                          حي  <%=dest[i].dist%> 
+                                                                                        
+                                                                                        <%}%>
+                                                                                  </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                          
+                                                                <div class="backside">
+                                                                    <div class="card">
+                                                                        <form action="/delete_places_lessor" method="POST">
+                                                                            <input type="hidden" name="dest" value="<%=i%>">
+                                                                            
+                                                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                                            
+                                    
+                                                                       
+                                    
+                                                                            <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                                                        
+                                                                        </form>
+
+                                                                        <div class="container">
+                                                                            <p class="card-text" style="text-align: center;">
+                                                                                <%=dest[i].desc%>
+                                                                            </p>
+        
+                                                                        </div>
+                                                                    
+                                                                     
+
+                                                                        <div class="card-body text-center mt-4">
+                                                                            <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                    
+                                                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                              
+                                                                              <%}%>
+                                                                              
+                                                                              <%if(dest[i].dist !== ""){%>
+                                                                              
+                                                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                              
+                                                                              <%}%></h4>
+                                                                        
+                                                                            <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+
+                                                                        
+                                          
+                                          
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                          
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <%}%>
+  
+            
+            <%}%>
+  
+  
+            
+          </div>
+        </div>
+        
+  </section>

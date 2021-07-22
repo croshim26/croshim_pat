@@ -1,0 +1,160 @@
+
+
+.logo{
+
+  text-indent: "-99999999px";
+  background: url("logo.png");
+  width: 960px;
+  height: 148px;
+
+}
+
+      .img{
+
+        font-family: 'Amiri';
+        background: url('photo.png') no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+        -o-background-size: cover;
+        height: 100%;
+        position: relative;
+    
+
+      }
+
+      .h_center{
+        font-size: 48px;
+      }
+      .P1_center{
+        font-size: 25px;
+        font-weight: bold; 
+        
+      }
+
+
+
+/* header */
+
+
+#features{
+
+  padding: 1% 15%;
+  
+  position: relative;
+
+
+
+
+
+}
+
+.section-box {
+
+  text-align: center;
+  padding: 0%
+}
+
+
+/* .w33{
+
+  
+
+  padding-top: 8rem;
+}
+
+.w1{
+
+  
+
+  padding-top: 4rem;
+}
+
+
+.w2{
+
+  padding-top: 6rem;
+} */
+
+
+
+.shapeButton{
+
+        
+  color:black;
+
+
+
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
+.shapeButton:hover{
+
+  color:white
+
+}
+
+
+
+/* contnts */
+
+
+
+.myH2 {
+	text-align:center;
+	font-size: 4rem;
+}
+.myP {
+	text-align: justify;
+	padding-left:15%;
+	padding-right:15%;
+	font-size: 20px;
+}
+@media all and (max-width:700px){
+	.myP {
+		padding:2%;
+	}
+}
+
+
+/*footer*/
+
+.w3{
+
+  padding-top: 17.5rem;
+
+}
+
+
+.fa-2x{
+
+
+margin-left:  2rem;
+}
+
+.copy{
+
+/* 
+font-size: 1rem;
+padding: 1%;
+margin-left: 2rem;
+margin-bottom: 1.7rem;
+color:black */
+
+
+}
+
+.icon{
+
+color:black;
+margin-bottom: 0.5rem
+}
+.icon:hover{
+color:black
+}
+    

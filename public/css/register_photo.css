@@ -1,0 +1,37 @@
+
+
+    body{
+
+      font-family: 'Amiri';
+  
+  
+      background: url('reg.png') no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      background-size: cover;
+      -o-background-size: cover;
+  
+   
+      } 
+
+
+      .content {
+         position: absolute;
+   
+         background: rgb(0, 0, 0); /* Fallback color */
+         background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+         color: #f1f1f1;
+         width: 100%;
+       
+       }
+
+
+       /* //////// */
+  
+
+       
+  
+      
+  
+  
+  

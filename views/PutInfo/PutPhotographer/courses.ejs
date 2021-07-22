@@ -1,0 +1,133 @@
+<%- include('../../includes/includes_nav/navigation_PutInfo') %>
+<%- include('../../includes/links') %>
+
+<link rel="stylesheet" href="css/item_User.css">
+
+
+<section id="team" class="pb-5">
+    <div class="container">
+        <h5 class="section-title h1">الدورات</h5>
+
+
+
+        <div class="row">
+          <%for (var i = 0; i < data.courses.length; i++) {%>
+            <!-- Team member -->   
+            
+        
+
+                <div class="col-xs-12 col-sm-6 col-md-4">
+
+                     
+                <div class="image-flip" >
+                    <div class="mainflip flip-0">
+  
+                     
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <h4> :عنوان الدورة  </h4>
+                                    <h4 class="card-title">   <%=data.courses[i].CourseName%>   </h4>
+                                    
+          
+                                          <h4>: محاور الدورة </h4>
+  
+                                    <h4 class="card-title">
+                                        <%=data.courses[i].titlesCourse%> </h4>
+                                    
+
+                                    <h4> :شروط الدورة  </h4> 
+                                      
+                                    <h4 class="card-title">
+                                        
+                                        <%=data.courses[i].courseCondeitions%>
+                                    </h4>
+
+
+                                
+                                    <h4>فترة الدورة</h4>
+                                    <h4 class="card-title">
+
+                                        من
+                                        <%=data.courses[i].begining%> 
+
+                                       
+          
+                                        <br>
+                                        الى
+                                         <%=data.courses[i].ending%>
+                                    </h4>
+
+
+
+
+                                    <h4 class="card-title">
+                                        الدورة ستكون 
+                                        <%=data.courses[i].place%>
+                                        
+                                    </h4>
+
+
+                                    <%if(data.courses[i].city!==null){%>
+
+                                        <h4 class="card-title">
+                                            <%=data.courses[i].city%>
+                                        </h4>
+
+                                    <%}%>
+
+
+                                    
+
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+  
+                        <div class="backside">
+                            <div class="card">
+                                
+
+                                    <form action="/delete_course" method="POST">
+                                        
+                                        <input type="hidden" name="courses" value="<%=i%>">
+                                        
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        
+
+                                   
+
+                                        <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                    
+                                    </form>
+
+
+                                    <div class="container">
+                                        <p class="card-text" style="text-align: center;">
+                                            <%=data.courses[i].place%>
+                                        </p>
+
+                                    </div>
+                                
+
+                            </div>
+                        </div>
+                        
+  
+                    </div>
+                </div>
+            </div>
+
+            
+            <%}%>
+  
+  
+            
+          </div>
+        </div>
+        
+  </section>
+
+
+  <%- include('../../includes/includes_Place_AddEq/add_course') %>

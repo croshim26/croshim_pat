@@ -1,0 +1,102 @@
+<%- include('../../includes/includes_nav/navigation_PutInfo') %>
+<%- include('../../includes/links') %>
+
+<link rel="stylesheet" href="css/item_User.css">
+
+
+
+
+  <section id="team" class="pb-5">
+    <div class="container">
+        <h5 class="section-title h1">المعدات</h5>
+        <div class="row">
+            <%for (var i = 0; i < foo.tools.length ; i++) {%>
+
+
+<div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="image-flip">
+    <div class="mainflip flip-0">
+
+      
+        <div class="frontside">
+            <div class="card " >
+                <div class="card-body text-center">
+                 
+          
+                       
+                   
+
+                    <p><img class=" img-fluid" src="<%=foo.tools[i].roomImage%>"  alt="card image"></p>
+                   
+
+                    <h4 class="card-title">
+                   
+                        <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                    </h4>
+                    <p class="card-text">
+
+
+                      <mark> <%=foo.tools[i].NameMachine%> </mark>  
+                    </p>
+
+                    <p class="card-text">
+
+
+                        <%=foo.tools[i].NameCompany%>
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="backside">
+            <div class="card">
+                <form action="/delete_Equipment_seller" method="POST">
+                    <input type="hidden" name="tools" value="<%=i%>">
+                    
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    
+
+               
+
+                    <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                
+                </form>
+                <div class="card-body text-center mt-4">
+                    <h4 class="card-title"> 
+                    
+                    </h4>
+                      
+                    <p class="card-text">  <%=foo.tools[i].city%> 
+                    
+                    </p>
+
+                    <p class="card-text">  <%=foo.phone%>   :رقم الجوال 
+                    
+                    </p>
+          
+
+
+
+                </div>
+            </div>
+        </div>
+
+        
+        
+
+    </div>
+</div>
+</div>
+<%}%>
+</div>
+</div>
+
+</section>
+
+<section style="height: 15rem;"></section>
+
+<%- include('../../includes/footer') %>
+         
+
+<%- include('../../includes/includes_Place_AddEq/add_eq') %>
