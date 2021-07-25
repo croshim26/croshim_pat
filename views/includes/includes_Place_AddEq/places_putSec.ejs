@@ -184,9 +184,9 @@
                             <div class="backside">
                                 <div class="card">
                                     <form action="/delete_places_lessor" method="POST">
-                                        <input type="hidden" name="nationality" value="<%=dest.dest[i].nationality%>">
-                                        <input type="hidden" name="desc" value="<%=dest.dest[i].desc%>">
-                                        <input type="hidden" name="url" value="<%=dest.dest[i].url%>">
+                                        <input type="hidden" name="nationality" value="<%=foo.dest[i].nationality%>">
+                                        <input type="hidden" name="desc" value="<%=foo.dest[i].desc%>">
+                                        <input type="hidden" name="url" value="<%=foo.dest[i].url%>">
                                         <input type="hidden" name="dest" value="<%=i%>">
                                         
                                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
