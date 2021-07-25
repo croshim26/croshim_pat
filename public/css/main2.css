@@ -262,7 +262,7 @@ body{
       #title{
     
     
-        background-image:linear-gradient( rgba(150, 3, 235, 0.267) 100%, rgb(136, 136, 136)100%),url("cam.jpeg") ;
+        background-image:linear-gradient( rgba(150, 3, 235, 0.267) 100%, rgb(136, 136, 136)100%),url("../images/cam.jpeg")  ;
     
         height: 900px;
     
