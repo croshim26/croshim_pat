@@ -205,22 +205,18 @@ exports.getDeletePlacesLessor=(req,res,next)=>{
 
 exports.postDeletePlacesLessor=(req,res,next)=>{
 
-  const dest=req.body.dest
+  const del_dest=req.body.del_dest
 
 
 
   tables.findById(req.session.tables._id).select("firstNameA dest").then(data=>{
 
-  
-console.log(dest);
-
-
     for (let i = 0; i < data.dest.length; i++) {      
           var filtered = data.dest.filter(function(value, index, arr){ 
-            return index !=dest;
+            return index !=del_dest;
           })
 
-          console.log(filtered);
+  
         }
 
         tables.updateOne({dest:data.dest},{dest:filtered}).then(update=>{
