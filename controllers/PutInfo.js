@@ -27,9 +27,16 @@ exports.getPlacesLessor=(req,res,next)=>{
        
           
          })
+        //  console.log(data.dest);
+
+         if(data.dest==""){
+          console.log(data.dest);
+        }
 
 
         })
+
+     
 
         
 }
