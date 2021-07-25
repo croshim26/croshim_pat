@@ -3,22 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// const equipment = require('../models/equipment');
 
-// const photographer = require('../models/photographer');
-
-// const Place = require('../models/Place');
 const tables = require('../models/tables');
-
-
-
-
-
-
-
-
-
-
 
 exports.getPlacesLessor=(req,res,next)=>{       
   tables.findById(req.session.tables._id).select("firstNameA lastNameA dest phone roomImage ").then(data =>{
@@ -41,7 +27,7 @@ exports.getPlacesLessor=(req,res,next)=>{
        
           
          })
-console.log(data.dest);
+
 
         })
 
