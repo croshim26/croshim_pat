@@ -15,17 +15,17 @@
        
 
 
-           <%if(dest.dest===""){%>
+           <%if(foo.dest===""){%>
 
             <h1>لا توجد بيانات </h1>
 
            <%}%>
 
-           <%if(dest.dest!==""){%>
+           <%if(foo.dest!==""){%>
               
             
           <%for (var i = 0; i < foo.dest.length; i++) {%>
-            <%if( dest.dest[i].nationality === "rya"){%>
+            <%if( foo.dest[i].nationality === "rya"){%>
 
                 <div class="col-xs-12 col-sm-6 col-md-4">
 
@@ -59,13 +59,13 @@
 
                                         <%if(dest.dest[i].dist=== ""){%>
                       
-                                            <%=dest.dest[i].dist%>
+                                            <%=foo.dest[i].dist%>
                                           
                                           <%}%>
                                           
                                           <%if(dest.dest[i].dist !== ""){%>
                                           
-                                            حي <%=dest.dest[i].dist%> 
+                                            حي <%=foo.dest[i].dist%> 
                                           
                                           <%}%>
 
@@ -84,6 +84,9 @@
 
                                     <form action="/delete_places_lessor" method="POST">
                                         
+                                        <input type="hidden" name="nationality" value="<%=foo.dest[i].nationality%>">
+                                        <input type="hidden" name="desc" value="<%=foo.dest[i].desc%>">
+                                        <input type="hidden" name="url" value="<%=foo.dest[i].url%>">
                                         <input type="hidden" name="dest" value="<%=i%>">
                                         
                                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
