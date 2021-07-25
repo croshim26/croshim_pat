@@ -222,6 +222,7 @@ exports.postDeletePlacesLessor=(req,res,next)=>{
         tables.updateOne({dest:data.dest},{dest:filtered}).then(update=>{
 
   
+          console.log(update);
   
         })
        
@@ -329,7 +330,7 @@ exports.postDeleteCourse=(req,res,next)=>{
 
   
 
-console.log(courses);
+
     for (let i = 0; i < data.courses.length; i++) {      
           var filtered = data.courses.filter(function(value, index, arr){ 
             return index !=courses;
