@@ -15,11 +15,16 @@
        
 
 
-           <%if(dest.dest!=""){%>
+           <%if(dest.dest===""){%>
+<h1>لا توجد بيانات </h1>
+
+           <%}%>
+
+           <%if(dest.dest!==""){%>
               
             
           <%for (var i = 0; i < foo.dest.length; i++) {%>
-            <%if(  dest.dest[i].nationality === "rya"){%>
+            <%if( dest.dest[i].nationality === "rya"){%>
 
                 <div class="col-xs-12 col-sm-6 col-md-4">
 
