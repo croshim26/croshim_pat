@@ -25,7 +25,7 @@ exports.getPlacesLessor=(req,res,next)=>{
 
         res.render("PutInfo/PutPlaceLessor/places_lessor",{
           
-          dest:data.dest,
+          dest:data,
           foo:data,
           main_build:true,
           main_equip:true,

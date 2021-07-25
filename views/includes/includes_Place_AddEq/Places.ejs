@@ -12,15 +12,15 @@
 
         <div class="row">
 
-            <%if(dest.length !=null){%>
+       
 
 
-
+       
             
-          <%for (var i = 0; i < dest.length; i++) {%>
+          <%for (var i = 0; i < dest.dest.length; i++) {%>
             <!-- Team member -->   
             
-            <%if(  dest[i].nationality === "rya"){%>
+            <%if(  dest.dest[i].nationality === "rya"){%>
 
                 <div class="col-xs-12 col-sm-6 col-md-4">
 
@@ -52,15 +52,15 @@
                                     </h4>
                                     <p class="card-text">
 
-                                        <%if(dest[i].dist=== ""){%>
+                                        <%if(dest.dest[i].dist=== ""){%>
                       
-                                            <%=dest[i].dist%>
+                                            <%=dest.dest[i].dist%>
                                           
                                           <%}%>
                                           
-                                          <%if(dest[i].dist !== ""){%>
+                                          <%if(dest.dest[i].dist !== ""){%>
                                           
-                                            حي <%=dest[i].dist%> 
+                                            حي <%=dest.dest[i].dist%> 
                                           
                                           <%}%>
 
@@ -93,27 +93,27 @@
 
                                     <div class="container">
                                         <p class="card-text" style="text-align: center;">
-                                            <%=dest[i].desc%>
+                                            <%=dest.dest[i].desc%>
                                         </p>
 
                                     </div>
                                 
 
                                 <div class="card-body text-center mt-4">
-                                    <h4 class="card-title" ><%if(dest[i].dist=== ""){%>
+                                    <h4 class="card-title" ><%if(dest.dest[i].dist=== ""){%>
             
-                                        <a href="<%=dest[i].url%>" >   <i class="fas fa-location-arrow "></i> </a>
+                                        <a href="<%=dest.dest[i].url%>" >   <i class="fas fa-location-arrow "></i> </a>
                                       
                                       <%}%>
                                       
-                                      <%if(dest[i].dist !== ""){%>
+                                      <%if(dest.dest[i].dist !== ""){%>
                                       
-                                        <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                        <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                       
                                       <%}%></h4>
                                       
                                
-                                    <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                    <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
                                
                                   
@@ -130,7 +130,7 @@
             <%}%>
 
 
-            <%if(  dest[i].nationality === "jed"){%>
+            <%if(  dest.dest[i].nationality === "jed"){%>
                 <div class="col-xs-12 col-sm-6 col-md-4">
                     <div class="image-flip" >
                         <div class="mainflip flip-0">
@@ -156,15 +156,15 @@
                                               </h4>
                                               <p class="card-text">
           
-                                                  <%if(dest[i].dist=== ""){%>
+                                                  <%if(dest.dest[i].dest=== ""){%>
                                 
-                                                      <%=dest[i].dist%>
+                                                      <%=dest.dest[i].dest%>
                                                     
                                                     <%}%>
                                                     
-                                                    <%if(dest[i].dist !== ""){%>
+                                                    <%if(dest.dest[i].dest!== ""){%>
                                                     
-                                                      حي  <%=dest[i].dist%> 
+                                                      حي  <%=dest.dest[i].dest%> 
                                                     
                                                     <%}%>
                                               </p>
@@ -176,9 +176,9 @@
                             <div class="backside">
                                 <div class="card">
                                     <form action="/delete_places_lessor" method="POST">
-                                        <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
-                                        <input type="hidden" name="desc" value="<%=dest[i].desc%>">
-                                        <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                        <input type="hidden" name="nationality" value="<%=dest.dest[i].nationality%>">
+                                        <input type="hidden" name="desc" value="<%=dest.dest[i].desc%>">
+                                        <input type="hidden" name="url" value="<%=dest.dest[i].url%>">
                                         <input type="hidden" name="dest" value="<%=i%>">
                                         
                                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -192,25 +192,25 @@
 
                                     <div class="container">
                                         <p class="card-text" style="text-align: center;">
-                                            <%=dest[i].desc%>
+                                            <%=dest.dest[i].desc%>
                                         </p>
 
                                     </div>
                                     <div class="card-body text-center mt-4">
-                                        <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                        <h4 class="card-title"><%if(dest.dest[i].dist=== ""){%>
             
-                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                            <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                           
                                           <%}%>
                                           
-                                          <%if(dest[i].dist !== ""){%>
+                                          <%if(dest.dest[i].dist !== ""){%>
                                           
-                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                            <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                           
                                           <%}%></h4>
                                 
 
-                                        <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                        <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
 
                                     
@@ -228,7 +228,7 @@
                 <%}%>
 
 
-                <%if(dest[i].nationality === "hfof"){%>
+                <%if(dest.dest[i].nationalityy === "hfof"){%>
                     <div class="col-xs-12 col-sm-6 col-md-4">
                         <div class="image-flip" >
                             <div class="mainflip flip-0">
@@ -255,15 +255,15 @@
                                                   </h4>
                                                   <p class="card-text">
               
-                                                      <%if(dest[i].dist=== ""){%>
+                                                      <%if(dest.dest[i].dist=== ""){%>
                                     
-                                                          <%=dest[i].dist%>
+                                                          <%=dest.dest[i].dist%>
                                                         
                                                         <%}%>
                                                         
-                                                        <%if(dest[i].dist !== ""){%>
+                                                        <%if(dest.dest[i].dist !== ""){%>
                                                         
-                                                          حي  <%=dest[i].dist%> 
+                                                          حي  <%=dest.dest[i].dist%> 
                                                         
                                                         <%}%>
                                                   </p>
@@ -274,9 +274,9 @@
                                 <div class="backside">
                                     <div class="card">
                                         <form action="/delete_places_lessor" method="POST">
-                                            <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
-                                            <input type="hidden" name="desc" value="<%=dest[i].desc%>">
-                                            <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                            <input type="hidden" name="nationality" value="<%=dest.dest[i].nationality%>">
+                                            <input type="hidden" name="desc" value="<%=dest.dest[i].desc%>">
+                                            <input type="hidden" name="url" value="<%=dest.dest[i].url%>">
                                             <input type="hidden" name="dest" value="<%=i%>">
                                             
                                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -290,26 +290,26 @@
                                     
                                         <div class="container">
                                             <p class="card-text" style="text-align: center;">
-                                                <%=dest[i].desc%>
+                                                <%=dest.dest[i].desc%>
                                             </p>
 
                                         </div>
 
                                         <div class="card-body text-center mt-4">
-                                            <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                            <h4 class="card-title"><%if(dest.dest[i].dist=== ""){%>
             
-                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                               
                                               <%}%>
                                               
-                                              <%if(dest[i].dist !== ""){%>
+                                              <%if(dest.dest[i].dist !== ""){%>
                                               
-                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                               
                                               <%}%></h4>
                                          
 
-                                            <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                            <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
                                         
           
@@ -325,7 +325,7 @@
                     <%}%>
 
 
-                <%if(dest[i].nationality === "zhar"){%>
+                <%if(dest.dest[i].nationality === "zhar"){%>
                     <div class="col-xs-12 col-sm-6 col-md-4">
                         <div class="image-flip" >
                             <div class="mainflip flip-0">
@@ -351,15 +351,15 @@
                                                   </h4>
                                                   <p class="card-text">
               
-                                                      <%if(dest[i].dist=== ""){%>
+                                                      <%if(dest.dest[i].dist=== ""){%>
                                     
-                                                          <%=dest[i].dist%>
+                                                          <%=dest.dest[i].dist%>
                                                         
                                                         <%}%>
                                                         
-                                                        <%if(dest[i].dist !== ""){%>
+                                                        <%if(dest.dest[i].dist !== ""){%>
                                                         
-                                                          حي  <%=dest[i].dist%> 
+                                                          حي  <%=dest.dest[i].dist%> 
                                                         
                                                         <%}%>
                                                   </p>
@@ -370,9 +370,9 @@
                                 <div class="backside">
                                     <div class="card">
                                         <form action="/delete_places_lessor" method="POST">
-                                            <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
-                                            <input type="hidden" name="desc" value="<%=dest[i].desc%>">
-                                            <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                            <input type="hidden" name="nationality" value="<%=dest.dest[i].nationality%>">
+                                            <input type="hidden" name="desc" value="<%=dest.dest[i].desc%>">
+                                            <input type="hidden" name="url" value="<%=dest.dest[i].url%>">
                                             <input type="hidden" name="dest" value="<%=i%>">
                                             
                                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -386,26 +386,26 @@
                                     
                                         <div class="container">
                                             <p class="card-text" style="text-align: center;">
-                                                <%=dest[i].desc%>
+                                                <%=dest.dest[i].desc%>
                                             </p>
 
                                         </div>
 
                                         <div class="card-body text-center mt-4">
-                                            <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                            <h4 class="card-title"><%if(dest.dest[i].dist=== ""){%>
             
-                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                               
                                               <%}%>
                                               
-                                              <%if(dest[i].dist !== ""){%>
+                                              <%if(dest.dest[i].dist !== ""){%>
                                               
-                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                               
                                               <%}%></h4>
                                          
                                         
-                                            <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                            <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
           
           
@@ -420,7 +420,7 @@
                     <%}%>
 
 
-                    <%if(dest[i].nationality=== "taif"){%>
+                    <%if(dest.dest[i].nationality=== "taif"){%>
                         <div class="col-xs-12 col-sm-6 col-md-4">
                             <div class="image-flip" >
                                 <div class="mainflip flip-0">
@@ -447,15 +447,15 @@
                                                       </h4>
                                                       <p class="card-text">
                   
-                                                          <%if(dest[i].dist=== ""){%>
+                                                          <%if(dest.dest[i].dist=== ""){%>
                                         
-                                                              <%=dest[i].dist%>
+                                                              <%=dest.dest[i].dist%>
                                                             
                                                             <%}%>
                                                             
-                                                            <%if(dest[i].dist !== ""){%>
+                                                            <%if(dest.dest[i].dist !== ""){%>
                                                             
-                                                              حي  <%=dest[i].dist%> 
+                                                              حي  <%=dest.dest[i].dist%> 
                                                             
                                                             <%}%>
                                                       </p>
@@ -475,27 +475,27 @@
 
                                             <div class="container">
                                                 <p class="card-text" style="text-align: center;">
-                                                    <%=dest[i].desc%>
+                                                    <%=dest.dest[i].desc%>
                                                 </p>
 
                                             </div>
                                         
                                             <div class="card-body text-center mt-4">
-                                                <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                                <h4 class="card-title"><%if(dest.dest[i].dist=== ""){%>
             
-                                                    <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                    <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                   
                                                   <%}%>
                                                   
-                                                  <%if(dest[i].dist !== ""){%>
+                                                  <%if(dest.dest[i].dist !== ""){%>
                                                   
-                                                    <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                    <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                   
                                                   <%}%></h4>
                                             
                                             
               
-                                                <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                                <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
               
                                             </div>
@@ -509,7 +509,7 @@
                         <%}%>
 
 
-                        <%if(dest[i].nationality === "dam"){%>
+                        <%if(dest.dest[i].nationality === "dam"){%>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                                 <div class="image-flip" >
                                     <div class="mainflip flip-0">
@@ -536,15 +536,15 @@
                                                           </h4>
                                                           <p class="card-text">
                       
-                                                              <%if(dest[i].dist=== ""){%>
+                                                              <%if(dest.dest[i].dist=== ""){%>
                                             
-                                                                  <%=dest[i].dist%>
+                                                                  <%=dest.dest[i].dist%>
                                                                 
                                                                 <%}%>
                                                                 
-                                                                <%if(dest[i].dist !== ""){%>
+                                                                <%if(dest.dest[i].dist !== ""){%>
                                                                 
-                                                                  حي  <%=dest[i].dist%> 
+                                                                  حي  <%=dest.dest[i].dist%> 
                                                                 
                                                                 <%}%>
                                                           </p>
@@ -555,9 +555,9 @@
                                         <div class="backside">
                                             <div class="card">
                                                 <form action="/delete_places_lessor" method="POST">
-                                                    <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
-                                                    <input type="hidden" name="desc" value="<%=dest[i].desc%>">
-                                                    <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                    <input type="hidden" name="nationality" value="<%=dest.dest[i].nationality%>">
+                                                    <input type="hidden" name="desc" value="<%=dest.dest[i].desc%>">
+                                                    <input type="hidden" name="url" value="<%=dest.dest[i].url%>">
                                                     <input type="hidden" name="dest" value="<%=i%>">
                                                     
                                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -571,27 +571,27 @@
 
                                                 <div class="container">
                                                     <p class="card-text" style="text-align: center;">
-                                                        <%=dest[i].desc%>
+                                                        <%=dest.dest[i].desc%>
                                                     </p>
 
                                                 </div>
                                             
                                                 <div class="card-body text-center mt-4">
-                                                    <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                                    <h4 class="card-title"><%if(dest.dest[i].dist=== ""){%>
             
-                                                        <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                        <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                       
                                                       <%}%>
                                                       
-                                                      <%if(dest[i].dist !== ""){%>
+                                                      <%if(dest.dest[i].dist !== ""){%>
                                                       
-                                                        <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                        <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                       
                                                       <%}%></h4>
 
                                                 
                   
-                                                    <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                                    <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
                                                 </div>
                                             </div>
@@ -604,7 +604,7 @@
                             <%}%>
 
 
-                            <%if(dest[i].nationality === "hafr"){%>
+                            <%if(dest.dest[i].nationality === "hafr"){%>
                                 <div class="col-xs-12 col-sm-6 col-md-4">
                                     <div class="image-flip" >
                                         <div class="mainflip flip-0">
@@ -631,15 +631,15 @@
                                                               </h4>
                                                               <p class="card-text">
                           
-                                                                  <%if(dest[i].dist=== ""){%>
+                                                                  <%if(dest.dest[i].dist=== ""){%>
                                                 
-                                                                      <%=dest[i].dist%>
+                                                                      <%=dest.dest[i].dist%>
                                                                     
                                                                     <%}%>
                                                                     
-                                                                    <%if(dest[i].dist !== ""){%>
+                                                                    <%if(dest.dest[i].dist !== ""){%>
                                                                     
-                                                                      حي  <%=dest[i].dist%> 
+                                                                      حي  <%=dest.dest[i].dist%> 
                                                                     
                                                                     <%}%>
                                                               </p>
@@ -650,9 +650,9 @@
                                             <div class="backside">
                                                 <div class="card">
                                                     <form action="/delete_places_lessor" method="POST">
-                                                        <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
-                                                        <input type="hidden" name="desc" value="<%=dest[i].desc%>">
-                                                        <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                        <input type="hidden" name="nationality" value="<%=dest.dest[i].nationality%>">
+                                                        <input type="hidden" name="desc" value="<%=dest.dest[i].desc%>">
+                                                        <input type="hidden" name="url" value="<%=dest.dest[i].url%>">
                                                         <input type="hidden" name="dest" value="<%=i%>">
                                                         
                                                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -665,25 +665,25 @@
                                                     </form>
                                                     <div class="container">
                                                         <p class="card-text" style="text-align: center;">
-                                                            <%=dest[i].desc%>
+                                                            <%=dest.dest[i].desc%>
                                                         </p>
 
                                                     </div>
                                                     <div class="card-body text-center mt-4">
-                                                        <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                                        <h4 class="card-title"><%if(dest.dest[i].dist=== ""){%>
             
-                                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                            <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                           
                                                           <%}%>
                                                           
-                                                          <%if(dest[i].dist !== ""){%>
+                                                          <%if(dest.dest[i].dist !== ""){%>
                                                           
-                                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                            <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                           
                                                           <%}%></h4>
 
                                                     
-                                                        <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                                        <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
                       
                                                     </div>
@@ -696,7 +696,7 @@
                                 </div>
                                 <%}%>
 
-                                <%if(dest[i].nationality === "khmis"){%>
+                                <%if(dest.dest[i].nationality === "khmis"){%>
                                     <div class="col-xs-12 col-sm-6 col-md-4">
                                         <div class="image-flip" >
                                             <div class="mainflip flip-0">
@@ -723,15 +723,15 @@
                                                                   </h4>
                                                                   <p class="card-text">
                               
-                                                                      <%if(dest[i].dist=== ""){%>
+                                                                      <%if(dest.dest[i].dist=== ""){%>
                                                     
-                                                                          <%=dest[i].dist%>
+                                                                          <%=dest.dest[i].dist%>
                                                                         
                                                                         <%}%>
                                                                         
-                                                                        <%if(dest[i].dist !== ""){%>
+                                                                        <%if(dest.dest[i].dist !== ""){%>
                                                                         
-                                                                          حي  <%=dest[i].dist%> 
+                                                                          حي  <%=dest.dest[i].dist%> 
                                                                         
                                                                         <%}%>
                                                                   </p>
@@ -742,9 +742,9 @@
                                                 <div class="backside">
                                                     <div class="card">
                                                         <form action="/delete_places_lessor" method="POST">
-                                                            <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
-                                                            <input type="hidden" name="desc" value="<%=dest[i].desc%>">
-                                                            <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                            <input type="hidden" name="nationality" value="<%=dest.dest[i].nationality%>">
+                                                            <input type="hidden" name="desc" value="<%=dest.dest[i].desc%>">
+                                                            <input type="hidden" name="url" value="<%=dest.dest[i].url%>">
                                                             <input type="hidden" name="dest" value="<%=i%>">
                                                             
                                                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -758,25 +758,25 @@
                                                     
                                                         <div class="container">
                                                             <p class="card-text" style="text-align: center;">
-                                                                <%=dest[i].desc%>
+                                                                <%=dest.dest[i].desc%>
                                                             </p>
 
                                                         </div>
 
                                                         <div class="card-body text-center mt-4">
-                                                            <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                                            <h4 class="card-title"><%if(dest.dest[i].dist=== ""){%>
             
-                                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                               
                                                               <%}%>
                                                               
-                                                              <%if(dest[i].dist !== ""){%>
+                                                              <%if(dest.dest[i].dist !== ""){%>
                                                               
-                                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                               
                                                               <%}%></h4>
 
-                                                            <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                                            <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
                           
                           
@@ -790,7 +790,7 @@
                                     </div>
                                     <%}%>
 
-                                    <%if(dest[i].nationality === "bry"){%>
+                                    <%if(dest.dest[i].nationality === "bry"){%>
                                         <div class="col-xs-12 col-sm-6 col-md-4">
                                             <div class="image-flip" >
                                                 <div class="mainflip flip-0">
@@ -817,19 +817,19 @@
                                                                       </h4>
                                                                       <p class="card-text">
                                   
-                                                                          <%if(dest[i].dist=== ""){%>
+                                                                          <%if(dest.dest[i].dist=== ""){%>
                                                         
-                                                                              <%=dest[i].dist%>
+                                                                              <%=dest.dest[i].dist%>
                                                                             
                                                                             <%}%>
                                                                             
-                                                                            <%if(dest[i].dist !== ""){%>
+                                                                            <%if(dest.dest[i].dist !== ""){%>
                                                                             
-                                                                              حي  <%=dest[i].dist%> 
+                                                                              حي  <%=dest.dest[i].dist%> 
                                                                             
                                                                             <%}%>
 
-                                                                            <img src=" <%=dest[i].roomImage%>" alt="">
+                                                                            <img src=" <%=dest.dest[i].roomImage%>" alt="">
                                                                       </p>
                                                             </div>
                                                         </div>
@@ -838,9 +838,9 @@
                                                     <div class="backside">
                                                         <div class="card">
                                                             <form action="/delete_places_lessor" method="POST">
-                                                                <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
-                                                                <input type="hidden" name="desc" value="<%=dest[i].desc%>">
-                                                                <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                                <input type="hidden" name="nationality" value="<%=dest.dest[i].nationality%>">
+                                                                <input type="hidden" name="desc" value="<%=dest.dest[i].desc%>">
+                                                                <input type="hidden" name="url" value="<%=dest.dest[i].url%>">
                                                                 <input type="hidden" name="dest" value="<%=i%>">
                                                                 
                                                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -854,26 +854,26 @@
 
                                                             <div class="container">
                                                                 <p class="card-text" style="text-align: center;">
-                                                                    <%=dest[i].desc%>
+                                                                    <%=dest.dest[i].desc%>
                                                                 </p>
 
                                                             </div>
                                                         
                                                             <div class="card-body text-center mt-4">
-                                                                <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                                                <h4 class="card-title"><%if(dest.dest[i].dist=== ""){%>
                         
-                                                                    <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                    <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                                   
                                                                   <%}%>
                                                                   
-                                                                  <%if(dest[i].dist !== ""){%>
+                                                                  <%if(dest.dest[i].dist !== ""){%>
                                                                   
-                                                                    <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                    <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                                   
                                                                   <%}%></h4>
                                                                
                                                             
-                                                                <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                                                <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
                               
                                                             </div>
@@ -885,7 +885,7 @@
                                         </div>
                                         <%}%>
 
-                                        <%if(dest[i].nationality === "tabok"){%>
+                                        <%if(dest.dest[i].nationality === "tabok"){%>
                                             <div class="col-xs-12 col-sm-6 col-md-4">
                                                 <div class="image-flip" >
                                                     <div class="mainflip flip-0">
@@ -912,15 +912,15 @@
                                                                           </h4>
                                                                           <p class="card-text">
                                       
-                                                                              <%if(dest[i].dist=== ""){%>
+                                                                              <%if(dest.dest[i].dist=== ""){%>
                                                             
-                                                                                  <%=dest[i].dist%>
+                                                                                  <%=dest.dest[i].dist%>
                                                                                 
                                                                                 <%}%>
                                                                                 
-                                                                                <%if(dest[i].dist !== ""){%>
+                                                                                <%if(dest.dest[i].dist !== ""){%>
                                                                                 
-                                                                                  حي  <%=dest[i].dist%> 
+                                                                                  حي  <%=dest.dest[i].dist%> 
                                                                                 
                                                                                 <%}%>
                                                                           </p>
@@ -932,9 +932,9 @@
                                                         <div class="backside">
                                                             <div class="card">
                                                                 <form action="/delete_places_lessor" method="POST">
-                                                                    <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
-                                                                    <input type="hidden" name="desc" value="<%=dest[i].desc%>">
-                                                                    <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                                    <input type="hidden" name="nationality" value="<%=dest.dest[i].nationality%>">
+                                                                    <input type="hidden" name="desc" value="<%=dest.dest[i].desc%>">
+                                                                    <input type="hidden" name="url" value="<%=dest.dest[i].url%>">
                                                                     <input type="hidden" name="dest" value="<%=i%>">
                                                                     
                                                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -949,25 +949,25 @@
 
                                                                 <div class="container">
                                                                     <p class="card-text" style="text-align: center;">
-                                                                        <%=dest[i].desc%>
+                                                                        <%=dest.dest[i].desc%>
                                                                     </p>
 
                                                                 </div>
 
                                                                 <div class="card-body text-center mt-4">
-                                                                    <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                                                    <h4 class="card-title"><%if(dest.dest[i].dist=== ""){%>
                             
-                                                                        <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                        <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                                       
                                                                       <%}%>
                                                                       
-                                                                      <%if(dest[i].dist !== ""){%>
+                                                                      <%if(dest.dest[i].dist !== ""){%>
                                                                       
-                                                                        <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                        <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                                       
                                                                       <%}%></h4>
                                                                 
-                                                                    <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                                                    <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
                                   
                                   
@@ -981,7 +981,7 @@
                                             </div>
                                             <%}%>
 
-                                            <%if(dest[i].nationality === "makkah"){%>
+                                            <%if(dest.dest[i].nationality === "makkah"){%>
                                                 <div class="col-xs-12 col-sm-6 col-md-4">
                                                     <div class="image-flip" >
                                                         <div class="mainflip flip-0">
@@ -1007,15 +1007,15 @@
                                                                               </h4>
                                                                               <p class="card-text">
                                           
-                                                                                  <%if(dest[i].dist=== ""){%>
+                                                                                  <%if(dest.dest[i].dist=== ""){%>
                                                                 
-                                                                                      <%=dest[i].dist%>
+                                                                                      <%=dest.dest[i].dist%>
                                                                                     
                                                                                     <%}%>
                                                                                     
-                                                                                    <%if(dest[i].dist !== ""){%>
+                                                                                    <%if(dest.dest[i].dist !== ""){%>
                                                                                     
-                                                                                      حي  <%=dest[i].dist%> 
+                                                                                      حي  <%=dest.dest[i].dist%> 
                                                                                     
                                                                                     <%}%>
                                                                               </p>
@@ -1026,9 +1026,9 @@
                                                             <div class="backside">
                                                                 <div class="card">
                                                                     <form action="/delete_places_lessor" method="POST">
-                                                                        <input type="hidden" name="nationality" value="<%=dest[i].nationality%>">
-                                                                        <input type="hidden" name="desc" value="<%=dest[i].desc%>">
-                                                                        <input type="hidden" name="url" value="<%=dest[i].url%>">
+                                                                        <input type="hidden" name="nationality" value="<%=dest.dest[i].nationality%>">
+                                                                        <input type="hidden" name="desc" value="<%=dest.dest[i].desc%>">
+                                                                        <input type="hidden" name="url" value="<%=dest.dest[i].url%>">
                                                                         <input type="hidden" name="dest" value="<%=i%>">
                                                                         
                                                                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -1042,25 +1042,25 @@
 
                                                                     <div class="container">
                                                                     <p class="card-text" style="text-align: center;">
-                                                                        <%=dest[i].desc%>
+                                                                        <%=dest.dest[i].desc%>
                                                                     </p>
 
                                                                 </div>
                                                                 
                                                                     <div class="card-body text-center mt-4">
-                                                                        <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                                                        <h4 class="card-title"><%if(dest.dest[i].dist=== ""){%>
                                 
-                                                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                            <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                                           
                                                                           <%}%>
                                                                           
-                                                                          <%if(dest[i].dist !== ""){%>
+                                                                          <%if(dest.dest[i].dist !== ""){%>
                                                                           
-                                                                            <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                            <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                                           
                                                                           <%}%></h4>
                                                                     
-                                                                        <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                                                        <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
                                       
                                                                        
@@ -1074,7 +1074,7 @@
                                                     </div>
                                                 </div>
                                                 <%}%>
-                                                <%if(dest[i].nationality === "madinah"){%>
+                                                <%if(dest.dest[i].nationality === "madinah"){%>
                                                     <div class="col-xs-12 col-sm-6 col-md-4">
                                                         <div class="image-flip" >
                                                             <div class="mainflip flip-0">
@@ -1101,15 +1101,15 @@
                                                                                   </h4>
                                                                                   <p class="card-text">
                                               
-                                                                                      <%if(dest[i].dist=== ""){%>
+                                                                                      <%if(dest.dest[i].dist=== ""){%>
                                                                     
-                                                                                          <%=dest[i].dist%>
+                                                                                          <%=dest.dest[i].dist%>
                                                                                         
                                                                                         <%}%>
                                                                                         
-                                                                                        <%if(dest[i].dist !== ""){%>
+                                                                                        <%if(dest.dest[i].dist !== ""){%>
                                                                                         
-                                                                                          حي  <%=dest[i].dist%> 
+                                                                                          حي  <%=dest.dest[i].dist%> 
                                                                                         
                                                                                         <%}%>
                                                                                   </p>
@@ -1133,7 +1133,7 @@
 
                                                                         <div class="container">
                                                                             <p class="card-text" style="text-align: center;">
-                                                                                <%=dest[i].desc%>
+                                                                                <%=dest.dest[i].desc%>
                                                                             </p>
         
                                                                         </div>
@@ -1141,19 +1141,19 @@
                                                                      
 
                                                                         <div class="card-body text-center mt-4">
-                                                                            <h4 class="card-title"><%if(dest[i].dist=== ""){%>
+                                                                            <h4 class="card-title"><%if(dest.dest[i].dist=== ""){%>
                                     
-                                                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                                <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                                               
                                                                               <%}%>
                                                                               
-                                                                              <%if(dest[i].dist !== ""){%>
+                                                                              <%if(dest.dest[i].dist !== ""){%>
                                                                               
-                                                                                <a href="<%=dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                                                                <a href="<%=dest.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
                                                                               
                                                                               <%}%></h4>
                                                                         
-                                                                            <p><img class="img-places" src="<%=dest[i].roomImage%>" alt="card image"></p>
+                                                                            <p><img class="img-places" src="<%=dest.dest[i].roomImage%>" alt="card image"></p>
 
                                                                         
                                           
@@ -1170,8 +1170,10 @@
   
             
             <%}%>
+           
+
   
-            <%}%>
+            
   
             
           </div>
