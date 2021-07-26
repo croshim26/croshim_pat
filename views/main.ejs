@@ -21,6 +21,9 @@
     AOS.init();
   </script>
 
+
+
+
  
   <section id="title"  >
 
@@ -157,6 +160,28 @@
 </div>
 
 
+<% if (message) { %>
+  <div class="alert alert-danger alert-dismissible fade show">
+    <strong>!!خطأ</strong> هذا الايميل موجود بالفعل 
+
+
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+  
+
+</div>
+<% } %>
+
+
+<% if (message2) { %>
+
+
+<div class="alert alert-success" role="alert">
+مبروك لقد تم انشاء الحساب بنجاح <a href="/" class="alert-link">اضغط هنا للذهاب الى صفحة الدخول </a>
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+</div>
+
+
+<% } %>
 
   <section id="owner" data-aos="fade-up">
     <div class="alert alert-warning">

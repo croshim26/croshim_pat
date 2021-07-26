@@ -6,7 +6,25 @@ const path = require('path');
 
 const tables = require('../models/tables');
 
-exports.getPlacesLessor=(req,res,next)=>{       
+exports.getPlacesLessor=(req,res,next)=>{   
+  
+  let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
+
+
+
+  let message2 = req.flash('success');
+  if (message2.length > 0) {
+    message2 = message2[0];
+  } else {
+    message2 = null;
+  }
+
+  
   tables.findById(req.session.tables._id).select("firstNameA lastNameA dest phone roomImage ").then(data =>{
 
         res.render("PutInfo/PutPlaceLessor/places_lessor",{
@@ -23,6 +41,8 @@ exports.getPlacesLessor=(req,res,next)=>{
           add_eq:false,
           del_build:true,
           add_course:false,
+          message:message,
+          message2:message2
                   
        
           
