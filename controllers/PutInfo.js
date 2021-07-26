@@ -248,7 +248,7 @@ exports.postDeletePlacesLessor=(req,res,next)=>{
             console.log(err);
           });
 
-          res.redirect("/places_lessor")
+          res.redirect("/courses")
 
 };
 
