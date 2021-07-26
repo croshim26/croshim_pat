@@ -25,6 +25,8 @@ const PutInfo = require('./routes/PutInfo');
 
 const Equipment_seller  = require('./routes/Equipment_seller');
 
+const putInfo_placeLessore=require("./routes/putInfo_placeLessore")
+
 
 
 
@@ -109,6 +111,8 @@ app.use(bodyParser.urlencoded({
 
   app.use(Equipment_seller);
   app.use(displayInfo);
+
+  app.use(putInfo_placeLessore);
 
 
   

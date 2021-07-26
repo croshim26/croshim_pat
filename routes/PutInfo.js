@@ -11,24 +11,6 @@ const router = express.Router();
 
 
 
-
-router.get("/places_lessor",loggedin,PutInfo.getPlacesLessor)
-
-
-
-router.get("/add_places_lessor",loggedin,PutInfo.getAddPlacesLessor)
-
-router.post("/add_places_lessor",loggedin,PutInfo.postAddPlacesLessor)
-
-router.get("/account_places_lessor",loggedin,PutInfo.getEditPlacesLessor)
-
-router.post("/account_places_lessor",loggedin,PutInfo.postEditPlacesLessor)
-
-
-router.get("/delete_places_lessor",loggedin,PutInfo.getDeletePlacesLessor)
-
-router.post("/delete_places_lessor",loggedin,PutInfo.postDeletePlacesLessor)
-
 ///////////////////
 
 
