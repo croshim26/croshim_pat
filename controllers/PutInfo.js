@@ -8,21 +8,7 @@ const tables = require('../models/tables');
 
 exports.getPlacesLessor=(req,res,next)=>{   
   
-  var message32 = req.flash('error');
-  if (message32.length > 0) {
-    message32 = message32[0];
-  } else {
-    message32 = null;
-  }
-
-
-
-  let message2 = req.flash('success');
-  if (message2.length > 0) {
-    message2 = message2[0];
-  } else {
-    message2 = null;
-  }
+ 
 
 
   tables.findById(req.session.tables._id).select("firstNameA lastNameA dest phone roomImage ").then(data =>{
@@ -210,32 +196,13 @@ exports.postEditPlacesLessor=(req,res,next)=>{
 
 
 exports.getDeletePlacesLessor=(req,res,next)=>{
-
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
-
-
-
-  let message2 = req.flash('success');
-  if (message2.length > 0) {
-    message2 = message2[0];
-  } else {
-    message2 = null;
-  }
-
-
   tables.findById(req.session.tables._id).select("dest firstNameA lastNameA").then(data=>{
 
 
 
 
     res.render('PutInfo/PutPlaceLessor/delete_places_lessor',{
-      message:message,
-      message2:message2
+   
   
   
     })
@@ -269,19 +236,19 @@ exports.postDeletePlacesLessor=(req,res,next)=>{
          
   
         });
-       
 
         return data.save();
-
           }).then(result => {
-            req.flash('success', 'it success ! conguraltion!!');
-            res.redirect("/places_lessor")
+           
+            
            
   
     
           }) .catch(err => {
             console.log(err);
           });
+
+          res.redirect("/places_lessor")
 
 };
 
