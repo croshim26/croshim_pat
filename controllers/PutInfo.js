@@ -191,10 +191,34 @@ exports.postEditPlacesLessor=(req,res,next)=>{
 
 exports.getDeletePlacesLessor=(req,res,next)=>{
 
+  let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
+
+
+
+  let message2 = req.flash('success');
+  if (message2.length > 0) {
+    message2 = message2[0];
+  } else {
+    message2 = null;
+  }
+
+
   tables.findById(req.session.tables._id).select("dest firstNameA lastNameA").then(data=>{
 
-    
-    res.render("PutInfo/PutPlaceLessor/delete_places_lessor")
+
+
+
+    res.render('PutInfo/PutPlaceLessor/delete_places_lessor',{
+      message:message,
+      message2:message2
+  
+  
+    })
 
   })
 
@@ -211,7 +235,7 @@ exports.postDeletePlacesLessor=(req,res,next)=>{
 
   tables.findById(req.session.tables._id).select("firstNameA dest").then(data=>{
 
-    for (let i = 0; i < data.dest.length; i++) {      
+    for (var i = 0; i < data.dest.length; i++) {      
           var filtered = data.dest.filter(function(value, index, arr){ 
             return index !=dest;
           })
