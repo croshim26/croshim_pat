@@ -205,7 +205,7 @@ exports.getDeletePlacesLessor=(req,res,next)=>{
 
 exports.postDeletePlacesLessor=(req,res,next)=>{
 
-  const del_dest=req.body.del_dest
+  const dest=req.body.dest
 
 
 
@@ -213,27 +213,33 @@ exports.postDeletePlacesLessor=(req,res,next)=>{
 
     for (let i = 0; i < data.dest.length; i++) {      
           var filtered = data.dest.filter(function(value, index, arr){ 
-            return index !=del_dest;
+            return index !=dest;
           })
 
   
         }
 
-        tables.updateOne({dest:data.dest},{dest:filtered}).then(update=>{
+         tables.updateOne({dest:data.dest},{dest:filtered}).then(update=>{
 
   
-          console.log(update);
+         
   
-        })
+        });
        
 
+        return data.save();
 
-          })
+          }).then(result => {
+            req.flash('success', 'it success ! conguraltion!!');
+            res.redirect("/places_lessor")
+           
+  
+    
+          }) .catch(err => {
+            console.log(err);
+          });
 
-
-          res.redirect("places_lessor")
-
-}
+};
 
 
 
