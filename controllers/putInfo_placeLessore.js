@@ -240,16 +240,15 @@ exports.getPlacesLessor=(req,res,next)=>{
             }).then(result => {
              
               
-              res.redirect("/courses")
+              
     
       
             }) .catch(err => {
               console.log(err);
   
-              res.redirect("/Equipment_seller")
             });
   
-            
+            res.redirect("/places_lessor")
   
   };
   
