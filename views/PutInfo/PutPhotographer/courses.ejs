@@ -11,7 +11,7 @@
 
 
         <div class="row">
-          <%for (var i = 0; i < data.courses.length; i++) {%>
+          <%for (var i = 1; i < data.courses.length; i++) {%>
             <!-- Team member -->   
             
         
@@ -26,23 +26,19 @@
                         <div class="frontside">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <h4> :عنوان الدورة  </h4>
                                     <h4 class="card-title">   <%=data.courses[i].CourseName%>   </h4>
                                     
           
-                                          <h4>: محاور الدورة </h4>
-  
-                                    <h4 class="card-title">
-                                        <%=data.courses[i].titlesCourse%> </h4>
-                                    
+                               
 
-                                    <h4> :شروط الدورة  </h4> 
-                                      
                                     <h4 class="card-title">
-                                        
-                                        <%=data.courses[i].courseCondeitions%>
-                                    </h4>
+                                        <%=data.firstNameA%>
+                                            <%=data.lastNameA%></h4>
 
+                                    <p class="card-text">  
+                                        <%=data.phone%>   للتسجيل توصل بالرقم  
+                    
+                                    </p>
 
                                 
                                     <h4>فترة الدورة</h4>
@@ -59,6 +55,7 @@
                                     </h4>
 
 
+                                    <%=data.courses[i].accept%>
 
 
                                     <h4 class="card-title">
@@ -81,6 +78,9 @@
 
 
                                     
+
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -89,24 +89,27 @@
                             <div class="card">
                                 
 
-                                    <form action="/delete_course" method="POST">
-                                        
-                                        <input type="hidden" name="courses" value="<%=i%>">
-                                        
-                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                        
-
-                                   
-
-                                        <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                    
-                                    </form>
+                                    <button class="fas fa-trash fa-2x icon_owner" class="btn btn-primary"
+                                    data-toggle="modal" data-target="#exampleModal44" id="building4">
+                    
+                                   </button>
 
 
                                     <div class="container">
-                                        <p class="card-text" style="text-align: center;">
-                                            <%=data.courses[i].place%>
-                                        </p>
+                                     
+
+                                        <h4 style="text-align: center;">: محاور الدورة </h4>
+  
+                                        <h4 class="card-title" style="text-align: center;">
+                                            <%=data.courses[i].titlesCourse%> </h4>
+                                        
+    
+                                        <h4 style="text-align: center;"> :شروط الدورة  </h4> 
+                                          
+                                        <h4 class="card-title" style="text-align: center;">
+                                            
+                                            <%=data.courses[i].courseCondeitions%>
+                                        </h4>
 
                                     </div>
                                 
@@ -130,6 +133,43 @@
   </section>
 
 
+  <div id="building4">
+    <div class="modal fade" id="exampleModal44" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"> هل انت متاكد من الحذف </h5>
+  
+          </div>
+          <div class="modal-body">
+            <form action="/delete_course" method="POST">
+                <input type="number" name="courses" max="<%=data.courses.length-1%>" min="1" >
+                
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                
+
+           
+
+                <!-- <button  class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button> -->
+
+                <button type="submit"  class="btn"  onclick="this.style.display='none';"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+
+            
+            </form>
+
+           
+                </aside> <!-- col.// -->
+          </div>
+          <div class="modal-footer">
+  
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق </button>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
 
   <section style="height: 15rem;"></section>
 

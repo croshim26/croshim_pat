@@ -67,21 +67,10 @@ exports.getPlacesLessor=(req,res,next)=>{
     const url2=req.body.url;
   
     tables.findById(req.session.tables._id).select("firstNameA dest").then(data =>{
-  
-      for (var index = 0; index < 36; index++) {
-        var element = url2[index];
-      
-      var f =f+element
-      
-    
-      
-      }
-  
-      
-  console.log(f);
+
   
   
-  if(f === "undefinedhttps://www.google.com.sa/maps/place"){
+
   
   console.log("hhhhhh");
   
@@ -92,16 +81,10 @@ exports.getPlacesLessor=(req,res,next)=>{
   
   // console.log(req.files.imageUrl);
   
-    data.dest.push({nationality:req.body.nationality,dist:req.body.dist , url:req.body.url,desc:req.body.desc,roomImage:image.path})
-  
-  }
-  else{
-  
-  
-    console.log("ghjk");
-    
-  }
-  
+ 
+  data.dest.push({nationality:req.body.nationality,dist:req.body.dist , 
+    url:req.body.url,desc:req.body.desc,roomImage:image.path,accept:"wait"})
+
       data.save();
       
   
@@ -213,23 +196,31 @@ exports.getPlacesLessor=(req,res,next)=>{
   }
   
   
-  exports.postDeletePlacesLessor=(req,res,next)=>{
+  exports.postDeletePlacesLessor=async(req,res,next)=>{
   
     const dest=req.body.dest
   
   
   
-    tables.findById(req.session.tables._id).select("firstNameA dest").then(data=>{
+   await tables.findById(req.session.tables._id).select("firstNameA dest").then(data=>{
   
-      for (var i = 0; i < data.dest.length; i++) {      
+      for (var i = 1; i < data.dest.length; i++) {      
             var filtered = data.dest.filter(function(value, index, arr){ 
+             
               return index !=dest;
+
+             
             })
   
     
           }
+
+
+
+      
+        
   
-           tables.updateOne({dest:data.dest},{dest:filtered}).then(update=>{
+          tables.updateOne({dest:data.dest},{dest:filtered}).then(update=>{
   
     
            

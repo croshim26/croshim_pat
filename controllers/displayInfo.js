@@ -75,7 +75,7 @@ exports.postDisplayPlace=(req,res,next)=>{
   
     tables.find().select("firstNameA lastNameA dest  phone ").then(data=>{
   
-        test.find().select("dest").then(data2=>{
+      
   
   
   
@@ -93,7 +93,7 @@ exports.postDisplayPlace=(req,res,next)=>{
   
       })
   
-    })
+ 
   
   })
   

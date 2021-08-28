@@ -1,6 +1,3 @@
-
-
-
 <link rel="stylesheet" href="css/item_User.css">
 
 
@@ -9,184 +6,194 @@
 <section id="team" class="pb-5">
     <div class="container">
         <h5 class="section-title h1">الاماكن</h5>
-        
- 
+
+
 
         <div class="row">
+            <%if(foo.dest===""){%>
+                <h1>لا توجد بيانات </h1>
+                <%}%>
+                    <%if(foo.dest!==""){%>
 
-       
+                        <%for (var i=1; i < foo.dest.length; i++) {%>
+                            <%if( foo.dest[i].nationality==="rya" ){%>
 
-
-           <%if(foo.dest===""){%>
-
-            <h1>لا توجد بيانات </h1>
-
-           <%}%>
-
-           <%if(foo.dest!==""){%>
-              
-            
-          <%for (var i = 0; i < foo.dest.length; i++) {%>
-            <%if( foo.dest[i].nationality === "rya"){%>
-
-                <div class="col-xs-12 col-sm-6 col-md-4">
-
-                     
-                <div class="image-flip" >
-                    <div class="mainflip flip-0">
-  
-                     
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
+                                <div class="col-xs-12 col-sm-6 col-md-4">
 
 
-                                    <p><img class="img-fluid" src="images/City_Picture/ria.png" alt="card image"></p>
-                                    
-                                    
-                            
-                                    
-
-                                    <h4 class="card-title">
-                                     <%=foo.firstNameA%>  <%=foo.lastNameA%>
-        
-                                          </h4>
-                                    
-  
-                                    <h4 class="card-title">
-                                  الرياض 
-  
-                                    </h4>
-                                    <p class="card-text">
-
-                                        <%if(foo.dest[i].dist=== ""){%>
-                      
-                                            <%=foo.dest[i].dist%>
-                                          
-                                          <%}%>
-                                          
-                                          <%if(foo.dest[i].dist !== ""){%>
-                                          
-                                            حي <%=foo.dest[i].dist%> 
-                                          
-                                          <%}%>
-
-                                          
-                                    </p>
+                                    <div class="image-flip">
+                                        <div class="mainflip flip-0">
 
 
-                                    
-                                </div>
-                            </div>
-                        </div>
-  
-                        <div class="backside">
-                            <div class="card">
-                                
-                              
-
-                                <form action="/delete_places_lessor" method="POST">
-                                    <input type="hidden" name="dest" value="<%=i%>">
-                                    
-                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                    
-                
-                               
-                
-                                    <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                
-                                </form>
-
-                                
-                       
-                                  
+                                            <div class="frontside">
+                                                <div class="card">
+                                                    <div class="card-body text-center">
 
 
-                                    <div class="container">
-                                        <p class="card-text" style="text-align: center;">
-                                            <%=foo.dest[i].desc%>
-                                        </p>
-
-                                    </div>
-                                
-
-                                <div class="card-body text-center mt-4">
-                                    <h4 class="card-title" ><%if(foo.dest[i].dist=== ""){%>
-            
-                                        <a href="<%=foo.dest[i].url%>" >   <i class="fas fa-location-arrow "></i> </a>
-                                      
-                                      <%}%>
-                                      
-                                      <%if(foo.dest[i].dist !== ""){%>
-                                      
-                                        <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                      
-                                      <%}%></h4>
-                                      
-                               
-                                    <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
-
-                               
-                                  
-  
-  
-                                </div>
-                            </div>
-                        </div>
-                        
-  
-                    </div>
-                </div>
-            </div>
-            <%}%>
+                                                        <p> <%=i%></p>  
+                                                        <p><img class="img-fluid" src="images/City_Picture/ria.png"
+                                                                alt="card image"></p>
 
 
-            <%if(  foo.dest[i].nationality === "jed"){%>
-                <div class="col-xs-12 col-sm-6 col-md-4">
-                    <div class="image-flip" >
-                        <div class="mainflip flip-0">
-      
-                         
-                            <div class="frontside">
-                                <div class="card">
-                                    <div class="card-body text-center">
-                                     
-      
-      
-      
-      
-                                        <p><img class=" img-fluid" src="images/City_Picture/j.png" alt="card image"></p>
-                                       
-                                        <h4 class="card-title">
-                                            <%=foo.firstNameA%>  <%=foo.lastNameA%>
-               
-                                                 </h4>
-                                        <h4 class="card-title">
-                                            جدة
-            
-                                              </h4>
-                                              <p class="card-text">
-          
-                                                  <%if(foo.dest[i].dest=== ""){%>
-                                
-                                                      <%=foo.dest[i].dest%>
-                                                    
-                                                    <%}%>
-                                                    
-                                                    <%if(foo.dest[i].dest!== ""){%>
-                                                    
-                                                      حي  <%=foo.dest[i].dest%> 
-                                                    
-                                                    <%}%>
-                                              </p>
-                                        
+
+
+
+                                                        <h4 class="card-title">
+                                                            <%=foo.firstNameA%>
+                                                                <%=foo.lastNameA%>
+
+                                                        </h4>
+
+
+                                                        <h4 class="card-title">
+                                                            الرياض
+
+                                                        </h4>
+                                                        <p class="card-text">
+
+                                                            <%if(foo.dest[i].dist=== "" ){%>
+
+                                                                <%=foo.dest[i].dist%>
+
+                                                                    <%}%>
+
+                                                                        <%if(foo.dest[i].dist !=="" ){%>
+
+                                                                            حي <%=foo.dest[i].dist%>
+
+                                                                                <%}%>
+
+
+
+
+
+
+
+                                                        </p>
+
+
+                                                        <%=foo.dest[i].accept%>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="backside">
+                                                <div class="card">
+
+
+
+                                                    <button class="fas fa-trash fa-2x icon_owner"
+                                                        class="btn btn-primary" data-toggle="modal"
+                                                        data-target="#exampleModal33" id="building3">
+
+                                                    </button>
+
+
+                                                    <div class="container">
+                                                        <p class="card-text" style="text-align: center;">
+                                                            <%=foo.dest[i].desc%>
+                                                        </p>
+
+                                                    </div>
+
+
+                                                    <div class="card-body text-center mt-4">
+                                                        <h4 class="card-title">
+                                                            <%if(foo.dest[i].dist=== "" ){%>
+
+                                                                <a href="<%=foo.dest[i].url%>"> <i
+                                                                        class="fas fa-location-arrow "></i> </a>
+
+                                                                <%}%>
+
+                                                                    <%if(foo.dest[i].dist !=="" ){%>
+
+                                                                        <a href="<%=foo.dest[i].url%>"> <i
+                                                                                class="fas fa-location-arrow "></i> </a>
+
+                                                                        <%}%>
+                                                        </h4>
+
+
+                                                        <p><img class="img-places" src="<%=foo.dest[i].roomImage%>"
+                                                                alt="card image"></p>
+
+
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-      
-                            <div class="backside">
-                                <div class="card">
-                                    <form action="/delete_places_lessor" method="POST">
+                                <%}%>
+
+
+                                    <%if( foo.dest[i].nationality==="jed" ){%>
+                                        <div class="col-xs-12 col-sm-6 col-md-4">
+                                            <div class="image-flip">
+                                                <div class="mainflip flip-0">
+
+
+                                                    <div class="frontside">
+                                                        <div class="card">
+                                                            <div class="card-body text-center">
+
+
+                                                                <p> <%=i%></p>  
+
+
+
+                                                                <p><img class=" img-fluid"
+                                                                        src="images/City_Picture/j.png"
+                                                                        alt="card image"></p>
+
+                                                                <h4 class="card-title">
+                                                                    <%=foo.firstNameA%>
+                                                                        <%=foo.lastNameA%>
+
+                                                                </h4>
+                                                                <h4 class="card-title">
+                                                                    جدة
+
+                                                                </h4>
+                                                                <p class="card-text">
+
+                                                                    <%if(foo.dest[i].dest=== "" ){%>
+
+                                                                        <%=foo.dest[i].dest%>
+
+                                                                            <%}%>
+
+                                                                                <%if(foo.dest[i].dest!== "" ){%>
+
+                                                                                    حي <%=foo.dest[i].dest%>
+
+                                                                                        <%}%>
+                                                                </p>
+
+                                                                <%=foo.dest[i].accept%>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="backside">
+                                                        <div class="card">
+
+                                                            <button class="fas fa-trash fa-2x icon_owner"
+                                                                class="btn btn-primary" data-toggle="modal"
+                                                                data-target="#exampleModal33" id="building3">
+
+                                                            </button>
+
+                                                            <!-- <form action="/delete_places_lessor" method="POST">
 
                                         <input type="hidden" name="dest" value="<%=i%>">
                                         
@@ -197,657 +204,7 @@
 
                                         <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
                                     
-                                    </form>
-
-                                    <div class="container">
-                                        <p class="card-text" style="text-align: center;">
-                                            <%=foo.dest[i].desc%>
-                                        </p>
-
-                                    </div>
-                                    <div class="card-body text-center mt-4">
-                                        <h4 class="card-title"><%if(foo.dest[i].dist=== ""){%>
-            
-                                            <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                          
-                                          <%}%>
-                                          
-                                          <%if(foo.dest[i].dist !== ""){%>
-                                          
-                                            <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                          
-                                          <%}%></h4>
-                                
-
-                                        <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
-
-
-                                    
-                                    
-      
-      
-                                    </div>
-                                </div>
-                            </div>
-                            
-      
-                        </div>
-                    </div>
-                </div>
-                <%}%>
-
-
-                <%if(foo.dest[i].nationality === "hfof"){%>
-                    <div class="col-xs-12 col-sm-6 col-md-4">
-                        <div class="image-flip" >
-                            <div class="mainflip flip-0">
-          
-                             
-                                <div class="frontside">
-                                    <div class="card">
-                                        <div class="card-body text-center">
-                                         
-          
-          
-          
-          
-                                            <p><img class=" img-fluid" src="images/City_Picture/hafof.jpg" alt="card image"></p>
-                                           
-                                            <h4 class="card-title">
-                                                <%=foo.firstNameA%>  <%=foo.lastNameA%>
-                   
-                                                     </h4>
-          
-                                            <h4 class="card-title">
-                                               الهفوف
-                
-                                                  </h4>
-                                                  <p class="card-text">
-              
-                                                      <%if(foo.dest[i].dist=== ""){%>
-                                    
-                                                          <%=foo.dest[i].dist%>
-                                                        
-                                                        <%}%>
-                                                        
-                                                        <%if(foo.dest[i].dist !== ""){%>
-                                                        
-                                                          حي  <%=foo.dest[i].dist%> 
-                                                        
-                                                        <%}%>
-                                                  </p>
-                                        </div>
-                                    </div>
-                                </div>
-          
-                                <div class="backside">
-                                    <div class="card">
-                                        <form action="/delete_places_lessor" method="POST">
-                                   
-                                            <input type="hidden" name="dest" value="<%=i%>">
-                                            
-                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                            
-    
-                                       
-    
-                                            <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                        
-                                        </form>
-                                    
-                                        <div class="container">
-                                            <p class="card-text" style="text-align: center;">
-                                                <%=foo.dest[i].desc%>
-                                            </p>
-
-                                        </div>
-
-                                        <div class="card-body text-center mt-4">
-                                            <h4 class="card-title"><%if(foo.dest[i].dist=== ""){%>
-            
-                                                <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                              
-                                              <%}%>
-                                              
-                                              <%if(foo.dest[i].dist !== ""){%>
-                                              
-                                                <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                              
-                                              <%}%></h4>
-                                         
-
-                                            <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
-
-                                        
-          
-          
-                                        </div>
-                                    </div>
-                                </div>
-                                
-          
-                            </div>
-                        </div>
-                    </div>
-                    <%}%>
-
-
-                <%if(foo.dest[i].nationality === "zhar"){%>
-                    <div class="col-xs-12 col-sm-6 col-md-4">
-                        <div class="image-flip" >
-                            <div class="mainflip flip-0">
-          
-                             
-                                <div class="frontside">
-                                    <div class="card">
-                                        <div class="card-body text-center">
-                                         
-          
-          
-          
-          
-                                            <p><img class=" img-fluid" src="images/City_Picture/zah.png" alt="card image"></p>
-                                           
-                                            <h4 class="card-title">
-                                                <%=foo.firstNameA%>  <%=foo.lastNameA%>
-                   
-                                                     </h4>
-                                            <h4 class="card-title">
-                                               الظهران
-                
-                                                  </h4>
-                                                  <p class="card-text">
-              
-                                                      <%if(foo.dest[i].dist=== ""){%>
-                                    
-                                                          <%=foo.dest[i].dist%>
-                                                        
-                                                        <%}%>
-                                                        
-                                                        <%if(foo.dest[i].dist !== ""){%>
-                                                        
-                                                          حي  <%=foo.dest[i].dist%> 
-                                                        
-                                                        <%}%>
-                                                  </p>
-                                        </div>
-                                    </div>
-                                </div>
-          
-                                <div class="backside">
-                                    <div class="card">
-                                        <form action="/delete_places_lessor" method="POST">
-                                        
-                                            <input type="hidden" name="dest" value="<%=i%>">
-                                            
-                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                            
-    
-                                       
-    
-                                            <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                        
-                                        </form>
-                                    
-                                        <div class="container">
-                                            <p class="card-text" style="text-align: center;">
-                                                <%=foo.dest[i].desc%>
-                                            </p>
-
-                                        </div>
-
-                                        <div class="card-body text-center mt-4">
-                                            <h4 class="card-title"><%if(foo.dest[i].dist=== ""){%>
-            
-                                                <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                              
-                                              <%}%>
-                                              
-                                              <%if(foo.dest[i].dist !== ""){%>
-                                              
-                                                <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                              
-                                              <%}%></h4>
-                                         
-                                        
-                                            <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
-
-          
-          
-                                        </div>
-                                    </div>
-                                </div>
-                                
-          
-                            </div>
-                        </div>
-                    </div>
-                    <%}%>
-
-
-                    <%if(foo.dest[i].nationality=== "taif"){%>
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <div class="image-flip" >
-                                <div class="mainflip flip-0">
-              
-                                 
-                                    <div class="frontside">
-                                        <div class="card">
-                                            <div class="card-body text-center">
-                                             
-              
-              
-              
-              
-                                                <p><img class=" img-fluid" src="images/City_Picture/t.png" alt="card image"></p>
-                                               
-              
-                                                <h4 class="card-title">
-                                                    <%=foo.firstNameA%>  <%=foo.lastNameA%>
-                       
-                                                         </h4>
-                                                <h4 class="card-title">
-                                                   الطائف
-                    
-                                                      </h4>
-                                                      <p class="card-text">
-                  
-                                                          <%if(foo.dest[i].dist=== ""){%>
-                                        
-                                                              <%=foo.dest[i].dist%>
-                                                            
-                                                            <%}%>
-                                                            
-                                                            <%if(foo.dest[i].dist !== ""){%>
-                                                            
-                                                              حي  <%=foo.dest[i].dist%> 
-                                                            
-                                                            <%}%>
-                                                      </p>
-                                            </div>
-                                        </div>
-                                    </div>
-              
-                                    <div class="backside">
-                                        <div class="card">
-                                            <form action="/delete_places_lessor" method="POST">
-                                                <input type="hidden" name="dest" value="<%=i%>">
-                                                
-                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                            
-                                            </form>
-
-                                            <div class="container">
-                                                <p class="card-text" style="text-align: center;">
-                                                    <%=foo.dest[i].desc%>
-                                                </p>
-
-                                            </div>
-                                        
-                                            <div class="card-body text-center mt-4">
-                                                <h4 class="card-title"><%if(foo.dest[i].dist=== ""){%>
-            
-                                                    <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                  
-                                                  <%}%>
-                                                  
-                                                  <%if(foo.dest[i].dist !== ""){%>
-                                                  
-                                                    <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                  
-                                                  <%}%></h4>
-                                            
-                                            
-              
-                                                <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
-
-              
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-              
-                                </div>
-                            </div>
-                        </div>
-                        <%}%>
-
-
-                        <%if(foo.dest[i].nationality === "dam"){%>
-                            <div class="col-xs-12 col-sm-6 col-md-4">
-                                <div class="image-flip" >
-                                    <div class="mainflip flip-0">
-                  
-                                     
-                                        <div class="frontside">
-                                            <div class="card">
-                                                <div class="card-body text-center">
-                                                 
-                  
-                  
-                  
-                  
-                                                    <p><img class=" img-fluid" src="images/City_Picture/dam.png" alt="card image"></p>
-                                                   
-                                                    <h4 class="card-title">
-                                                        <%=foo.firstNameA%>  <%=foo.lastNameA%>
-                           
-                                                             </h4>
-                  
-                                                    <h4 class="card-title">
-                                                        الدمام
-                        
-                                                          </h4>
-                                                          <p class="card-text">
-                      
-                                                              <%if(foo.dest[i].dist=== ""){%>
-                                            
-                                                                  <%=foo.dest[i].dist%>
-                                                                
-                                                                <%}%>
-                                                                
-                                                                <%if(foo.dest[i].dist !== ""){%>
-                                                                
-                                                                  حي  <%=foo.dest[i].dist%> 
-                                                                
-                                                                <%}%>
-                                                          </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                  
-                                        <div class="backside">
-                                            <div class="card">
-                                                <form action="/delete_places_lessor" method="POST">
-                                               
-                                                    <input type="hidden" name="dest" value="<%=i%>">
-                                                    
-                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                    
-            
-                                               
-            
-                                                    <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                                
-                                                </form>
-
-                                                <div class="container">
-                                                    <p class="card-text" style="text-align: center;">
-                                                        <%=foo.dest[i].desc%>
-                                                    </p>
-
-                                                </div>
-                                            
-                                                <div class="card-body text-center mt-4">
-                                                    <h4 class="card-title"><%if(foo.dest[i].dist=== ""){%>
-            
-                                                        <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                      
-                                                      <%}%>
-                                                      
-                                                      <%if(foo.dest[i].dist !== ""){%>
-                                                      
-                                                        <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                      
-                                                      <%}%></h4>
-
-                                                
-                  
-                                                    <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                  
-                                    </div>
-                                </div>
-                            </div>
-                            <%}%>
-
-
-                            <%if(foo.dest[i].nationality === "hafr"){%>
-                                <div class="col-xs-12 col-sm-6 col-md-4">
-                                    <div class="image-flip" >
-                                        <div class="mainflip flip-0">
-                      
-                                         
-                                            <div class="frontside">
-                                                <div class="card">
-                                                    <div class="card-body text-center">
-                                                     
-                      
-                      
-                      
-                      
-                                                        <p><img class=" img-fluid" src="images/City_Picture/haf.png" alt="card image"></p>
-                                                       
-                                                        <h4 class="card-title">
-                                                            <%=foo.firstNameA%>  <%=foo.lastNameA%>
-                               
-                                                                 </h4>
-                      
-                                                        <h4 class="card-title">
-                                                            حفر الباطن
-                            
-                                                              </h4>
-                                                              <p class="card-text">
-                          
-                                                                  <%if(foo.dest[i].dist=== ""){%>
-                                                
-                                                                      <%=foo.dest[i].dist%>
-                                                                    
-                                                                    <%}%>
-                                                                    
-                                                                    <%if(foo.dest[i].dist !== ""){%>
-                                                                    
-                                                                      حي  <%=foo.dest[i].dist%> 
-                                                                    
-                                                                    <%}%>
-                                                              </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                      
-                                            <div class="backside">
-                                                <div class="card">
-                                                    <form action="/delete_places_lessor" method="POST">
-                                                  
-                                                        <input type="hidden" name="dest" value="<%=i%>">
-                                                        
-                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                        
-                
-                                                   
-                
-                                                        <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                                    
-                                                    </form>
-                                                    <div class="container">
-                                                        <p class="card-text" style="text-align: center;">
-                                                            <%=foo.dest[i].desc%>
-                                                        </p>
-
-                                                    </div>
-                                                    <div class="card-body text-center mt-4">
-                                                        <h4 class="card-title"><%if(foo.dest[i].dist=== ""){%>
-            
-                                                            <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                          
-                                                          <%}%>
-                                                          
-                                                          <%if(foo.dest[i].dist !== ""){%>
-                                                          
-                                                            <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                          
-                                                          <%}%></h4>
-
-                                                    
-                                                        <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
-
-                      
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                      
-                                        </div>
-                                    </div>
-                                </div>
-                                <%}%>
-
-                                <%if(foo.dest[i].nationality === "khmis"){%>
-                                    <div class="col-xs-12 col-sm-6 col-md-4">
-                                        <div class="image-flip" >
-                                            <div class="mainflip flip-0">
-                          
-                                             
-                                                <div class="frontside">
-                                                    <div class="card">
-                                                        <div class="card-body text-center">
-                                                         
-                          
-                          
-                          
-                          
-                                                            <p><img class=" img-fluid" src="images/City_Picture/khmis.png" alt="card image"></p>
-                                                           
-                          
-                                                            <h4 class="card-title">
-                                                                <%=foo.firstNameA%>  <%=foo.lastNameA%>
-                                   
-                                                                     </h4>
-                                                            <h4 class="card-title">
-                                                                خميس مشيط
-                                
-                                                                  </h4>
-                                                                  <p class="card-text">
-                              
-                                                                      <%if(foo.dest[i].dist=== ""){%>
-                                                    
-                                                                          <%=foo.dest[i].dist%>
-                                                                        
-                                                                        <%}%>
-                                                                        
-                                                                        <%if(foo.dest[i].dist !== ""){%>
-                                                                        
-                                                                          حي  <%=foo.dest[i].dist%> 
-                                                                        
-                                                                        <%}%>
-                                                                  </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                          
-                                                <div class="backside">
-                                                    <div class="card">
-                                                        <form action="/delete_places_lessor" method="POST">
-                                                      
-                                                            <input type="hidden" name="dest" value="<%=i%>">
-                                                            
-                                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                            
-                    
-                                                       
-                    
-                                                            <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                                        
-                                                        </form>
-                                                    
-                                                        <div class="container">
-                                                            <p class="card-text" style="text-align: center;">
-                                                                <%=foo.dest[i].desc%>
-                                                            </p>
-
-                                                        </div>
-
-                                                        <div class="card-body text-center mt-4">
-                                                            <h4 class="card-title"><%if(foo.dest[i].dist=== ""){%>
-            
-                                                                <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                              
-                                                              <%}%>
-                                                              
-                                                              <%if(foo.dest[i].dist !== ""){%>
-                                                              
-                                                                <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                              
-                                                              <%}%></h4>
-
-                                                            <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
-
-                          
-                          
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                          
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <%}%>
-
-                                    <%if(foo.dest[i].nationality === "bry"){%>
-                                        <div class="col-xs-12 col-sm-6 col-md-4">
-                                            <div class="image-flip" >
-                                                <div class="mainflip flip-0">
-                              
-                                                 
-                                                    <div class="frontside">
-                                                        <div class="card">
-                                                            <div class="card-body text-center">
-                                                             
-                              
-                              
-                              
-                              
-                                                                <p><img class=" img-fluid" src="images/City_Picture/bry.png" alt="card image"></p>
-                                                               
-                                                                <h4 class="card-title">
-                                                                    <%=foo.firstNameA%>  <%=foo.lastNameA%>
-                                       
-                                                                         </h4>
-                              
-                                                                <h4 class="card-title">
-                                                                    بريدة
-                                    
-                                                                      </h4>
-                                                                      <p class="card-text">
-                                  
-                                                                          <%if(foo.dest[i].dist=== ""){%>
-                                                        
-                                                                              <%=foo.dest[i].dist%>
-                                                                            
-                                                                            <%}%>
-                                                                            
-                                                                            <%if(foo.dest[i].dist !== ""){%>
-                                                                            
-                                                                              حي  <%=foo.dest[i].dist%> 
-                                                                            
-                                                                            <%}%>
-
-                                                                            <img src=" <%=foo.dest[i].roomImage%>" alt="">
-                                                                      </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                              
-                                                    <div class="backside">
-                                                        <div class="card">
-                                                            <form action="/delete_places_lessor" method="POST">
-
-                                                                <input type="hidden" name="dest" value="<%=i%>">
-                                                                
-                                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                                
-                        
-                                                           
-                        
-                                                                <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                                            
-                                                            </form>
+                                    </form> -->
 
                                                             <div class="container">
                                                                 <p class="card-text" style="text-align: center;">
@@ -855,334 +212,1360 @@
                                                                 </p>
 
                                                             </div>
-                                                        
                                                             <div class="card-body text-center mt-4">
-                                                                <h4 class="card-title"><%if(foo.dest[i].dist=== ""){%>
-                        
-                                                                    <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                                  
-                                                                  <%}%>
-                                                                  
-                                                                  <%if(foo.dest[i].dist !== ""){%>
-                                                                  
-                                                                    <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                                  
-                                                                  <%}%></h4>
-                                                               
-                                                            
-                                                                <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
+                                                                <h4 class="card-title">
+                                                                    <%if(foo.dest[i].dist=== "" ){%>
 
-                              
+                                                                        <a href="<%=foo.dest[i].url%>"> <i
+                                                                                class="fas fa-location-arrow "></i> </a>
+
+                                                                        <%}%>
+
+                                                                            <%if(foo.dest[i].dist !=="" ){%>
+
+                                                                                <a href="<%=foo.dest[i].url%>"> <i
+                                                                                        class="fas fa-location-arrow "></i>
+                                                                                </a>
+
+                                                                                <%}%>
+                                                                </h4>
+
+
+                                                                <p><img class="img-places"
+                                                                        src="<%=foo.dest[i].roomImage%>"
+                                                                        alt="card image"></p>
+
+
+
+
+
+
                                                             </div>
                                                         </div>
                                                     </div>
-                              
+
+
                                                 </div>
                                             </div>
                                         </div>
                                         <%}%>
 
-                                        <%if(foo.dest[i].nationality === "tabok"){%>
-                                            <div class="col-xs-12 col-sm-6 col-md-4">
-                                                <div class="image-flip" >
-                                                    <div class="mainflip flip-0">
-                                  
-                                                     
-                                                        <div class="frontside">
-                                                            <div class="card">
-                                                                <div class="card-body text-center">
-                                                                 
-                                  
-                                  
-                                  
-                                  
-                                                                    <p><img class=" img-fluid" src="images/City_Picture/t.png" alt="card image"></p>
-                                                                   
-                                                                    <h4 class="card-title">
-                                                                        <%=foo.firstNameA%>  <%=foo.lastNameA%>
-                                           
-                                                                             </h4>
-                                  
-                                                                    <h4 class="card-title">
-                                                                        تبوك
-                                        
-                                                                          </h4>
-                                                                          <p class="card-text">
-                                      
-                                                                              <%if(foo.dest[i].dist=== ""){%>
-                                                            
-                                                                                  <%=foo.dest[i].dist%>
-                                                                                
-                                                                                <%}%>
-                                                                                
-                                                                                <%if(foo.dest[i].dist !== ""){%>
-                                                                                
-                                                                                  حي  <%=foo.dest[i].dist%> 
-                                                                                
-                                                                                <%}%>
-                                                                          </p>
 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                  
-                                                        <div class="backside">
-                                                            <div class="card">
-                                                                <form action="/delete_places_lessor" method="POST">
-
-                                                                    <input type="hidden" name="dest" value="<%=i%>">
-                                                                    
-                                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                                    
-                            
-                                                               
-                            
-                                                                    <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                                                
-                                                                </form>
-
-
-                                                                <div class="container">
-                                                                    <p class="card-text" style="text-align: center;">
-                                                                        <%=foo.dest[i].desc%>
-                                                                    </p>
-
-                                                                </div>
-
-                                                                <div class="card-body text-center mt-4">
-                                                                    <h4 class="card-title"><%if(foo.dest[i].dist=== ""){%>
-                            
-                                                                        <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                                      
-                                                                      <%}%>
-                                                                      
-                                                                      <%if(foo.dest[i].dist !== ""){%>
-                                                                      
-                                                                        <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                                      
-                                                                      <%}%></h4>
-                                                                
-                                                                    <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
-
-                                  
-                                  
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                  
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <%}%>
-
-                                            <%if(foo.dest[i].nationality === "makkah"){%>
+                                            <%if(foo.dest[i].nationality==="hfof" ){%>
                                                 <div class="col-xs-12 col-sm-6 col-md-4">
-                                                    <div class="image-flip" >
+                                                    <div class="image-flip">
                                                         <div class="mainflip flip-0">
-                                      
-                                                         
+
+
                                                             <div class="frontside">
                                                                 <div class="card">
                                                                     <div class="card-body text-center">
-                                                                     
-                                      
-                                      
-                                      
-                                      
-                                                                        <p><img class=" img-fluid" src="images/City_Picture/makkah.png" alt="card image"></p>
-                                                                       
+
+
+
+                                                                        <p> <%=i%></p>  
+
+
+                                                                        <p><img class=" img-fluid"
+                                                                                src="images/City_Picture/hafof.jpg"
+                                                                                alt="card image"></p>
+
                                                                         <h4 class="card-title">
-                                                                            <%=foo.firstNameA%>  <%=foo.lastNameA%>
-                                               
-                                                                                 </h4>
+                                                                            <%=foo.firstNameA%>
+                                                                                <%=foo.lastNameA%>
+
+                                                                        </h4>
+
                                                                         <h4 class="card-title">
-                                                                            مكة
-                                            
-                                                                              </h4>
-                                                                              <p class="card-text">
-                                          
-                                                                                  <%if(foo.dest[i].dist=== ""){%>
-                                                                
-                                                                                      <%=foo.dest[i].dist%>
-                                                                                    
+                                                                            الهفوف
+
+                                                                        </h4>
+                                                                        <p class="card-text">
+
+                                                                            <%if(foo.dest[i].dist=== "" ){%>
+
+                                                                                <%=foo.dest[i].dist%>
+
                                                                                     <%}%>
-                                                                                    
-                                                                                    <%if(foo.dest[i].dist !== ""){%>
-                                                                                    
-                                                                                      حي  <%=foo.dest[i].dist%> 
-                                                                                    
-                                                                                    <%}%>
-                                                                              </p>
+
+                                                                                        <%if(foo.dest[i].dist !=="" ){%>
+
+                                                                                            حي <%=foo.dest[i].dist%>
+
+                                                                                                <%}%>
+                                                                        </p>
+
+                                                                        <%=foo.dest[i].accept%>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                      
+
                                                             <div class="backside">
                                                                 <div class="card">
-                                                                    <form action="/delete_places_lessor" method="POST">
-                                                         
-                                                                        <input type="hidden" name="dest" value="<%=i%>">
-                                                                        
-                                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                                        
-                                
-                                                                   
-                                
-                                                                        <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                                                    
-                                                                    </form>
+
+                                                                    <button class="fas fa-trash fa-2x icon_owner"
+                                                                        class="btn btn-primary" data-toggle="modal"
+                                                                        data-target="#exampleModal33" id="building3">
+
+                                                                    </button>
 
                                                                     <div class="container">
-                                                                    <p class="card-text" style="text-align: center;">
-                                                                        <%=foo.dest[i].desc%>
-                                                                    </p>
+                                                                        <p class="card-text"
+                                                                            style="text-align: center;">
+                                                                            <%=foo.dest[i].desc%>
+                                                                        </p>
 
-                                                                </div>
-                                                                
+                                                                    </div>
+
                                                                     <div class="card-body text-center mt-4">
-                                                                        <h4 class="card-title"><%if(foo.dest[i].dist=== ""){%>
-                                
-                                                                            <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                                          
-                                                                          <%}%>
-                                                                          
-                                                                          <%if(foo.dest[i].dist !== ""){%>
-                                                                          
-                                                                            <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                                          
-                                                                          <%}%></h4>
-                                                                    
-                                                                        <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
+                                                                        <h4 class="card-title">
+                                                                            <%if(foo.dest[i].dist=== "" ){%>
 
-                                      
-                                                                       
-                                      
+                                                                                <a href="<%=foo.dest[i].url%>"> <i
+                                                                                        class="fas fa-location-arrow "></i>
+                                                                                </a>
+
+                                                                                <%}%>
+
+                                                                                    <%if(foo.dest[i].dist !=="" ){%>
+
+                                                                                        <a href="<%=foo.dest[i].url%>">
+                                                                                            <i
+                                                                                                class="fas fa-location-arrow "></i>
+                                                                                        </a>
+
+                                                                                        <%}%>
+                                                                        </h4>
+
+
+                                                                        <p><img class="img-places"
+                                                                                src="<%=foo.dest[i].roomImage%>"
+                                                                                alt="card image"></p>
+
+
+
+
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
-                                      
+
+
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <%}%>
-                                                <%if(foo.dest[i].nationality === "madinah"){%>
-                                                    <div class="col-xs-12 col-sm-6 col-md-4">
-                                                        <div class="image-flip" >
-                                                            <div class="mainflip flip-0">
-                                          
-                                                             
-                                                                <div class="frontside">
-                                                                    <div class="card">
-                                                                        <div class="card-body text-center">
-                                                                         
-                                          
-                                          
-                                          
-                                          
-                                                                            <p><img class=" img-fluid" src="images/City_Picture/m.png" alt="card image"></p>
-                                                                           
-                                                                            <h4 class="card-title">
-                                                                                <%=foo.firstNameA%>  <%=foo.lastNameA%>
-                                                   
-                                                                                     </h4>
 
-                                                                            <h4 class="card-title">
-                                                                                المدينة المنورة 
-                                                
-                                                                                  </h4>
-                                                                                  <p class="card-text">
-                                              
-                                                                                      <%if(foo.dest[i].dist=== ""){%>
-                                                                    
-                                                                                          <%=foo.dest[i].dist%>
-                                                                                        
-                                                                                        <%}%>
-                                                                                        
-                                                                                        <%if(foo.dest[i].dist !== ""){%>
-                                                                                        
-                                                                                          حي  <%=foo.dest[i].dist%> 
-                                                                                        
-                                                                                        <%}%>
-                                                                                  </p>
+
+                                                    <%if(foo.dest[i].nationality==="zhar" ){%>
+                                                        <div class="col-xs-12 col-sm-6 col-md-4">
+                                                            <div class="image-flip">
+                                                                <div class="mainflip flip-0">
+
+
+                                                                    <div class="frontside">
+                                                                        <div class="card">
+                                                                            <div class="card-body text-center">
+
+
+
+                                                                                <p> <%=i%></p>  
+
+
+                                                                                <p><img class=" img-fluid"
+                                                                                        src="images/City_Picture/zah.png"
+                                                                                        alt="card image"></p>
+
+                                                                                <h4 class="card-title">
+                                                                                    <%=foo.firstNameA%>
+                                                                                        <%=foo.lastNameA%>
+
+                                                                                </h4>
+                                                                                <h4 class="card-title">
+                                                                                    الظهران
+
+                                                                                </h4>
+                                                                                <p class="card-text">
+
+                                                                                    <%if(foo.dest[i].dist=== "" ){%>
+
+                                                                                        <%=foo.dest[i].dist%>
+
+                                                                                            <%}%>
+
+                                                                                                <%if(foo.dest[i].dist
+                                                                                                    !=="" ){%>
+
+                                                                                                    حي
+                                                                                                    <%=foo.dest[i].dist%>
+
+                                                                                                        <%}%>
+                                                                                </p>
+
+                                                                                <%=foo.dest[i].accept%>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                          
-                                                                <div class="backside">
-                                                                    <div class="card">
+
+                                                                    <div class="backside">
+                                                                        <div class="card">
+
+                                                                            <button
+                                                                                class="fas fa-trash fa-2x icon_owner"
+                                                                                class="btn btn-primary"
+                                                                                data-toggle="modal"
+                                                                                data-target="#exampleModal33"
+                                                                                id="building3">
+
+                                                                            </button>
+
+                                                                            <!-- <form action="/delete_places_lessor" method="POST" >
+                                        
+                                            <input type="hidden" name="dest" value="<%=i%>">
+                                            
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            
+    
+                                       
+    
+                                            <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+                                        
+                                        </form> -->
+
+                                                                            <div class="container">
+                                                                                <p class="card-text"
+                                                                                    style="text-align: center;">
+                                                                                    <%=foo.dest[i].desc%>
+                                                                                </p>
+
+                                                                            </div>
+
+                                                                            <div class="card-body text-center mt-4">
+                                                                                <h4 class="card-title">
+                                                                                    <%if(foo.dest[i].dist=== "" ){%>
+
+                                                                                        <a href="<%=foo.dest[i].url%>">
+                                                                                            <i
+                                                                                                class="fas fa-location-arrow "></i>
+                                                                                        </a>
+
+                                                                                        <%}%>
+
+                                                                                            <%if(foo.dest[i].dist !==""
+                                                                                                ){%>
+
+                                                                                                <a
+                                                                                                    href="<%=foo.dest[i].url%>">
+                                                                                                    <i
+                                                                                                        class="fas fa-location-arrow "></i>
+                                                                                                </a>
+
+                                                                                                <%}%>
+                                                                                </h4>
 
 
-                                                                        <form action="/delete_places_lessor" method="POST">
-                                                                            <input type="hidden" name="dest" value="<%=i%>">
-                                                                            
-                                                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                                            
-                                                        
-                                                                       
-                                                        
-                                                                            <button type="submit" class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
-                                                                        
-                                                                        </form>
-                                                                        
-                                              
+                                                                                <p><img class="img-places"
+                                                                                        src="<%=foo.dest[i].roomImage%>"
+                                                                                        alt="card image"></p>
 
-                                                                        <div class="container">
-                                                                            <p class="card-text" style="text-align: center;">
-                                                                                <%=foo.dest[i].desc%>
-                                                                            </p>
-        
-                                                                        </div>
-                                                                    
-                                                                     
 
-                                                                        <div class="card-body text-center mt-4">
-                                                                            <h4 class="card-title"><%if(foo.dest[i].dist=== ""){%>
-                                    
-                                                                                <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                                              
-                                                                              <%}%>
-                                                                              
-                                                                              <%if(foo.dest[i].dist !== ""){%>
-                                                                              
-                                                                                <a href="<%=foo.dest[i].url%>">   <i class="fas fa-location-arrow "></i> </a>
-                                                                              
-                                                                              <%}%></h4>
-                                                                        
-                                                                            <p><img class="img-places" src="<%=foo.dest[i].roomImage%>" alt="card image"></p>
 
-                                                                        
-                                          
-                                          
+                                                                            </div>
                                                                         </div>
                                                                     </div>
+
+
                                                                 </div>
-                                                                
-                                          
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <%}%>
-  
-            
-            <%}%>
-            <%}%>
+                                                        <%}%>
 
-           
 
-  
-            
-  
-            
-          </div>
+                                                            <%if(foo.dest[i].nationality=== "taif" ){%>
+                                                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                                                    <div class="image-flip">
+                                                                        <div class="mainflip flip-0">
+
+
+                                                                            <div class="frontside">
+                                                                                <div class="card">
+                                                                                    <div class="card-body text-center">
+
+
+                                                                                        <p> <%=i%></p>  
+
+
+
+                                                                                        <p><img class=" img-fluid"
+                                                                                                src="images/City_Picture/t.png"
+                                                                                                alt="card image"></p>
+
+
+                                                                                        <h4 class="card-title">
+                                                                                            <%=foo.firstNameA%>
+                                                                                                <%=foo.lastNameA%>
+
+                                                                                        </h4>
+                                                                                        <h4 class="card-title">
+                                                                                            الطائف
+
+                                                                                        </h4>
+                                                                                        <p class="card-text">
+
+                                                                                            <%if(foo.dest[i].dist=== ""
+                                                                                                ){%>
+
+                                                                                                <%=foo.dest[i].dist%>
+
+                                                                                                    <%}%>
+
+                                                                                                        <%if(foo.dest[i].dist
+                                                                                                            !=="" ){%>
+
+                                                                                                            حي
+                                                                                                            <%=foo.dest[i].dist%>
+
+                                                                                                                <%}%>
+                                                                                        </p>
+
+                                                                                        <%=foo.dest[i].accept%>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="backside">
+                                                                                <div class="card">
+
+                                                                                    <button
+                                                                                        class="fas fa-trash fa-2x icon_owner"
+                                                                                        class="btn btn-primary"
+                                                                                        data-toggle="modal"
+                                                                                        data-target="#exampleModal33"
+                                                                                        id="building3">
+
+                                                                                    </button>
+
+                                                                                    <div class="container">
+                                                                                        <p class="card-text"
+                                                                                            style="text-align: center;">
+                                                                                            <%=foo.dest[i].desc%>
+                                                                                        </p>
+
+                                                                                    </div>
+
+                                                                                    <div
+                                                                                        class="card-body text-center mt-4">
+                                                                                        <h4 class="card-title">
+                                                                                            <%if(foo.dest[i].dist=== ""
+                                                                                                ){%>
+
+                                                                                                <a
+                                                                                                    href="<%=foo.dest[i].url%>">
+                                                                                                    <i
+                                                                                                        class="fas fa-location-arrow "></i>
+                                                                                                </a>
+
+                                                                                                <%}%>
+
+                                                                                                    <%if(foo.dest[i].dist
+                                                                                                        !=="" ){%>
+
+                                                                                                        <a
+                                                                                                            href="<%=foo.dest[i].url%>">
+                                                                                                            <i
+                                                                                                                class="fas fa-location-arrow "></i>
+                                                                                                        </a>
+
+                                                                                                        <%}%>
+                                                                                        </h4>
+
+
+
+                                                                                        <p><img class="img-places"
+                                                                                                src="<%=foo.dest[i].roomImage%>"
+                                                                                                alt="card image"></p>
+
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <%}%>
+
+
+                                                                    <%if(foo.dest[i].nationality==="dam" ){%>
+                                                                        <div class="col-xs-12 col-sm-6 col-md-4">
+                                                                            <div class="image-flip">
+                                                                                <div class="mainflip flip-0">
+
+
+                                                                                    <div class="frontside">
+                                                                                        <div class="card">
+                                                                                            <div
+                                                                                                class="card-body text-center">
+
+
+                                                                                                <p> <%=i%></p>  
+
+
+
+                                                                                                <p><img class=" img-fluid"
+                                                                                                        src="images/City_Picture/dam.png"
+                                                                                                        alt="card image">
+                                                                                                </p>
+
+                                                                                                <h4 class="card-title">
+                                                                                                    <%=foo.firstNameA%>
+                                                                                                        <%=foo.lastNameA%>
+
+                                                                                                </h4>
+
+                                                                                                <h4 class="card-title">
+                                                                                                    الدمام
+
+                                                                                                </h4>
+                                                                                                <p class="card-text">
+
+                                                                                                    <%if(foo.dest[i].dist=== ""
+                                                                                                        ){%>
+
+                                                                                                        <%=foo.dest[i].dist%>
+
+                                                                                                            <%}%>
+
+                                                                                                                <%if(foo.dest[i].dist
+                                                                                                                    !==""
+                                                                                                                    ){%>
+
+                                                                                                                    حي
+                                                                                                                    <%=foo.dest[i].dist%>
+
+                                                                                                                        <%}%>
+                                                                                                </p>
+
+                                                                                                <%=foo.dest[i].accept%>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="backside">
+                                                                                        <div class="card">
+
+                                                                                            <button
+                                                                                                class="fas fa-trash fa-2x icon_owner"
+                                                                                                class="btn btn-primary"
+                                                                                                data-toggle="modal"
+                                                                                                data-target="#exampleModal33"
+                                                                                                id="building3">
+
+                                                                                            </button>
+
+                                                                                            <div class="container">
+                                                                                                <p class="card-text"
+                                                                                                    style="text-align: center;">
+                                                                                                    <%=foo.dest[i].desc%>
+                                                                                                </p>
+
+                                                                                            </div>
+
+                                                                                            <div
+                                                                                                class="card-body text-center mt-4">
+                                                                                                <h4 class="card-title">
+                                                                                                    <%if(foo.dest[i].dist=== ""
+                                                                                                        ){%>
+
+                                                                                                        <a
+                                                                                                            href="<%=foo.dest[i].url%>">
+                                                                                                            <i
+                                                                                                                class="fas fa-location-arrow "></i>
+                                                                                                        </a>
+
+                                                                                                        <%}%>
+
+                                                                                                            <%if(foo.dest[i].dist
+                                                                                                                !==""
+                                                                                                                ){%>
+
+                                                                                                                <a
+                                                                                                                    href="<%=foo.dest[i].url%>">
+                                                                                                                    <i
+                                                                                                                        class="fas fa-location-arrow "></i>
+                                                                                                                </a>
+
+                                                                                                                <%}%>
+                                                                                                </h4>
+
+
+
+                                                                                                <p><img class="img-places"
+                                                                                                        src="<%=foo.dest[i].roomImage%>"
+                                                                                                        alt="card image">
+                                                                                                </p>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <%}%>
+
+
+                                                                            <%if(foo.dest[i].nationality==="hafr" ){%>
+                                                                                <div
+                                                                                    class="col-xs-12 col-sm-6 col-md-4">
+                                                                                    <div class="image-flip">
+                                                                                        <div class="mainflip flip-0">
+
+
+                                                                                            <div class="frontside">
+                                                                                                <div class="card">
+                                                                                                    <div
+                                                                                                        class="card-body text-center">
+
+
+                                                                                                        <p> <%=i%></p>  
+
+
+
+
+                                                                                                        <p><img class=" img-fluid"
+                                                                                                                src="images/City_Picture/haf.png"
+                                                                                                                alt="card image">
+                                                                                                        </p>
+
+                                                                                                        <h4
+                                                                                                            class="card-title">
+                                                                                                            <%=foo.firstNameA%>
+                                                                                                                <%=foo.lastNameA%>
+
+                                                                                                        </h4>
+
+                                                                                                        <h4
+                                                                                                            class="card-title">
+                                                                                                            حفر الباطن
+
+                                                                                                        </h4>
+                                                                                                        <p
+                                                                                                            class="card-text">
+
+                                                                                                            <%if(foo.dest[i].dist=== ""
+                                                                                                                ){%>
+
+                                                                                                                <%=foo.dest[i].dist%>
+
+                                                                                                                    <%}%>
+
+                                                                                                                        <%if(foo.dest[i].dist
+                                                                                                                            !==""
+                                                                                                                            ){%>
+
+                                                                                                                            حي
+                                                                                                                            <%=foo.dest[i].dist%>
+
+                                                                                                                                <%}%>
+                                                                                                        </p>
+
+                                                                                                        <%=foo.dest[i].accept%>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="backside">
+                                                                                                <div class="card">
+
+                                                                                                    <button
+                                                                                                        class="fas fa-trash fa-2x icon_owner"
+                                                                                                        class="btn btn-primary"
+                                                                                                        data-toggle="modal"
+                                                                                                        data-target="#exampleModal33"
+                                                                                                        id="building3">
+
+                                                                                                    </button>
+
+                                                                                                    <div
+                                                                                                        class="container">
+                                                                                                        <p class="card-text"
+                                                                                                            style="text-align: center;">
+                                                                                                            <%=foo.dest[i].desc%>
+                                                                                                        </p>
+
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="card-body text-center mt-4">
+                                                                                                        <h4
+                                                                                                            class="card-title">
+                                                                                                            <%if(foo.dest[i].dist=== ""
+                                                                                                                ){%>
+
+                                                                                                                <a
+                                                                                                                    href="<%=foo.dest[i].url%>">
+                                                                                                                    <i
+                                                                                                                        class="fas fa-location-arrow "></i>
+                                                                                                                </a>
+
+                                                                                                                <%}%>
+
+                                                                                                                    <%if(foo.dest[i].dist
+                                                                                                                        !==""
+                                                                                                                        ){%>
+
+                                                                                                                        <a
+                                                                                                                            href="<%=foo.dest[i].url%>">
+                                                                                                                            <i
+                                                                                                                                class="fas fa-location-arrow "></i>
+                                                                                                                        </a>
+
+                                                                                                                        <%}%>
+                                                                                                        </h4>
+
+
+                                                                                                        <p><img class="img-places"
+                                                                                                                src="<%=foo.dest[i].roomImage%>"
+                                                                                                                alt="card image">
+                                                                                                        </p>
+
+
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <%}%>
+
+                                                                                    <%if(foo.dest[i].nationality==="khmis"
+                                                                                        ){%>
+                                                                                        <div
+                                                                                            class="col-xs-12 col-sm-6 col-md-4">
+                                                                                            <div class="image-flip">
+                                                                                                <div
+                                                                                                    class="mainflip flip-0">
+
+
+                                                                                                    <div
+                                                                                                        class="frontside">
+                                                                                                        <div
+                                                                                                            class="card">
+                                                                                                            <div
+                                                                                                                class="card-body text-center">
+
+
+                                                                                                                <p> <%=i%></p>  
+
+
+
+                                                                                                                <p><img class=" img-fluid"
+                                                                                                                        src="images/City_Picture/khmis.png"
+                                                                                                                        alt="card image">
+                                                                                                                </p>
+
+
+                                                                                                                <h4
+                                                                                                                    class="card-title">
+                                                                                                                    <%=foo.firstNameA%>
+                                                                                                                        <%=foo.lastNameA%>
+
+                                                                                                                </h4>
+                                                                                                                <h4
+                                                                                                                    class="card-title">
+                                                                                                                    خميس
+                                                                                                                    مشيط
+
+                                                                                                                </h4>
+                                                                                                                <p
+                                                                                                                    class="card-text">
+
+                                                                                                                    <%if(foo.dest[i].dist=== ""
+                                                                                                                        ){%>
+
+                                                                                                                        <%=foo.dest[i].dist%>
+
+                                                                                                                            <%}%>
+
+                                                                                                                                <%if(foo.dest[i].dist
+                                                                                                                                    !==""
+                                                                                                                                    ){%>
+
+                                                                                                                                    حي
+                                                                                                                                    <%=foo.dest[i].dist%>
+
+                                                                                                                                        <%}%>
+                                                                                                                </p>
+
+                                                                                                                <%=foo.dest[i].accept%>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="backside">
+                                                                                                        <div
+                                                                                                            class="card">
+
+                                                                                                            <button
+                                                                                                                class="fas fa-trash fa-2x icon_owner"
+                                                                                                                class="btn btn-primary"
+                                                                                                                data-toggle="modal"
+                                                                                                                data-target="#exampleModal33"
+                                                                                                                id="building3">
+
+                                                                                                            </button>
+
+                                                                                                            <div
+                                                                                                                class="container">
+                                                                                                                <p class="card-text"
+                                                                                                                    style="text-align: center;">
+                                                                                                                    <%=foo.dest[i].desc%>
+                                                                                                                </p>
+
+                                                                                                            </div>
+
+                                                                                                            <div
+                                                                                                                class="card-body text-center mt-4">
+                                                                                                                <h4
+                                                                                                                    class="card-title">
+                                                                                                                    <%if(foo.dest[i].dist=== ""
+                                                                                                                        ){%>
+
+                                                                                                                        <a
+                                                                                                                            href="<%=foo.dest[i].url%>">
+                                                                                                                            <i
+                                                                                                                                class="fas fa-location-arrow "></i>
+                                                                                                                        </a>
+
+                                                                                                                        <%}%>
+
+                                                                                                                            <%if(foo.dest[i].dist
+                                                                                                                                !==""
+                                                                                                                                ){%>
+
+                                                                                                                                <a
+                                                                                                                                    href="<%=foo.dest[i].url%>">
+                                                                                                                                    <i
+                                                                                                                                        class="fas fa-location-arrow "></i>
+                                                                                                                                </a>
+
+                                                                                                                                <%}%>
+                                                                                                                </h4>
+
+                                                                                                                <p><img class="img-places"
+                                                                                                                        src="<%=foo.dest[i].roomImage%>"
+                                                                                                                        alt="card image">
+                                                                                                                </p>
+
+
+
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <%}%>
+
+                                                                                            <%if(foo.dest[i].nationality==="bry"
+                                                                                                ){%>
+                                                                                                <div
+                                                                                                    class="col-xs-12 col-sm-6 col-md-4">
+                                                                                                    <div
+                                                                                                        class="image-flip">
+                                                                                                        <div
+                                                                                                            class="mainflip flip-0">
+
+
+                                                                                                            <div
+                                                                                                                class="frontside">
+                                                                                                                <div
+                                                                                                                    class="card">
+                                                                                                                    <div
+                                                                                                                        class="card-body text-center">
+
+                                                                                                                        <p> <%=i%></p>  
+
+
+
+
+
+                                                                                                                        <p><img class=" img-fluid"
+                                                                                                                                src="images/City_Picture/bry.png"
+                                                                                                                                alt="card image">
+                                                                                                                        </p>
+
+                                                                                                                        <h4
+                                                                                                                            class="card-title">
+                                                                                                                            <%=foo.firstNameA%>
+                                                                                                                                <%=foo.lastNameA%>
+
+                                                                                                                        </h4>
+
+                                                                                                                        <h4
+                                                                                                                            class="card-title">
+                                                                                                                            بريدة
+
+                                                                                                                        </h4>
+                                                                                                                        <p
+                                                                                                                            class="card-text">
+
+                                                                                                                            <%if(foo.dest[i].dist=== ""
+                                                                                                                                ){%>
+
+                                                                                                                                <%=foo.dest[i].dist%>
+
+                                                                                                                                    <%}%>
+
+                                                                                                                                        <%if(foo.dest[i].dist
+                                                                                                                                            !==""
+                                                                                                                                            ){%>
+
+                                                                                                                                            حي
+                                                                                                                                            <%=foo.dest[i].dist%>
+
+                                                                                                                                                <%}%>
+
+                                                                                                                                                
+                                                                                                                        </p>
+
+                                                                                                                        <%=foo.dest[i].accept%>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+
+                                                                                                            <div
+                                                                                                                class="backside">
+                                                                                                                <div
+                                                                                                                    class="card">
+
+
+                                                                                                                    <button
+                                                                                                                        class="fas fa-trash fa-2x icon_owner"
+                                                                                                                        class="btn btn-primary"
+                                                                                                                        data-toggle="modal"
+                                                                                                                        data-target="#exampleModal33"
+                                                                                                                        id="building3">
+
+                                                                                                                    </button>
+
+
+                                                                                                                    <div
+                                                                                                                        class="container">
+                                                                                                                        <p class="card-text"
+                                                                                                                            style="text-align: center;">
+                                                                                                                            <%=foo.dest[i].desc%>
+                                                                                                                        </p>
+
+                                                                                                                    </div>
+
+                                                                                                                    <div
+                                                                                                                        class="card-body text-center mt-4">
+                                                                                                                        <h4
+                                                                                                                            class="card-title">
+                                                                                                                            <%if(foo.dest[i].dist=== ""
+                                                                                                                                ){%>
+
+                                                                                                                                <a
+                                                                                                                                    href="<%=foo.dest[i].url%>">
+                                                                                                                                    <i
+                                                                                                                                        class="fas fa-location-arrow "></i>
+                                                                                                                                </a>
+
+                                                                                                                                <%}%>
+
+                                                                                                                                    <%if(foo.dest[i].dist
+                                                                                                                                        !==""
+                                                                                                                                        ){%>
+
+                                                                                                                                        <a
+                                                                                                                                            href="<%=foo.dest[i].url%>">
+                                                                                                                                            <i
+                                                                                                                                                class="fas fa-location-arrow "></i>
+                                                                                                                                        </a>
+
+                                                                                                                                        <%}%>
+                                                                                                                        </h4>
+
+
+                                                                                                                        <p><img class="img-places"
+                                                                                                                                src="<%=foo.dest[i].roomImage%>"
+                                                                                                                                alt="card image">
+                                                                                                                        </p>
+
+
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <%}%>
+
+                                                                                                    <%if(foo.dest[i].nationality==="tabok"
+                                                                                                        ){%>
+                                                                                                        <div
+                                                                                                            class="col-xs-12 col-sm-6 col-md-4">
+                                                                                                            <div
+                                                                                                                class="image-flip">
+                                                                                                                <div
+                                                                                                                    class="mainflip flip-0">
+
+
+                                                                                                                    <div
+                                                                                                                        class="frontside">
+                                                                                                                        <div
+                                                                                                                            class="card">
+                                                                                                                            <div
+                                                                                                                                class="card-body text-center">
+
+                                                                                                                                <p> <%=i%></p>  
+
+
+
+
+
+                                                                                                                                <p><img class=" img-fluid"
+                                                                                                                                        src="images/City_Picture/t.png"
+                                                                                                                                        alt="card image">
+                                                                                                                                </p>
+
+                                                                                                                                <h4
+                                                                                                                                    class="card-title">
+                                                                                                                                    <%=foo.firstNameA%>
+                                                                                                                                        <%=foo.lastNameA%>
+
+                                                                                                                                </h4>
+
+                                                                                                                                <h4
+                                                                                                                                    class="card-title">
+                                                                                                                                    تبوك
+
+                                                                                                                                </h4>
+                                                                                                                                <p
+                                                                                                                                    class="card-text">
+
+                                                                                                                                    <%if(foo.dest[i].dist=== ""
+                                                                                                                                        ){%>
+
+                                                                                                                                        <%=foo.dest[i].dist%>
+
+                                                                                                                                            <%}%>
+
+                                                                                                                                                <%if(foo.dest[i].dist
+                                                                                                                                                    !==""
+                                                                                                                                                    ){%>
+
+                                                                                                                                                    حي
+                                                                                                                                                    <%=foo.dest[i].dist%>
+
+                                                                                                                                                        <%}%>
+                                                                                                                                </p>
+
+                                                                                                                                <%=foo.dest[i].accept%>
+
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+
+                                                                                                                    <div
+                                                                                                                        class="backside">
+                                                                                                                        <div
+                                                                                                                            class="card">
+
+
+                                                                                                                            <button
+                                                                                                                                class="fas fa-trash fa-2x icon_owner"
+                                                                                                                                class="btn btn-primary"
+                                                                                                                                data-toggle="modal"
+                                                                                                                                data-target="#exampleModal33"
+                                                                                                                                id="building3">
+
+                                                                                                                            </button>
+
+                                                                                                                            <div
+                                                                                                                                class="container">
+                                                                                                                                <p class="card-text"
+                                                                                                                                    style="text-align: center;">
+                                                                                                                                    <%=foo.dest[i].desc%>
+                                                                                                                                </p>
+
+                                                                                                                            </div>
+
+                                                                                                                            <div
+                                                                                                                                class="card-body text-center mt-4">
+                                                                                                                                <h4
+                                                                                                                                    class="card-title">
+                                                                                                                                    <%if(foo.dest[i].dist=== ""
+                                                                                                                                        ){%>
+
+                                                                                                                                        <a
+                                                                                                                                            href="<%=foo.dest[i].url%>">
+                                                                                                                                            <i
+                                                                                                                                                class="fas fa-location-arrow "></i>
+                                                                                                                                        </a>
+
+                                                                                                                                        <%}%>
+
+                                                                                                                                            <%if(foo.dest[i].dist
+                                                                                                                                                !==""
+                                                                                                                                                ){%>
+
+                                                                                                                                                <a
+                                                                                                                                                    href="<%=foo.dest[i].url%>">
+                                                                                                                                                    <i
+                                                                                                                                                        class="fas fa-location-arrow "></i>
+                                                                                                                                                </a>
+
+                                                                                                                                                <%}%>
+                                                                                                                                </h4>
+
+                                                                                                                                <p><img class="img-places"
+                                                                                                                                        src="<%=foo.dest[i].roomImage%>"
+                                                                                                                                        alt="card image">
+                                                                                                                                </p>
+
+
+
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+
+
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <%}%>
+
+                                                                                                            <%if(foo.dest[i].nationality==="makkah"
+                                                                                                                ){%>
+                                                                                                                <div
+                                                                                                                    class="col-xs-12 col-sm-6 col-md-4">
+                                                                                                                    <div
+                                                                                                                        class="image-flip">
+                                                                                                                        <div
+                                                                                                                            class="mainflip flip-0">
+
+
+                                                                                                                            <div
+                                                                                                                                class="frontside">
+                                                                                                                                <div
+                                                                                                                                    class="card">
+                                                                                                                                    <div
+                                                                                                                                        class="card-body text-center">
+
+
+                                                                                                                                        <p> <%=i%></p>  
+
+
+
+
+
+                                                                                                                                        <p><img class=" img-fluid"
+                                                                                                                                                src="images/City_Picture/makkah.png"
+                                                                                                                                                alt="card image">
+                                                                                                                                        </p>
+
+                                                                                                                                        <h4
+                                                                                                                                            class="card-title">
+                                                                                                                                            <%=foo.firstNameA%>
+                                                                                                                                                <%=foo.lastNameA%>
+
+                                                                                                                                        </h4>
+                                                                                                                                        <h4
+                                                                                                                                            class="card-title">
+                                                                                                                                            مكة
+
+                                                                                                                                        </h4>
+                                                                                                                                        <p
+                                                                                                                                            class="card-text">
+
+                                                                                                                                            <%if(foo.dest[i].dist=== ""
+                                                                                                                                                ){%>
+
+                                                                                                                                                <%=foo.dest[i].dist%>
+
+                                                                                                                                                    <%}%>
+
+                                                                                                                                                        <%if(foo.dest[i].dist
+                                                                                                                                                            !==""
+                                                                                                                                                            ){%>
+
+                                                                                                                                                            حي
+                                                                                                                                                            <%=foo.dest[i].dist%>
+
+                                                                                                                                                                <%}%>
+                                                                                                                                        </p>
+
+                                                                                                                                        <%=foo.dest[i].accept%>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            </div>
+
+                                                                                                                            <div
+                                                                                                                                class="backside">
+                                                                                                                                <div
+                                                                                                                                    class="card">
+
+                                                                                                                                    <button class="fas fa-trash fa-2x icon_owner" class="btn btn-primary"
+                                                                                                                                    data-toggle="modal" data-target="#exampleModal33" id="building3">
+                                                                                                                    
+                                                                                                                                   </button>
+
+
+                                                                                                                                    <div
+                                                                                                                                        class="container">
+                                                                                                                                        <p class="card-text"
+                                                                                                                                            style="text-align: center;">
+                                                                                                                                            <%=foo.dest[i].desc%>
+                                                                                                                                        </p>
+
+                                                                                                                                    </div>
+
+                                                                                                                                    <div
+                                                                                                                                        class="card-body text-center mt-4">
+                                                                                                                                        <h4
+                                                                                                                                            class="card-title">
+                                                                                                                                            <%if(foo.dest[i].dist=== ""
+                                                                                                                                                ){%>
+
+                                                                                                                                                <a
+                                                                                                                                                    href="<%=foo.dest[i].url%>">
+                                                                                                                                                    <i
+                                                                                                                                                        class="fas fa-location-arrow "></i>
+                                                                                                                                                </a>
+
+                                                                                                                                                <%}%>
+
+                                                                                                                                                    <%if(foo.dest[i].dist
+                                                                                                                                                        !==""
+                                                                                                                                                        ){%>
+
+                                                                                                                                                        <a
+                                                                                                                                                            href="<%=foo.dest[i].url%>">
+                                                                                                                                                            <i
+                                                                                                                                                                class="fas fa-location-arrow "></i>
+                                                                                                                                                        </a>
+
+                                                                                                                                                        <%}%>
+                                                                                                                                        </h4>
+
+                                                                                                                                        <p><img class="img-places"
+                                                                                                                                                src="<%=foo.dest[i].roomImage%>"
+                                                                                                                                                alt="card image">
+                                                                                                                                        </p>
+
+
+
+
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            </div>
+
+
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <%}%>
+                                                                                                                    <%if(foo.dest[i].nationality==="madinah"
+                                                                                                                        ){%>
+                                                                                                                        <div
+                                                                                                                            class="col-xs-12 col-sm-6 col-md-4">
+                                                                                                                            <div
+                                                                                                                                class="image-flip">
+                                                                                                                                <div
+                                                                                                                                    class="mainflip flip-0">
+
+
+                                                                                                                                    <div
+                                                                                                                                        class="frontside">
+                                                                                                                                        <div
+                                                                                                                                            class="card">
+                                                                                                                                            <div
+                                                                                                                                                class="card-body text-center">
+
+                                                                                                                                                <p> <%=i%></p>  
+
+
+
+
+
+                                                                                                                                                <p><img class=" img-fluid"
+                                                                                                                                                        src="images/City_Picture/mad.jpeg"
+                                                                                                                                                        alt="card image">
+                                                                                                                                                </p>
+
+                                                                                                                                                <h4
+                                                                                                                                                    class="card-title">
+                                                                                                                                                    <%=foo.firstNameA%>
+                                                                                                                                                        <%=foo.lastNameA%>
+
+                                                                                                                                                </h4>
+
+                                                                                                                                                <h4
+                                                                                                                                                    class="card-title">
+                                                                                                                                                    المدينة
+                                                                                                                                                    المنورة
+
+                                                                                                                                                </h4>
+                                                                                                                                                <p
+                                                                                                                                                    class="card-text">
+
+                                                                                                                                                    <%if(foo.dest[i].dist=== ""
+                                                                                                                                                        ){%>
+
+                                                                                                                                                        <%=foo.dest[i].dist%>
+
+                                                                                                                                                            <%}%>
+
+                                                                                                                                                                <%if(foo.dest[i].dist
+                                                                                                                                                                    !==""
+                                                                                                                                                                    ){%>
+
+                                                                                                                                                                    حي
+                                                                                                                                                                    <%=foo.dest[i].dist%>
+
+                                                                                                                                                                        <%}%>
+                                                                                                                                                </p>
+                                                                                                                                                <%=foo.dest[i].accept%>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+
+                                                                                                                                    <div
+                                                                                                                                        class="backside">
+                                                                                                                                        <div
+                                                                                                                                            class="card">
+
+
+                                                                                                                                            <button
+                                                                                                                                                class="fas fa-trash fa-2x icon_owner"
+                                                                                                                                                class="btn btn-primary"
+                                                                                                                                                data-toggle="modal"
+                                                                                                                                                data-target="#exampleModal33"
+                                                                                                                                                id="building3">
+
+                                                                                                                                            </button>
+
+
+
+
+
+                                                                                                                                            <div
+                                                                                                                                                class="container">
+                                                                                                                                                <p class="card-text"
+                                                                                                                                                    style="text-align: center;">
+                                                                                                                                                    <%=foo.dest[i].desc%>
+                                                                                                                                                </p>
+
+                                                                                                                                            </div>
+
+
+
+                                                                                                                                            <div
+                                                                                                                                                class="card-body text-center mt-4">
+                                                                                                                                                <h4
+                                                                                                                                                    class="card-title">
+                                                                                                                                                    <%if(foo.dest[i].dist=== ""
+                                                                                                                                                        ){%>
+
+                                                                                                                                                        <a
+                                                                                                                                                            href="<%=foo.dest[i].url%>">
+                                                                                                                                                            <i
+                                                                                                                                                                class="fas fa-location-arrow "></i>
+                                                                                                                                                        </a>
+
+                                                                                                                                                        <%}%>
+
+                                                                                                                                                            <%if(foo.dest[i].dist
+                                                                                                                                                                !==""
+                                                                                                                                                                ){%>
+
+                                                                                                                                                                <a
+                                                                                                                                                                    href="<%=foo.dest[i].url%>">
+                                                                                                                                                                    <i
+                                                                                                                                                                        class="fas fa-location-arrow "></i>
+                                                                                                                                                                </a>
+
+                                                                                                                                                                <%}%>
+                                                                                                                                                </h4>
+
+                                                                                                                                                <p><img class="img-places"
+                                                                                                                                                        src="<%=foo.dest[i].roomImage%>"
+                                                                                                                                                        alt="card image">
+                                                                                                                                                </p>
+
+
+
+
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+
+
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <%}%>
+
+
+                                                                                                                            <%}%>
+                                                                                                                                <%}%>
+
+
+
+
+
+
+
         </div>
-        
-  </section>
+    </div>
 
 
 
 
+    <div id="building3">
+        <div class="modal fade" id="exampleModal33" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> هل انت متاكد من الحذف </h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <form action="/delete_places_lessor" method="POST">
+                            <input type="number" name="dest" max="<%=foo.dest.length-1%>" min="1">
+
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
 
-  
+
+                            <button type="submit" class="btn" onclick="this.style.display='none';"><i
+                                    class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+
+
+                        </form>
+
+
+                        </aside> <!-- col.// -->
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>

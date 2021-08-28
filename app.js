@@ -25,7 +25,16 @@ const PutInfo = require('./routes/PutInfo');
 
 const Equipment_seller  = require('./routes/Equipment_seller');
 
-const putInfo_placeLessore=require("./routes/putInfo_placeLessore")
+const putInfo_placeLessore=require("./routes/putInfo_placeLessore");
+
+
+const admin = require('./routes/admin');
+
+const sign_up_admin = require('./routes/sign_up_admin');
+
+
+
+
 
 
 
@@ -113,6 +122,13 @@ app.use(bodyParser.urlencoded({
   app.use(displayInfo);
 
   app.use(putInfo_placeLessore);
+
+  app.use(admin);
+
+  app.use(sign_up_admin);
+
+
+  
 
 
   

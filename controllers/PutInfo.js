@@ -15,9 +15,9 @@ res.render("PutInfo/PutPhotographer/add_courses")
 }
 
 
-exports.postAdd_courses=(req,res,next)=>{
+exports.postAdd_courses=async(req,res,next)=>{
 
-  tables.findById(req.session.tables._id).select("firstNameA  courses").then(data =>{
+  await tables.findById(req.session.tables._id).select("firstNameA  courses").then(data =>{
     
   
     
@@ -30,7 +30,8 @@ exports.postAdd_courses=(req,res,next)=>{
     
 
     
-      data.courses.push({CourseName:req.body.CourseName,titlesCourse:req.body.titlesCourse,courseCondeitions:req.body.courseCondeitions , begining:req.body.begining,ending:req.body.ending,place:req.body.place,city:req.body.city})
+      data.courses.push({CourseName:req.body.CourseName,titlesCourse:req.body.titlesCourse,courseCondeitions:req.body.courseCondeitions , 
+        begining:req.body.begining,ending:req.body.ending,place:req.body.place,city:req.body.city,accept:"wait"})
 
         data.save();
         
@@ -46,7 +47,7 @@ exports.postAdd_courses=(req,res,next)=>{
 
 exports.getCourses=(req,res,next)=>{
   
-  tables.findById(req.session.tables._id).select("courses").then(data =>{
+  tables.findById(req.session.tables._id).select("courses email lastNameA firstNameA  phone ").then(data =>{
   
   
 
@@ -90,18 +91,18 @@ exports.getDeleteCourse=(req,res,next)=>{
 
 
 
-exports.postDeleteCourse=(req,res,next)=>{
+exports.postDeleteCourse=async(req,res,next)=>{
 
   const courses=req.body.courses
 
 
 
-  tables.findById(req.session.tables._id).select("courses").then(data=>{
+  await tables.findById(req.session.tables._id).select("courses").then(data=>{
 
   
 
 
-    for (let i = 0; i < data.courses.length; i++) {      
+    for (let i = 1; i < data.courses.length; i++) {      
           var filtered = data.courses.filter(function(value, index, arr){ 
             return index !=courses;
           })
@@ -181,18 +182,19 @@ exports.getEquipment=(req,res,next)=>{
     }
     
     
-    exports.postAdd_eq=(req,res,next)=>{
+    exports.postAdd_eq=async(req,res,next)=>{
     
    
     
-      tables.findById(req.session.tables._id).select("firstNameA  tools").then(data =>{
+      await tables.findById(req.session.tables._id).select("firstNameA  tools").then(data =>{
     console.log("hhhhhh");
     
     const image =req.file;
     console.log(image.path);
   
     
-      data.tools.push({city:req.body.city,catagory:req.body.catagory,NameMachine:req.body.NameMachine , NameCompany:req.body.NameCompany,roomImage:image.path})
+      data.tools.push({city:req.body.city,catagory:req.body.catagory,NameMachine:req.body.NameMachine , 
+        NameCompany:req.body.NameCompany,roomImage:image.path,accept:"wait"})
     
         data.save();
         
@@ -299,12 +301,12 @@ exports.getEquipment=(req,res,next)=>{
      }
 
 
-     exports.postDeleteEquipment=(req,res,next)=>{
+     exports.postDeleteEquipment=async(req,res,next)=>{
       const tools=req.body.tools
 
 
 
-      tables.findById(req.session.tables._id).select("tools").then(data=>{
+     await tables.findById(req.session.tables._id).select("tools").then(data=>{
     
       
     

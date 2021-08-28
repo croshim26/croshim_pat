@@ -5,6 +5,7 @@ const path = require('path');
 const nodemailer=require("nodemailer")
 const sendgridTransport=require("nodemailer-sendgrid-transport")
 
+const adminDb = require('../models/adminDb');
 
 const bcrypt = require('bcryptjs');
 
@@ -32,7 +33,11 @@ exports.postRegister=(req,res,next)=>{
     email:req.body.email,
 
     lastNameA:req.body.lastNameA,
-    phone:req.body.phone
+    phone:req.body.phone,
+    dest:{"non":"non"},
+    tools:{"non":"non"},
+    courses:{"non":"non"},
+
   
     })
 
@@ -162,10 +167,45 @@ exports.postLogin=(req,res,next)=>{
   
           }
   });  
-  }else{
+  }
+  else{
 
-    req.flash('error', 'Invalid email or password.');
-    return res.redirect('/');
+    adminDb.findOne({email:email}).then(admin =>{
+
+      if(admin){
+  
+        bcrypt.compare(password, admin.password, function(err, result) {
+  
+          if (result===true) {
+
+  
+            console.log(req.session);
+            req.session.loggedIn=true;
+            req.session.admin=admin
+  
+            req.session.save(err => {
+            console.log(err);
+                  res.redirect("/display_Course")
+            });
+  
+          }
+          
+          else{
+
+        
+            
+  
+            req.flash('error', 'Invalid email or password.');
+            return res.redirect('/');
+  
+          }
+  });  
+  }
+
+
+
+    })
+
   }
     })
 

@@ -17,6 +17,8 @@
             <%for (var i = 0; i < equipment.length ; i++) {%>
                 <%for (var j = 0; j < equipment[i].tools.length ; j++) {%>
 
+                    <%if(equipment[i].tools[j].accept==="accept"){%>
+
              
 <div class="col-xs-12 col-sm-6 col-md-4">
     <div class="image-flip">
@@ -90,6 +92,8 @@
 </div>
 <%}%>
 <%}%>
+<%}%>
+
 </div>
 </div>
 
