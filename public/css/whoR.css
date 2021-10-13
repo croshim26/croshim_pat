@@ -1,0 +1,213 @@
+
+    #height{
+        height: 40px;
+      }
+   
+
+      
+      /* //////////////////////// */
+
+      #cf {
+        position:relative;
+         height:281px;
+        
+        margin:0 auto;
+        
+      }
+      
+      #cf img {
+        position:absolute;
+        left:0;
+        -webkit-transition: opacity 1s ease-in-out;
+        -moz-transition: opacity 1s ease-in-out;
+        -o-transition: opacity 1s ease-in-out;
+        transition: opacity 1s ease-in-out;
+      }
+      
+      #cf img.top:hover {
+        opacity:0;
+      }
+      @keyframes cf3FadeInOut {
+        0% {
+        opacity:1;
+      }
+      45% {
+      opacity:1;
+      }
+      55% {
+      opacity:0;
+      }
+      100% {
+      opacity:0;
+      }
+      }
+      
+   
+
+      .img-sty2{
+        height: 350px;
+        object-fit: cover;
+        object-position: center center;
+      }
+  
+      /* ##### */
+
+      #video{
+
+        padding: 7% 15%;
+        background-color: #9fd7fd;
+
+
+    }
+
+
+
+    #beneficiaries{
+      
+
+      background-image:linear-gradient( rgba(6, 173, 240, 0.747) 100%, rgb(31, 31, 31)100%),url("../images/binifts.JPG")  ;      
+
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+  
+
+          padding: 1% 15%;
+          text-align: center;
+  
+          color:black;
+
+          ;
+    }
+
+
+    /* rgba(204, 204, 204, 0.91) */
+
+/* ///// */
+
+#binifts{
+  
+
+  background-image:linear-gradient( rgba(6, 173, 240, 0.747) 100%, rgb(31, 31, 31)100%),url("../images/what_for.JPG")  ;      
+
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+    padding: 1% 15%;
+    text-align: center;
+    color:black;
+}
+
+
+    video {
+      width: 100%;
+      height: auto;
+    }
+
+    .icon_Vid{
+      animation: bounce; /* referring directly to the animation's @keyframe declaration */
+      animation-duration: 2s; /* don't forget to set a duration! */
+    }
+
+
+
+
+    
+
+
+
+    /* ###### */
+
+    
+
+    .numbers{
+      text-align: center;
+      background-color: rgba(117,91,165,255);
+      color:black;
+      padding: 4% 15%;
+    }
+
+    .icon_Number{
+
+  color: #cccccc  ;
+     }
+
+    .icon_Number:hover{
+
+  
+  
+      animation: bounce; /* referring directly to the animation's @keyframe declaration */
+      animation-duration: 2s; /* don't forget to set a duration! */
+     }
+
+
+
+  
+
+ 
+      
+      @media screen and (max-width: 922px) {
+        .img-sty2{
+          height: 250px;
+        object-fit: cover;
+          object-position: center center;
+        }
+  
+        /* ###### */
+        #height{
+          height: 50px;
+        }
+        /* ###### */
+  
+        #WhSMAV{
+      
+          padding: 0% 15%;
+          position: relative;
+          background-color:white ;
+        
+        }
+        
+
+    
+        
+        
+     
+      
+        
+      
+      
+      
+      
+      }
+  
+/* ////////////// */
+      h1{
+        animation: bounce; /* referring directly to the animation's @keyframe declaration */
+        animation-duration: 2s; /* don't forget to set a duration! */
+      }
+      p{
+        animation: bounce; /* referring directly to the animation's @keyframe declaration */
+        animation-duration: 2s; /* don't forget to set a duration! */
+      }
+
+      p:hover{
+        color: yellowgreen;
+      }
+      
+      h1:hover{
+        color:#1096f0;
+      }
+
+
+
+      /* ////// */
+
+  
+      
+  h6{
+    color: white;
+  }
+
+
+
+  

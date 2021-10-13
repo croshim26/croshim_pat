@@ -1,0 +1,157 @@
+
+
+        .img-sty{
+            height: 950px;
+            object-fit: cover;
+            object-position: center center;
+    
+          }
+
+          .img-col3{
+            height: 845px;
+            object-fit: cover;
+            object-position: center center;
+          }
+  
+  
+ 
+
+          /* //////////////////////// */
+    
+
+          #WhSMAV{
+    
+            background-image:linear-gradient( rgba(6, 173, 240, 0.747) 100%, rgb(31, 31, 31)100%),url("../images/smav_id1.jpg")  ;      
+    
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        
+    
+                padding: 8% 15%;
+                text-align: center;
+        
+                color:black;
+      
+      
+          
+          }
+          /* //////// */
+
+
+   
+          #Goals{
+
+
+            background-image:linear-gradient( rgba(6, 173, 240, 0.747) 100%, rgb(31, 31, 31)100%),url("../images/ourGouls.png")  ;      
+    
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    
+
+            padding: 1% 15%;
+            text-align: center;
+    
+            color:black;
+          }
+
+ 
+
+
+    /* ###### */
+
+
+    #hands{
+      padding: 1% 1%;
+
+      
+    } 
+    
+    #hands::after{
+      animation: bounce; /* referring directly to the animation's @keyframe declaration */
+      animation-duration: 2s; /* don't forget to set a duration! */
+    }
+
+    
+    /* ////// */
+
+
+      
+
+  
+
+          .about{
+              height: 10vh;
+              min-height: 200px;
+      
+             
+          }
+          
+         .icon_about:hover{
+      
+          color:  #f7c024  ;
+      
+          animation: bounce; /* referring directly to the animation's @keyframe declaration */
+          animation-duration: 2s; /* don't forget to set a duration! */
+         }
+           
+         .icon{
+      
+          padding: 5%
+        }
+
+        /* ///// */
+
+   
+      .fa{
+      
+      
+      margin-left:  1rem;
+      }
+      
+      .copy{
+      
+      padding: 1%;
+      }
+      
+      
+      
+      @media only screen and (max-width: 600px) {
+  
+  
+ 
+  
+          .img-sty{
+            height: 700px;
+           object-fit: cover;
+            object-position: center center;
+            
+          }
+
+          
+          .img-col3{
+            height: 600px;
+            object-fit: cover;
+            object-position: center center;
+          }
+
+          
+
+          .centered {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            transform: translate(-50%, -50%);
+          
+            
+          }
+
+          video {
+            width: 100%;
+            height: auto;
+          }
+      }
+
+  
+     
