@@ -1,0 +1,262 @@
+
+<head>
+    <meta charset="utf-8">
+    <title>SMAV</title>
+    
+    <link rel = "icon" class="animated fadeinUp" href = "images/logo.png" type = "images/x-icon">
+  
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/v4-shims.css">
+    
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+  
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/userNav.css">
+  
+  
+  
+  
+  
+  
+  
+  </head>
+  <style>
+            .icon_owner{
+
+background-repeat:no-repeat;
+border: none;
+cursor:pointer;
+overflow: hidden;
+outline:none;
+color: rgb(255, 0, 0);
+background-color: Transparent;
+margin-bottom: 1rem
+}
+   
+  </style>
+  
+  <body>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+  
+
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-fixed-top bg-light animated fadeinUp">
+
+    <div class="container">
+      <a class="navbar-brand" style="color: rgb(255, 255, 255);" href="/"> <img src="images/logo.png" height="50x" width="80px"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" 
+      data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+      aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+    
+  
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+  <li class="nav-item active">
+  
+  
+    <li class="nav-item">
+      <a class="nav-link test" style="color: black;" href="/">Home</a>
+     </li>
+  
+  
+    <li class="nav-item">
+            <a class="nav-link test" style="color: black;" href="/whoSMAV">Who we are ?</a>
+           </li>
+  
+           
+  
+           
+  <li class="nav-item">
+            <a class="nav-link" style="color: black;" href="/WhatWeDo">what we do ? </a>
+          </li>
+  
+     
+  
+  
+  
+   
+  
+  
+  
+        <%  if(isAuthenticated){%>
+          <form id="magic-form" action="/logout" method="POST">
+            <input type="hidden" name="_csrf" value=<%=csrfToken%> 
+            <input type="text">
+    
+    </form>
+    <%  }%>
+    <a class="nav-link test" style="color: black;" href="/logout" onclick="event.preventDefault();
+    document.getElementById('magic-form').submit();">تسجيل خروج</a>
+        
+        
+  
+  
+     
+      
+  
+       
+  </ul>
+  </div>
+  
+  </div>
+  </nav>
+  
+  
+  <section id="beneficiaries" style="padding-top: 18rem;">
+    <div class="container">
+    <div class="row">
+  
+      <div class="col-md-12">
+        <h1 class="animated fadeinUp" style="text-align: center; "> الطلب </h1>
+      </div>
+      <%if(dataGruop.accept==="wait"){%>
+      <div class="col-lg-12 animated fadeinLeft" >
+  
+        
+  
+       
+  
+        <i class="fas fa-clock fa-4x icon_about icon" data-aos="fade-up"></i>
+            <p  data-aos="fade-up"> 
+  الطلب تحت الدراسة، الرجاء الانتظار 
+  
+            </p>
+      </div>
+      <% }%>
+  
+
+  
+  
+        <%if(dataGruop.accept==="accept"){%>
+          <div class="col-lg-12 animated fadeinLeft" >
+      
+            
+      
+           
+      
+            <i class="fas fa-check fa-4x icon_about icon" data-aos="fade-up"></i>
+                <p  data-aos="fade-up"> 
+  
+تم تدقيق البيانات بنجاح 
+
+                </p>
+          </div>
+          <% }%>
+
+
+          <%if(dataGruop.accept==="refuse"){%>
+            <div class="col-lg-12 animated fadeinLeft" >
+        
+              
+        
+             <p>
+              <%=dataGruop.reason %>
+             </p>
+        
+              <i class="fas fa-times fa-4x icon_about icon" data-aos="fade-up"></i>
+                  <p  data-aos="fade-up"> 
+    
+
+                     الرجاء تعديل الملف على حسب المطلوب 
+                  </p>
+                  <h1>
+                    لتعديل الملف  
+                    <br>
+            <button class="btn-warning" data-toggle="modal" data-target="#taker_Wa" >
+              اضغط هنا
+            </button>
+                  </h1>
+            </div>
+            <% }%>
+    
+  
+  
+    
+  
+   
+  
+  
+    </div>
+  </div>
+  
+  </section>
+  </body>
+  
+  <div id="taker">
+    <div class="modal fade" id="taker_Wa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">   تأكيد الحذف </h5>
+  
+          </div>
+          <div class="modal-body">
+            <form action="/groups" method="POST" enctype="multipart/form-data" >
+       
+       
+
+            <aside  class="col-lg-12" >
+  
+  
+              <div class="card">
+              <article class="card-body">
+                <h4 class="card-title text-center mb-4 mt-1"> </h4>
+                <hr>
+  
+                <form>
+                <div class="form-group">
+                <div class="input-group">
+                 
+                  <input name="excel" class="form-control"  type='file'>
+                </div> <!-- input-group.// -->
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                   </div>
+
+                </div> <!-- input-group.// -->
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn btn-primary btn-block"> ارسل هنا  </button>
+                </div> <!-- form-group// -->
+   
+                          
+                
+                </form>
+  
+              </article>
+              </div> <!-- card.// -->
+            </form>
+                </aside> <!-- col.// -->
+          </div>
+          <div class="modal-footer">
+  
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق </button>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  
+  
+  <section style="height: 2.5rem;"></section>
+  <%- include('../includes/footer') %>
+  
+  
+  
+  

@@ -1,0 +1,541 @@
+<head>
+    <meta charset="utf-8">
+    <title>SMAV</title>
+    
+    <link rel = "icon" class="animated fadeinUp" href = "images/logo.png" type = "images/x-icon">
+  
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/v4-shims.css">
+    
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+
+
+
+
+    
+<style>
+  
+  .rss.opacity { filter: opacity(40%);  }
+
+  .centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  
+}
+
+.LoginButton {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+</style>
+
+  
+  </head>
+
+
+ <body>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-fixed-top bg-light animated fadeinUp">
+
+    <div class="container">
+      <a class="navbar-brand" style="color: black;" href="/"> <img src="images/logo.png" height="50x" width="80px"></a>
+      
+
+  <% if (message) { %>
+    <div class="alert alert-danger alert-dismissible fade show">
+   <p>
+     خطأ بالايميل او بكملة المرور 
+   </p>
+
+
+
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+
+    </div>
+
+
+    
+    <% } %>
+
+    <% if (message2) { %>
+      <div class="alert alert-success alert-dismissible fade show">
+     <p>
+
+      تم تغيير كلمة المرور بنجاح 
+      <a href="/">للعودة الى الصفحة الرئيسية اضغط هنا </a>
+    </p>
+  
+  
+  
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+  
+  
+      </div>
+  
+  
+      
+      <% } %>
+
+    
+      <button class="navbar-toggler" type="button" data-toggle="collapse" 
+      data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+      aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+    
+  
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+  <li class="nav-item active">
+  
+  
+  
+
+
+
+    <%  if(isAuthenticated){%>
+
+      <% if(users){%>
+
+        <li class="nav-item">
+          <a href="/users" class="nav-link " style="color: rgb(15, 101, 230);" data toggle="dropdown">صفحتي </a>
+        </li>
+
+        <% } %>
+
+        <% if(groups){%>
+
+          <li class="nav-item">
+            <a href="/groups" class="nav-link" style="color: rgb(15, 101, 230);" data toggle="dropdown">صفحتي </a>
+          </li>
+  
+          <% } %>
+
+<%  }%>
+
+
+    <div class="nav-item dropdown">
+      <a href="#" class="nav-link dropdown-toggle" style="color: rgb(15, 101, 230);" data toggle="dropdown">Home</a>
+      <div class="dropdown-menu">
+        <a href="#WhSMAV" class="dropdown-item">What is SMAV?</a>
+          <a href="#Goals" class="dropdown-item">اهدافنا</a>
+          <a href="#footer" class="dropdown-item">Contact </a>
+          
+      </div>
+    </div>
+  
+    <li class="nav-item">
+            <a class="nav-link test" style="color: black;" href="/whoSMAV">Who we are ?</a>
+           </li>
+
+           
+
+           
+  <li class="nav-item">
+            <a class="nav-link" style="color: black;" href="/WhatWeDo">what we do ? </a>
+          </li>
+  
+
+          <%  if(!isAuthenticated){%>
+          <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" style="color: black;" data toggle="dropdown">Sign up</a>
+          <div class="dropdown-menu">
+            <a href="/sign_up_Individuals" class="dropdown-item">Indivuals</a>
+            <a href="/sign_up_group" class="dropdown-item">gruops</a>
+            <!-- <a href="/sign_up_admin" class="dropdown-item">admin</a> -->
+
+              
+          </div>
+        </div>
+
+
+        <%  }%>
+        
+        <%  if(!isAuthenticated){%>
+        <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" style="color: black;" data toggle="dropdown">Login</a>
+          <div class="dropdown-menu">
+            <button class="nav-link  LoginButton" style="color: black;" data-target="#login_s"  data-toggle="modal" >Gruops</button>
+            <button class="nav-link  LoginButton" style="color: black;" data-target="#login_Ind" data-toggle="modal" > Indivuals</button>
+
+            
+
+              
+          </div>
+        </div>
+
+        <%  }%>
+
+
+        <%  if(isAuthenticated){%>
+          <form id="magic-form" action="/logout" method="POST">
+            <input type="hidden" name="_csrf" value=<%=csrfToken%> 
+            <input type="text">
+    
+    </form>
+    <%  }%>
+
+
+
+    <%  if(isAuthenticated){%>
+      <a class="nav-link test" style="color: black;" href="/logout" onclick="event.preventDefault();
+      document.getElementById('magic-form').submit();">تسجيل خروج</a>
+<%  }%>
+   
+
+     
+      
+
+       
+  </ul>
+  </div>
+  
+  </div>
+  </nav>
+
+  
+
+
+
+    
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+       
+            <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+        
+          <div class="carousel-inner animated fadeinDown">
+
+            <div class="row">
+
+                <div class="col-md-3">
+
+                  
+
+                   
+
+                    <img class="img-col3 img-fluid rss opacity" src="images/postera1.jpg" alt="Third slide">
+
+                    <div class="centered " >
+                       العطاء ... أسمى معاني الإنسانية 
+إنه الصفة المتجذرة في أصل الإنسانية ... فطرة الله التي فطر الناس عليها.. إنه الكنز الذي تحمله كل نفس بشرية في أعماقها . وإن كل خير مهما صغر مرتبط بأصالة هذا الدين وإنسانيته وقيمه ، فكيف  هو عندما يرتبط بشرف عظيم  ويحمل رسالة إنسانية للعالم
+من عمق هذا المفهوم وتجذره ومن خير بقاع الأرض و من منبع الخير في النفس الإنسانية ولدت  الأكاديمية السعودية للتطوع الصحي (SMAV )
+ولدت كمبادرة وطنية من قلب مملكة الإنسانية لتكون نموذجاً متميزاً في استخراج الكنوز من أعماق شباب الوطن وتتبنى دورها في بنائهم ، وتضعهم في خدمة مجتمعهم ووطنهم العزيز  وفي شرف الخدمة الصحية التطوعية لضيوفه حجاجاً ومعتمرين 
+
+
+                    </div>
+                </div>
+
+
+       
+          
+
+        
+         
+        
+          <div class="col-md-9">
+            
+              <div class="carousel-item active ">
+                <img class="d-block w-100 img-sty"  src="images/front1.jpg" alt="First slide">
+                <div class="carousel-caption d-none d-md-block">
+          
+          
+          </div>
+          </div>
+          <div class="carousel-item">
+                <img class="d-block w-100 img-sty"  src="images/front2.jpeg" alt="Second slide">
+                <div class="carousel-caption d-none d-md-block">
+          </div>
+          </div>
+          <div class="carousel-item">
+                <img class="d-block w-100 img-sty" src="images/front3.jpg" alt="Third slide">
+                <div class="carousel-caption d-none d-md-block">
+          </div>
+          </div>
+          
+         
+          
+          
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          
+          
+          
+          
+          </div>
+        </div>
+    </div>
+        </div>
+        
+
+     
+
+<section id="WhSMAV" style="background-color: aqua;">
+    <div class="container">
+        <div class="row">
+  
+  
+    <div class="col-md-12" data-aos="fade-up" >
+      <h1 class="animated fadeinUp" style="text-align: center;"  > من نحن </h1>
+   
+  
+      <p style="text-align: center;" class="animated fadeinUp" data-aos="fade-up" >
+        أكاديمية تأهيل متخصصة تعدُّ الشباب والشابات في الكليات الصحية للتطوع الصحي المحترف،
+        من خلال تطبيق أحدث استراتيجيات التعلم الموجه نحو استدامة المجتمعات 
+        وهي استراتيجية التعليم والتعلم التي تدمج خدمة مجتمع  مع التعليم والتفكير لإثراء تجربة التعلم ونمو الطلاب العلمي والمهني   ، وتعليم المسؤولية المجتمعية ، وتعزيز مهارات وقيم المواطنة .
+      </p>
+  
+      </div>
+    </div>
+  </div>
+  </section>
+
+
+  <section id="Goals">
+  
+    <div class="row ">
+
+     <div class="col-md-12">
+        <h1 class="animated fadeinUp" style="text-align: center;"  > أهدافنا </h1>
+
+      </div>
+      <div class="col-lg-4 animated fadeinLeft" >
+        <i class="fas fa-hand-holding-heart fa-4x icon_about icon" data-aos="fade-up"></i>
+            <h3  data-aos="fade-up">تأهيل </h3>
+            <p  data-aos="fade-up">تأهيل قدوات فاعلة ومؤثرة في العمل الصحي التطوعي خصوصاً وفي البيئات الصحية عموماً</p>
+      </div>  
+        <div class="col-lg-4 animated fadeinLeft">
+          <i class="fas fa-running fa-4x icon_about icon" data-aos="fade-up"></i>
+              <h3  data-aos="fade-up">تنمية </h3>
+              <p class="justify"  data-aos="fade-up">تنمية جدارات المتطوع المعرفية والأدائية التي يتطلبها التطوع الصحي بكافة أشكاله. </p>
+      </div>
+      <div class="col-lg-4 animated fadeinLeft" >
+        <i class="fas fa-umbrella fa-4x icon_about icon" data-aos="fade-up"></i>
+            <h3  data-aos="fade-up">بناء </h3>
+            <p class=" justify"  data-aos="fade-up">بناء الدافعية الذاتية نحو العمل التطوعي</p>
+      </div>
+      <div class="col-lg-6 animated fadeinLeft" >
+        <i class="fas fa-hands-helping fa-4x icon_about icon" data-aos="fade-up"></i>
+        <h3  data-aos="fade-up" >مساهمة </h3>
+        <p class=" justify" data-aos="fade-up" >المساهمة في تحقيق توجه الرؤية الوطنية إلى تسخير الطاقات والإمكانيات لخدمة ضيوف الرحمن  </p>
+      </div>
+      
+
+      <div class="col-lg-6 animated fadeinLeft">
+        <i class="fas fa-globe fa-4x icon_about icon" data-aos="fade-up"></i>
+       
+
+
+      
+            <h3  data-aos="fade-up">تعزيز </h3>
+            <p  data-aos="fade-up">تعزيز قيم المسؤولية تجاه المجتمع والوطن </p>
+    </div>
+  </div>
+  </section>
+
+
+
+
+
+
+  <!-- //// -->
+  <section id="hands" data-aos="fade-right">
+  <img src=https://imana.org/imana-backup/wp-content/uploads/2020/02/charity-23.png class="img-fluid animated fadeinUp">
+  </section>
+  
+
+
+  <!-- ///// -->
+  <%- include('./includes/footer') %>
+
+</body>
+
+
+
+<!-- <div id="login">
+  <div class="modal fade" id="login_s" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">مجموعات    </h5>
+
+        </div>
+        <div class="modal-body">
+          <form action="/login_group" method="POST" >
+     
+          <aside  class="col-lg-12" >
+
+
+            <div class="card">
+            <article class="card-body">
+              <h4 class="card-title text-center mb-4 mt-1">تسجيل دخول</h4>
+              <hr>
+
+              <form>
+              <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                 </div>
+                <input name="email" class="form-control" placeholder="Email or login" type="email">
+              </div> <!-- input-group.// -->
+              </div> <!-- form-group// -->
+              <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                 </div>
+                  <input name="password" class="form-control" placeholder="******" type="password">
+              </div> <!-- input-group.// -->
+              </div> <!-- form-group// -->
+              <div class="form-group">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="btn btn-primary btn-block"> سجل هنا  </button>
+              </div> <!-- form-group// -->
+              <p class="text-center"><a href="/groupReset" class="btn">أنسيت كلمة المرور؟</a></p>
+
+              <p class="text-center"><a href="/sign_up_group" class="btn">اذا ليس لديك حساب ؟ </a></p>
+              
+
+              </form>
+
+            </article>
+            </div> <!-- card.// -->
+          </form>
+              </aside> <!-- col.// -->
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div id="login_Indvisual">
+  <div class="modal fade" id="login_Ind" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> افراد  </h5>
+
+        </div>
+        <div class="modal-body">
+          <form action="/login_Individuals" method="POST" >
+     
+          <aside  class="col-lg-12" >
+
+
+            <div class="card">
+            <article class="card-body">
+              <h4 class="card-title text-center mb-4 mt-1">تسجيل دخول</h4>
+              <hr>
+
+              <form>
+              <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                 </div>
+                <input name="email" class="form-control" placeholder="Email or login" type="email">
+              </div> <!-- input-group.// -->
+              </div> <!-- form-group// -->
+              <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                 </div>
+                  <input name="password" class="form-control" placeholder="******" type="password">
+              </div> <!-- input-group.// -->
+              </div> <!-- form-group// -->
+              <div class="form-group">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="btn btn-primary btn-block"> سجل هنا  </button>
+              </div> <!-- form-group// -->
+              <p class="text-center"><a href="/IndividualsReset" class="btn">أنسيت كلمة المرور؟</a></p>
+
+              <p class="text-center"><a href="/sign_up_Individuals" class="btn">اذا ليس لديك حساب ؟ </a></p>
+              
+
+              </form>
+
+            </article>
+            </div> <!-- card.// -->
+          </form>
+              </aside> <!-- col.// -->
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div> -->
+
+  
+  
+
+
+  <script>
+  
+
+  $(document).ready(function(){
+    $(".dropdown").hover(function(){
+        var dropdownMenu = $(this).children(".dropdown-menu");
+        if(dropdownMenu.is(":visible")){
+            dropdownMenu.parent().toggleClass("open");
+        }
+    });
+  });     
+
+  
+  $(function () {
+    $(document).scroll(function () {
+      var $nav = $(".navbar-fixed-top");
+      $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+    });
+  });
+
+</script>
