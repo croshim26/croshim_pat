@@ -1,0 +1,41 @@
+{
+  "name": "smav",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "14.15.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=production MONGO_USER=dmet MONGO_PASSWORD=0505564500 MONGO_DEFAULT_DATABASE=samvHajj node app.js",
+    "start-server": "node app.js",
+    "start:dev2": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^2.4.1",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
+    "csrf": "^3.1.0",
+    "csurf": "^1.11.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "flash": "^1.1.0",
+    "helmet": "^4.6.0",
+    "mongoose": "^5.12.12",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.6.1",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "randombytes": "^2.1.0",
+    "session": "^0.1.0",
+    "xlsx": "^0.17.0"
+  }
+}
