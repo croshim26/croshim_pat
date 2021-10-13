@@ -14,6 +14,9 @@ const router = express.Router();
 
 router.get("/whatWeDo",whatWeDoController.getWhatWeDo)
 
+router.get("/SMAV_MATCH",whatWeDoController.getMATCH)
+
+
 
 
 

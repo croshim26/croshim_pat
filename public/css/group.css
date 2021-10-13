@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Damion|Muli:400,600');
 body{
   font-family: 'Muli', sans-serif;
-  background: url("https://www.toptal.com/designers/subtlepatterns/patterns/geometry2.png");
+ 
 }
 
+#registerForm{
+  background: url("https://www.toptal.com/designers/subtlepatterns/patterns/geometry2.png");
+}
 
 .dropdown:hover .dropdown-menu{
 	display: block;
@@ -11,6 +14,9 @@ body{
 .dropdown-menu{
 	margin-top: 0;
 }
+
+
+
 
 :focus{outline: none;}
 

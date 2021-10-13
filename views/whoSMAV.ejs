@@ -2,7 +2,8 @@
     <meta charset="utf-8">
     <title>SMAV</title>
     
-  
+    <link rel = "icon" class="animated fadeinUp" href = "images/SMAV_LOGO.png" type = "images/x-icon">
+
   
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -16,6 +17,7 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/whoR.css">
+    <link rel="stylesheet" href="css/main_style.css">
 
     	
 
@@ -53,25 +55,9 @@
   
   <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-fixed-top bg-light animated fadeinUp  ">
     <div class="container">
-      <a class="navbar-brand" style="color: black;" href="/"> <img src="images/logo.png" height="50x" width="80px"></a>
-
-      
-  <% if (message) { %>
-    <div class="alert alert-danger alert-dismissible fade show">
-   <p>
-     خطأ بالايميل او بكملة المرور 
-   </p>
+      <a class="navbar-brand" style="color: black;" href="/"> <img src="images/SMAV_LOGO.png" height="100x" width="80px"></a>
 
 
-
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-
-
-    </div>
-
-
-    
-    <% } %>
 
       <button class="navbar-toggler" style="background-color: white;" type="button" 
       data-toggle="collapse" data-target="#navbarSupportedContent" 
@@ -86,52 +72,36 @@
   <li class="nav-item ">
   
 
-    <%  if(isAuthenticated){%>
-
-      <% if(users){%>
-
-        <li class="nav-item">
-          <a href="/users" class="nav-link " style="color: rgb(15, 101, 230);" data toggle="dropdown">صفحتي </a>
-        </li>
-
-        <% } %>
-
-        <% if(groups){%>
-
-          <li class="nav-item">
-            <a href="/groups" class="nav-link" style="color: rgb(15, 101, 230);" data toggle="dropdown">صفحتي </a>
-          </li>
-  
-          <% } %>
-
-<%  }%>
+    <li class="nav-item">
+      <a class="nav-link" style="color: blueviolet;;" href="SMAV_MATCH">SMAV MATCH</a>
+     </li>
   
     <li class="nav-item">
-        <a class="nav-link" style="color: black;" href="/">Home</a>
+        <a class="nav-link" style="color: black;" href="/">الصفحة الرئيسية</a>
        </li>
   
     <div class="nav-item dropdown">
-      <a href="#" class="nav-link dropdown-toggle" style="color: rgb(15, 101, 230);" data toggle="dropdown">Who we are ?</a>
+      <a href="#" class="nav-link dropdown-toggle" style="color: rgb(15, 101, 230);" data toggle="dropdown">من نحن </a>
       <div class="dropdown-menu">
        
-        <a href="#Video" class="dropdown-item">Video SMAV</a>   
+        <a href="#Video" class="dropdown-item">فيديو سماف</a>   
         <a href="#numbers" class="dropdown-item">ارقام واحصائيات </a>  
         <a href="#binifts" class="dropdown-item">  المستفيدون </a>    
-          <a href="#footer" class="dropdown-item">Contact</a>              
+          <a href="#footer" class="dropdown-item">التواصل </a>              
       </div>
     </div>
   
   <li class="nav-item">
-            <a class="nav-link active" style="color: black;" href="/WhatWeDo">what we do ? </a>
+            <a class="nav-link active" style="color: black;" href="/WhatWeDo">برامجنا </a>
           </li>
   
    
-          <%  if(!isAuthenticated){%>
+
             <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" style="color: black;" data toggle="dropdown">Sign up</a>
+            <a href="#" class="nav-link dropdown-toggle" style="color: black;" data toggle="dropdown">التسجيل </a>
             <div class="dropdown-menu">
-              <a href="/sign_up_Individuals" class="dropdown-item">Indivuals</a>
-              <a href="/sign_up_group" class="dropdown-item">gruops</a>
+              <a href="/sign_up_Individuals" class="dropdown-item">افراد</a>
+              <a href="/sign_up_group" class="dropdown-item">مجموعات</a>
               <!-- <a href="/sign_up_admin" class="dropdown-item">admin</a> -->
   
                 
@@ -139,36 +109,8 @@
           </div>
   
   
-          <%  }%>
+
           
-          <%  if(!isAuthenticated){%>
-          <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" style="color: black;" data toggle="dropdown">Login</a>
-            <div class="dropdown-menu">
-              <button class="nav-link test LoginButton" style="color: black;" data-target="#login_s"  data-toggle="modal" >Gruops</button>
-              <button class="nav-link test LoginButton" style="color: black;" data-target="#login_Ind" data-toggle="modal" > Indivuals</button>
-  
-              
-  
-                
-            </div>
-          </div>
-  
-          <%  }%>
-  
-  
-          <%  if(isAuthenticated){%>
-            <form id="magic-form" action="/logout" method="POST">
-              <input type="hidden" name="_csrf" value=<%=csrfToken%> 
-              <input type="text">
-      
-      </form>
-      <%  }%>
-  
-      <%  if(isAuthenticated){%>
-        <a class="nav-link test" style="color: black;" href="/logout" onclick="event.preventDefault();
-        document.getElementById('magic-form').submit();">تسجيل خروج</a>
-  <%  }%>
 
    
   </ul>
@@ -179,6 +121,89 @@
 
   <section id="height"></section>
   
+
+
+  <section id="Video" class="animated fadeinUp"  >
+
+
+    <div class="container" >
+    <div class="row">
+      <div class="col-md-12" >
+        <h1 style="text-align: center; font-weight: bolder; "  >من نحن   </h1>
+
+
+        
+        <div class="col-md-12 animated fadeinLeft" style="text-align: center;" >
+
+          <div class="container" >
+          <div class="row">
+
+          <div class="col-md-6 animated fadeinLeft" style="text-align: center;" >
+              <p  data-aos="fade-up" style="text-align: center;"> 
+                الأكاديمية إحدى مشاريع مؤسسة درب المفاز للتدريب الصحي والأبحاث الوقفية 
+              
+              </p>
+
+        </div>
+
+        <div class="col-md-6 animated fadeinLeft" style="text-align: center;" >
+
+
+
+              <p  data-aos="fade-up" style="text-align: center;"> 
+                مؤسسة وقفية مرخصة في التعليم الطبي والتدريب والأبحاث ترخيص رقم 4031093734   ويتبع لها مركز تدريب معتمد من الهيئة السعودية للتخصصات الصحية برقم اعتماد 20224 / 2              
+              </p>
+        </div>
+
+        <div class="col-md-4 animated fadeinLeft" style="text-align: center;" >
+
+
+
+          <img src="images/logos/general_logo.png" height="100x" width="190px"  data-aos="fade-up">
+
+    </div>
+
+    <div class="col-md-4 animated fadeinLeft" style="text-align: center;" >
+
+
+
+      <img src="images/logos/commis.png" height="100x" width="190px"  data-aos="fade-up">
+
+</div>
+
+
+<div class="col-md-4 animated fadeinLeft" style="text-align: center;" >
+
+
+
+  <img src="images/logos/dmet2.png" height="100x" width="190px"  data-aos="fade-up">
+
+</div>
+
+      </div>
+    </div>
+
+
+
+
+
+        
+        
+
+       
+        
+  </div>
+</div>
+</div>
+  
+
+
+  </section>
+  
+
+
+
+
   <section id="Video" class="animated fadeinUp"  >
 
 
@@ -193,11 +218,11 @@
         data-aos-easing="ease-in-sine">
    
    
-       <h1 style="text-align: center;"> <i class="fas fa-video icon_Vid "  > Video SMAV</i></h1>
+
 
      
       
-        <video width="320" height="240" poster="images/logo.png" controls class="img-fluid">
+        <video width="320" height="240" poster="images/SMAV_LOGO.png" controls class="img-fluid">
           <source src="videos/smav.mp4" type="video/mp4">
           Your browser does not support HTML5 video.
         </video>
@@ -219,7 +244,7 @@
     <div class="row">
 
       <div class="col-md-12">
-        <h1 class="animated fadeinUp" style="text-align: center; "> المستفيدون</h1>
+        <h1 class="animated fadeinUp" style="text-align: center;  font-weight: bolder; "> المستفيدون</h1>
       </div>
       <div class="col-lg-4 animated fadeinLeft" >
   
@@ -268,7 +293,7 @@
   <section id="binifts">
         <div class="row">
          <div class="col-md-12">
-           <h1 style="text-align: center;"  >  ماذا نحقق للمتطوع </h1>
+           <h1 style="text-align: center; font-weight: bolder; "  >  ماذا نحقق للمتطوع </h1>
            </div>
          <div class="col-md-3 animated fadeinLeft" >
      
@@ -364,7 +389,7 @@
 
           <div class="col-md-12 ">
 
-            <h1 class="animated fadeinUp" style="text-align: center; color: white;"> على مدى اربع سنوات من التطوع الصحي SMAV ماذا قدمت  </h1>
+            <h1 class="animated fadeinUp" style="text-align: center;  font-weight: bolder; color: #cccccc            ;"> ماذا قدمت سماف على مدى اربع سنوات من التطوع الصحي   </h1>
 
          
           </div>
@@ -372,66 +397,66 @@
           <div class="col-md-3">
             <i class="fas fa-user-clock fa-4x icon_Number icon" data-aos="fade-up"></i>
             <h1 id="value4" class="entry-title4" style="color: white;"> 179588</h1>
-            <h6>ساعة تطوعية</h6>
+            <h6 style="color: white;">ساعة تطوعية</h6>
           </div>
 
           <div class="col-md-3">
             <i class="fas fa-clock fa-4x icon_Number icon" data-aos="fade-up"></i>
             <h1 id="value3" class="entry-title3" style="color: white;"> 1200</h1>
-            <h6>ساعة تأهيل</h6>
+            <h6 style="color: white;">ساعة تأهيل</h6>
           </div>
           
           <div class="col-md-3">
             <i class="fas fa-users-cog fa-4x icon_Number icon" data-aos="fade-up"></i>
             <h1 id="value2" class="entry-title2" style="color: white;"> 275</h1>
-            <h6>فريق تطوعي</h6>
+            <h6 style="color: white;">فريق تطوعي</h6>
           </div>
 
         
           <div class="col-md-3">
             <i class="fas fa-users fa-4x icon_Number icon" data-aos="fade-up"></i>
             <h1 id="value" class="entry-title" style="color: white;"> 1400</h1>
-            <h6> متطوع ومتطوعة</h6>
+            <h6 style="color: white;"> متطوع ومتطوعة</h6>
           </div>
 <!-- //// -->
           <div class="col-md-4">
             <i class="fas fa-sticky-note fa-4x icon_Number icon" data-aos="fade-up"></i>
             <h1 id="value5" class="entry-title5" style="color: white;"> 11</h1>
-            <h6> بحث علمي</h6>
+            <h6 style="color: white;"> بحث علمي</h6>
           </div>
       
       
           <div class="col-md-4">
             <i class="fas fa-notes-medical fa-4x icon_Number icon" data-aos="fade-up"></i>
             <h1 id="value6" class="entry-title6" style="color: white;"> 109897</h1>
-            <h6> حالة خدمة العلاجية </h6>
+            <h6 style="color: white;"> حالة خدمة العلاجية </h6>
           </div>
        
           <div class="col-md-4">
             <i class="fas fa-user-md fa-4x icon_Number icon" data-aos="fade-up"></i>
             <h1 id="value7" class="entry-title7" style="color: white;"> 367111</h1>
-            <h6 > مستفيد من الخدمات التطوعية</h6>
+            <h6 style="color: white;" > مستفيد من الخدمات التطوعية</h6>
           </div>
 
           <!-- /////// -->
           
           <div class="col-md-4">
             <i class="fas fa-thumbtack fa-4x icon_Number icon" data-aos="fade-up"></i>
-            <h1 id="value8" class="entry-title8 counter-value" style="color: white;"> 48</h1>
-            <h6>  تغطية المواقع الميداينة</h6>
+            <h1 id="value8" class="entry-title8 counter-value" style="color:white;"> 48</h1>
+            <h6 style="color: white;">  تغطية المواقع الميداينة</h6>
           </div>
       
        
           <div class="col-md-4">
             <i class="fas fa-clinic-medical fa-4x icon_Number icon" data-aos="fade-up"></i>
             <h1 id="value9" class="entry-title9" style="color: white;"> 33</h1>
-            <h6>   تغطية المراكز الصحية </h6>
+            <h6 style="color: white;">   تغطية المراكز الصحية </h6>
           </div>
        
           <div class="col-md-4">
             <i class="fas fa-hospital fa-4x icon_Number icon" data-aos="fade-up"></i>
             <h1 id="value10" class="entry-title10" style="color: white;"> 4</h1>
-            <h6 >  تغطية المستشفيات في المشاعر المقدسة</h6>
+            <h6 style="color: white;" >  تغطية المستشفيات في المشاعر المقدسة</h6>
           </div>
           
 
@@ -450,132 +475,6 @@
 
 
 
-<div id="login">
-  <div class="modal fade" id="login_s" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">تسجيل الدخول للشخص المسؤول عن القروب   </h5>
-
-        </div>
-        <div class="modal-body">
-          <form action="/login_group" method="POST" >
-     
-          <aside  class="col-lg-12" >
-
-
-            <div class="card">
-            <article class="card-body">
-              <h4 class="card-title text-center mb-4 mt-1">تسجيل دخول</h4>
-              <hr>
-
-              <form>
-              <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-                 </div>
-                <input name="email" class="form-control" placeholder="Email or login" type="email">
-              </div> <!-- input-group.// -->
-              </div> <!-- form-group// -->
-              <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                 </div>
-                  <input name="password" class="form-control" placeholder="******" type="password">
-              </div> <!-- input-group.// -->
-              </div> <!-- form-group// -->
-              <div class="form-group">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button type="submit" class="btn btn-primary btn-block"> سجل هنا  </button>
-              </div> <!-- form-group// -->
-              <p class="text-center"><a href="/Equipment_sellerReset" class="btn">أنسيت كلمة المرور؟</a></p>
-
-              <p class="text-center"><a href="/Equipment_sellerRegister" class="btn">اذا ليس لديك حساب ؟ </a></p>
-              
-
-              </form>
-
-            </article>
-            </div> <!-- card.// -->
-          </form>
-              </aside> <!-- col.// -->
-        </div>
-        <div class="modal-footer">
-
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق </button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-
-<div id="login_Indvisual">
-  <div class="modal fade" id="login_Ind" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">تسجيل الدخول  </h5>
-
-        </div>
-        <div class="modal-body">
-          <form action="/login_Individuals" method="POST" >
-     
-          <aside  class="col-lg-12" >
-
-
-            <div class="card">
-            <article class="card-body">
-              <h4 class="card-title text-center mb-4 mt-1">تسجيل دخول</h4>
-              <hr>
-
-              <form>
-              <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-                 </div>
-                <input name="email" class="form-control" placeholder="Email or login" type="email">
-              </div> <!-- input-group.// -->
-              </div> <!-- form-group// -->
-              <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                 </div>
-                  <input name="password" class="form-control" placeholder="******" type="password">
-              </div> <!-- input-group.// -->
-              </div> <!-- form-group// -->
-              <div class="form-group">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button type="submit" class="btn btn-primary btn-block"> سجل هنا  </button>
-              </div> <!-- form-group// -->
-              <p class="text-center"><a href="/Equipment_sellerReset" class="btn">أنسيت كلمة المرور؟</a></p>
-
-              <p class="text-center"><a href="/Equipment_sellerRegister" class="btn">اذا ليس لديك حساب ؟ </a></p>
-              
-
-              </form>
-
-            </article>
-            </div> <!-- card.// -->
-          </form>
-              </aside> <!-- col.// -->
-        </div>
-        <div class="modal-footer">
-
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق </button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
 
   
   <script>
