@@ -13,6 +13,14 @@
             object-position: center center;
           }
   
+
+          /* ///// */
+
+          #tire{
+            background-color: black;
+            height: 0.5rem;
+            
+            }
   
  
 
@@ -21,7 +29,7 @@
 
           #WhSMAV{
     
-            background-image:linear-gradient( rgba(6, 173, 240, 0.747) 100%, rgb(31, 31, 31)100%),url("../images/smav_id1.jpg")  ;      
+            background-image:linear-gradient(  rgba(6, 174, 240, 0.5) 100% 100%, rgb(31, 31, 31)100%),url("../images/smav_id1.jpg")  ;      
     
             background-position: center;
             background-repeat: no-repeat;
@@ -43,7 +51,7 @@
           #Goals{
 
 
-            background-image:linear-gradient( rgba(6, 173, 240, 0.747) 100%, rgb(31, 31, 31)100%),url("../images/ourGouls.png")  ;      
+            background-image:linear-gradient(  rgba(6, 174, 240, 0.5) 100% 100%, rgb(31, 31, 31)100%),url("../images/ourGouls.png")  ;      
     
         background-position: center;
         background-repeat: no-repeat;

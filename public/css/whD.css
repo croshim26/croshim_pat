@@ -11,7 +11,7 @@
 
       #title{
     
-        background-image:linear-gradient( rgba(6, 173, 240, 0.747)  100%, rgb(31, 31, 31)100%),url("../images/group.JPG")  ;      
+        background-image:linear-gradient( rgba(6, 174, 240, 0.877)  100%, rgb(31, 31, 31)100%),url("../images/group.JPG")  ;      
         height: 750px;
     background-position: center;
       background-repeat: no-repeat;
@@ -48,7 +48,13 @@
   
       color: #2083c6      ;
      }
-       
+       /* //// */
+
+     #tire{
+      background-color: black;
+      height: 0.5rem;
+      
+      }
   
       /* ////////////////// */
    
@@ -60,6 +66,8 @@
         animation-duration: 2s; /* don't forget to set a duration! */
        
       }
+
+
   
 
 .card-body{

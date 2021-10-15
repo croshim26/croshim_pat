@@ -85,22 +85,22 @@ select{
       
       
         <div class="nav-item dropdown">
-          <a href="/" class="nav-link " style="color: black;" >Home</a>
+          <a href="/" class="nav-link " style="color: black;" >الصفحة الرئيسية</a>
         
         </div>
       
         <li class="nav-item">
-                <a class="nav-link test" style="color: black;" href="/whoSMAV">Who we are ?</a>
+                <a class="nav-link test" style="color: black;" href="/whoSMAV">من نحن ؟</a>
                </li>
       <li class="nav-item">
-                <a class="nav-link" style="color: black;" href="/WhatWeDo">what we do ? </a>
+                <a class="nav-link" style="color: black;" href="/WhatWeDo">برامجنا </a>
               </li>
       
               <div class="nav-item dropdown">
-              <a href="#" class="nav-link dropdown-toggle" style="color: rgb(15, 101, 230);" data toggle="dropdown">Sign up</a>
+              <a href="#" class="nav-link dropdown-toggle" style="color: rgb(15, 101, 230);" data toggle="dropdown">التسجيل</a>
               <div class="dropdown-menu">
-                <a href="/sign_up_Individuals" style="color: rgb(15, 101, 230);" class="dropdown-item">Indivuals</a>
-                <a href="/sign_up_group" class="dropdown-item">gruops</a>
+                <a href="/sign_up_Individuals" style="color: rgb(15, 101, 230);" class="dropdown-item">افراد</a>
+                <a href="/sign_up_group" class="dropdown-item">مجموعات</a>
                   
               </div>
             </div>
@@ -164,7 +164,7 @@ select{
    
             <div class="row">
                 <div class="col-md-4 mb-3">
-                  <input type="text" class="effect-16" id="firstName_En" name="firstName_En" placeholder="First Name" value="" required>
+                  <input type="text" class="effect-16" id="firstName_En" name="firstName_En" placeholder="الاسم الاول " value="" required>
                   <span class="focus-border"></span>
                 </div>
               </div>
@@ -172,7 +172,7 @@ select{
 
                 <div class="row">
                 <div class="col-md-4 mb-3" style="color: black;">
-                  <input type="text" class="effect-16" id="middleName_En" name="middleName_En" placeholder="Middle Name" value="" required>
+                  <input type="text" class="effect-16" id="middleName_En" name="middleName_En" placeholder="اسم الاب " value="" required>
                   <span class="focus-border"></span>
         
                 </div>
@@ -181,9 +181,19 @@ select{
         
               <div class="row">
                 <div class="col-md-4 mb-3" style="color: black;">
-                  <input type="text" class="effect-16" id="lastName_En" name="lastName_En" placeholder="Last Name" value="" required>
+                  <input type="text" class="effect-16" id="lastName_En" name="lastName_En" placeholder="اللقب " value="" required>
                   <span class="focus-border"></span>
                 </div>
+              </div>
+
+              <div class="row">
+
+              <div class="col-md-4 mb-3" >
+
+                <input type="number" class="effect-16 inputs" name="identity_id" min="1000000000" placeholder="رقم الهوية" value=""
+                 required >
+                <span class="focus-border"></span>
+              </div>
               </div>
 
 
@@ -191,7 +201,7 @@ select{
         
                 <div class="col-md-4 mb-3" style="color: black;" >
 
-                <input type="number"  class="effect-16 inputs" min="500000000" name="phone" value="" placeholder=" Phone" required>
+                <input type="number"  class="effect-16 inputs" min="500000000" name="phone" value="" placeholder=" رقم الجوال " required>
                 <span class="focus-border"></span> 
             </div>
           </div>
@@ -201,7 +211,7 @@ select{
 
             <div class="col-md-4 mb-3" style="color: black;">
 
-              <input type="email" class="effect-16 inputs" name="email" value="" placeholder="Email  " required>
+              <input type="email" class="effect-16 inputs" name="email" value="" placeholder="البريد الالكتروني   " required>
               <span class="focus-border"></span>   
           </div>
         </div>
@@ -212,7 +222,7 @@ select{
 
             <div class="col-md-4 mb-3" style="color: black;">
               <select name="gender" class="select effect-16 inputs" required>
-                <option value="">--  Gender  --</option>
+                <option value="">--  الجنس  --</option>
                 <option value="male">male</option>
                 <option value="female">female</option>
             
@@ -228,7 +238,7 @@ select{
             <div class="col-md-4 mb-3" style="color: black;">
 
             
-              <input type="number" class="effect-16 inputs" id="age" name="age" placeholder="Age" min="14" max="100" required>
+              <input type="number" class="effect-16 inputs" id="age" name="age" placeholder="العمر " min="14" max="100" required>
               <span class="focus-border"></span>
             </div>
           </div>
@@ -239,7 +249,7 @@ select{
 
             <div class="col-md-6 mb-3" style="color: black;">
               <select name="city" class="select effect-16 inputs" onchange="CheckingOther_city(this.value);"   required>
-                <option value="">--  city  --</option>
+                <option value="">--  المدينة  --</option>
                 <option value="Riyadh">Riyadh</option>
                 <option value="Makkah">Makkah</option>
 
@@ -285,7 +295,7 @@ select{
 
                 <div class="col-md-4 mb-3">
               
-                  <input type="text" class="effect-16" name="university" placeholder="University or workplace" value="" required>
+                  <input type="text" class="effect-16" name="university" placeholder="الجامعة او مكان العمل " value="" required>
                   <span class="focus-border"></span>
                 </div>
               </div>
@@ -295,7 +305,7 @@ select{
               <div class="col-md-3 mb-3">
                 <select name="EducationLevel" class="select effect-16 inputs"  onchange='CheckingOther_eduLev(this.value);'
                 required>
-                  <option value="">-- Education Level   --</option>
+                  <option value="">-- المرحلة التعليمية    --</option>
                   <option value="1st year student"> 1st year student </option>
         <option value="2nd year student">2nd year student </option>
     <option value="3rd year student"> 3rd year student </option>
@@ -330,7 +340,7 @@ select{
 
             <div class="col-md-3 mb-3">
               <select name="Specialty" class="select effect-16 inputs"  required onchange='CheckingOther_spe(this.value);'>
-                <option value="">-- Specialty    --</option>
+                <option value="">-- التخصص    --</option>
                 <option value="medicine "> medicine   </option>
       <option value="dentistry ">dentistry   </option>
   <option value="pharmacy"> pharmacy  </option>
@@ -359,7 +369,7 @@ select{
 
     <div class="col-md-2 mb-3">
       <select name="times" class="select effect-16 inputs" required>
-        <option value=""> How many times do you volunteer? </option>
+        <option value=""> كم عدد مرات التطوع  </option>
         <option value="1 "> 1   </option>
 <option value="2 ">2   </option>
 <option value="3"> 3  </option>

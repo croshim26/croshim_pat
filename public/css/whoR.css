@@ -49,12 +49,23 @@
         object-fit: cover;
         object-position: center center;
       }
+
+
+      /* //// */
+
+      #First{
+
+        background-image:linear-gradient( rgba(86, 202, 248, 0.493) 100%, rgb(31, 31, 31)100%),url("../images/whoWeare/wh.jpg")  ;      
+        background-size: cover;
+       
+        padding: 1% 15%;
+      }
   
       /* ##### */
 
       #video{
 
-        padding: 7% 15%;
+        padding: 3% 15%;
         background-color: #9fd7fd;
 
 
@@ -65,14 +76,14 @@
     #beneficiaries{
       
 
-      background-image:linear-gradient( rgba(6, 173, 240, 0.747) 100%, rgb(31, 31, 31)100%),url("../images/binifts.JPG")  ;      
+      background-image:linear-gradient( rgba(6, 174, 240, 0.5) 100%, rgb(31, 31, 31)100%),url("../images/binifts.JPG")  ;      
 
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
   
 
-          padding: 1% 15%;
+          padding: 2% 15%;
           text-align: center;
   
           color:black;
@@ -85,10 +96,16 @@
 
 /* ///// */
 
+#tire{
+background-color: black;
+height: 0.5rem;
+
+}
+
 #binifts{
   
 
-  background-image:linear-gradient( rgba(6, 173, 240, 0.747) 100%, rgb(31, 31, 31)100%),url("../images/what_for.JPG")  ;      
+  background-image:linear-gradient( rgba(6, 174, 240, 0.5) 100%, rgb(31, 31, 31)100%),url("../images/what_for.JPG")  ;      
 
 background-position: center;
 background-repeat: no-repeat;
@@ -121,15 +138,16 @@ background-size: cover;
     
 
     .numbers{
+      background-image:linear-gradient( rgba(6, 174, 240, 0.5) 100%, rgb(31, 31, 31)100%),url("../images/home/giving.jpg")  ;      
       text-align: center;
-      background-color: rgba(117,91,165,255);
+      background-color: black;
       color:black;
       padding: 4% 15%;
     }
 
     .icon_Number{
 
-  color: #cccccc  ;
+  color: #000000  ;
      }
 
     .icon_Number:hover{
@@ -191,7 +209,7 @@ background-size: cover;
       }
 
       p:hover{
-        color: yellowgreen;
+        color: rgb(2, 119, 139);
       }
       
       h1:hover{

@@ -50,7 +50,8 @@ exports.postRegister=(req,res,next)=>{
     times:req.body.times,
     identity_id:req.body.identity_id,
     accept:"wait",
-    url_video:req.body.url_video
+    url_video:req.body.url_video,
+
 
 
 
