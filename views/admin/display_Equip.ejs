@@ -1,0 +1,168 @@
+<%- include('../includes/links') %>
+
+          
+
+<%- include('.././includes/includes_nav/navigation_admin') %>
+
+
+<link rel="stylesheet" href="css/item_User.css">
+
+
+
+
+  <section id="team" class="pb-5">
+    <div class="container">
+        <h5 class="section-title h1">المعدات</h5>
+        <div class="row">
+            <%for (var i = 1; i < equipment.length ; i++) {%>
+                <%for (var j = 0; j < equipment[i].tools.length ; j++) {%>
+
+             
+<div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="image-flip">
+    <div class="mainflip flip-0">
+
+      
+        <div class="frontside">
+            <div class="card " >
+                <div class="card-body text-center">
+                 
+          
+                       
+                   
+
+                    <p><img class=" img-fluid" src="<%=equipment[i].tools[j].roomImage%>"   alt="card image"></p>
+                   
+
+                    <h4 >
+                        الفئة: 
+                        <%=equipment[i].tools[j].catagory%>   </h4>
+
+                        
+                    
+                       <h4 class="crad-text"> :اسم الشركة<br> <%=equipment[i].tools[j].NameCompany%> </h4>  
+
+  
+                    <p class="card-text"><%=equipment[i].tools[j].NameMachine%> :اسم الالة
+                    </p>
+
+                    <%=equipment[i].tools[j].accept%>
+              
+                </div>
+            </div>
+        </div>
+
+        <div class="backside">
+            <div class="card">
+                <div class="card-body text-center mt-4">
+                    <h4 class="card-title"> 
+                    
+                    </h4>
+                      
+                    <p class="card-text"> 
+                        المدينة:
+                        <%=equipment[i].tools[j].city%>
+                 
+
+                        
+                    </p>
+                    <p class="crad-text">
+                        الاسم: 
+                        <%=equipment[i].firstNameA%>  <%=equipment[i].lastNameA%>
+
+                    </p>     
+                    
+                    <p class="card-text">
+                        للتواصل:
+                         <%=equipment[i].phone%>
+
+                    </p>  
+
+
+
+                    <div class="col-md-2">
+
+
+
+
+                        <form action="/accept_Equip" method="POST">
+                            <input type="hidden" name="email" value="<%=equipment[i].email%>">
+
+             
+
+
+                            <input type="hidden" name="number" value="<%=j%>">
+
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+
+
+
+                            <button type="submit" class="btn"><i class="fa-2x fas fa-check"
+                                    style="color:#4be702;"></i></button>
+
+                        </form>
+
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <form action="/wait_Equip" method="POST">
+                            <input type="hidden" name="email" value="<%=equipment[i].email%>">
+                            <input type="hidden" name="number2" value="<%=j%>">
+                        
+
+
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+
+
+                            <button type="submit" class="btn"><i class="fa-2x fas fa-clock"
+                                    style="color:#beecdf;"></i></button>
+
+                        </form>
+                    </div>
+
+
+                    <div class="col-md-2">
+
+                        <form action="/refuse_Equip" method="POST">
+                            <input type="hidden" name="email" value="<%=equipment[i].email%>">
+                            <input type="hidden" name="number3" value="<%=j%>">
+                        
+
+
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+
+
+                            <button type="submit" class="btn"><i class="fa-2x fas fa-times"
+                                    style="color:#fa0000;"></i></button>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        
+        
+
+    </div>
+</div>
+</div>
+<%}%>
+<%}%>
+</div>
+</div>
+
+</section>
+
+
+<section style="height: 2.5rem;"></section>
+<%- include('../includes/footer') %>
+
+
+

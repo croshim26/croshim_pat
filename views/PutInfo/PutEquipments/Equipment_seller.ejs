@@ -1,0 +1,147 @@
+<%- include('../../includes/includes_nav/navigation_PutInfo') %>
+<%- include('../../includes/links') %>
+
+<link rel="stylesheet" href="css/item_User.css">
+
+
+
+
+  <section id="team" class="pb-5">
+    <div class="container">
+        <h5 class="section-title h1">المعدات</h5>
+        <div class="row">
+            <%for (var i = 1; i < foo.tools.length ; i++) {%>
+
+               
+
+<div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="image-flip">
+    <div class="mainflip flip-0">
+
+      
+        <div class="frontside">
+            <div class="card " >
+                <div class="card-body text-center">
+                 
+          
+            <p> <%=i%></p>  
+                   
+
+                    <p><img class=" img-fluid" src="<%=foo.tools[i].roomImage%>"  alt="card image"></p>
+                   
+
+                    <h4 class="card-title">
+                   
+                        <%=foo.firstNameA%>  <%=foo.lastNameA%>
+                    </h4>
+                    <p class="card-text">
+
+
+                      <mark> <%=foo.tools[i].NameMachine%> </mark>  
+                    </p>
+
+                    <p class="card-text">
+
+
+                        <%=foo.tools[i].NameCompany%>
+                    </p>
+
+                    <%=foo.tools[i].accept%>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="backside">
+            <div class="card">
+            
+                <button class="fas fa-trash fa-2x icon_owner" class="btn btn-primary"
+                data-toggle="modal" data-target="#exampleModal22" id="building2">
+
+               </button>
+
+
+
+              
+       
+                <div class="card-body text-center mt-4">
+                    <h4 class="card-title"> 
+                    
+                    </h4>
+                      
+                    <p class="card-text">  <%=foo.tools[i].city%> 
+                    
+                    </p>
+
+                    <p class="card-text">  <%=foo.phone%>   :رقم الجوال 
+                    
+                    </p>
+          
+
+                    
+
+
+                </div>
+            </div>
+        </div>
+
+        
+        
+
+    </div>
+</div>
+</div>
+<%}%>
+</div>
+</div>
+
+</section>
+
+
+
+
+<div id="building2">
+    <div class="modal fade" id="exampleModal22" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"> هل انت متاكد من الحذف </h5>
+  
+          </div>
+          <div class="modal-body">
+            <form action="/delete_Equipment_seller" method="POST">
+                <input type="number" name="tools" max="<%=foo.tools.length-1%>" min="1" >
+                
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                
+
+           
+
+                <!-- <button  class="btn"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button> -->
+
+                <button type="submit"  class="btn"  onclick="this.style.display='none';"><i class="fa-2x fas fa-trash" style="color:#ca0404;"></i></button>
+
+            
+            </form>
+
+           
+                </aside> <!-- col.// -->
+          </div>
+          <div class="modal-footer">
+  
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق </button>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+
+<section style="height: 15rem;"></section>
+
+<%- include('../../includes/footer') %>
+         
+
+<%- include('../../includes/includes_Place_AddEq/add_eq') %>

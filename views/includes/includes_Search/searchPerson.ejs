@@ -1,0 +1,97 @@
+
+<div>
+    <form action="/displayPhotographer" method="POST">
+        
+
+          
+    
+  
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">ابحث هنا </h5>
+              
+                    </div>
+                    <div class="modal-body">
+                     
+                        
+                    
+              
+              
+                        <div class="col-lg-12">
+                            <label for="nationality"> المدينة</label>
+
+                              <select name="nationality" id="sel1" onchange="giveSelection(this.value)">
+                                
+                                <!-- <label for="nationality"> المدينة</label> -->
+
+                                <option  value="">-select one-</option>
+                                    <option value="rya"> الرياض </option>
+                                    <option value="jed"> جدة </option>
+                                    <option value="makkah"> مكة المكرمة </option>
+                                    <option value="madinah"> المدينة المنورة </option>
+                                    <option value="dam"> الدمام </option>
+                                    <option value="taif"> الطائف </option>
+                                    <option value="tabok"> تبوك </option>
+                                    <option value="bry"> بريدة </option>
+                                    <option value="khmis"> خميس مشيط </option>
+                                    <option value="hfof"> الهفوف </option>
+                                    <option value="hafr"> حفر الباطن </option>
+                                    <option value="zhar"> الظهران </option>
+                              </select>
+                              
+                              </div>
+
+               
+                              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                      
+
+
+                              <button type="submit" type="button" class="btn btn-dark">ابحث هنا</button>
+
+                    
+                              <div class="modal-footer">
+            
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                        
+                              </div>              
+                         
+                        </form>
+                        </div> 
+              
+                        
+            
+   
+  
+  
+  
+  
+  
+  </body>
+  
+  
+     <script>
+  
+  
+  
+  
+  
+  var sel1 = document.querySelector('#sel1');
+  var sel2 = document.querySelector('#sel2');
+  var options2 = sel2.querySelectorAll('option');
+  
+  function giveSelection(selValue) {
+    sel2.innerHTML = '';
+    for(var i = 0; i < options2.length; i++) {
+      if(options2[i].dataset.option === selValue) {
+        sel2.appendChild(options2[i]);
+      }
+    }
+  }
+  
+  giveSelection(sel1.value);
+  
+     </script>
+     
+  

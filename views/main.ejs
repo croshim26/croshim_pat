@@ -1,0 +1,571 @@
+<head>
+  <meta charset="utf-8">
+  <title>Auto Focus</title>
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/v4-shims.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="css/main2.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+
+<body>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+
+
+
+
+ 
+  <section id="title"  >
+
+ 
+    
+  <nav class="navbar  navbar-expand-lg " >
+    <a  class="navbar-brand" style="color: white;" data-aos="fade-up">Auto Focus</a>
+     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent" data-aos="fade-up">
+    <ul class="navbar-nav ml-auto">
+        
+
+          <li class="nav-item">
+            <a   class="nav-link " style="color: white;"  href="#footer">تواصل معنا</a>
+        </li>
+
+        <li class="nav-item">
+          <a  class="nav-link " style="color: white;" href="#about"> auto focus حول </a>
+      </li>
+
+          <li class="nav-item">
+            <a  class="nav-link "  style="color: white;" href="#Searcher"> مصور</a>
+        </li>
+
+       
+
+        <li class="nav-item">
+          <a  class="nav-link " style="color: white;" data-toggle="modal"
+           data-target="#exampleModal2" href=""> تسجيل دخول  </a>
+      </li>
+    
+      
+        <li class="nav-item active">
+            <a  class="nav-link " style="color: white" href="#title">الصفحة الرئيسية</a>
+        </li>
+        
+    </ul>
+ </div>
+</nav>
+
+  <div class="container">
+
+   
+
+   
+    <% if (message) { %>
+      <div class="alert alert-danger alert-dismissible fade show">
+        <strong>!!خطأ</strong> الايميل او رقم الهوية مستخدم 
+
+
+
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+      
+
+    </div>
+  <% } %>
+
+
+  <% if (message2) { %>
+      <div class="alert alert-success alert-dismissible fade show">
+     <a href="/">   للعودة من هنا </a>تم ارسال البيانات  
+
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+  <% } %>
+ 
+
+    <div class="row" data-aos="fade-up">
+    <div class="col-lg-6">
+
+
+        <h1 style="color: #fff;"> Auto Focus</h1>
+
+        <p style="color: white"> 
+        
+          منصة الكترونية تلبي احتياجات المصور من خلال اتاحة فرص التواصل مع مقدمي الدورات وايضا اتاحة فرص استئجار و شراء الادوات وسهولة الوصول للاستديوهات والشقق الجاهزة للتصوير
+        </p>
+
+    </div>
+
+
+
+    <div class="col-lg-12">
+
+      <section id="Searcher">
+
+       
+        
+
+        <div class="row">
+  
+     
+      
+            <div class="Searcher-box col-lg-4">
+      
+              <a class="fas fa-building fa-4x icon_search" href="/displayPlace"></a>
+      
+      
+                  <h3 class="h3_search">الاستديو</h3>
+                  <p class="P1_search">لرؤية الاستديوهات او الشقق المتاحة </p>
+      
+            </div>
+      
+            <div class="Searcher-box col-lg-4">
+              <a class="fas fa-icons fa-4x icon_search" href="/displayEquipment"></a>
+      
+      
+      
+                  <h3 class="h3_search">المعدات </h3>
+                  <p class="P1_search">لرؤية المعدات المتاحة للأيجار او الشراء </p>
+      
+            </div>
+    
+    
+            <div class="Searcher-box col-lg-4">
+              <a class="fas  fa-chalkboard-teacher fa-4x icon_search" href="/displayCourses"></a>
+      
+      
+      
+                  <h3 class="h3_search">الدورات </h3>
+                  <p class="P1_search">لرؤية الدورات الحصرية </p>
+      
+            </div>
+          </div>
+
+      </section>
+  </div>
+
+  </div>
+  </div>
+
+  
+  </section>
+</div>
+
+
+<% if (message) { %>
+  <div class="alert alert-danger alert-dismissible fade show">
+    <strong>!!خطأ</strong> هذا الايميل موجود بالفعل 
+
+
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+  
+
+</div>
+<% } %>
+
+
+<% if (message2) { %>
+
+
+<div class="alert alert-success" role="alert">
+مبروك لقد تم انشاء الحساب بنجاح <a href="/" class="alert-link">اضغط هنا للذهاب الى صفحة الدخول </a>
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+</div>
+
+
+<% } %>
+
+  <section id="owner" data-aos="fade-up">
+    <div class="alert alert-warning">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>اخلاء مسؤولية</strong> مهمة الموقع في وصل العميل بالبائع او المصور او المؤجر فقط ، وغير مسؤول عن اي حالة نصب تحصل  
+    </div>
+
+    <div class="row">
+
+        <div class="section-box col-lg-12">
+  
+            <button class="fas fa-icons fa-4x icon_owner" class="btn btn-primary"
+              data-toggle="modal" data-target="#exampleModal3" id="equipment">
+             </button>
+    
+    
+            <h3 class="h3_owner"> تسجيل دخول كمستثمر </h3>
+            <p class="P1_owner" >لبيع المعدات  </p>
+            <p class="P1_owner" >   لتأجير الاستديوهات والشقق المفروشة </p>
+            <p class="P1_owner" >  للاعلانات عن دورات  </p>
+
+    
+          </div>
+    
+
+    </div>
+
+
+
+
+
+   
+
+
+
+
+
+  </section>
+
+
+  <section id="about">
+
+    
+    <h2 style="text-align: center; color: white;" data-aos="fade-up">Auto Focus</h2>
+    <div id="testimonial-carousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner" data-aos="fade-up">
+    <div class="carousel-item active" data-interval="5000">
+
+      <h2 style="color: #fff;">تستهدف المصورين للتسهيل عليهم </h2>
+      
+      
+    </div>
+    <div class="carousel-item" data-interval="10000">
+
+      <h2 class="testimonial-text " style="color: #fff;">سهولة الوصول الى الاماكن المهيأة للتصوير   </h2>
+    
+
+    </div>
+
+    <div class="carousel-item" data-interval="15000">
+      
+      <h2 class="testimonial-text" style="color: #fff;">   تهدف الى وصل الباحثين بالمصورين مع بعض</h2>
+    
+    </div>
+
+  </div>
+  <a class="carousel-control-prev" href="#testimonial-carousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" ></span>
+
+  </a>
+  <a class="carousel-control-next" href="#testimonial-carousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" ></span>
+
+  </a>
+</div>
+
+
+
+
+
+
+
+  </section>
+
+
+  <!-- Footer -->
+
+  <footer id="footer" data-aos="fade-up"  >
+    <div class="row" >
+      <div class="col-md-3 ">
+      <i>AUTO FOCUS</i>
+      <p style="font-weight: bolder;">
+        نعين ونعاون 
+      
+      </p>
+  
+  
+    </div>
+  
+    <div class="col-md-3 " >
+      <i>Explorer</i>
+      <p><b><a href="#" >Home</a></b></p>
+      <p><b><a href="#" >About</a></b></p>
+
+  
+    </div>
+  
+    <div class="col-md-3" >
+  
+      <i>Email</i>
+
+      <p><i class="fas fa-envelope"></i> zwali.eng@gmail.com</p>
+     
+     
+    </div>
+  
+    <script>
+
+// function sum_even(){
+
+//   var sum=0;
+
+// for (let i = 6; i <=178; i++) {
+  
+
+
+
+// }
+
+// return sum;
+
+
+// }
+
+var msg="codingdojo"
+for (let i = 7; i <msg.length+2; i++) {
+  
+
+console.log(i);
+
+}
+// console.log(sum_even());
+
+
+
+
+    </script>
+  
+    <div class="col-md-3" >
+      <i>Connect with us </i>
+      <p>
+        <i class="fab fa-facebook fa-2x"></i>
+        <i class="fab fa-twitter fa-2x"></i>
+        <i class="fab fa-instagram fa-2x"></i>
+      </p>
+    
+  
+    
+    </div>
+   
+    </div>
+  
+  
+  
+  
+  
+  
+  
+      <p class="copy" style="text-align: center; color: black;">© Copyright 2021 Auto Focus</p>
+    
+    
+  
+  
+    
+  </footer>
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">مصور</h5>
+  
+        </div>
+        <div class="modal-body">
+          <form action="/login" method="POST">
+          <aside  class="col-lg-12" >
+  
+  
+            <div class="card">
+            <article class="card-body">
+              <h4 class="card-title text-center mb-4 mt-1">تسجيل دخول  </h4>
+              <hr>
+  
+              <form>
+              <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                 </div>
+                <input name="email" class="form-control" placeholder="Email or login" type="email">
+              </div> <!-- input-group.// -->
+              </div> <!-- form-group// -->
+              <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                 </div>
+                  <input name="password" class="form-control" placeholder="******" type="password">
+              </div> <!-- input-group.// -->
+              </div> <!-- form-group// -->
+              <div class="form-group">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="btn btn-primary btn-block"> دخول</button>
+              </div> <!-- form-group// -->
+              <p class="text-center"><a href="/reset" class="btn">أنسيت كلمة المرور؟</a></p>
+  
+              <p class="text-center"><a href="/register" class="btn">اذا ليس لديك حساب؟</a></p>
+  
+  
+              </form>
+            </form>
+            </article>
+            </div> <!-- card.// -->
+  
+              </aside> <!-- col.// -->
+        </div>
+        <div class="modal-footer">
+  
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  <div id="building">
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">مؤجر</h5>
+  
+          </div>
+          <div class="modal-body">
+            <form action="/PlaceLessor_login" method="POST" >
+       
+            <aside  class="col-lg-12" >
+  
+  
+              <div class="card">
+              <article class="card-body">
+                <h4 class="card-title text-center mb-4 mt-1">تسجيل دخول</h4>
+                <hr>
+  
+                <form>
+                <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                   </div>
+                  <input name="email" class="form-control" placeholder="Email or login" type="email">
+                </div> <!-- input-group.// -->
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                   </div>
+                    <input name="password" class="form-control" placeholder="******" type="password">
+                </div> <!-- input-group.// -->
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn btn-primary btn-block"> سجل هنا  </button>
+                </div> <!-- form-group// -->
+                <p class="text-center"><a href="/PlaceLessor_reset" class="btn">أنسيت كلمة المرور؟</a></p>
+  
+                <p class="text-center"><a href="/PlaceLessor_register" class="btn">اذا ليس لديك حساب ؟ </a></p>
+  
+  
+                </form>
+  
+              </article>
+              </div> <!-- card.// -->
+            </form>
+                </aside> <!-- col.// -->
+          </div>
+          <div class="modal-footer">
+  
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق </button>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+
+
+
+
+
+  <div id="equipment">
+    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">تأجير الاغراض</h5>
+  
+          </div>
+          <div class="modal-body">
+            <form action="/Equipment_sellerLogin" method="POST" >
+       
+            <aside  class="col-lg-12" >
+  
+  
+              <div class="card">
+              <article class="card-body">
+                <h4 class="card-title text-center mb-4 mt-1">تسجيل دخول</h4>
+                <hr>
+  
+                <form>
+                <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                   </div>
+                  <input name="email" class="form-control" placeholder="Email or login" type="email">
+                </div> <!-- input-group.// -->
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                   </div>
+                    <input name="password" class="form-control" placeholder="******" type="password">
+                </div> <!-- input-group.// -->
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn btn-primary btn-block"> سجل هنا  </button>
+                </div> <!-- form-group// -->
+                <p class="text-center"><a href="/Equipment_sellerReset" class="btn">أنسيت كلمة المرور؟</a></p>
+  
+                <p class="text-center"><a href="/Equipment_sellerRegister" class="btn">اذا ليس لديك حساب ؟ </a></p>
+                
+  
+                </form>
+  
+              </article>
+              </div> <!-- card.// -->
+            </form>
+                </aside> <!-- col.// -->
+          </div>
+          <div class="modal-footer">
+  
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق </button>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+
+
+
+
+
+</body>
+
+<script>
+
+</script>
+
+</html>
+

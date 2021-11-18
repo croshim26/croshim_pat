@@ -1,0 +1,2098 @@
+
+
+
+
+
+
+<%- include('../includes/includes_nav/navigation_displayInfo.ejs') %>
+<%- include('../includes/links') %>
+
+<link rel="stylesheet" href="css/item_User.css">
+
+       <!-- just to make scrolling effect possible -->
+       <section id="team" class="pb-5">
+        <div class="container">
+            <h5 class="section-title h1">الاماكن</h5>
+            <div class="row">
+
+      <%for (var i = 0; i < data.length ; i++) {%>
+
+          <%for (var j=0; j< data[i].dest.length; j++) {%>
+      
+    
+            <%if( data[i].dest[j].nationality === nat){%>
+
+      
+          <%if(nat === "rya"){%>
+
+            
+
+            <%if(dest === ""){%>
+
+              
+                <div class="col-xs-12 col-sm-6 col-md-4">
+              <div class="image-flip">
+                  <div class="mainflip flip-0">
+      
+                     
+                      <div class="frontside">
+                          <div class="card"  style=" width: 10rem;">
+                              <div class="card-body text-center">
+                               
+                        
+                                     
+      
+      
+                                  <p><img class="img-fluid" src="images/City_Picture/ria.png" alt="card image"></p>
+                                 
+      
+                                  <h4 class="card-title">
+      
+                                    <%= data[i].firstNameA%>    <%= data[i].lastNameA%>
+
+                                  
+                                    
+      
+                                    <h4 class="city" style="color: gray;"> الرياض</h4>
+  
+                                </h4>
+      
+                                  </h4>
+                                  <p class="card-text">
+      
+
+
+                                    <%  if(dest=== "") {%>
+      
+                                     <%= data[i].dest[j].dist%> 
+      
+      
+                                      <%}%>
+      
+                                      <%  if(data[i].dest[j].dist == dest) {%>
+      
+      
+                                        <%=data[i].dest[j].dist%>
+                                          <%}%>
+      
+      
+      
+                                          
+                                    
+                                    
+                                  </p>
+                                  
+                              </div>
+                          </div>
+                      </div>
+
+                   
+
+
+                  
+
+
+
+
+      
+                      <div class="backside">
+                          <div class="card">
+                              <div class="card-body text-center mt-4">
+                                  <h4 class="card-title"> <%if(dest === null){%>
+          
+                                      <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                    
+                                    
+                                      <%}%>
+                                    <%if(dest !== null){%>
+                                    
+                                      <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                    
+                                    <%}%>
+                                  
+                                  </h4>
+                                    
+                                  <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                  <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                             
+      
+      
+                              </div>
+                          </div>
+                      </div>
+      
+                      
+                      
+      
+                  </div>
+              </div>
+          </div>
+        
+
+          <%}%>
+
+          <% if(dest === data[i].dest[j].dist && dest !== ""){%>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip">
+                    <div class="mainflip flip-0">
+        
+                       
+                        <div class="frontside">
+                            <div class="card"  style=" width: 10rem;">
+                                <div class="card-body text-center">
+                                 
+                          
+                                       
+        
+        
+                                    <p><img class="img-fluid" src="images/City_Picture/ria.png" alt="card image"></p>
+                                   
+        
+                                    <h4 class="card-title">
+        
+                                      <%= data[i].firstNameA%>
+  
+                                    
+                                      
+        
+                                      <h4 class="city" style="color: gray;"> الرياض</h4>
+  
+                                    </h4>
+        
+                                    </h4>
+                                    <p class="card-title">
+        
+  
+  
+                                      <%  if(dest=== "") {%>
+        
+                                        <%= data[i].dest[j].dist%>
+        
+        
+                                        <%}%>
+        
+                                        <%  if(data[i].dest[j].dist == dest) {%>
+        
+        
+                                         <%=data[i].dest[j].dist%>
+                                            <%}%>
+        
+        
+        
+                                            
+                                      
+                                      
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+  
+                     
+  
+  
+                    
+  
+  
+  
+  
+        
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title"> <%if(dest === null){%>
+            
+                                        <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      
+                                        <%}%>
+                                      <%if(dest !== null){%>
+                                      
+                                        <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      <%}%>
+                                    
+                                    </h4>
+                                      
+                                    <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                    <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                             
+        
+        
+                                </div>
+                            </div>
+                        </div>
+        
+                        
+                        
+        
+                    </div>
+                </div>
+            </div>
+
+      <%}%>
+          <%}%>
+      
+<!-- //////////// -->
+
+
+
+<%if(nat === "hfof"){%>
+
+    <%if(dest === ""){%>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="image-flip">
+            <div class="mainflip flip-0">
+
+             
+                <div class="frontside">
+                    <div class="card">
+                        <div class="card-body text-center">
+                         
+                  
+                               
+
+
+                            <p><img class="img-fluid" src="images/City_Picture/hafof.png" alt="card image"></p>
+                           
+
+                            <h4 class="card-title">
+
+                              <%= data[i].firstNameA%>
+
+                              <h4 class="city">الهفوف </h4>
+
+
+                            </h4>
+                            <p class="card-text">
+                                <%  if(dest=== "") {%>
+      
+                                    <%= data[i].dest[j].dist%>
+    
+    
+                                    <%}%>
+    
+                                    <%  if(data[i].dest[j].dist == dest) {%>
+    
+    
+                                          <%=data[i].dest[j].dist %>
+                                        <%}%>
+
+                                    
+                              
+                              
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backside">
+                    <div class="card">
+                        <div class="card-body text-center mt-4">
+                            <h4 class="card-title"> <%if(dest === null){%>
+    
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              
+                                <%}%>
+                              <%if(dest !== null){%>
+                              
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              <%}%>
+                            
+                            </h4>
+                              
+                            <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                            <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                                   
+
+
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+
+            </div>
+        </div>
+    </div>
+
+<%}%>
+
+
+<%if(dest === data[i].dest[j].dist && dest !== ""){%>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="image-flip">
+            <div class="mainflip flip-0">
+
+             
+                <div class="frontside">
+                    <div class="card">
+                        <div class="card-body text-center">
+                         
+                  
+                               
+
+
+                            <p><img class="img-fluid" src="images/City_Picture/hafof.png" alt="card image"></p>
+                           
+
+                            <h4 class="card-title">
+
+                              <%= data[i].firstNameA%>
+
+                              <h4 class="city">الهفوف </h4>
+
+
+                            </h4>
+                            <p class="card-text">
+                                <%  if(dest=== "") {%>
+      
+                                    <%= data[i].dest[j].dist%>
+    
+    
+                                    <%}%>
+    
+                                    <%  if(data[i].dest[j].dist == dest) {%>
+    
+    
+                                        <%=data[i].dest[j].dist%>
+                                        <%}%>
+
+                                    
+                              
+                              
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backside">
+                    <div class="card">
+                        <div class="card-body text-center mt-4">
+                            <h4 class="card-title"> <%if(dest === null){%>
+    
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              
+                                <%}%>
+                              <%if(dest !== null){%>
+                              
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              <%}%>
+                            
+                            </h4>
+                              
+                            <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                            <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                                   
+
+
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+
+            </div>
+        </div>
+    </div>
+
+<%}%>
+
+
+
+
+<%}%>
+
+
+
+<!-- ///////// -->
+
+
+<%if(nat === "madinah"){%>
+
+    <%if(dest === ""){%>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="image-flip">
+            <div class="mainflip flip-0">
+
+             
+                <div class="frontside">
+                    <div class="card">
+                        <div class="card-body text-center">
+                         
+                  
+                               
+
+
+                            <p><img class="img-fluid" src="images/City_Picture/mad.jpeg" alt="card image"></p>
+                           
+
+                            <h4 class="card-title">
+
+                              <%= data[i].firstNameA%>
+
+                                <h4 class="city"> مدينة المنورة</h4>
+
+                            </h4>
+                            <p class="card-text">
+
+                              <%  if(data[i].dest[j].dist === null) {%>
+
+
+
+                                <%}%>
+
+                                <%  if(data[i].dest[j].dist !== null) {%>
+
+
+                                      <%=data[i].dest[j].dist%>
+                                    <%}%>
+
+                                    
+                              
+                              
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backside">
+                    <div class="card">
+                        <div class="card-body text-center mt-4">
+                            <h4 class="card-title"> <%if(dest === null){%>
+    
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              
+                                <%}%>
+                              <%if(dest !== null){%>
+                              
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              <%}%>
+                            
+                            </h4>
+                              
+                            <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                            <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                                   
+
+
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+
+            </div>
+        </div>
+    </div>
+    <%}%>
+
+
+    <%if(dest === data[i].dest[j].dist){%>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="image-flip">
+                <div class="mainflip flip-0">
+    
+                 
+                    <div class="frontside">
+                        <div class="card">
+                            <div class="card-body text-center">
+                             
+                      
+                                   
+    
+    
+                                <p><img class="img-fluid" src="images/City_Picture/mad.jpeg" alt="card image"></p>
+                               
+    
+                                <h4 class="card-title">
+    
+                                  <%= data[i].firstNameA%>
+    
+                                    <h4 class="city"> مدينة المنورة</h4>
+    
+                                </h4>
+                                <p class="card-text">
+    
+                                  <%  if(data[i].dest[j].dist === null) {%>
+    
+    
+    
+                                    <%}%>
+    
+                                    <%  if(data[i].dest[j].dist !== null) {%>
+    
+    
+                                         <%=data[i].dest[j].dist%>
+                                        <%}%>
+    
+                                        
+                                  
+                                  
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="backside">
+                        <div class="card">
+                            <div class="card-body text-center mt-4">
+                                <h4 class="card-title"> <%if(dest === null){%>
+        
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  
+                                    <%}%>
+                                  <%if(dest !== null){%>
+                                  
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  <%}%>
+                                
+                                </h4>
+                                  
+                                <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                                   
+    
+    
+                            </div>
+                        </div>
+                    </div>
+    
+                    
+                    
+    
+                </div>
+            </div>
+        </div>
+        <%}%>
+
+
+
+    <%}%>
+
+
+<!-- /////////// -->
+
+
+<%if(nat === "makkah"){%>
+
+    <%if(dest === ""){%>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="image-flip">
+            <div class="mainflip flip-0">
+
+             
+                <div class="frontside">
+                    <div class="card">
+                        <div class="card-body text-center">
+                         
+                  
+                               
+
+
+                            <p><img class="img-fluid" src="images/City_Picture/mak.jpg" alt="card image"></p>
+                           
+
+                            <h4 class="card-title">
+
+                              <%= data[i].firstNameA%>
+
+                                <h4 class="city"> مكة</h4>
+
+                            </h4>
+                            <p class="card-text">
+
+                              <%  if(data[i].dest[j].dist === null) {%>
+
+
+
+                                <%}%>
+
+                                <%  if(data[i].dest[j].dist !== null) {%>
+
+
+                                     <%=data[i].dest[j].dist%>
+                                    <%}%>
+
+                                    
+                              
+                              
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backside">
+                    <div class="card">
+                        <div class="card-body text-center mt-4">
+                            <h4 class="card-title"> <%if(dest === null){%>
+    
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              
+                                <%}%>
+                              <%if(dest !== null){%>
+                              
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              <%}%>
+                            
+                            </h4>
+                              
+                            <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                            <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                                 
+
+
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+
+            </div>
+        </div>
+    </div>
+    <%}%>
+
+
+
+
+    <%if(dest === data[i].dest[j].dist && dest !== ""){%>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="image-flip">
+                <div class="mainflip flip-0">
+    
+                 
+                    <div class="frontside">
+                        <div class="card">
+                            <div class="card-body text-center">
+                             
+                      
+                                   
+    
+    
+                                <p><img class="img-fluid" src="images/City_Picture/mak.jpg" alt="card image"></p>
+                               
+    
+                                <h4 class="card-title">
+    
+                                  <%= data[i].firstNameA%>
+    
+                                    <h4 class="city"> مكة</h4>
+    
+                                </h4>
+                                <p class="card-text">
+    
+                                  <%  if(data[i].dest[j].dist === null) {%>
+    
+    
+    
+                                    <%}%>
+    
+                                    <%  if(data[i].dest[j].dist !== null) {%>
+    
+    
+                                          <%=data[i].dest[j].dist%>
+                                        <%}%>
+    
+                                        
+                                  
+                                  
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="backside">
+                        <div class="card">
+                            <div class="card-body text-center mt-4">
+                                <h4 class="card-title"> <%if(dest === null){%>
+        
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  
+                                    <%}%>
+                                  <%if(dest !== null){%>
+                                  
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  <%}%>
+                                
+                                </h4>
+                                  
+                                <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                                 
+    
+    
+                            </div>
+                        </div>
+                    </div>
+    
+                    
+                    
+    
+                </div>
+            </div>
+        </div>
+        <%}%>
+
+        <%}%>
+
+        <!-- /////// -->
+
+        <%if(nat === "tabok"){%>
+            <%if(dest === ""){%>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip">
+                    <div class="mainflip flip-0">
+        
+                     
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                 
+                          
+                                       
+        
+        
+                                    <p><img class="img-fluid" src="images/City_Picture/tab.png" alt="card image"></p>
+                                   
+        
+                                    <h4 class="card-title">
+        
+                                      <%= data[i].firstNameA%>
+        
+                                        <h4 class="city"> تبوك</h4>
+        
+                                    </h4>
+                                    <p class="card-text">
+        
+                                      <%  if(data[i].dest[j].dist === null) {%>
+        
+        
+        
+                                        <%}%>
+        
+                                        <%  if(data[i].dest[j].dist !== null) {%>
+        
+        
+                                             <%=data[i].dest[j].dist%>
+                                            <%}%>
+        
+                                            
+                                      
+                                      
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title"> <%if(dest === null){%>
+            
+                                        <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      
+                                        <%}%>
+                                      <%if(dest !== null){%>
+                                      
+                                        <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      <%}%>
+                                    
+                                    </h4>
+                                      
+                                    <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                    <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                               
+        
+        
+                                </div>
+                            </div>
+                        </div>
+        
+                        
+                        
+        
+                    </div>
+                </div>
+            </div>
+            <%}%>
+            <%if(dest === data[i].dest[j].dist){%>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="image-flip">
+                        <div class="mainflip flip-0">
+            
+                         
+                            <div class="frontside">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                     
+                              
+                                           
+            
+            
+                                        <p><img class="img-fluid" src="images/City_Picture/tab.png" alt="card image"></p>
+                                       
+            
+                                        <h4 class="card-title">
+            
+                                          <%= data[i].firstNameA%>
+            
+                                            <h4 class="city"> تبوك</h4>
+            
+                                        </h4>
+                                        <p class="card-text">
+            
+                                          <%  if(data[i].dest[j].dist === null) {%>
+            
+            
+            
+                                            <%}%>
+            
+                                            <%  if(data[i].dest[j].dist !== null) {%>
+            
+            
+                                                  <%=data[i].dest[j].dist%>
+                                                <%}%>
+            
+                                                
+                                          
+                                          
+                                        </p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="backside">
+                                <div class="card">
+                                    <div class="card-body text-center mt-4">
+                                        <h4 class="card-title"> <%if(dest === null){%>
+                
+                                            <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                          
+                                          
+                                            <%}%>
+                                          <%if(dest !== null){%>
+                                          
+                                            <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                          
+                                          <%}%>
+                                        
+                                        </h4>
+                                          
+                                        <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                        <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                               
+            
+            
+                                    </div>
+                                </div>
+                            </div>
+            
+                            
+                            
+            
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+
+            <%}%>
+
+
+<!-- ////////// -->
+
+<%if(nat === "bry"){%>
+    <%if(dest === ""){%>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="image-flip">
+            <div class="mainflip flip-0">
+
+             
+                <div class="frontside">
+                    <div class="card">
+                        <div class="card-body text-center">
+                         
+                  
+                               
+
+
+                            <p><img class="img-fluid" src="images/City_Picture/bry.png" alt="card image"></p>
+                           
+
+                            <h4 class="card-title">
+
+                              <%= data[i].firstNameA%>
+
+                                <h4 class="city"> بريدة</h4>
+
+                            </h4>
+                            <p class="card-text">
+
+                              <%  if(data[i].dest[j].dist === null) {%>
+
+
+
+                                <%}%>
+
+                                <%  if(data[i].dest[j].dist !== null) {%>
+
+
+                                       <%=data[i].dest[j].dist%>
+                                    <%}%>
+
+                                    
+                              
+                              
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backside">
+                    <div class="card">
+                        <div class="card-body text-center mt-4">
+                            <h4 class="card-title"> <%if(dest === null){%>
+    
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              
+                                <%}%>
+                              <%if(dest !== null){%>
+                              
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              <%}%>
+                            
+                            </h4>
+                              
+                            <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                            <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                             
+
+
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+
+            </div>
+        </div>
+    </div>
+    <%}%>
+
+    <%if(dest === data[i].dest[j].dist){%>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="image-flip">
+                <div class="mainflip flip-0">
+    
+                 
+                    <div class="frontside">
+                        <div class="card">
+                            <div class="card-body text-center">
+                             
+                      
+                                   
+    
+    
+                                <p><img class="img-fluid" src="images/City_Picture/bry.png" alt="card image"></p>
+                               
+    
+                                <h4 class="card-title">
+    
+                                  <%= data[i].firstNameA%>
+    
+                                    <h4 class="city"> بريدة</h4>
+    
+                                </h4>
+                                <p class="card-text">
+    
+                                  <%  if(data[i].dest[j].dist === null) {%>
+    
+    
+    
+                                    <%}%>
+    
+                                    <%  if(data[i].dest[j].dist !== null) {%>
+    
+    
+                                         <%=data[i].dest[j].dist%>
+                                        <%}%>
+    
+                                        
+                                  
+                                  
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="backside">
+                        <div class="card">
+                            <div class="card-body text-center mt-4">
+                                <h4 class="card-title"> <%if(dest === null){%>
+        
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  
+                                    <%}%>
+                                  <%if(dest !== null){%>
+                                  
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  <%}%>
+                                
+                                </h4>
+                                  
+                                <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                             
+    
+    
+                            </div>
+                        </div>
+                    </div>
+    
+                    
+                    
+    
+                </div>
+            </div>
+        </div>
+
+
+    <%}%>
+
+    <%}%>
+
+    <!-- ////////// -->
+
+
+    <%if(nat === "khmis"){%>
+        <%if(dest === ""){%>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="image-flip">
+                <div class="mainflip flip-0">
+    
+                 
+                    <div class="frontside">
+                        <div class="card">
+                            <div class="card-body text-center">
+                             
+                      
+                                   
+    
+    
+                                <p><img class="img-fluid" src="images/City_Picture/khmis.png" alt="card image"></p>
+                               
+    
+                                <h4 class="card-title">
+    
+                                  <%= data[i].firstNameA%>
+    
+                                    <h4 class="city"> خميس مشيط </h4>
+    
+                                </h4>
+                                <p class="card-text">
+    
+                                  <%  if(data[i].dest[j].dist === null) {%>
+    
+    
+    
+                                    <%}%>
+    
+                                    <%  if(data[i].dest[j].dist !== null) {%>
+    
+    
+                                      <%=data[i].dest[j].dist%>
+                                        <%}%>
+    
+                                        
+                                  
+                                  
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="backside">
+                        <div class="card">
+                            <div class="card-body text-center mt-4">
+                                <h4 class="card-title"> <%if(dest === null){%>
+        
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  
+                                    <%}%>
+                                  <%if(dest !== null){%>
+                                  
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  <%}%>
+                                
+                                </h4>
+                                  
+                                <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                           
+    
+    
+                            </div>
+                        </div>
+                    </div>
+    
+                    
+                    
+    
+                </div>
+            </div>
+        </div>
+        <%}%>
+        <%if(dest === data[i].dest[j].dist){%>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip">
+                    <div class="mainflip flip-0">
+        
+                     
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                 
+                          
+                                       
+        
+        
+                                    <p><img class="img-fluid" src="images/City_Picture/khmis.png" alt="card image"></p>
+                                   
+        
+                                    <h4 class="card-title">
+        
+                                      <%= data[i].firstNameA%>
+        
+                                        <h4 class="city"> خميس مشيط </h4>
+        
+                                    </h4>
+                                    <p class="card-text">
+        
+                                      <%  if(data[i].dest[j].dist === null) {%>
+        
+        
+        
+                                        <%}%>
+        
+                                        <%  if(data[i].dest[j].dist !== null) {%>
+        
+        
+                                               <%=data[i].dest[j].dist%>
+                                            <%}%>
+        
+                                            
+                                      
+                                      
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title"> <%if(dest === null){%>
+            
+                                        <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      
+                                        <%}%>
+                                      <%if(dest !== null){%>
+                                      
+                                        <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      <%}%>
+                                    
+                                    </h4>
+                                      
+                                    <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                    <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                           
+        
+        
+                                </div>
+                            </div>
+                        </div>
+        
+                        
+                        
+        
+                    </div>
+                </div>
+            </div>
+
+        <%}%>
+        <%}%>
+
+
+        <!-- //////// -->
+
+
+
+        <%if(nat === "hafr"){%>
+            <%if(dest === ""){%>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip">
+                    <div class="mainflip flip-0">
+        
+                     
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                 
+                          
+                                       
+        
+        
+                                    <p><img class="img-fluid" src="images/City_Picture/haf.png" alt="card image"></p>
+                                   
+        
+                                    <h4 class="card-title">
+        
+                                      <%= data[i].firstNameA%>
+        
+                                      <h4 class="city"> حفر الباطن</h4>
+        
+                                    </h4>
+                                    <p class="card-text">
+        
+                                      <%  if(data[i].dest[j].dist === null) {%>
+        
+        
+        
+                                        <%}%>
+        
+                                        <%  if(data[i].dest[j].dist !== null) {%>
+        
+        
+                                           <%=data[i].dest[j].dist%>
+                                            <%}%>
+        
+                                            
+                                      
+                                      
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title"> <%if(dest === null){%>
+            
+                                        <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      
+                                        <%}%>
+                                      <%if(dest !== null){%>
+                                      
+                                        <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      <%}%>
+                                    
+                                    </h4>
+                                      
+                                    <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                    <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                         
+        
+        
+                                </div>
+                            </div>
+                        </div>
+        
+                        
+                        
+        
+                    </div>
+                </div>
+            </div>
+            <%}%>
+
+            <%if(dest === data[i].dest[j].dist){%>
+
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="image-flip">
+                        <div class="mainflip flip-0">
+            
+                         
+                            <div class="frontside">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                     
+                              
+                                           
+            
+            
+                                        <p><img class="img-fluid" src="images/City_Picture/haf.png" alt="card image"></p>
+                                       
+            
+                                        <h4 class="card-title">
+            
+                                          <%= data[i].firstNameA%>
+            
+                                          <h4 class="city"> حفر الباطن</h4>
+            
+                                        </h4>
+                                        <p class="card-text">
+            
+                                          <%  if(data[i].dest[j].dist === null) {%>
+            
+            
+            
+                                            <%}%>
+            
+                                            <%  if(data[i].dest[j].dist !== null) {%>
+            
+            
+                                              <%=data[i].dest[j].dist%>
+                                                <%}%>
+            
+                                                
+                                          
+                                          
+                                        </p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="backside">
+                                <div class="card">
+                                    <div class="card-body text-center mt-4">
+                                        <h4 class="card-title"> <%if(dest === null){%>
+                
+                                            <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                          
+                                          
+                                            <%}%>
+                                          <%if(dest !== null){%>
+                                          
+                                            <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                          
+                                          <%}%>
+                                        
+                                        </h4>
+                                          
+                                        <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                        <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                         
+            
+            
+                                    </div>
+                                </div>
+                            </div>
+            
+                            
+                            
+            
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+
+            <%}%>
+<!-- ////////////// -->
+
+<%if(nat === "dam"){%>
+
+    <%if(dest === ""){%>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="image-flip">
+          <div class="mainflip flip-0">
+
+           
+              <div class="frontside">
+                  <div class="card"  >
+                      <div class="card-body text-center">
+                       
+                
+                             
+
+
+                          <p><img class="img-fluid" src="images/City_Picture/dam.png" alt="card image"></p>
+                         
+
+                          <h4 class="card-title">
+
+                            <%= data[i].firstNameA%>
+
+                            <h4 class="city"> الدمام</h4>
+
+                          </h4>
+                          <p class="card-text">
+
+                            <%  if(data[i].dest[j].dist === null) {%>
+
+
+
+                              <%}%>
+
+                              <%  if(data[i].dest[j].dist !== null) {%>
+
+
+                                    <%=data[i].dest[j].dist%>
+                                  <%}%>
+
+                                  
+                            
+                            
+                          </p>
+                          
+                      </div>
+                  </div>
+              </div>
+
+              <div class="backside">
+                  <div class="card">
+                      <div class="card-body text-center mt-4">
+                          <h4 class="card-title"> <%if(dest === null){%>
+  
+                              <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                            
+                            
+                              <%}%>
+                            <%if(dest !== null){%>
+                            
+                              <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                            
+                            <%}%>
+                          
+                          </h4>
+                            
+                          <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                          <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                       
+
+
+                      </div>
+                  </div>
+              </div>
+
+              
+              
+
+          </div>
+      </div>
+  </div>
+  <%}%>
+
+  <%if(dest === data[i].dest[j].dist){%>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="image-flip">
+          <div class="mainflip flip-0">
+
+           
+              <div class="frontside">
+                  <div class="card"  >
+                      <div class="card-body text-center">
+                       
+                
+                             
+
+
+                          <p><img class="img-fluid" src="images/City_Picture/dam.png" alt="card image"></p>
+                         
+
+                          <h4 class="card-title">
+
+                            <%= data[i].firstNameA%>
+
+                            <h4 class="city"> الدمام</h4>
+
+                          </h4>
+                          <p class="card-text">
+
+                            <%  if(data[i].dest[j].dist === null) {%>
+
+
+
+                              <%}%>
+
+                              <%  if(data[i].dest[j].dist !== null) {%>
+
+
+                                   <%=data[i].dest[j].dist%>
+                                  <%}%>
+
+                                  
+                            
+                            
+                          </p>
+                          
+                      </div>
+                  </div>
+              </div>
+
+              <div class="backside">
+                  <div class="card">
+                      <div class="card-body text-center mt-4">
+                          <h4 class="card-title"> <%if(dest === null){%>
+  
+                              <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                            
+                            
+                              <%}%>
+                            <%if(dest !== null){%>
+                            
+                              <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                            
+                            <%}%>
+                          
+                          </h4>
+                            
+                          <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                          <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                       
+
+
+                      </div>
+                  </div>
+              </div>
+
+              
+              
+
+          </div>
+      </div>
+  </div>
+  <%}%>
+  <%}%>
+
+  <!-- //////// -->
+
+
+  <%if(nat === "taif"){%>
+    <%if(dest === ""){%>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="image-flip">
+            <div class="mainflip flip-0">
+
+             
+                <div class="frontside">
+                    <div class="card">
+                        <div class="card-body text-center">
+                         
+                  
+                               
+
+
+                            <p><img class="img-fluid" src="images/City_Picture/t.png" alt="card image"></p>
+                           
+
+                            <h4 class="card-title">
+
+                              <%= data[i].firstNameA%>
+
+                              <h4 class="city"> الطائف</h4>
+
+                            </h4>
+                            <p class="card-text">
+
+                              <%  if(data[i].dest[j].dist === null) {%>
+
+
+
+                                <%}%>
+
+                                <%  if(data[i].dest[j].dist !== null) {%>
+
+
+                                   <%=data[i].dest[j].dist%>
+                                    <%}%>
+
+                                    
+                              
+                              
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backside">
+                    <div class="card">
+                        <div class="card-body text-center mt-4">
+                            <h4 class="card-title"> <%if(dest === null){%>
+    
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              
+                                <%}%>
+                              <%if(dest !== null){%>
+                              
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              <%}%>
+                            
+                            </h4>
+                              
+                            <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                            <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                     
+
+
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+
+            </div>
+        </div>
+    </div>
+    <%}%>
+    <%if(dest === data[i].dest[j].dist){%>
+
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="image-flip">
+                <div class="mainflip flip-0">
+    
+                 
+                    <div class="frontside">
+                        <div class="card">
+                            <div class="card-body text-center">
+                             
+                      
+                                   
+    
+    
+                                <p><img class="img-fluid" src="images/City_Picture/t.png" alt="card image"></p>
+                               
+    
+                                <h4 class="card-title">
+    
+                                  <%= data[i].firstNameA%>
+    
+                                  <h4 class="city"> الطائف</h4>
+    
+                                </h4>
+                                <p class="card-text">
+    
+                                  <%  if(data[i].dest[j].dist === null) {%>
+    
+    
+    
+                                    <%}%>
+    
+                                    <%  if(data[i].dest[j].dist !== null) {%>
+    
+    
+                                          <%=data[i].dest[j].dist%>
+                                        <%}%>
+    
+                                        
+                                  
+                                  
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="backside">
+                        <div class="card">
+                            <div class="card-body text-center mt-4">
+                                <h4 class="card-title"> <%if(dest === null){%>
+        
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  
+                                    <%}%>
+                                  <%if(dest !== null){%>
+                                  
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  <%}%>
+                                
+                                </h4>
+                                  
+                                <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                     
+    
+    
+                            </div>
+                        </div>
+                    </div>
+    
+                    
+                    
+    
+                </div>
+            </div>
+        </div>
+
+    <%}%>
+    <%}%>
+
+<!-- ////////////// -->
+
+ 
+<%if(nat === "zhar"){%>
+
+    <%if(dest === ""){%>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="image-flip">
+            <div class="mainflip flip-0">
+
+             
+                <div class="frontside">
+                    <div class="card">
+                        <div class="card-body text-center">
+                         
+                  
+                               
+
+
+                            <p><img class="img-fluid" src="images/City_Picture/zah.png" alt="card image"></p>
+                           
+
+                            <h4 class="card-title">
+
+                              <%= data[i].firstNameA%>
+
+                              <h4 class="city"> الظهران</h4>
+
+                            </h4>
+                            <p class="card-text">
+
+                              <%  if(data[i].dest[j].dist === null) {%>
+
+
+
+                                <%}%>
+
+                                <%  if(data[i].dest[j].dist !== null) {%>
+
+
+                                     <%=data[i].dest[j].dist%>
+                                    <%}%>
+
+                                    
+                              
+                              
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backside">
+                    <div class="card">
+                        <div class="card-body text-center mt-4">
+                            <h4 class="card-title"> <%if(dest === null){%>
+    
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              
+                                <%}%>
+                              <%if(dest !== null){%>
+                              
+                                <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                              
+                              <%}%>
+                            
+                            </h4>
+                              
+                            <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                            <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                   
+
+
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+
+            </div>
+        </div>
+    </div>
+    <%}%>
+    <%if(dest === data[i].dest[j].dist){%>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="image-flip">
+                <div class="mainflip flip-0">
+    
+                 
+                    <div class="frontside">
+                        <div class="card">
+                            <div class="card-body text-center">
+                             
+                      
+                                   
+    
+    
+                                <p><img class="img-fluid" src="images/City_Picture/zah.png" alt="card image"></p>
+                               
+    
+                                <h4 class="card-title">
+    
+                                  <%= data[i].firstNameA%>
+    
+                                  <h4 class="city"> الظهران</h4>
+    
+                                </h4>
+                                <p class="card-text">
+    
+                                  <%  if(data[i].dest[j].dist === null) {%>
+    
+    
+    
+                                    <%}%>
+    
+                                    <%  if(data[i].dest[j].dist !== null) {%>
+    
+    
+                                          <%=data[i].dest[j].dist%>
+                                        <%}%>
+    
+                                        
+                                  
+                                  
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="backside">
+                        <div class="card">
+                            <div class="card-body text-center mt-4">
+                                <h4 class="card-title"> <%if(dest === null){%>
+        
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  
+                                    <%}%>
+                                  <%if(dest !== null){%>
+                                  
+                                    <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                  
+                                  <%}%>
+                                
+                                </h4>
+                                  
+                                <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                   
+    
+    
+                            </div>
+                        </div>
+                    </div>
+    
+                    
+                    
+    
+                </div>
+            </div>
+        </div>
+        <%}%>
+
+          <%}%>
+
+          <!-- //////////// -->
+
+
+
+
+
+                  
+          <%if(nat === "jed"){%>
+            <%if(dest === ""){%>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip">
+                    <div class="mainflip flip-0">
+        
+                     
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                 
+                          
+                                       
+        
+        
+                                    <p><img class="img-fluid" src="images/City_Picture/j.png" alt="card image"></p>
+                                   
+        
+                                    <h4 class="card-title">
+        
+                                      <%= data[i].firstNameA%>
+        
+                                      <h4 class="city"> جدة</h4>
+        
+                                    </h4>
+                                    <p class="card-text">
+        
+                                      <%  if(data[i].dest[j].dist === null) {%>
+        
+        
+        
+                                        <%}%>
+        
+                                        <%  if(data[i].dest[j].dist !== null) {%>
+        
+        
+                                             <%=data[i].dest[j].dist%>
+                                            <%}%>
+        
+                                            
+                                      
+                                      
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title"> <%if(dest === null){%>
+            
+                                        <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      
+                                        <%}%>
+                                      <%if(dest !== null){%>
+                                      
+                                        <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                      
+                                      <%}%>
+                                    
+                                    </h4>
+                                      
+                                    <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                    <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                 
+        
+        
+                                </div>
+                            </div>
+                        </div>
+        
+                        
+                        
+        
+                    </div>
+                </div>
+            </div>
+            <%}%>
+            <%if(dest === data[i].dest[j].dist){%>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="image-flip">
+                        <div class="mainflip flip-0">
+            
+                         
+                            <div class="frontside">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                     
+                              
+                                           
+            
+            
+                                        <p><img class="img-fluid" src="images/City_Picture/j.png" alt="card image"></p>
+                                       
+            
+                                        <h4 class="card-title">
+            
+                                          <%= data[i].firstNameA%>
+            
+                                          <h4 class="city"> جدة</h4>
+            
+                                        </h4>
+                                        <p class="card-text">
+            
+                                          <%  if(data[i].dest[j].dist === null) {%>
+            
+            
+            
+                                            <%}%>
+            
+                                            <%  if(data[i].dest[j].dist !== null) {%>
+            
+            
+                                                  <%=data[i].dest[j].dist%>
+                                                <%}%>
+            
+                                                
+                                          
+                                          
+                                        </p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="backside">
+                                <div class="card">
+                                    <div class="card-body text-center mt-4">
+                                        <h4 class="card-title"> <%if(dest === null){%>
+                
+                                            <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                          
+                                          
+                                            <%}%>
+                                          <%if(dest !== null){%>
+                                          
+                                            <a href=" <%=data.url%>">   <i class="fas fa-location-arrow "></i> </a>
+                                          
+                                          <%}%>
+                                        
+                                        </h4>
+                                          
+                                        <p class="card-text"> <%=data[i].dest[j].desc%></p>
+                                        <p class="crad-text">  للتواصل  0<%= data[i].phone%></p>                                 
+            
+            
+                                    </div>
+                                </div>
+                            </div>
+            
+                            
+                            
+            
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+          <%}%>
+
+          <%}%>
+     
+          <%}%>
+          <%}%>
+     
+        </section>
+
+
+
+        <section style="height: 2.5rem;"></section>
+
+        
+          <%- include('../includes/footer') %>
+         
+
+          <%- include('../includes/includes_Search/search_placeItem') %>

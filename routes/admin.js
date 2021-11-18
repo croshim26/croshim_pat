@@ -12,70 +12,81 @@ const loggedin=require("../middleware/loggedin")
 const router = express.Router();
 
 
-router.get("/display_group",loggedin,admin.getadminGroup)
+router.get("/display_place",loggedin,admin.getadminPlace)
 
-router.get("/display_users",loggedin,admin.getadminUsers)
+router.get("/display_Equip",loggedin,admin.getadminEquip)
 
-
-router.get("/refuse_users",loggedin,admin.getRefuse)
-
-router.post("/refuse_users",loggedin,admin.postRefuse)
-
-
-router.get("/accept_users",loggedin,admin.getAccept)
-
-router.post("/accept_users",loggedin,admin.postAccept)
-
-
-router.get("/wait_users",loggedin,admin.getWait)
-
-router.post("/wait_users",loggedin,admin.postWait)
+router.get("/display_Course",loggedin,admin.getadminCourse)
 
 
 
+router.get("/accept_Course",loggedin,admin.getCourseAccept)
 
-router.get("/accept_group",loggedin,admin.getadminGroupAccept)
-
-router.post("/accept_group",loggedin,admin.postAcceptGroup)
+router.post("/accept_Course",loggedin,admin.postCourseAccept)
 
 
-router.get("/wait_group",loggedin,admin.getWaitGroup)
+router.get("/refuse_Course",loggedin,admin.getCourseRefuse)
 
-router.post("/wait_group",loggedin,admin.postWaitGroup)
-
+router.post("/refuse_Course",loggedin,admin.postCourseRefuse)
 
 
 
+router.get("/wait_Course",loggedin,admin.getCourseWait)
 
-router.get("/refuse_group",loggedin,admin.getRefuseGroup)
+router.post("/wait_Course",loggedin,admin.postCourseWait)
 
-router.post("/refuse_group",loggedin,admin.postRefuseGroup)
-
-
-
+///////
 
 
+router.get("/accept_Equip",loggedin,admin.getEquipAccept)
+
+router.post("/accept_Equip",loggedin,admin.postEquipAccept)
 
 
+router.get("/refuse_Equip",loggedin,admin.getEquipRefuse)
 
-
-
-
-
-
+router.post("/refuse_Equip",loggedin,admin.postEquipRefuse)
 
 
 
-router.get("/accept_users_excel",loggedin,admin.getAcceptExcel)
+router.get("/wait_Equip",loggedin,admin.getEquipWait)
 
-router.get("/display_usersAccept",loggedin,admin.getadminUsersAccept)
+router.post("/wait_Equip",loggedin,admin.postEquipWait)
 
-router.get("/display_usersRefuse",loggedin,admin.getadminUsersRefuse)
+///////
 
 
-router.get("/display_usersWait",loggedin,admin.getadminUsersWait)
 
-router.post("/display_usersWait",loggedin,admin.postadminUsersWait)
+router.get("/accept_Place",loggedin,admin.getPlaceAccept)
+
+router.post("/accept_Place",loggedin,admin.postPlaceAccept)
+
+
+router.get("/refuse_Place",loggedin,admin.getPlaceRefuse)
+
+router.post("/refuse_Place",loggedin,admin.postPlaceRefuse)
+
+
+
+router.get("/wait_Place",loggedin,admin.getPlaceWait)
+
+router.post("/wait_Place",loggedin,admin.postPlaceWait)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

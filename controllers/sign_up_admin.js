@@ -14,7 +14,7 @@ const saltRounds = 10;
 
 const transporter=nodemailer.createTransport(sendgridTransport({
   auth:{
-    api_key:"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"
+    api_key:"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"
   
   
   }
@@ -101,7 +101,7 @@ exports.getRegister=(req,res,next)=>{
   else {
     message2 = null;
   }
-res.render('sign_up/sign_up_admin', {
+res.render('admin/sign_up_admin', {
   message: message,
   message2:message2
 
@@ -120,9 +120,124 @@ exports.postLogin=(req,res,next)=>{
 
  
   adminDb.findOne({email:email}).then(admin =>{
+    
+  samvHajjUsers.findOne({email:email}).then(samvHajjUsers =>{
+
+  samvHajjGroup.findOne({email:email}).then(samvHajjGroup =>{
+
+  
+  
+
+  
+      if(samvHajjGroup){
+
+        console.log("error_users");
+  
+        bcrypt.compare(password, samvHajjGroup.password, function(err, result) {
+  
+          if (result===true) {
+
+  
+            console.log(req.session);
+            req.session.loggedIn=true;
+            req.session.samvHajjGroup=samvHajjGroup
+  
+            req.session.save(err => {
+            console.log(err);
+                  res.redirect("/group")
+            });
+  
+          }
+
+          else if(samvHajjUsers){
 
 
- if(admin){
+            bcrypt.compare(password, samvHajjUsers.password, function(err, result) {
+           
+              if (result===true) {
+
+                console.log(req.session);
+                req.session.loggedIn=true;
+                req.session.samvHajjUsers=samvHajjUsers
+      
+                req.session.save(err => {
+                console.log(err);
+                      res.redirect("/users")
+      
+                      
+                });
+      
+              }
+              
+              else{
+      
+            
+                console.log("error_users");
+      
+                req.flash('error', 'Invalid email or password.');
+                return res.redirect('/');
+      
+               
+      
+              }
+      });  
+      }
+          
+          
+          else{
+
+        
+            
+  
+            req.flash('error', 'Invalid email or password.');
+            return res.redirect('/');
+            
+            console.log("error_G");
+
+  
+          }
+  });  
+  }
+
+
+ 
+  else if(samvHajjUsers){
+
+
+    bcrypt.compare(password, samvHajjUsers.password, function(err, result) {
+      console.log("error_users");
+      if (result===true) {
+        console.log("error_users");
+
+        console.log(req.session);
+        req.session.loggedIn=true;
+        req.session.samvHajjUsers=samvHajjUsers
+
+        req.session.save(err => {
+        console.log(err);
+              res.redirect("/users")
+
+              
+        });
+
+      }
+      
+      else{
+
+    
+        console.log("error_users");
+
+        req.flash('error', 'Invalid email or password.');
+        return res.redirect('/');
+
+       
+
+      }
+});  
+}
+
+
+else if(admin){
 
 bcrypt.compare(password, admin.password, function(err, result) {
   console.log("error_users");
@@ -159,46 +274,24 @@ bcrypt.compare(password, admin.password, function(err, result) {
 
   
 }
+  else{
+    console.log("error");
 
-    })
-
+    req.flash('error', 'Invalid email or password.');
+    return res.redirect('/');
   }
+    })
+  })
 
-
-
-
-
-
-
-
+})
+  }
 
 exports.getLogin=(req,res,next)=>{
-  let message = req.flash('error');
 
-  let message2 = req.flash('success');
-  if (message.length > 0) {
-    message = message[0];
-
-  } else {
-    message = null;
-    
-  }
-
-  if (message2.length > 0) {
-    message2 = message2[0];
-
-  }
-  else {
-    message2 = null;
-  }
 
 
   
-  res.render('admin/login_admin',{
-    message: message,
-    message2: message2,
-
-  })
+  res.render('members/login')
     
 }
 

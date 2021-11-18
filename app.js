@@ -1,15 +1,9 @@
-
 const path = require('path');
 const fs = require('fs');
 
-
-const https = require('https');
 const mongoose = require("mongoose");
 
-
-
-
-
+const https = require('https');
 
 
 const express = require("express");
@@ -22,9 +16,21 @@ const session = require('express-session');
 const mongodbStore=require("connect-mongodb-session")(session)
 const csrf=require("csurf")
 
-// const helmet = require('helmet')
-var compression = require('compression')
-var morgan = require('morgan')
+
+
+
+
+
+const PutInfo = require('./routes/PutInfo');
+
+const Equipment_seller  = require('./routes/Equipment_seller');
+
+const putInfo_placeLessore=require("./routes/putInfo_placeLessore");
+
+
+const admin = require('./routes/admin');
+
+const sign_up_admin = require('./routes/sign_up_admin');
 
 
 
@@ -34,52 +40,10 @@ var morgan = require('morgan')
 
 
 
-const sign_up_Individuals  = require('./routes/sign_up_Individuals');
+const displayInfo=require("./routes/displayInfo");
+const tables = require('./models/tables');
 
-const sign_up_group=require("./routes/sign_up_group");
-
-const sign_up_admin=require("./routes/sign_up_admin");
-
-const whoSMAV=require("./routes/whoSMAV");
-
-const WhatWeDo=require("./routes/WhatWeDo");
-
-
-
- 
-const admin=require("./routes/admin");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const Users = require('./models/Users');
-
-
-
-const samvHajjGroup = require('./models/samvHajjGroup');
-
-
-
-const AdminDb = require('./models/adminDb');
-
-
-
-
-
-const mongodbURI=`mongodb://dmet:0505564500@cluster0-shard-00-00.24wbx.mongodb.net:27017,cluster0-shard-00-01.24wbx.mongodb.net:27017,cluster0-shard-00-02.24wbx.mongodb.net:27017/samvHajj?ssl=true&replicaSet=atlas-e0tytm-shard-0&authSource=admin&retryWrites=true&w=majority`;
-
+const mongodbURI="mongodb://place:0505564500@cluster0-shard-00-00.doria.mongodb.net:27017,cluster0-shard-00-01.doria.mongodb.net:27017,cluster0-shard-00-02.doria.mongodb.net:27017/auto_Focus?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"
 
 
 const app = express();
@@ -104,6 +68,21 @@ const fileStorage = multer.diskStorage({
 })
 
 
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === 'image/jpg'||
+       file.mimetype === 'image/jpeg'||
+       file.mimetype === 'image/png'
+  )
+
+
+   {
+    cb(null, true);
+  }
+  else {
+    cb(null, false);
+  }
+};
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -112,13 +91,11 @@ app.use(bodyParser.urlencoded({
   extended: true}));
 
   app.use(
-    multer({ storage: fileStorage}).single('excel'))
+    multer({ storage: fileStorage, fileFilter: fileFilter }).single('roomImage'))
 
   app.use(express.static(path.join(__dirname, 'public')));
 
   app.use("/images",express.static(path.join(__dirname, 'images')));
-
-  
   app.use(session({
     secret: 'our little secret.',
     resave: false,
@@ -127,23 +104,8 @@ app.use(bodyParser.urlencoded({
   
   }));
 
-
-  app.use(flash());
-
-  const accessLogStream = fs.createWriteStream(
-    path.join(__dirname, 'access.log'),
-    { flags: 'a' }
-  );
-
-
-  app.use(compression());
-  app.use(morgan('combined', { stream: accessLogStream }));
-
   app.use(csrfProtection);
-
-
-
-
+  app.use(flash());
 
 
   app.use((req,res,next)=>{
@@ -153,24 +115,33 @@ app.use(bodyParser.urlencoded({
   next();
   })
   
+  app.use(PutInfo);
 
 
-  app.use(sign_up_Individuals);
-  app.use(whoSMAV);
-  app.use(WhatWeDo);
-  app.use(sign_up_group);
+  app.use(Equipment_seller);
+  app.use(displayInfo);
+
+  app.use(putInfo_placeLessore);
 
   app.use(admin);
+
   app.use(sign_up_admin);
 
 
+  
+
+
+  
+  
+  
+ 
 
 
   app.use((req, res, next) => {
     if (!req.session.l) {
       return next();
     }
-    samvHajjUsers.findById(req.session.l._id)
+    tables.findById(req.session.l._id)
       .then(place => {
         console.log(req.session.l._id);
         req.place = place;
@@ -180,18 +151,6 @@ app.use(bodyParser.urlencoded({
   });
   app.get("/",function(req,res){
 
-    var groups=false;
-    var users=false;
-
-    if(req.session.samvHajjUsers){
-       users=true;
-      
-    }
-
-   else if(req.session.samvHajjGroup){
-       groups=true;
-      
-    }
     let message = req.flash('error');
 
     let message2 = req.flash('success');
@@ -210,31 +169,18 @@ app.use(bodyParser.urlencoded({
     else {
       message2 = null;
     }
-    res.render('home', {
+    res.render('main', {
       message: message,
-        message2: message2,
-        groups:groups,
-        users:users
+        message2: message2
     });
 })
 
 
 
-
-mongoose.connect(mongodbURI,{
-  useNewUrlParser: true,
-      useFindAndModify: false,
-      useUnifiedTopology: true,
-      useCreateIndex: true 
-})
+mongoose.connect(mongodbURI)
 .then(result => {
 
-
-  app.listen(process.env.PORT ||3000);
+      app.listen(process.env.PORT||3000);
     })
     .catch(err => {
     });
-
-
-
-  
