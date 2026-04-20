@@ -1,0 +1,240 @@
+
+/* ===== GLOBAL BACKGROUND ===== */
+body{
+  font-family: 'Cairo', sans-serif;
+  background: linear-gradient(135deg, #fdf8f3 0%, #f6f1fb 50%, #fceff4 100%);
+  min-height: 100vh;
+  color: #0f172a;
+}
+
+/* subtle yarn texture overlay */
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(107,101,173,.05) 1px, transparent 1px);
+  background-size: 25px 25px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== PRODUCTS SECTION ===== */
+.products-wrap{
+  background: linear-gradient(135deg, #fdf8f3 0%, #f6f1fb 50%, #fceff4 100%);
+  padding: 3rem 0;
+  position: relative;
+  z-index: 1;
+}
+  
+  .products-head{
+    margin-bottom: 1.2rem;
+  }
+  
+  .products-title{
+    font-weight: 1000;
+    font-size: 1.35rem;
+    margin: 0;
+    color: #0f172a;
+    letter-spacing: .2px;
+  }
+  
+  .products-subtitle{
+    margin: .35rem 0 0;
+    font-weight: 700;
+    color: rgba(15,23,42,.62);
+  }
+  
+  /* ===== PRODUCT CARD ===== */
+  .product-card{
+    background: rgba(255,255,255,.92);
+    border: 1px solid rgba(107,101,173,.10);
+    backdrop-filter: blur(14px);
+  
+    box-shadow: 0 20px 45px rgba(107,101,173,.12);
+  }
+  
+  .product-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 28px 60px rgba(107,101,173,.18);
+  }
+  
+  /* header */
+  .product-header{
+    padding: 1rem 1rem .85rem;
+    background:
+      linear-gradient(135deg, rgba(107,101,173,.12), rgba(224,138,160,.10));
+    border-bottom: 1px solid rgba(0,0,0,.06);
+  }
+  
+  .product-chip{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  
+    padding: .3rem .65rem;
+    border-radius: 999px;
+    font-weight: 900;
+    font-size: .78rem;
+  
+    background: rgba(107,101,173,.12);
+    border: 1px solid rgba(107,101,173,.18);
+    color: rgba(15,23,42,.82);
+  }
+  
+  .product-name{
+    margin: .55rem 0 0;
+    font-weight: 1000;
+    color: #0f172a;
+  
+    /* لو الاسم طويل */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* body */
+  .product-body{
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+  }
+  
+  .field-label{
+    font-weight: 1000;
+    color: rgba(15,23,42,.85);
+    margin-bottom: .35rem;
+    font-size: .9rem;
+  }
+  
+  .field-value{
+    color: rgba(15,23,42,.75);
+    font-weight: 700;
+    line-height: 1.8;
+  }
+  
+  /* description clamp (اختياري) */
+  .product-description{
+    /* لو تبي تقص الوصف بعد 5 سطور، فعّل هذي */
+    /* display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden; */
+  }
+  
+  /* PDF button */
+  .pdf-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  
+    padding: .75rem 1rem;
+    border-radius: 16px;
+    text-decoration: none;
+  
+    font-weight: 1000;
+    color: #fff;
+  
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    border: 1px solid rgba(255,255,255,.18);
+    box-shadow: 0 16px 35px rgba(0,0,0,.16);
+  
+    transition: .2s ease;
+  }
+  
+  .pdf-btn:hover{
+    transform: translateY(-2px);
+    filter: brightness(1.04);
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  /* no file */
+  .no-file{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  
+    padding: .75rem .9rem;
+    border-radius: 16px;
+  
+    background: rgba(0,0,0,.04);
+    border: 1px dashed rgba(0,0,0,.18);
+  
+    font-weight: 900;
+    color: rgba(15,23,42,.62);
+  }
+  
+  /* details box */
+  .details-box{
+    padding: .9rem .9rem;
+    border-radius: 18px;
+  
+    background: rgba(49,179,163,.08);
+    border: 1px solid rgba(49,179,163,.18);
+  }
+  
+  /* pattern list */
+  .pattern-list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  
+  .pattern-item{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .pattern-key{
+    font-weight: 1000;
+    font-size: .82rem;
+  
+    padding: .25rem .55rem;
+    border-radius: 999px;
+  
+    background: rgba(107,101,173,.14);
+    border: 1px solid rgba(107,101,173,.18);
+    color: rgba(15,23,42,.85);
+  }
+  
+  .pattern-value{
+    font-weight: 800;
+    color: rgba(15,23,42,.78);
+  }
+  
+  /* empty state */
+  .empty-state{
+    padding: 2.2rem 1rem;
+    border-radius: 22px;
+  
+    background: rgba(255,255,255,.78);
+    border: 1px solid rgba(0,0,0,.06);
+    box-shadow: 0 18px 45px rgba(0,0,0,.10);
+  }
+  
+  .empty-icon{
+    font-size: 2.2rem;
+    margin-bottom: .4rem;
+  }
+  
+  .empty-title{
+    font-weight: 1000;
+    margin-bottom: .35rem;
+  }
+  
+  .empty-text{
+    margin: 0;
+    font-weight: 700;
+    color: rgba(15,23,42,.62);
+  }
+  
+  /* responsive tweaks */
+  @media (max-width: 576px){
+    .product-name{ white-space: normal; }
+  }

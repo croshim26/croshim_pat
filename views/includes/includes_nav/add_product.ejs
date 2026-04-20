@@ -1,0 +1,209 @@
+<!-- Keep your stylesheet if you want -->
+<!-- <link rel="stylesheet" href="css/item_User.css"> -->
+
+<style>
+  /* ===== Crochet Hub: Add Product Modal ===== */
+  .add-modal .modal-dialog{
+    max-width: 560px;
+  }
+
+  .add-modal .modal-content{
+    border: 0;
+    border-radius: 22px;
+    overflow: hidden;
+    background: rgba(255,255,255,.88);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 30px 80px rgba(0,0,0,.25);
+  }
+
+  .add-modal .modal-header{
+    border: 0;
+    padding: 1.1rem 1.25rem;
+    background: linear-gradient(135deg, rgba(107,101,173,.16), rgba(224,138,160,.12));
+  }
+
+  .add-modal .modal-title{
+    font-weight: 1000;
+    margin: 0;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .add-modal .modal-title::before{
+    content: "🧶";
+    font-size: 1.1rem;
+  }
+
+  .add-modal .modal-body{
+    padding: 1.1rem 1.25rem 1.25rem;
+  }
+
+  .add-modal .field{
+    margin-bottom: 14px;
+  }
+
+  .add-modal label{
+    font-weight: 900;
+    color: rgba(15,23,42,.80);
+    margin-bottom: 6px;
+    display: inline-block;
+  }
+
+  .add-modal .form-control{
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,.10);
+    font-weight: 700;
+    padding: .7rem .85rem;
+    transition: .2s ease;
+  }
+
+  .add-modal .form-control:focus{
+    border-color: rgba(107,101,173,.55);
+    box-shadow: 0 0 0 3px rgba(107,101,173,.14);
+  }
+
+  .add-modal textarea.form-control{
+    min-height: 140px;
+    resize: vertical;
+  }
+
+  /* file input polish */
+  .add-modal input[type="file"].form-control{
+    padding: .55rem .75rem;
+    background: rgba(0,0,0,.02);
+  }
+
+  .add-modal .hint{
+    margin-top: 6px;
+    font-weight: 700;
+    font-size: .85rem;
+    color: rgba(15,23,42,.55);
+  }
+
+  .add-modal .modal-footer{
+    border: 0;
+    padding: 0 1.25rem 1.25rem;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .add-modal .btn-save{
+    border: 0;
+    border-radius: 16px;
+    font-weight: 1000;
+    padding: .85rem 1rem;
+    width: 100%;
+    color: #fff;
+    background: linear-gradient(135deg, #6b65ad, #e08aa0);
+    box-shadow: 0 18px 40px rgba(0,0,0,.16);
+    transition: .2s ease;
+  }
+  .add-modal .btn-save:hover{
+    transform: translateY(-2px);
+    filter: brightness(1.04);
+    color:#fff;
+  }
+
+  .add-modal .btn-close{
+    border-radius: 16px;
+    font-weight: 900;
+    padding: .85rem 1rem;
+    background: rgba(0,0,0,.06);
+    border: 1px solid rgba(0,0,0,.10);
+    color: rgba(15,23,42,.75);
+    transition: .2s ease;
+    white-space: nowrap;
+  }
+  .add-modal .btn-close:hover{
+    background: rgba(0,0,0,.08);
+    transform: translateY(-1px);
+  }
+
+  /* RTL friendliness */
+  .add-modal .modal-body,
+  .add-modal .modal-header,
+  .add-modal .modal-footer{
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Small screens */
+  @media (max-width: 576px){
+    .add-modal .modal-dialog{ margin: .75rem; }
+    .add-modal .modal-footer{ flex-direction: column; }
+    .add-modal .btn-close{ width: 100%; }
+  }
+</style>
+
+<form action="/add_product" method="POST" enctype="multipart/form-data">
+  <div class="modal fade add-modal" id="exampleModal3" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">إضافة منتج</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:1.6rem;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="field">
+            <label for="product_name">اسم المنتج</label>
+            <input id="product_name" type="text" class="form-control" name="product_name" required>
+            <div class="hint">مثال: شنطة كروشيه، طقم بيبي، قبعة شتوية…</div>
+          </div>
+
+          <div class="field">
+            <label for="product_description">وصف المنتج</label>
+            <textarea id="product_description" rows="8" class="form-control"
+              name="product_description" required></textarea>
+            <div class="hint">اكتب تفاصيل الخامة، المقاس، الوقت المتوقع، مستوى الصعوبة…</div>
+          </div>
+
+          <div class="field">
+            <label for="product_pdf">ملف PDF</label>
+            <input id="product_pdf" type="file" class="form-control" name="product_pdf" accept="application/pdf,.pdf">
+            <div class="hint">PDF فقط (باترن / شرح / صور)</div>
+          </div>
+
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-close" data-dismiss="modal">إغلاق</button>
+          <button type="submit" class="btn btn-save">إضافة المنتج</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var sel1 = document.querySelector("#sel1");
+  var sel2 = document.querySelector("#sel2");
+
+  if (sel1 && sel2) {
+    var options2 = Array.from(sel2.querySelectorAll("option"));
+
+    function giveSelection(selValue) {
+      sel2.innerHTML = "";
+      options2.forEach(function (opt) {
+        if (opt.dataset.option === selValue) sel2.appendChild(opt);
+      });
+    }
+
+    giveSelection(sel1.value);
+    sel1.addEventListener("change", function () {
+      giveSelection(this.value);
+    });
+  }
+});
+</script>

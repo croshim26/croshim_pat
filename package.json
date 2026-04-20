@@ -1,26 +1,40 @@
 {
-  "name": "autofocus",
+  "name": "chatwebsite",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
+  "engines": {
+    "node": "24.13.0"
+
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ezzowali/AutofocusWebsite.git"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ezzowali/AutofocusWebsite/issues"
+  },
+  "homepage": "https://github.com/ezzowali/AutofocusWebsite#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
+    "@supabase/supabase-js": "^2.103.3",
+    "bcrypt": "^6.0.0",
     "connect-flash": "^0.1.1",
-    "connect-mongodb-session": "^2.4.1",
+    "connect-session-sequelize": "^8.0.5",
     "csurf": "^1.11.0",
-    "ejs": "^3.1.6",
-    "express": "^4.17.1",
-    "express-session": "^1.17.2",
-    "mongodb": "^4.0.0",
-    "mongoose": "^5.13.3",
-    "multer": "^1.4.2",
-    "nodemailer": "^6.6.3",
-    "nodemailer-sendgrid-transport": "^0.2.0"
+    "dotenv": "^17.4.2",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "multer": "^2.0.2",
+    "mysql2": "^3.16.3",
+    "sequelize": "^6.37.7",
+    "tedious": "^19.2.1",
+    "uuid": "^13.0.0"
   }
 }

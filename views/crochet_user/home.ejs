@@ -1,0 +1,167 @@
+<%- include('.././includes/includes_nav/navigation_PutInfo') %>
+<%- include('../includes/links') %>
+
+<link rel="stylesheet" href="css/item_User.css">
+
+<style>
+  .products-wrap {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+
+  .products-title {
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+  }
+
+  .product-card {
+    border: 0;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: all 0.2s ease-in-out;
+    height: 100%;
+  }
+
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+  }
+
+  .product-header {
+    background: linear-gradient(135deg, rgba(107,101,173,0.15), #ffffff);
+    padding: 15px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    text-align: right;
+  }
+
+  .product-name {
+    font-weight: 800;
+    margin: 0;
+    color: #111827;
+    font-size: 1.1rem;
+  }
+
+  .product-body {
+    padding: 15px;
+    text-align: right;
+  }
+
+  .label-title {
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 5px;
+  }
+
+  .product-description {
+    color: #4b5563;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+
+  .pdf-btn {
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-weight: 700;
+  }
+
+  .no-file {
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  .details-box {
+    margin-top: 12px;
+    padding: 10px;
+    background: rgba(0,0,0,0.04);
+    border-radius: 12px;
+    font-size: 0.9rem;
+  }
+
+  .empty-state {
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px dashed rgba(0,0,0,0.2);
+    background: #f9fafb;
+  }
+</style>
+
+<section class="products-wrap">
+  <div class="container">
+    <h5 class="products-title">المنتجات</h5>
+
+    <div class="row">
+
+      <% if (products && products.length > 0) { %>
+        <% products.forEach(p => { %>
+
+          <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
+            <div class="card product-card">
+
+              <div class="product-header">
+                <div class="label-title">اسم المنتج</div>
+                <h5 class="product-name"><%= p.product_name %></h5>
+              </div>
+
+              <div class="product-body">
+
+                <div class="label-title">وصف المنتج</div>
+                <div class="product-description">
+                  <%= p.product_description %>
+                </div>
+
+                <div class="label-title">ملف المنتج</div>
+
+                <% if (p.pdf_path) { %>
+                  <a 
+                    href="/<%= p.pdf_path %>" 
+                    target="_blank"
+                    class="btn btn-danger pdf-btn"
+                  >
+                    عرض ملف المنتج
+                  </a>
+                <% } else { %>
+                  <div class="no-file">لا يوجد ملف للمنتج</div>
+                <% } %>
+
+                <% if (p.pattern) { %>
+                  <div class="details-box">
+                    <div class="label-title mb-2">تفاصيل إضافية</div>
+                    <ul style="padding-right:15px;">
+                      <% Object.entries(p.pattern).forEach(([key, value]) => { %>
+                        <li>
+                          <strong><%= key %>:</strong>
+                          <%= Array.isArray(value) ? value.join(", ") : value %>
+                        </li>
+                      <% }) %>
+                    </ul>
+                  </div>
+                <% } %>
+
+              </div>
+
+            </div>
+          </div>
+
+        <% }) %>
+
+      <% } else { %>
+
+        <div class="col-12 text-center">
+          <div class="empty-state">
+            <h5 style="font-weight:800;">لا توجد منتجات حالياً</h5>
+            <p>يمكنك إضافة منتج جديد من خلال نموذج الإضافة.</p>
+          </div>
+        </div>
+
+      <% } %>
+
+    </div>
+  </div>
+</section>
+
+<%- include('../includes/footer') %>
+<%- include('.././includes/includes_nav/add_product') %>
