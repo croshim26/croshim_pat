@@ -84,6 +84,7 @@ app.use(crochet_product);
 
 // ✅ Home route bug fix (you used message2 which doesn’t exist)
 app.get("/", (req, res) => {
+  console.log("SUPABASE_URL =", process.env.SUPABASE_URL);
   let error_message = req.flash("error");
   let success_message = req.flash("success");
 
@@ -110,3 +111,5 @@ app.get("/", (req, res) => {
 })();
 
 // postgres://u9d60sj6c4jkh4:pc5cbadd1e89d1f8f0c0940d78e98490a469aa577584335c55d26e51ee0e7d6e2@cev42lb8cu49j6.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d565aq8u7a7tev
+
+// DATABASE_URL=postgres://uswename:mypassword@host:5432/dn_name
