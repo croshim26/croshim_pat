@@ -1,0 +1,243 @@
+body{
+  background:linear-gradient(135deg,#e1974c 0%,#7f40be 50%,#f06c9f 100%);
+  min-height:100vh;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:radial-gradient(rgba(107,101,173,.05) 1px,transparent 1px);
+  background-size:25px 25px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* NAVBAR */
+.site-nav{
+  position:sticky;
+  top:0;
+  z-index:999;
+  background:rgba(255,255,255,.75);
+  border-bottom:1px solid rgba(0,0,0,.06);
+  backdrop-filter:blur(12px);
+}
+
+.site-nav .navbar-brand{
+  font-weight:1000;
+  color:#111827!important;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.site-nav .navbar-brand::before{content:"🧶"}
+
+.site-nav .nav-link{
+  color:rgba(15,23,42,.78)!important;
+  font-weight:900;
+  padding:.55rem .85rem;
+  border-radius:14px;
+  transition:.2s;
+}
+
+.site-nav .nav-link:hover{
+  background:rgba(107,101,173,.10);
+  transform:translateY(-1px);
+}
+
+.nav-cta{
+  background:linear-gradient(135deg,rgba(107,101,173,.95),rgba(224,138,160,.85));
+  color:#fff!important;
+  border-radius:16px;
+  box-shadow:0 12px 30px rgba(0,0,0,.12);
+}
+
+/* PRODUCTS */
+.products-page,
+.products-wrap{
+  position:relative;
+  z-index:1;
+  padding:2rem 0 3rem;
+}
+
+.page-header{
+  text-align:right;
+  margin-bottom:1.5rem;
+}
+
+.products-title{
+  font-weight:900;
+  color:#1f2937;
+  margin-bottom:.4rem;
+}
+
+.products-subtitle{
+  color:#6b7280;
+  font-weight:700;
+}
+
+.product-card{
+  height:100%;
+  border:0;
+  border-radius:18px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  transition:.2s;
+}
+
+.product-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 15px 35px rgba(0,0,0,.12);
+}
+
+.product-header{
+  padding:15px;
+  text-align:right;
+  background:linear-gradient(135deg,rgba(107,101,173,.15),#fff);
+  border-bottom:1px solid rgba(0,0,0,.05);
+}
+
+.product-name{
+  margin:0;
+  color:#111827;
+  font-weight:900;
+  font-size:1.1rem;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.product-body{
+  padding:15px;
+  text-align:right;
+}
+
+.product-meta{
+  margin-bottom:15px;
+}
+
+.label-title{
+  display:block;
+  font-weight:800;
+  color:#374151;
+  margin-bottom:5px;
+}
+
+.product-owner{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-top:8px;
+  font-weight:700;
+  font-size:.9rem;
+  color:#6b7280;
+}
+
+.product-owner i{color:#6b65ad}
+
+.product-description{
+  color:#4b5563;
+  font-size:.95rem;
+  line-height:1.7;
+  margin-bottom:15px;
+}
+
+.pdf-btn{
+  border-radius:12px;
+  padding:8px 12px;
+  font-weight:800;
+  color:#fff;
+  background:linear-gradient(135deg,#6b65ad,#e08aa0);
+  border:0;
+  box-shadow:0 12px 25px rgba(0,0,0,.12);
+}
+
+.pdf-btn:hover{
+  filter:brightness(1.05);
+  transform:translateY(-1px);
+  color:#fff;
+}
+
+.no-file{
+  display:inline-block;
+  color:#6b7280;
+  font-weight:700;
+  background:rgba(0,0,0,.04);
+  border:1px dashed rgba(0,0,0,.18);
+  padding:10px 12px;
+  border-radius:12px;
+}
+
+.details-box{
+  margin-top:12px;
+  padding:12px;
+  background:rgba(49,179,163,.08);
+  border:1px solid rgba(49,179,163,.18);
+  border-radius:12px;
+  font-size:.92rem;
+}
+
+.details-box ul{
+  margin:0;
+  padding-right:18px;
+}
+
+.empty-state{
+  text-align:center;
+  padding:30px;
+  border-radius:15px;
+  border:1px dashed rgba(0,0,0,.2);
+  background:#fff;
+  box-shadow:0 10px 25px rgba(0,0,0,.06);
+}
+
+.empty-state h5{
+  font-weight:900;
+}
+
+.empty-state p{
+  margin:0;
+  color:#6b7280;
+  font-weight:700;
+}
+
+/* FOOTER */
+.site-footer{
+  position:relative;
+  z-index:1;
+  padding:2rem 0 1rem;
+  background:rgba(255,255,255,.75);
+  border-top:1px solid rgba(0,0,0,.06);
+  backdrop-filter:blur(12px);
+}
+
+.site-footer .copy{
+  margin:0;
+  text-align:center;
+  font-weight:800;
+  color:rgba(15,23,42,.6);
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .page-header,
+  .product-header,
+  .product-body{
+    text-align:center;
+  }
+
+  .product-owner{
+    justify-content:center;
+  }
+
+  .site-nav .navbar-nav{
+    text-align:center;
+    padding-top:1rem;
+  }
+
+  .site-nav .nav-link{
+    margin:.25rem 0;
+  }
+}

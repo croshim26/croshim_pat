@@ -1,0 +1,55 @@
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
+  aria-labelledby="loginModalLabel" aria-hidden="true">
+
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content auth-modal">
+
+      <div class="modal-header auth-header">
+        <h5 class="modal-title auth-title" id="loginModalLabel">
+          🧶 Crochet Hub
+        </h5>
+        <button type="button" class="close auth-close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form action="/login" method="POST" class="auth-form">
+
+          <h4 class="auth-subtitle">تسجيل دخول</h4>
+          <p class="auth-desc">أهلاً بك، سجل دخولك وابدأ رحلتك في عالم الكروشيه</p>
+
+          <div class="form-group auth-group">
+            <label for="loginEmail">البريد الإلكتروني</label>
+            <div class="input-wrapper">
+              <i class="fa fa-user"></i>
+              <input id="loginEmail" name="email" class="form-control auth-input"
+                placeholder="example@email.com" type="email" required>
+            </div>
+          </div>
+
+          <div class="form-group auth-group">
+            <label for="loginPassword">كلمة المرور</label>
+            <div class="input-wrapper">
+              <i class="fa fa-lock"></i>
+              <input id="loginPassword" name="password" class="form-control auth-input"
+                placeholder="********" type="password" required>
+            </div>
+          </div>
+
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+          <button type="submit" class="btn auth-btn btn-block">
+            تسجيل الدخول
+          </button>
+
+          <div class="auth-links">
+            <a href="/reset">نسيت كلمة المرور؟</a>
+            <span>|</span>
+            <a href="/register">إنشاء حساب جديد</a>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+
+<%- include("../layouts/head", { pageTitle: "Crochet Hub | الصفحة الرئيسية" }) %>
+
+<body>
+
+  <section id="title" class="hero">
+
+    <%- include("../partials/navbar") %>
+
+    <div class="container hero-container">
+
+      <%- include("../partials/alerts", {
+        error_message,
+        success_message
+      }) %>
+
+      <div class="row hero-row" data-aos="fade-up">
+
+        <div class="col-lg-6 hero-copy">
+          <h1 class="hero-title">Crochet Hub</h1>
+
+          <p class="hero-subtitle">
+            منصة كروشيه تجمع كل شيء في مكان واحد:
+            دورات تعليمية، ملفات باترن PDF، ومنتجات كروشيه مع تفاصيلها.
+            هدفنا تسهيل التعلم، البيع، والاحتراف من أول غرزة إلى آخر عقدة.
+          </p>
+        </div>
+
+        <div class="col-lg-6 hero-cta">
+          <section id="products-section" class="hero-search">
+            <div class="Searcher-box">
+
+              <a class="icon_search" href="/all-products" aria-label="عرض المنتجات">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="icon_search_text">عرض المنتجات</span>
+              </a>
+
+              <div class="hero-search-text">
+                <h3 class="h3_search">المنتجات والباترن</h3>
+                <p class="P1_search">تصفح منتجات الكروشيه وملفات PDF الخاصة بها</p>
+              </div>
+
+            </div>
+          </section>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <section id="about" class="about-section" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title">عن المنصة</h2>
+      <p class="section-text">
+        Crochet Hub منصة تساعد المهتمين بالكروشيه على مشاركة المنتجات، عرض ملفات الباترن، وتسهيل الوصول إلى المحتوى التعليمي والمنتجات في مكان واحد.
+      </p>
+    </div>
+  </section>
+
+  <%- include("../partials/footer") %>
+
+  <%- include("../partials/login-modal") %>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+  <script>
+    AOS.init();
+  </script>
+
+</body>
+</html>
