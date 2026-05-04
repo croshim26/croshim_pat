@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crochet Hub | إنشاء حساب</title>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages/auth.css">
+</head>
+
+<body>
+
+  <main class="auth-page">
+
+    <div class="auth-card">
+
+      <div class="auth-card-header">
+        <a href="/" class="auth-brand">🧶 Crochet Hub</a>
+        <h1>إنشاء حساب جديد</h1>
+        <p>سجّل حسابك وابدأ مشاركة منتجات وملفات الكروشيه</p>
+      </div>
+
+      <% if (error_message) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>خطأ!</strong> <%= error_message %>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      <% } %>
+
+      <% if (success_message) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>تم بنجاح!</strong> <%= success_message %>
+          <a href="/" class="alert-link">الذهاب إلى صفحة الدخول</a>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      <% } %>
+
+      <form action="/register" method="POST" class="register-form">
+
+        <div class="form-row">
+
+          <div class="form-group col-md-6">
+            <label for="firstName">الاسم الأول</label>
+            <div class="input-wrapper">
+              <i class="fas fa-user"></i>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                class="form-control auth-input"
+                placeholder="مثال: سارة"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="lastName">الاسم الأخير</label>
+            <div class="input-wrapper">
+              <i class="fas fa-user"></i>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                class="form-control auth-input"
+                placeholder="مثال: أحمد"
+                required
+              >
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <label for="email">البريد الإلكتروني</label>
+          <div class="input-wrapper">
+            <i class="fas fa-envelope"></i>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control auth-input"
+              placeholder="example@email.com"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">رقم الجوال</label>
+          <div class="input-wrapper">
+            <i class="fas fa-phone"></i>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              class="form-control auth-input"
+              placeholder="05xxxxxxxx"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">كلمة المرور</label>
+          <div class="input-wrapper">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control auth-input"
+              placeholder="********"
+              minlength="1"
+              required
+            >
+          </div>
+        </div>
+
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <button type="submit" class="btn auth-submit-btn btn-block">
+          إنشاء الحساب
+        </button>
+
+        <div class="auth-switch">
+          لديك حساب بالفعل؟
+          <a href="/">تسجيل الدخول</a>
+        </div>
+
+      </form>
+
+    </div>
+
+  </main>
+
+  <!-- JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

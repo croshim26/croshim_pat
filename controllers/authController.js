@@ -46,7 +46,7 @@ exports.postRegister = async (req, res) => {
     });
 
     req.flash("success", "Registration completed successfully.");
-    return res.redirect("/register");
+    return res.redirect("/");
   } catch (error) {
     console.error("postRegister error:", error);
 
