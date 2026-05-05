@@ -11,7 +11,7 @@ router.get("/add_product", loggedin, productController.getAddProduct);
 
 router.post("/add_product", loggedin, productController.createProduct);
 
-router.get("/all-products", productController.getAllProducts);
+router.get("/all_products", productController.getAllProducts);
 
 router.post("/delete_product/:productId", loggedin, productController.deleteProduct);
 

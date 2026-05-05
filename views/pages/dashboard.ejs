@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crochet Hub | جميع المنتجات</title>
+  <title>Crochet Hub | لوحة منتجاتي</title>
 
   <!-- External CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -21,21 +21,20 @@
 <body>
 
   <!-- NAVBAR -->
+
 <%- include("../partials/navbar") %>
 
-  <!-- PRODUCTS PAGE -->
+  <!-- DASHBOARD PRODUCTS -->
   <main class="products-page">
     <div class="container">
 
-      <!-- PAGE HEADER -->
       <header class="page-header">
-        <h1 class="products-title">جميع المنتجات</h1>
+        <h1 class="products-title">منتجاتي</h1>
         <p class="products-subtitle">
-          تصفح منتجات الكروشيه وملفات الباترن المتاحة
+          إدارة منتجاتك وملفات الباترن الخاصة بك
         </p>
       </header>
 
-      <!-- PRODUCTS LIST -->
       <div class="row">
 
         <% if (products && products.length > 0) { %>
@@ -45,7 +44,6 @@
             <div class="col-12 col-sm-6 col-md-4 mb-4">
               <article class="card product-card">
 
-                <!-- Product Header -->
                 <div class="product-header">
                   <span class="label-title">اسم المنتج</span>
                   <h2 class="product-name">
@@ -53,25 +51,8 @@
                   </h2>
                 </div>
 
-                <!-- Product Body -->
                 <div class="product-body">
 
-                  <!-- Owner -->
-                  <div class="product-meta">
-                    <span class="label-title">اسم العميل</span>
-
-                    <div class="product-owner">
-                      <i class="fas fa-user"></i>
-                      <span>
-                        <%= product.user
-                          ? product.user.firstName + " " + product.user.lastName
-                          : "غير معروف"
-                        %>
-                      </span>
-                    </div>
-                  </div>
-
-                  <!-- Description -->
                   <div class="product-meta">
                     <span class="label-title">وصف المنتج</span>
                     <p class="product-description">
@@ -79,7 +60,6 @@
                     </p>
                   </div>
 
-                  <!-- PDF -->
                   <div class="product-meta">
                     <span class="label-title">ملف المنتج</span>
 
@@ -101,7 +81,25 @@
                     <% } %>
                   </div>
 
+                  <form
+                    action="/delete_product/<%= product.id %>"
+                    method="POST"
+                    class="delete-product-form"
+                  >
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                    <button
+                      type="submit"
+                      class="btn delete-btn btn-block"
+                      onclick="return confirm('هل أنت متأكد من حذف المنتج؟');"
+                    >
+                      <i class="fas fa-trash-alt"></i>
+                      حذف المنتج
+                    </button>
+                  </form>
+
                 </div>
+
               </article>
             </div>
 
@@ -109,11 +107,10 @@
 
         <% } else { %>
 
-          <!-- Empty State -->
           <div class="col-12">
             <div class="empty-state">
               <h5>لا توجد منتجات حالياً</h5>
-              <p>يمكنك إضافة منتج جديد من خلال نموذج الإضافة.</p>
+              <p>يمكنك إضافة منتج جديد من خلال زر إضافة منتج.</p>
             </div>
           </div>
 
@@ -124,12 +121,11 @@
   </main>
 
   <!-- ADD PRODUCT MODAL -->
-  <%- include("../includes/includes_nav/add_product") %>
+  <%- include("../partials/add_product") %>
 
-  <!-- FOOTER -->
+    <!-- FOOTER -->
 <%- include("../partials/footer") %>
 
-<%- include("../partials/login-modal") %>
 
   <!-- JS -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>

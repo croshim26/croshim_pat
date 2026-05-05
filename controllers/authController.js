@@ -7,7 +7,7 @@ const SALT_ROUNDS = 10;
    GET Register Page
    ========================================================= */
 exports.getRegister = (req, res) => {
-  res.render("crochet_user/register", {
+  res.render("pages/register", {
     success_message: req.flash("success")[0] || null,
     error_message: req.flash("error")[0] || null,
   });
@@ -64,7 +64,7 @@ exports.postRegister = async (req, res) => {
    GET Login Page
    ========================================================= */
 exports.getLogin = (req, res) => {
-  res.render("displayInfo/dashboard", {
+  res.render("pages/dashboard", {
     error_message: req.flash("error")[0] || null,
     success_message: req.flash("success")[0] || null,
   });

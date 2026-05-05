@@ -129,11 +129,11 @@ app.use(crochetProductRoutes);
 /* =========================================================
    404 Handler
    ========================================================= */
-app.use((req, res) => {
-  res.status(404).render("404", {
-    pageTitle: "Page Not Found",
-  });
-});
+// app.use((req, res) => {
+//   res.status(404).render("404", {
+//     pageTitle: "Page Not Found",
+//   });
+// });
 
 /* =========================================================
    Error Handler

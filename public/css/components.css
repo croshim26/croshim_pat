@@ -40,3 +40,24 @@
 .auth-links a{color:rgba(15,23,42,.8);font-weight:900;text-decoration:none;transition:.2s}
 .auth-links a:hover{color:#6b65ad;text-decoration:underline}
 .auth-links span{margin:0 6px;color:rgba(0,0,0,.3)}
+
+/* dashboard MODAL */
+.delete-product-form{
+  margin-top:15px;
+}
+
+.delete-btn{
+  border:0;
+  border-radius:12px;
+  padding:9px 12px;
+  font-weight:900;
+  color:#fff;
+  background:linear-gradient(135deg,#dc2626,#e08aa0);
+  box-shadow:0 12px 25px rgba(220,38,38,.16);
+}
+
+.delete-btn:hover{
+  color:#fff;
+  filter:brightness(1.05);
+  transform:translateY(-1px);
+}

@@ -40,9 +40,8 @@ exports.getProducts = async (req, res, next) => {
     });
 
     
-    console.log('products' , products);
     
-    return res.render("displayInfo/dashboard", {
+    return res.render("pages/dashboard", {
       products,
       currentUser,
       success_message: req.flash("success")[0] || null,
@@ -152,7 +151,7 @@ exports.createProduct = async (req, res) => {
 };
 
 /* =========================================================
-   GET /display_product
+   GET /all-products
    Show all products with owner names.
    ========================================================= */
 exports.getAllProducts = async (req, res) => {
@@ -174,10 +173,10 @@ exports.getAllProducts = async (req, res) => {
       ],
       order: [["createdAt", "DESC"]],
     });
-    console.log('products: ' , products);
+    console.log('dklsjqlwd:');
     
 
-    return res.render("displayInfo/all-products", {
+    return res.render("pages/all_products", {
       products,
       success_message: req.flash("success")[0] || null,
       error_message: req.flash("error")[0] || null,
