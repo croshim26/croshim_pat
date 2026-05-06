@@ -52,6 +52,53 @@
 
   </section>
 
+  <!-- FEATURES SECTION -->
+  <section class="features-section" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title">لماذا Crochet Hub؟</h2>
+      <div class="row features-row">
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="0">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-file-pdf"></i>
+            </div>
+            <h3 class="feature-title">ملفات باترن PDF</h3>
+            <p class="feature-desc">
+              أضف وشارك ملفات الباترن بصيغة PDF مباشرةً مع كل منتج، ليتمكن الجميع من الوصول إليها بسهولة.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-store"></i>
+            </div>
+            <h3 class="feature-title">متجر منتجاتك</h3>
+            <p class="feature-desc">
+              أنشئ حسابك وابدأ بعرض منتجات الكروشيه الخاصة بك على المنصة وصولاً إلى أوسع شريحة من المهتمين.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3 class="feature-title">مجتمع الكروشيه</h3>
+            <p class="feature-desc">
+              تواصل مع محترفين وهواة الكروشيه، واكتشف إبداعاتهم من منتجات وأعمال يدوية مميزة.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
   <section id="about" class="about-section" data-aos="fade-up">
     <div class="container">
       <h2 class="section-title">عن المنصة</h2>
@@ -61,8 +108,7 @@
     </div>
   </section>
 
-    <!-- ADD PRODUCT MODAL -->
-
+  <!-- ADD PRODUCT MODAL -->
   <%- include("../partials/add_product") %>
 
   <%- include("../partials/footer") %>
@@ -80,7 +126,7 @@
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
   <script>
-    AOS.init();
+    AOS.init({ once: true, duration: 600 });
   </script>
 
 </body>

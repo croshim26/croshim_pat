@@ -173,9 +173,6 @@ exports.getAllProducts = async (req, res) => {
       ],
       order: [["createdAt", "DESC"]],
     });
-    console.log('dklsjqlwd:');
-    
-
     return res.render("pages/all_products", {
       products,
       success_message: req.flash("success")[0] || null,
