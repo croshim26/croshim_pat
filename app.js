@@ -10,6 +10,7 @@ const multer = require("multer");
 
 const crochetRegisterRoutes = require("./routes/authRoutes");
 const crochetProductRoutes = require("./routes/productRoutes");
+const crochetChatRoutes = require("./routes/chatRoutes");
 
 const sequelize = require("./util/database");
 
@@ -27,6 +28,7 @@ app.set("views", "views");
    Note: multipart/form-data is handled by Multer below.
    ========================================================= */
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 /* =========================================================
    Static Files
@@ -125,6 +127,7 @@ res.render("pages/landing", {
 
 app.use(crochetRegisterRoutes);
 app.use(crochetProductRoutes);
+app.use(crochetChatRoutes);
 
 /* =========================================================
    404 Handler
