@@ -10,7 +10,6 @@ const multer = require("multer");
 
 const crochetRegisterRoutes = require("./routes/authRoutes");
 const crochetProductRoutes = require("./routes/productRoutes");
-const crochetChatRoutes = require("./routes/chatRoutes");
 const aiProductRoutes = require("./routes/aiProductRoutes");
 
 const sequelize = require("./util/database");
@@ -128,7 +127,6 @@ res.render("pages/landing", {
 
 app.use(crochetRegisterRoutes);
 app.use(crochetProductRoutes);
-app.use(crochetChatRoutes);
 app.use(aiProductRoutes);
 
 /* =========================================================
