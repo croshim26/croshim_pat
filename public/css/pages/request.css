@@ -1,0 +1,411 @@
+/* =========================================================
+   Request Pattern Page
+   ========================================================= */
+
+.request-page {
+  min-height: 80vh;
+  padding: 3rem 0 5rem;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.page-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.request-header-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent, #c97c5d) 0%, #e8a87c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  box-shadow: 0 4px 18px rgba(201, 124, 93, 0.28);
+}
+
+.request-header-icon i {
+  font-size: 1.7rem;
+  color: #fff;
+}
+
+.request-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-dark, #1e1b18);
+  margin-bottom: 0.5rem;
+}
+
+.request-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted, #6b6b6b);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── Form Card ───────────────────────────────────────────── */
+.request-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.07);
+  border: 1px solid #f0ede9;
+  margin-bottom: 1.5rem;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent, #c97c5d);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.field-hint {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--text-muted, #6b6b6b);
+  margin-right: 0.5rem;
+}
+
+/* ── Inputs ──────────────────────────────────────────────── */
+.request-input {
+  border-radius: 10px;
+  border: 1.5px solid #e0dbd5;
+  padding: 0.65rem 1rem;
+  font-family: "Cairo", sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-dark, #1e1b18);
+  background: #faf9f7;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.request-input:focus {
+  border-color: var(--accent, #c97c5d);
+  box-shadow: 0 0 0 3px rgba(201, 124, 93, 0.12);
+  background: #fff;
+  outline: none;
+}
+
+select.request-input {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c97c5d' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 1rem center;
+  padding-left: 2.5rem;
+}
+
+textarea.request-input {
+  resize: vertical;
+  min-height: 90px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-dark, #1e1b18);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+.required-star {
+  color: #e05c5c;
+  margin-right: 2px;
+}
+
+.optional-label {
+  font-weight: 400;
+  color: var(--text-muted, #6b6b6b);
+  font-size: 0.82rem;
+}
+
+/* ── Submit Button ───────────────────────────────────────── */
+.request-submit-btn {
+  background: linear-gradient(135deg, var(--accent, #c97c5d) 0%, #e8a87c 100%);
+  color: #fff;
+  font-family: "Cairo", sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  border: none;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 18px rgba(201, 124, 93, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.request-submit-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(201, 124, 93, 0.38);
+  color: #fff;
+}
+
+.request-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* ── Loading Card ────────────────────────────────────────── */
+.loading-card {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.loading-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.loading-spinner {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.spinner-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent, #c97c5d);
+  animation: bounce 1.2s ease-in-out infinite;
+}
+
+.spinner-dot:nth-child(2) { animation-delay: 0.2s; }
+.spinner-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+  40%            { transform: scale(1);   opacity: 1;   }
+}
+
+.loading-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark, #1e1b18);
+  margin: 0;
+}
+
+.loading-sub {
+  font-size: 0.88rem;
+  color: var(--text-muted, #6b6b6b);
+  margin: 0;
+}
+
+/* ── Result Card ─────────────────────────────────────────── */
+.result-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0ede9;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.result-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.5rem 2rem 1.25rem;
+  background: linear-gradient(135deg, #fdf6f0 0%, #fff8f3 100%);
+  border-bottom: 1px solid #f0ede9;
+}
+
+.result-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent, #c97c5d);
+  background: rgba(201, 124, 93, 0.1);
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.result-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-dark, #1e1b18);
+  margin: 0;
+}
+
+.result-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.result-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "Cairo", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent, #c97c5d);
+  border: 1.5px solid rgba(201, 124, 93, 0.35);
+  border-radius: 10px;
+  padding: 0.4rem 0.9rem;
+  background: #fff;
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.result-action-btn:hover {
+  background: rgba(201, 124, 93, 0.07);
+  border-color: var(--accent, #c97c5d);
+  color: var(--accent, #c97c5d);
+}
+
+/* ── Pattern Rendered Markdown ───────────────────────────── */
+.result-body {
+  padding: 2rem;
+  font-size: 0.96rem;
+  line-height: 1.9;
+  color: var(--text-dark, #1e1b18);
+  direction: rtl;
+}
+
+.result-body h2 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--accent, #c97c5d);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid rgba(201, 124, 93, 0.15);
+}
+
+.result-body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark, #1e1b18);
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.result-body ul,
+.result-body ol {
+  padding-right: 1.5rem;
+  padding-left: 0;
+  margin-bottom: 0.75rem;
+}
+
+.result-body li {
+  margin-bottom: 0.3rem;
+}
+
+.result-body strong {
+  color: #4a3728;
+}
+
+.result-body hr {
+  border: none;
+  border-top: 1px dashed #e0dbd5;
+  margin: 1.5rem 0;
+}
+
+.result-body p {
+  margin-bottom: 0.6rem;
+}
+
+/* ── Result Footer ───────────────────────────────────────── */
+.result-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.25rem 2rem;
+  background: #faf9f7;
+  border-top: 1px solid #f0ede9;
+}
+
+.new-request-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Cairo", sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--accent, #c97c5d);
+  border: 2px solid var(--accent, #c97c5d);
+  border-radius: 12px;
+  padding: 0.55rem 1.25rem;
+  background: transparent;
+  transition: background 0.18s, color 0.18s;
+}
+
+.new-request-btn:hover {
+  background: var(--accent, #c97c5d);
+  color: #fff;
+}
+
+.result-disclaimer {
+  font-size: 0.8rem;
+  color: var(--text-muted, #6b6b6b);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.result-disclaimer i {
+  color: var(--accent, #c97c5d);
+  flex-shrink: 0;
+}
+
+/* ── PDF Download Button ─────────────────────────────────── */
+.pdf-download-btn {
+  background: linear-gradient(135deg, #e05c5c 0%, #e8877c 100%) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+.pdf-download-btn:hover {
+  opacity: 0.9;
+  color: #fff !important;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 576px) {
+  .request-card,
+  .result-body,
+  .result-header,
+  .result-footer {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .request-title { font-size: 1.5rem; }
+  .result-title  { font-size: 1.1rem; }
+
+  .result-header {
+    flex-direction: column;
+  }
+
+  .result-footer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .result-disclaimer {
+    justify-content: center;
+  }
+}

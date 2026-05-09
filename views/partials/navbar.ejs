@@ -30,6 +30,7 @@
         <a class="nav-link hero-link" data-nav-path="/all_products" href="/all_products">المنتجات العامة</a>
       </li>
 
+
       <% if (!isAuthenticated) { %>
         <li class="nav-item">
           <a class="nav-link hero-link hero-link-cta" data-toggle="modal" data-target="#loginModal" href="#">
@@ -43,11 +44,26 @@
           <a class="nav-link hero-link" data-nav-path="/dashboard" href="/dashboard">منتجاتي</a>
         </li>
 
+
+                <li class="nav-item">
+          <a class="nav-link hero-link" data-nav-path="/ai_product" href="/ai_product">منتجاتي بال AI</a>
+        </li>
+
+
         <li class="nav-item">
           <a class="nav-link hero-link hero-link-cta" href="#" data-toggle="modal" data-target="#exampleModal3">
             إضافة منتج
           </a>
         </li>
+
+
+
+              <li class="nav-item">
+          <a class="nav-link hero-link hero-link-cta" data-toggle="modal" data-target="#pattern_ai" href="#">
+            طلب باترن بال AI
+          </a>
+        </li>
+
 
         <form id="magic-form" action="/logout" method="POST" style="display:none;">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
