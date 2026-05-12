@@ -87,7 +87,7 @@
                   <textarea
                     class="form-control request-input"
                     id="description"
-                    name="description"
+                    name="product_description"
                     rows="4"
                     placeholder="مثال: قبعة دافئة للشتاء بشكل بسيط، مناسبة للبالغين، بحافة مضلعة من الأسفل..."
                     required
@@ -242,12 +242,12 @@
       resultCard.style.display  = 'none';
 
       var payload = {
-        product_name:     productName,
-        product_type:     productType,
-        description:      description,
-        colors:           document.getElementById('colors').value.trim(),
-        size_notes:       document.getElementById('size_notes').value.trim(),
-        additional_notes: document.getElementById('additional_notes').value.trim(),
+        product_name:        productName,
+        product_type:        productType,
+        product_description: description,
+        colors:              document.getElementById('colors').value.trim(),
+        size_notes:          document.getElementById('size_notes').value.trim(),
+        additional_notes:    document.getElementById('additional_notes').value.trim(),
       };
 
       fetch('/api/generate_pattern', {

@@ -2,6 +2,27 @@ const puppeteer = require("puppeteer-core");
 const chromium = require("@sparticuz/chromium");
 const { marked } = require("marked");
 
+// macOS local Chrome paths (fallback order)
+const MAC_CHROME_PATHS = [
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "/Applications/Chromium.app/Contents/MacOS/Chromium",
+  "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary",
+];
+
+async function getExecutablePath() {
+  if (process.platform === "darwin") {
+    const fs = require("fs");
+    for (const p of MAC_CHROME_PATHS) {
+      if (fs.existsSync(p)) return p;
+    }
+    throw new Error(
+      "Chrome not found on macOS. Install Google Chrome and try again."
+    );
+  }
+  // Linux / Heroku — use the bundled Chromium
+  return chromium.executablePath();
+}
+
 async function generatePatternPdf(title, markdownText) {
   const htmlContent = marked.parse(markdownText);
 
@@ -67,11 +88,15 @@ async function generatePatternPdf(title, markdownText) {
 </body>
 </html>`;
 
+  const executablePath = await getExecutablePath();
+
   const browser = await puppeteer.launch({
-    args: chromium.args,
+    executablePath,
+    headless: true,
+    args: process.platform === "darwin"
+      ? ["--no-sandbox", "--disable-setuid-sandbox"]
+      : chromium.args,
     defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath(),
-    headless: chromium.headless,
   });
 
   try {

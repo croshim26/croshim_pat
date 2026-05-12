@@ -1,3 +1,70 @@
+<style>
+  .hero-nav .dropdown-menu {
+    background: rgba(15, 23, 42, 0.96);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 14px;
+    backdrop-filter: blur(12px);
+    padding: .5rem;
+    min-width: 210px;
+    margin-top: .4rem;
+  }
+  .hero-nav .dropdown-item {
+    color: rgba(255,255,255,.88);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: .9rem;
+    border-radius: 10px;
+    padding: .5rem .85rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    transition: background .15s;
+  }
+  .hero-nav .dropdown-item:hover,
+  .hero-nav .dropdown-item:focus {
+    background: rgba(255,255,255,.13);
+    color: #fff;
+  }
+  .hero-nav .dropdown-item.active-item {
+    background: rgba(255,255,255,.18);
+    color: #fff;
+  }
+  .hero-nav .dropdown-divider {
+    border-color: rgba(255,255,255,.12);
+    margin: .35rem .5rem;
+  }
+  .hero-nav .dropdown-toggle::after {
+    margin-right: .35rem;
+    margin-left: 0;
+    vertical-align: .18em;
+  }
+  .nav-add-btn {
+    background: rgba(255,255,255,.13);
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 14px;
+    color: rgba(255,255,255,.92) !important;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 800;
+    padding: .45rem .85rem;
+    transition: .2s;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    text-decoration: none;
+  }
+  .nav-add-btn:hover {
+    background: rgba(255,255,255,.22);
+    color: #fff !important;
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .nav-user-btn {
+    font-size: 1.25rem;
+    padding: .3rem .7rem !important;
+  }
+  .nav-user-btn i { vertical-align: middle; }
+</style>
+
 <nav class="navbar navbar-expand-lg hero-nav">
   <a class="navbar-brand hero-brand" href="/">Crochet Hub</a>
 
@@ -10,26 +77,24 @@
   <div class="collapse navbar-collapse" id="mainNavbar">
     <ul class="navbar-nav ml-auto hero-links">
 
-      <li class="nav-item">
+      <!-- Anchor links — shown on home page only, hidden via JS elsewhere -->
+      <li class="nav-item home-only-link">
         <a class="nav-link hero-link" href="#footer">تواصل معنا</a>
       </li>
-
-      <li class="nav-item">
+      <li class="nav-item home-only-link">
         <a class="nav-link hero-link" href="#about">عن المنصة</a>
       </li>
-
-      <li class="nav-item">
+      <li class="nav-item home-only-link">
         <a class="nav-link hero-link" href="#products-section">المحتوى</a>
       </li>
 
+      <!-- Persistent links -->
       <li class="nav-item">
         <a class="nav-link hero-link" data-nav-path="/" href="/">الصفحة الرئيسية</a>
       </li>
-
       <li class="nav-item">
         <a class="nav-link hero-link" data-nav-path="/all_products" href="/all_products">المنتجات العامة</a>
       </li>
-
 
       <% if (!isAuthenticated) { %>
         <li class="nav-item">
@@ -40,41 +105,73 @@
       <% } %>
 
       <% if (isAuthenticated) { %>
+
+        <!-- My Products -->
         <li class="nav-item">
           <a class="nav-link hero-link" data-nav-path="/dashboard" href="/dashboard">منتجاتي</a>
         </li>
 
+        <!-- AI Tools dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link hero-link dropdown-toggle" href="#" id="aiDropdown"
+             role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-robot" style="margin-left:5px;"></i>
+            أدوات الذكاء الاصطناعي
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="aiDropdown">
 
-                <li class="nav-item">
-          <a class="nav-link hero-link" data-nav-path="/ai_product" href="/ai_product">منتجاتي بال AI</a>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#pattern_ai">
+              <i class="fas fa-magic"></i>
+              طلب باترن جديد
+            </a>
+
+            <a class="dropdown-item" data-nav-path="/ai_product" href="/ai_product">
+              <i class="fas fa-layer-group"></i>
+              باترناتي بالذكاء الاصطناعي
+            </a>
+
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" data-nav-path="/evaluate_pattern" href="/evaluate_pattern">
+              <i class="fas fa-file-medical-alt"></i>
+              تحسين باترن (PDF)
+            </a>
+
+            <a class="dropdown-item" data-nav-path="/my_evaluations" href="/my_evaluations">
+              <i class="fas fa-history"></i>
+              تقييماتي
+            </a>
+
+          </div>
         </li>
 
-
-        <li class="nav-item">
-          <a class="nav-link hero-link hero-link-cta" href="#" data-toggle="modal" data-target="#exampleModal3">
+        <!-- Add product — styled as an action button -->
+        <li class="nav-item d-flex align-items-center" style="margin-left:6px;">
+          <a class="nav-add-btn" href="#" data-toggle="modal" data-target="#exampleModal3">
+            <i class="fas fa-plus"></i>
             إضافة منتج
           </a>
         </li>
 
-
-
-              <li class="nav-item">
-          <a class="nav-link hero-link hero-link-cta" data-toggle="modal" data-target="#pattern_ai" href="#">
-            طلب باترن بال AI
-          </a>
-        </li>
-
-
+        <!-- User dropdown -->
         <form id="magic-form" action="/logout" method="POST" style="display:none;">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         </form>
 
-        <li class="nav-item">
-          <a class="nav-link hero-link" href="/logout"
-            onclick="event.preventDefault(); document.getElementById('magic-form').submit();">
-            تسجيل خروج
+        <li class="nav-item dropdown">
+          <a class="nav-link hero-link nav-user-btn dropdown-toggle" href="#" id="userDropdown"
+             role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-circle"></i>
           </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="#"
+               onclick="event.preventDefault(); document.getElementById('magic-form').submit();">
+              <i class="fas fa-sign-out-alt"></i>
+              تسجيل خروج
+            </a>
+          </div>
         </li>
+
       <% } %>
 
     </ul>
@@ -84,13 +181,31 @@
 <script>
 (function () {
   var path = window.location.pathname;
+
+  // Active state for regular nav links
   document.querySelectorAll('[data-nav-path]').forEach(function (link) {
     var navPath = link.getAttribute('data-nav-path');
     var isActive = navPath === '/' ? path === '/' : path.startsWith(navPath);
     if (isActive) {
       link.classList.add('hero-link-active');
-      link.parentElement.classList.add('active');
+      link.classList.add('active-item');
+      var item = link.closest('.nav-item');
+      if (item) item.classList.add('active');
     }
   });
+
+  // Highlight AI dropdown toggle when on any AI page
+  var aiPaths = ['/ai_product', '/evaluate_pattern', '/my_evaluations'];
+  if (aiPaths.some(function (p) { return path.startsWith(p); })) {
+    var toggle = document.getElementById('aiDropdown');
+    if (toggle) toggle.classList.add('hero-link-active');
+  }
+
+  // Hide anchor links on non-home pages
+  if (path !== '/') {
+    document.querySelectorAll('.home-only-link').forEach(function (el) {
+      el.style.display = 'none';
+    });
+  }
 })();
 </script>

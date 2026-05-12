@@ -153,6 +153,7 @@ exports.generatePattern = async (req, res) => {
       size_notes: size_notes ? size_notes.trim() : null,
       additional_notes: additional_notes ? additional_notes.trim() : null,
       pdf_path: pdfUrl,
+      generated_pattern: generatedPattern,
     });
 
     return res.json({ pattern: generatedPattern, pdf_url: pdfUrl });

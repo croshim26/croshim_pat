@@ -1,5 +1,5 @@
 /* NAV */
-.hero-nav{padding:.95rem 1.25rem;background:rgba(15,23,42,.24);border-bottom:1px solid rgba(255,255,255,.16);backdrop-filter:blur(12px)}
+.hero-nav{position:sticky;top:0;z-index:1000;padding:.95rem 1.25rem;background:rgba(15,23,42,.55);border-bottom:1px solid rgba(255,255,255,.16);backdrop-filter:blur(14px)}
 .hero-brand{font-weight:1000;color:#fff!important;text-decoration:none;display:flex;gap:10px;align-items:center}
 .hero-brand::before{content:"🧶";font-size:1.1rem}
 .hero-links .nav-item{margin-left:10px}

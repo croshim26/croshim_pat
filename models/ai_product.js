@@ -41,6 +41,10 @@ const ai_product = sequelize.define("ai_product", {
     type: Sequelize.STRING,
     allowNull: true,
   },
+  generated_pattern: {
+    type: Sequelize.TEXT,
+    allowNull: true,
+  },
 });
 
 module.exports = ai_product;
