@@ -166,7 +166,7 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log("Database connected successfully.");
 
-    await sequelize.sync();
+    await sequelize.sync({ alter: true });
     console.log("Database models synced.");
 
     await sessionStore.sync();

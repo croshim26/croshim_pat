@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crochet Hub | نسيت كلمة المرور</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages/auth.css">
+</head>
+
+<body>
+
+  <main class="auth-page">
+    <div class="auth-card" style="max-width: 480px;">
+
+      <div class="auth-card-header">
+        <a href="/" class="auth-brand">🧶 Crochet Hub</a>
+        <h1>نسيت كلمة المرور؟</h1>
+        <p>أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين</p>
+      </div>
+
+      <% if (error_message) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="fas fa-exclamation-circle ml-1"></i>
+          <%= error_message %>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      <% } %>
+
+      <% if (success_message) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <i class="fas fa-check-circle ml-1"></i>
+          <%= success_message %>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      <% } %>
+
+      <form action="/reset" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <div class="form-group">
+          <label for="email">البريد الإلكتروني</label>
+          <div class="input-wrapper">
+            <i class="fas fa-envelope"></i>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control auth-input"
+              placeholder="example@email.com"
+              required
+              autofocus
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="btn auth-submit-btn btn-block">
+          <i class="fas fa-paper-plane ml-1"></i>
+          إرسال رابط إعادة التعيين
+        </button>
+      </form>
+
+      <div class="auth-switch mt-3">
+        <a href="/"><i class="fas fa-arrow-right ml-1"></i>العودة لتسجيل الدخول</a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
