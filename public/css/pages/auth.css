@@ -5,7 +5,7 @@
   justify-content:center;
   padding:2rem 1rem;
   background:
-    linear-gradient(135deg,rgba(15,23,42,.72),rgba(107,101,173,.55),rgba(224,138,160,.35)),
+    linear-gradient(135deg,rgba(15,23,42,.72),rgba(155,58,90,.55),rgba(232,160,176,.35)),
     url("../../images/photo_cro.webp") center/cover no-repeat;
 }
 
@@ -26,12 +26,17 @@
 }
 
 .auth-brand{
-  display:inline-block;
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
   margin-bottom:.8rem;
-  color:#6b65ad;
+  color:#0f172a;
   font-weight:1000;
   text-decoration:none;
 }
+.auth-brand .logo-badge{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,#9b3a5a,#e8a0b0);box-shadow:0 4px 14px rgba(155,58,90,.35);flex-shrink:0}
+.auth-brand .logo-name{font-size:1.1rem;font-weight:1000;color:#0f172a}
+.auth-brand .logo-name span{font-weight:500;color:#9b3a5a}
 
 .auth-card-header h1{
   font-size:1.8rem;
@@ -73,8 +78,8 @@
 }
 
 .auth-input:focus{
-  border-color:rgba(107,101,173,.6);
-  box-shadow:0 0 0 3px rgba(107,101,173,.15);
+  border-color:rgba(155,58,90,.6);
+  box-shadow:0 0 0 3px rgba(155,58,90,.15);
 }
 
 .auth-submit-btn{
@@ -84,7 +89,7 @@
   border-radius:14px;
   font-weight:1000;
   color:#fff;
-  background:linear-gradient(135deg,#6b65ad,#e08aa0);
+  background:linear-gradient(135deg,#9b3a5a,#e8a0b0);
   box-shadow:0 14px 35px rgba(0,0,0,.16);
 }
 
@@ -102,7 +107,7 @@
 }
 
 .auth-switch a{
-  color:#6b65ad;
+  color:#9b3a5a;
   text-decoration:none;
   font-weight:1000;
 }

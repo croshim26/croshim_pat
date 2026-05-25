@@ -1,12 +1,13 @@
 /* NAV */
-.hero-nav{position:sticky;top:0;z-index:1000;padding:.95rem 1.25rem;background:rgba(15,23,42,.55);border-bottom:1px solid rgba(255,255,255,.16);backdrop-filter:blur(14px)}
+.hero-nav{position:sticky;top:0;z-index:1000;padding:.95rem 1.25rem;background:rgba(74,18,35,.72);border-bottom:1px solid rgba(255,255,255,.14);backdrop-filter:blur(14px)}
 .hero-brand{font-weight:1000;color:#fff!important;text-decoration:none;display:flex;gap:10px;align-items:center}
-.hero-brand::before{content:"🧶";font-size:1.1rem}
+.logo-badge{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#9b3a5a,#e8a0b0);box-shadow:0 4px 14px rgba(155,58,90,.45);flex-shrink:0}
+.logo-name{font-size:1.08rem;letter-spacing:.5px;font-weight:1000}
 .hero-links .nav-item{margin-left:10px}
 .hero-link{color:rgba(255,255,255,.92)!important;font-weight:800;padding:.55rem .9rem;border-radius:14px;transition:.2s}
 .hero-link:hover,.hero-link-active{background:rgba(255,255,255,.14);color:#fff!important;text-decoration:none}
 .hero-link:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(0,0,0,.18)}
-.hero-link-cta{background:linear-gradient(135deg,rgba(107,101,173,.92),rgba(224,138,160,.8));border:1px solid rgba(255,255,255,.2)}
+.hero-link-cta{background:linear-gradient(135deg,rgba(155,58,90,.92),rgba(232,160,176,.8));border:1px solid rgba(255,255,255,.2)}
 .navbar-toggler{border-color:rgba(255,255,255,.35)}
 .navbar-toggler-icon{background-image:none}
 .navbar-toggler-icon::before{content:"☰";color:#fff;font-size:1.6rem}
@@ -14,24 +15,24 @@
 /* FOOTER */
 .site-footer{
   margin-top:2.2rem;padding:2.4rem 0 1.2rem;border-radius:22px 22px 0 0;
-  background:rgba(255,255,255,.75);border-top:1px solid rgba(0,0,0,.06);
-  backdrop-filter:blur(12px);box-shadow:0 -14px 40px rgba(0,0,0,.1)
+  background:rgba(255,255,255,.82);border-top:1px solid rgba(155,58,90,.12);
+  backdrop-filter:blur(12px);box-shadow:0 -14px 40px rgba(155,58,90,.08)
 }
 .footer-grid{align-items:flex-start;row-gap:18px}
-.footer-title{display:inline-block;font-style:normal;font-weight:1000;color:#0f172a;margin-bottom:.75rem}
-.footer-brand{padding:14px;border-radius:18px;background:linear-gradient(135deg,rgba(107,101,173,.1),rgba(224,138,160,.08));border:1px solid rgba(0,0,0,.06)}
-.footer-tagline,.copy{margin:0;font-weight:800;color:rgba(15,23,42,.65)}
+.footer-title{display:inline-block;font-style:normal;font-weight:1000;color:#3d0e1e;margin-bottom:.75rem}
+.footer-brand{padding:14px;border-radius:18px;background:linear-gradient(135deg,rgba(155,58,90,.1),rgba(232,160,176,.08));border:1px solid rgba(155,58,90,.1)}
+.footer-tagline,.copy{margin:0;font-weight:800;color:rgba(92,26,48,.65)}
 .footer-links{list-style:none;padding:0;margin:0}
 .footer-links li{margin:8px 0}
-.footer-links a{color:rgba(15,23,42,.8);font-weight:900;text-decoration:none;transition:.2s;display:inline-flex;padding:8px 10px;border-radius:12px}
-.footer-links a:hover{background:rgba(107,101,173,.12);color:#0f172a;text-decoration:none}
+.footer-links a{color:rgba(61,14,30,.8);font-weight:900;text-decoration:none;transition:.2s;display:inline-flex;padding:8px 10px;border-radius:12px}
+.footer-links a:hover{background:rgba(155,58,90,.1);color:#3d0e1e;text-decoration:none}
 .footer-contact,.footer-social{display:flex;gap:10px;align-items:center}
-.footer-contact{font-weight:800;color:rgba(15,23,42,.78)}
+.footer-contact{font-weight:800;color:rgba(61,14,30,.78)}
 .footer-contact i,.social-btn{
   display:inline-flex;align-items:center;justify-content:center;border-radius:14px;
-  background:rgba(107,101,173,.12);border:1px solid rgba(0,0,0,.06)
+  background:rgba(155,58,90,.1);border:1px solid rgba(155,58,90,.1)
 }
-.footer-contact i{width:36px;height:36px;background:rgba(224,138,160,.12)}
-.social-btn{width:44px;height:44px;color:rgba(15,23,42,.85);text-decoration:none;transition:.2s}
-.social-btn:hover{background:linear-gradient(135deg,rgba(107,101,173,.9),rgba(224,138,160,.78));color:#fff;transform:translateY(-2px);text-decoration:none}
-.footer-bottom{margin-top:1.4rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,.06);text-align:center}
+.footer-contact i{width:36px;height:36px;background:rgba(232,160,176,.2)}
+.social-btn{width:44px;height:44px;color:rgba(61,14,30,.85);text-decoration:none;transition:.2s}
+.social-btn:hover{background:linear-gradient(135deg,rgba(155,58,90,.9),rgba(232,160,176,.78));color:#fff;transform:translateY(-2px);text-decoration:none}
+.footer-bottom{margin-top:1.4rem;padding-top:1rem;border-top:1px solid rgba(155,58,90,.1);text-align:center}

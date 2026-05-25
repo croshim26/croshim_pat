@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
-
-<%- include("../layouts/head", { pageTitle: "Crochet Hub | الصفحة الرئيسية" }) %>
+<%- include("../layouts/head", { pageTitle: "Croshim Studio | الصفحة الرئيسية" }) %>
 
 <body>
 
@@ -10,41 +9,112 @@
 
     <%- include("../partials/navbar") %>
 
+    <!-- Floating hearts -->
+    <span class="hero-float hero-float-1">♥</span>
+    <span class="hero-float hero-float-2">♥</span>
+    <span class="hero-float hero-float-3">♥</span>
+
     <div class="container hero-container">
 
-      <%- include("../partials/alerts", {
-        error_message,
-        success_message
-      }) %>
+      <%- include("../partials/alerts", { error_message, success_message }) %>
 
-      <div class="row hero-row" data-aos="fade-up">
+      <div class="row hero-row align-items-center" data-aos="fade-up">
 
-        <div class="col-lg-6 hero-copy">
-          <h1 class="hero-title">Crochet Hub</h1>
+        <!-- ILLUSTRATION (hidden on mobile) -->
+        <div class="col-lg-5 d-none d-lg-flex justify-content-center hero-art-col">
+          <div class="yarn-art">
+            <svg viewBox="0 0 320 310" fill="none" xmlns="http://www.w3.org/2000/svg">
 
-          <p class="hero-subtitle">
-            منصة كروشيه تجمع كل شيء في مكان واحد:
-            دورات تعليمية، ملفات باترن PDF، ومنتجات كروشيه مع تفاصيلها.
-            هدفنا تسهيل التعلم، البيع، والاحتراف من أول غرزة إلى آخر عقدة.
-          </p>
+              <!-- Background glow circle -->
+              <circle cx="185" cy="155" r="130" fill="rgba(232,160,176,.18)"/>
+
+              <!-- Yarn ball -->
+              <circle cx="88" cy="210" r="62" fill="#e8a0b0"/>
+              <ellipse cx="88" cy="210" rx="62" ry="24" fill="none" stroke="white" stroke-width="2" opacity="0.45" transform="rotate(-28 88 210)"/>
+              <ellipse cx="88" cy="210" rx="62" ry="24" fill="none" stroke="white" stroke-width="2" opacity="0.45" transform="rotate(28 88 210)"/>
+              <ellipse cx="88" cy="210" rx="24" ry="62" fill="none" stroke="white" stroke-width="2" opacity="0.45"/>
+              <circle cx="88" cy="210" r="62" fill="none" stroke="#c4637a" stroke-width="1" opacity="0.25"/>
+
+              <!-- Yarn thread ball → hook -->
+              <path d="M 135 168 C 158 138 180 115 205 95 C 218 85 228 70 234 52" stroke="#e8a0b0" stroke-width="5.5" stroke-linecap="round"/>
+
+              <!-- Heart shape from yarn -->
+              <path d="M 168 135 C 168 114 190 103 206 120 C 222 103 244 114 244 135 C 244 156 206 182 206 182 C 206 182 168 156 168 135 Z"
+                    fill="none" stroke="#c4637a" stroke-width="4" stroke-linejoin="round"/>
+
+              <!-- Crochet hook handle -->
+              <rect x="252" y="18" width="11" height="85" rx="5.5" fill="#ddb8c0"/>
+              <!-- Hook shine -->
+              <rect x="254" y="18" width="3" height="85" rx="1.5" fill="rgba(255,255,255,0.4)"/>
+              <!-- Hook curve -->
+              <path d="M257 103 C257 122 247 130 238 125 C229 120 231 110 240 109"
+                    stroke="#cfa8b2" stroke-width="9" fill="none" stroke-linecap="round"/>
+              <!-- Hook tip shine -->
+              <path d="M257 103 C257 116 251 124 244 122"
+                    stroke="rgba(255,255,255,0.35)" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+              <!-- Leaf branch (top-left) -->
+              <path d="M 58 118 C 46 96 26 92 22 106 C 18 118 38 126 58 118 Z" fill="#e8a0b0" opacity="0.75"/>
+              <path d="M 26 108 L 52 116" stroke="#c4637a" stroke-width="1.5" opacity="0.55" stroke-linecap="round"/>
+
+              <path d="M 46 98 C 38 80 20 78 16 88 C 12 98 30 106 46 98 Z" fill="#e8a0b0" opacity="0.55"/>
+              <path d="M 20 90 L 42 97" stroke="#c4637a" stroke-width="1.2" opacity="0.5" stroke-linecap="round"/>
+
+              <!-- Berries -->
+              <circle cx="13" cy="83" r="4.5" fill="#c4637a" opacity="0.5"/>
+              <circle cx="8"  cy="75" r="3.5" fill="#c4637a" opacity="0.4"/>
+              <circle cx="16" cy="70" r="3"   fill="#c4637a" opacity="0.35"/>
+
+              <!-- Yarn tail swirl -->
+              <path d="M 234 170 C 246 188 240 202 228 197 C 216 192 218 180 228 178"
+                    stroke="#e8a0b0" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+              <!-- Hook top swirl -->
+              <path d="M 257 18 C 257 7 268 2 274 9 C 280 16 274 27 263 30"
+                    stroke="#ddb8c0" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+              <!-- Floating hearts -->
+              <text x="262" y="175" font-size="15" fill="#e8a0b0" opacity="0.85">♥</text>
+              <text x="152" y="85"  font-size="11" fill="#c4637a" opacity="0.65">♥</text>
+              <text x="140" y="210" font-size="9"  fill="#e8a0b0" opacity="0.7">♥</text>
+
+            </svg>
+          </div>
         </div>
 
-        <div class="col-lg-6 hero-cta">
-          <section id="products-section" class="hero-search">
-            <div class="Searcher-box">
+        <!-- HERO COPY -->
+        <div class="col-lg-7 hero-copy">
 
-              <a class="icon_search" href="/all_products" aria-label="عرض المنتجات">
-                <i class="fas fa-shopping-bag"></i>
-                <span class="icon_search_text">عرض المنتجات</span>
-              </a>
+          <p class="hero-eyebrow">♥ &nbsp; Crochet With Heart &nbsp; ♥</p>
 
-              <div class="hero-search-text">
-                <h3 class="h3_search">المنتجات والباترن</h3>
-                <p class="P1_search">تصفح منتجات الكروشيه وملفات PDF الخاصة بها</p>
-              </div>
+          <h1 class="hero-title">
+            Croshim<br>
+            <span class="hero-title-accent">Studio</span>
+          </h1>
 
-            </div>
-          </section>
+          <p class="hero-subtitle">
+            منصة كروشيه تجمع كل شيء في مكان واحد — باترنات PDF،
+            منتجات يدوية، وذكاء اصطناعي يقيّم ويحسّن باترناتك.
+          </p>
+
+          <div id="products-section" class="hero-actions">
+            <a href="/all_products" class="btn hero-btn-main">
+              <i class="fas fa-shopping-bag"></i>
+              تصفح المنتجات
+            </a>
+            <% if (!isAuthenticated) { %>
+            <a href="#" class="btn hero-btn-outline" data-toggle="modal" data-target="#loginModal">
+              <i class="fas fa-user"></i>
+              سجّلي مجاناً
+            </a>
+            <% } else { %>
+            <a href="/dashboard" class="btn hero-btn-outline">
+              <i class="fas fa-th-large"></i>
+              لوحتي
+            </a>
+            <% } %>
+          </div>
+
         </div>
 
       </div>
@@ -55,7 +125,7 @@
   <!-- FEATURES SECTION -->
   <section class="features-section" data-aos="fade-up">
     <div class="container">
-      <h2 class="section-title">لماذا Crochet Hub؟</h2>
+      <h2 class="section-title">لماذا Croshim Studio؟</h2>
       <div class="row features-row">
 
         <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="0">
@@ -85,11 +155,11 @@
         <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
           <div class="feature-card">
             <div class="feature-icon">
-              <i class="fas fa-users"></i>
+              <i class="fas fa-robot"></i>
             </div>
-            <h3 class="feature-title">مجتمع الكروشيه</h3>
+            <h3 class="feature-title">ذكاء اصطناعي</h3>
             <p class="feature-desc">
-              تواصل مع محترفين وهواة الكروشيه، واكتشف إبداعاتهم من منتجات وأعمال يدوية مميزة.
+              ارفع باترنك وسيقوم الذكاء الاصطناعي بتقييمه وإنشاء نسخة محسّنة جاهزة للتنفيذ.
             </p>
           </div>
         </div>
@@ -101,10 +171,13 @@
   <!-- ABOUT SECTION -->
   <section id="about" class="about-section" data-aos="fade-up">
     <div class="container">
-      <h2 class="section-title">عن المنصة</h2>
-      <p class="section-text">
-        Crochet Hub منصة تساعد المهتمين بالكروشيه على مشاركة المنتجات، عرض ملفات الباترن، وتسهيل الوصول إلى المحتوى التعليمي والمنتجات في مكان واحد.
-      </p>
+      <div class="about-card">
+        <div class="about-icon">🧶</div>
+        <h2 class="section-title">عن Croshim Studio</h2>
+        <p class="section-text">
+          Croshim Studio منصة تساعد المهتمين بالكروشيه على مشاركة المنتجات، عرض ملفات الباترن، وتسهيل الوصول إلى المحتوى التعليمي والمنتجات في مكان واحد.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -117,23 +190,14 @@
 
   <%- include("../partials/request_pattern") %>
 
-  
-
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
     crossorigin="anonymous"></script>
-
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
-  <script>
-    AOS.init({ once: true, duration: 600 });
-  </script>
-
-
+  <script>AOS.init({ once: true, duration: 600 });</script>
 
 </body>
 </html>

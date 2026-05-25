@@ -1,13 +1,24 @@
 *{box-sizing:border-box}
 
+:root{
+  --rose-deep:  #9b3a5a;
+  --rose-mid:   #c4637a;
+  --rose-light: #e8a0b0;
+  --rose-pale:  #fce4ec;
+  --rose-blush: #fdf5f7;
+  --berry:      #5c1a30;
+  --text-dark:  #3d0e1e;
+  --text-muted: #9e677a;
+}
+
 html,body{
   width:100%;
   margin:0;
   overflow-x:hidden;
   scroll-behavior:smooth;
   font-family:"Cairo",sans-serif;
-  background:#f8fafc;
-  color:#0f172a;
+  background:var(--rose-blush);
+  color:var(--text-dark);
 }
 
 img,video{

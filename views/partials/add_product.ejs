@@ -2,7 +2,7 @@
 <!-- <link rel="stylesheet" href="css/item_User.css"> -->
 
 <style>
-  /* ===== Crochet Hub: Add Product Modal ===== */
+  /* ===== Croshim Studio: Add Product Modal ===== */
   .add-modal .modal-dialog{
     max-width: 560px;
   }
@@ -19,7 +19,7 @@
   .add-modal .modal-header{
     border: 0;
     padding: 1.1rem 1.25rem;
-    background: linear-gradient(135deg, rgba(107,101,173,.16), rgba(224,138,160,.12));
+    background: linear-gradient(135deg, rgba(155,58,90,.16), rgba(232,160,176,.12));
   }
 
   .add-modal .modal-title{
@@ -31,8 +31,7 @@
     gap: 10px;
   }
   .add-modal .modal-title::before{
-    content: "🧶";
-    font-size: 1.1rem;
+    content: none;
   }
 
   .add-modal .modal-body{
@@ -59,8 +58,8 @@
   }
 
   .add-modal .form-control:focus{
-    border-color: rgba(107,101,173,.55);
-    box-shadow: 0 0 0 3px rgba(107,101,173,.14);
+    border-color: rgba(155,58,90,.55);
+    box-shadow: 0 0 0 3px rgba(155,58,90,.14);
   }
 
   .add-modal textarea.form-control{
@@ -96,7 +95,7 @@
     padding: .85rem 1rem;
     width: 100%;
     color: #fff;
-    background: linear-gradient(135deg, #6b65ad, #e08aa0);
+    background: linear-gradient(135deg, #9b3a5a, #e8a0b0);
     box-shadow: 0 18px 40px rgba(0,0,0,.16);
     transition: .2s ease;
   }
@@ -145,7 +144,15 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">إضافة منتج</h5>
+          <h5 class="modal-title" id="exampleModalLabel" style="display:flex;align-items:center;gap:8px;">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#9b3a5a,#e8a0b0);flex-shrink:0;">
+              <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
+                <path d="M10 2 L10 13 C10 16.5 7 17.5 5.2 16 C3.5 14.5 4 12.5 6.2 12.2" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="2" r="1.4" fill="white"/>
+              </svg>
+            </span>
+            إضافة منتج
+          </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:1.6rem;">
             <span aria-hidden="true">&times;</span>
           </button>
