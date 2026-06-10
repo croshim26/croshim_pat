@@ -12,6 +12,8 @@ const crochetRegisterRoutes = require("./routes/authRoutes");
 const crochetProductRoutes = require("./routes/productRoutes");
 const aiProductRoutes = require("./routes/aiProductRoutes");
 const patternEvaluationRoutes = require("./routes/patternEvaluationRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const patternRoutes = require("./routes/patternRoutes");
 
 const sequelize = require("./util/database");
 
@@ -94,7 +96,13 @@ const upload = multer({
   },
 });
 
-app.use(upload.single("product_pdf"));
+app.use((req, res, next) => {
+  upload.any()(req, res, (err) => {
+    if (err) return next(err);
+    if (req.files && req.files.length > 0) req.file = req.files[0];
+    next();
+  });
+});
 
 /* =========================================================
    CSRF Protection
@@ -130,6 +138,8 @@ app.use(crochetRegisterRoutes);
 app.use(crochetProductRoutes);
 app.use(aiProductRoutes);
 app.use(patternEvaluationRoutes);
+app.use(adminRoutes);
+app.use(patternRoutes);
 
 /* =========================================================
    404 Handler

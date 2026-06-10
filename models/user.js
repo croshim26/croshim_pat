@@ -45,6 +45,12 @@ const User =sequelize.define('user',{
         type: Sequelize.DATE,
         allowNull: true,
     },
+
+    is_admin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+    },
 });
 
 module.exports=User

@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pattern Builder — Croshim Studio</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/pages/admin.css">
+  <style>
+    /* ── Full-height layout ── */
+    html, body { height: 100%; overflow: hidden; }
+    .admin-shell { height: 100vh; overflow: hidden; }
+    .admin-main  { overflow: hidden; }
+
+    .builder-content {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    /* ── Saved patterns strip ── */
+    .saved-strip {
+      background: #fff;
+      border-bottom: 1px solid rgba(155,58,90,.1);
+      padding: .5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      flex-shrink: 0;
+    }
+    .saved-strip-label {
+      font-size: .75rem; font-weight: 900; color: #9b3a5a;
+      white-space: nowrap; display: flex; align-items: center; gap: .35rem;
+      flex-shrink: 0;
+    }
+    .saved-chips {
+      display: flex; gap: .4rem; overflow-x: auto; flex: 1;
+      scrollbar-width: none;
+    }
+    .saved-chips::-webkit-scrollbar { display: none; }
+    .saved-chip {
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: rgba(155,58,90,.08); border: 1px solid rgba(155,58,90,.15);
+      border-radius: 20px; padding: .22rem .65rem;
+      font-size: .76rem; font-weight: 800; color: #6b1a30;
+      white-space: nowrap; cursor: pointer; transition: .15s; flex-shrink: 0;
+    }
+    .saved-chip:hover { background: rgba(155,58,90,.16); }
+    .saved-chip.active-chip { background: rgba(155,58,90,.22); border-color: #9b3a5a; }
+    .chip-del {
+      color: #b91c1c; font-size: .68rem; opacity: .65;
+      cursor: pointer; padding: 1px 3px; border-radius: 4px;
+    }
+    .chip-del:hover { opacity: 1; background: rgba(220,38,38,.1); }
+    .chip-pdf {
+      color: #9b3a5a; font-size: .68rem; opacity: .7;
+      text-decoration: none; padding: 1px 3px; border-radius: 4px;
+      transition: .15s;
+    }
+    .chip-pdf:hover { opacity: 1; background: rgba(155,58,90,.12); color: #6b1a30; }
+    .chip-share {
+      color: #0369a1; font-size: .68rem; opacity: .65;
+      text-decoration: none; padding: 1px 3px; border-radius: 4px;
+      transition: .15s;
+    }
+    .chip-share:hover { opacity: 1; background: rgba(3,105,161,.1); }
+    .saved-empty { font-size: .75rem; color: #9e677a; font-weight: 700; white-space: nowrap; }
+
+    .strip-actions { display: flex; gap: .4rem; flex-shrink: 0; }
+    .btn-strip {
+      display: inline-flex; align-items: center; gap: .3rem;
+      padding: .28rem .75rem; border-radius: 10px; font-weight: 800;
+      font-size: .76rem; border: 0; cursor: pointer; transition: .15s;
+      font-family: 'Cairo', sans-serif;
+    }
+    .btn-strip-save  { background: linear-gradient(135deg,#9b3a5a,#e8a0b0); color: #fff; }
+    .btn-strip-save:hover  { filter: brightness(1.08); }
+    .btn-strip-new   { background: rgba(155,58,90,.1); color: #9b3a5a; border: 1px solid rgba(155,58,90,.2); }
+    .btn-strip-new:hover   { background: rgba(155,58,90,.18); }
+    .btn-strip-print { background: rgba(34,197,94,.1); color: #166534; border: 1px solid rgba(34,197,94,.2); }
+    .btn-strip-print:hover { background: rgba(34,197,94,.18); }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: #1a1a1a; color: #fff; padding: .6rem 1.2rem;
+      border-radius: 12px; font-size: .85rem; font-weight: 700;
+      font-family: 'Cairo', sans-serif; z-index: 9999;
+      transition: transform .3s ease, opacity .3s ease; opacity: 0;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* ── Builder area (fills remaining height) ── */
+    .builder-area {
+      flex: 1; overflow: hidden;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+    }
+
+    /* ══════════════════════════════════════════════
+       BRAND TOKENS (scoped to builder)
+    ══════════════════════════════════════════════ */
+    .builder-area {
+      --blush:     #F4C2C2;
+      --rose:      #E8839A;
+      --deep-rose: #C0516B;
+      --mauve:     #9B3A52;
+      --cream:     #FDF0F3;
+      --soft-pink: #FAE4EA;
+      --petal:     #F9D4DC;
+      --text-dark: #5A2A38;
+      --text-mid:  #8B4D60;
+      --text-light:#B8798A;
+      --code-bg:   #FDF5F7;
+      --code-border:#EEC5CF;
+    }
+
+    /* ── Builder panel ── */
+    .builder-panel {
+      background: #fff;
+      border-left: 1px solid var(--blush);
+      padding: 18px 16px 36px;
+      overflow-y: auto;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .builder-logo {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 1.5rem; color: var(--mauve); text-align: center; margin-bottom: 2px;
+    }
+    .builder-sub {
+      font-family: 'Lato', sans-serif; font-size: .58rem;
+      letter-spacing: 4px; text-transform: uppercase; color: var(--rose);
+      text-align: center; margin-bottom: 14px;
+    }
+    .builder-divider {
+      height: 1px; background: linear-gradient(90deg, transparent, var(--blush), transparent);
+      margin-bottom: 14px;
+    }
+
+    /* ── Form sections ── */
+    .b-section { margin-bottom: 14px; }
+    .b-section-title {
+      font-size: .72rem; font-weight: 700; color: var(--deep-rose);
+      letter-spacing: 2px; text-transform: uppercase;
+      font-family: 'Lato', sans-serif; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .b-section-title::after {
+      content: ''; flex: 1; height: 1px; background: var(--blush);
+    }
+    .b-label {
+      display: block; font-size: .78rem; color: var(--text-mid);
+      margin-bottom: 3px; text-align: right;
+      font-family: 'Noto Naskh Arabic', serif;
+    }
+    .b-input, .b-textarea, .b-select {
+      width: 100%; background: var(--soft-pink);
+      border: 1.5px solid var(--blush); border-radius: 9px;
+      padding: 7px 10px; font-family: 'Noto Naskh Arabic', 'Lato', serif;
+      font-size: .84rem; color: var(--text-dark); outline: none;
+      text-align: right; direction: rtl; transition: border-color .2s;
+      margin-bottom: 8px;
+    }
+    .b-input:focus, .b-textarea:focus { border-color: var(--rose); background: #fff; }
+    .b-textarea {
+      resize: vertical; min-height: 68px;
+      font-family: 'Courier New', monospace; font-size: .78rem;
+      direction: ltr; text-align: left;
+    }
+    .b-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+    /* ── Part block ── */
+    .part-block {
+      background: var(--soft-pink); border: 1.5px solid var(--blush);
+      border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; position: relative;
+    }
+    .part-block-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 6px; gap: 6px;
+    }
+    .part-name-input {
+      flex: 1; background: #fff !important; margin-bottom: 0 !important;
+    }
+    .btn-remove {
+      background: none; border: none; color: var(--rose);
+      cursor: pointer; font-size: 1rem; padding: 2px 5px;
+      border-radius: 5px; transition: background .2s; flex-shrink: 0;
+    }
+    .btn-remove:hover { background: var(--petal); }
+    .part-note-input {
+      font-family: 'Noto Naskh Arabic', 'Lato', serif !important;
+      direction: rtl !important; text-align: right !important;
+      min-height: 38px !important;
+    }
+
+    .btn-add-part {
+      width: 100%; background: linear-gradient(135deg, var(--petal), var(--blush));
+      border: 2px dashed var(--rose); border-radius: 10px; padding: 8px;
+      color: var(--mauve); font-family: 'Lato', sans-serif; font-size: .78rem;
+      letter-spacing: 1px; cursor: pointer; transition: all .2s; margin-bottom: 12px;
+    }
+    .btn-add-part:hover { background: var(--petal); transform: translateY(-1px); }
+
+    .btn-generate {
+      width: 100%; background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+      border: none; border-radius: 12px; padding: 12px;
+      color: #fff; font-family: 'Lato', sans-serif; font-size: .86rem;
+      letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all .2s;
+      margin-top: 4px;
+    }
+    .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(180,80,100,.28); }
+
+    /* ── Image upload ── */
+    .img-upload-zone {
+      border: 2px dashed var(--rose); border-radius: 12px; padding: 14px 10px;
+      text-align: center; background: var(--soft-pink); cursor: pointer;
+      transition: all .2s; margin-bottom: 4px; position: relative;
+    }
+    .img-upload-zone:hover { background: var(--petal); border-color: var(--deep-rose); }
+    .img-upload-zone input[type=file] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+      width: 100%; height: 100%; border: none; background: none; margin: 0; padding: 0;
+    }
+    .img-upload-label {
+      font-family: 'Noto Naskh Arabic', serif; font-size: .8rem;
+      color: var(--text-mid); pointer-events: none;
+    }
+    .img-upload-label span { display: block; font-size: 1.4rem; margin-bottom: 3px; }
+    .img-preview-thumb {
+      width: 100%; max-height: 100px; object-fit: cover;
+      border-radius: 8px; margin-top: 6px; border: 2px solid var(--blush); display: none;
+    }
+    .btn-remove-img {
+      display: none; width: 100%; background: none;
+      border: 1.5px solid var(--blush); border-radius: 7px; padding: 4px;
+      color: var(--rose); font-size: .74rem; cursor: pointer; margin-top: 4px;
+      font-family: 'Lato', sans-serif;
+    }
+    .btn-remove-img:hover { background: var(--petal); }
+
+    /* ── Preview panel ── */
+    .preview-panel {
+      padding: 22px 18px; overflow-y: auto;
+      background: var(--cream, #FDF0F3); height: 100%;
+    }
+    .preview-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; height: 65vh; color: var(--text-light);
+      gap: 12px; text-align: center;
+    }
+    .preview-placeholder .ph-icon { font-size: 3.6rem; }
+    .preview-placeholder p { font-family: 'Noto Naskh Arabic', serif; font-size: .95rem; }
+
+    /* ── Pattern pages ── */
+    .page {
+      background: #fff; border-radius: 18px; overflow: hidden;
+      margin-bottom: 22px; box-shadow: 0 8px 36px rgba(180,80,100,.12);
+    }
+    .cover-header {
+      background: linear-gradient(135deg,#F9D4DC 0%,#F0A8B8 40%,#E07A94 100%);
+      padding: 28px 32px 20px; position: relative; overflow: hidden;
+    }
+    .cover-header::before {
+      content:''; position:absolute; top:-55px; left:-55px;
+      width:190px; height:190px; border-radius:50%; background:rgba(255,255,255,.15);
+    }
+    .cover-header::after {
+      content:''; position:absolute; bottom:-36px; right:-36px;
+      width:140px; height:140px; border-radius:50%; background:rgba(255,255,255,.10);
+    }
+    .brand-row {
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:16px; position:relative; z-index:1;
+    }
+    .brand-name {
+      font-family:'Playfair Display',serif; font-style:italic;
+      font-size:1.7rem; color:var(--mauve); letter-spacing:2px;
+    }
+    .brand-tagline {
+      font-family:'Lato',sans-serif; font-size:.58rem;
+      letter-spacing:4px; text-transform:uppercase; color:var(--deep-rose); margin-top:2px;
+    }
+    .yarn-icon { font-size:2.2rem; animation:wobble 3s ease-in-out infinite; }
+    @keyframes wobble{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+
+    .pattern-title-ar {
+      font-family:'Noto Naskh Arabic',serif; font-size:1.7rem; font-weight:700;
+      color:#fff; text-align:center; text-shadow:0 2px 10px rgba(155,58,82,.28);
+      position:relative; z-index:1;
+    }
+    .pattern-subtitle-ar {
+      font-family:'Noto Naskh Arabic',serif; font-size:.9rem;
+      color:rgba(255,255,255,.87); text-align:center; margin-top:4px;
+      position:relative; z-index:1;
+    }
+
+    .dots-deco {
+      display:flex; gap:5px; padding:7px 18px 4px; justify-content:center;
+    }
+    .dots-deco span {
+      width:6px; height:6px; border-radius:50%; display:inline-block;
+      animation:dotPulse 1.8s ease-in-out infinite;
+    }
+    .dots-deco span:nth-child(1){background:var(--blush);}
+    .dots-deco span:nth-child(2){background:var(--rose);animation-delay:.15s;}
+    .dots-deco span:nth-child(3){background:var(--blush);animation-delay:.3s;}
+    .dots-deco span:nth-child(4){background:var(--petal);animation-delay:.45s;}
+    .dots-deco span:nth-child(5){background:var(--rose);animation-delay:.6s;}
+    .dots-deco span:nth-child(6){background:var(--blush);animation-delay:.75s;}
+    @keyframes dotPulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.4);opacity:1}}
+
+    .page-body { padding: 18px 32px 26px; }
+
+    .section-pill {
+      display:inline-flex; align-items:center; gap:7px;
+      background:linear-gradient(135deg,var(--petal),var(--blush));
+      color:var(--mauve); font-family:'Noto Naskh Arabic',serif;
+      font-weight:700; font-size:.95rem;
+      padding:5px 14px 5px 10px; border-radius:50px;
+      margin-bottom:10px; border:1.5px solid var(--rose);
+      box-shadow:0 3px 10px rgba(224,122,148,.16);
+      width:100%; justify-content:flex-end;
+    }
+    .subsection-label {
+      font-family:'Noto Naskh Arabic',serif; font-size:.9rem; font-weight:600;
+      color:var(--deep-rose); margin:12px 0 6px;
+      padding-right:10px; border-right:3px solid var(--rose); text-align:right;
+    }
+    .code-card {
+      background:var(--code-bg); border:1.5px solid var(--code-border);
+      border-radius:11px; padding:10px 14px; margin-bottom:8px;
+      direction:ltr; text-align:left; position:relative; overflow:hidden;
+    }
+    .code-card::before {
+      content:''; position:absolute; top:0; right:0;
+      width:4px; height:100%;
+      background:linear-gradient(180deg,var(--rose),var(--blush));
+      border-radius:0 11px 11px 0;
+    }
+    .code-card code {
+      font-family:'Courier New',monospace; font-size:.79rem; color:var(--text-dark);
+      line-height:1.9; display:block; white-space:pre-wrap; word-break:break-word;
+    }
+    .note-box {
+      background:linear-gradient(135deg,#FFF0F3,#FDE8EE);
+      border:1px solid var(--blush); border-radius:9px;
+      padding:8px 12px; margin:6px 0 3px;
+      display:flex; align-items:flex-start; gap:7px; flex-direction:row-reverse;
+      font-family:'Noto Naskh Arabic',serif; font-size:.85rem;
+      color:var(--text-mid); text-align:right;
+    }
+    .note-star { font-size:.95rem; flex-shrink:0; }
+
+    .tools-table {
+      width:100%; border-collapse:separate; border-spacing:0 4px;
+      text-align:right; font-family:'Noto Naskh Arabic',serif;
+    }
+    .tools-table td { padding:6px 12px; font-size:.83rem; }
+    .tools-table tr:nth-child(odd)  td { background:var(--soft-pink); }
+    .tools-table tr:nth-child(even) td { background:var(--petal); }
+    .tools-table td:last-child { border-radius:7px 0 0 7px; font-weight:600; color:var(--mauve); white-space:nowrap; }
+    .tools-table td:first-child { border-radius:0 7px 7px 0; color:var(--text-light); font-size:.77rem; }
+
+    .abbr-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:6px; }
+    .abbr-item {
+      background:var(--soft-pink); border-radius:9px; padding:6px 10px;
+      display:flex; align-items:center; gap:8px; border:1px solid var(--code-border);
+    }
+    .abbr-key {
+      font-family:'Courier New',monospace; font-weight:bold; font-size:.79rem;
+      color:var(--deep-rose); background:#fff; border-radius:5px;
+      padding:2px 7px; border:1px solid var(--blush); flex-shrink:0;
+      min-width:38px; text-align:center;
+    }
+    .abbr-val { font-family:'Lato',sans-serif; font-size:.73rem; color:var(--text-mid); direction:ltr; text-align:left; }
+
+    .heart-divider {
+      display:flex; align-items:center; gap:10px; padding:0 32px;
+    }
+    .heart-divider::before,.heart-divider::after {
+      content:''; flex:1; height:1px;
+      background:linear-gradient(90deg,transparent,var(--blush),transparent);
+    }
+    .heart-center { font-size:.95rem; color:var(--rose); }
+
+    .page-footer {
+      background:linear-gradient(135deg,var(--petal),var(--blush));
+      padding:10px 32px; display:flex; align-items:center; justify-content:space-between;
+    }
+    .footer-brand {
+      font-family:'Playfair Display',serif; font-style:italic;
+      font-size:.9rem; color:var(--mauve);
+    }
+    .footer-tagline {
+      font-family:'Lato',sans-serif; font-size:.55rem;
+      letter-spacing:3px; text-transform:uppercase; color:var(--deep-rose);
+    }
+    .footer-hearts { font-size:.8rem; letter-spacing:3px; }
+    .footer-page-num { font-family:'Lato',serif; font-size:.8rem; color:var(--text-light); }
+
+    .cover-image-wrap {
+      position:relative; z-index:1; display:flex; justify-content:center; margin-top:14px;
+    }
+    .cover-image-wrap img {
+      width:180px; height:180px; object-fit:cover; border-radius:50%;
+      border:4px solid rgba(255,255,255,.7); box-shadow:0 8px 28px rgba(155,58,82,.28);
+    }
+
+    @media print {
+      .admin-sidebar, .admin-topbar, .saved-strip, .builder-panel { display:none !important; }
+      .admin-shell { display:block !important; }
+      .builder-area { display:block !important; height:auto !important; }
+      .preview-panel { padding:0 !important; height:auto !important; overflow:visible !important; }
+      .page { page-break-after:always; box-shadow:none !important; border-radius:0 !important; margin:0 !important; }
+      @page { margin:0; size:A4 portrait; }
+    }
+  </style>
+</head>
+<body>
+<div class="admin-shell">
+
+  <%- include('./_sidebar', { currentPage: 'pattern-builder' }) %>
+
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1 class="admin-topbar-title">
+        <i class="fas fa-magic" style="color:#9b3a5a;font-size:.95rem;margin-left:.4rem;"></i>
+        Pattern Builder
+      </h1>
+      <span class="admin-topbar-user">
+        <i class="fas fa-user-shield"></i>
+        <%= adminUser.firstName %> <%= adminUser.lastName %>
+      </span>
+    </div>
+
+    <div class="admin-content builder-content">
+
+      <% if (successMessage) { %>
+        <div class="admin-alert admin-alert-success" style="margin:.5rem .8rem;flex-shrink:0;">
+          <i class="fas fa-check-circle"></i> <%= successMessage %>
+        </div>
+      <% } %>
+      <% if (errorMessage) { %>
+        <div class="admin-alert admin-alert-error" style="margin:.5rem .8rem;flex-shrink:0;">
+          <i class="fas fa-exclamation-circle"></i> <%= errorMessage %>
+        </div>
+      <% } %>
+
+      <!-- ── Saved patterns strip ── -->
+      <div class="saved-strip">
+        <span class="saved-strip-label"><i class="fas fa-bookmark"></i> محفوظ:</span>
+        <div class="saved-chips" id="savedChips">
+          <% if (savedPatterns.length === 0) { %>
+            <span class="saved-empty" id="emptyHint">لا يوجد باترنات محفوظة بعد</span>
+          <% } %>
+          <% savedPatterns.forEach(function(p) { %>
+            <span class="saved-chip" id="chip-<%= p.id %>" onclick="loadPattern(<%= p.id %>)">
+              <%= p.emoji || '🧶' %> <%= p.name %>
+              <a class="chip-share" href="/pattern/<%= p.id %>"
+                target="_blank" onclick="event.stopPropagation()" title="الصفحة العامة">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+              <a class="chip-pdf" href="/ezshm_crochem/pattern-builder/pdf/<%= p.id %>"
+                target="_blank" onclick="event.stopPropagation()" title="عرض PDF">
+                <i class="fas fa-file-pdf"></i>
+              </a>
+              <span class="chip-del" onclick="event.stopPropagation();deletePattern(<%= p.id %>)" title="حذف">✕</span>
+            </span>
+          <% }); %>
+        </div>
+        <div class="strip-actions">
+          <button onclick="savePattern()" class="btn-strip btn-strip-save" id="saveBtn">
+            <i class="fas fa-save"></i> حفظ
+          </button>
+          <button onclick="newPattern()" class="btn-strip btn-strip-new">
+            <i class="fas fa-plus"></i> جديد
+          </button>
+          <button onclick="window.print()" class="btn-strip btn-strip-print" id="printBtn" style="display:none;">
+            <i class="fas fa-print"></i> طباعة
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Builder (two-column) ── -->
+      <div class="builder-area">
+
+        <!-- Builder Panel -->
+        <div class="builder-panel">
+          <div class="builder-logo">croshim</div>
+          <div class="builder-sub">pattern builder 🧶</div>
+          <div class="builder-divider"></div>
+
+          <input type="hidden" id="activePatternId" value="">
+
+          <!-- PATTERN INFO -->
+          <div class="b-section">
+            <div class="b-section-title">🪡 Pattern Info</div>
+            <label class="b-label">اسم الدمية / المنتج</label>
+            <input type="text" class="b-input" id="patternName" placeholder="مثال: دُمية الدب اللطيف 🐻">
+
+            <label class="b-label">وصف قصير (اختياري)</label>
+            <input type="text" class="b-input" id="patternSubtitle" placeholder="مثال: باترن كروشيه متكامل 🐻🌿">
+
+            <label class="b-label">إيموجي الغلاف</label>
+            <input type="text" class="b-input" id="coverEmoji" placeholder="🐻" value="🧸" style="max-width:80px;text-align:center;">
+
+            <label class="b-label">صورة المنتج (اختياري)</label>
+            <div class="img-upload-zone" id="uploadZone">
+              <input type="file" accept="image/*" onchange="handleImageUpload(event)">
+              <div class="img-upload-label">
+                <span>🖼️</span>اضغطي لرفع صورة الدمية
+              </div>
+              <img class="img-preview-thumb" id="imgThumb" src="" alt="preview">
+            </div>
+            <button class="btn-remove-img" id="removeImgBtn" onclick="removeImage()">✕ حذف الصورة</button>
+          </div>
+
+          <!-- TOOLS -->
+          <div class="b-section">
+            <div class="b-section-title">🧶 الأدوات</div>
+            <div id="toolsList"></div>
+            <button class="btn-add-part" onclick="addTool()">+ إضافة أداة</button>
+          </div>
+
+          <!-- ABBREVIATIONS -->
+          <div class="b-section">
+            <div class="b-section-title">📋 Abbreviations</div>
+            <small style="color:var(--text-light);font-size:.72rem;display:block;margin-bottom:6px;text-align:right;">
+              الاختصارات الافتراضية مضافة تلقائياً — أضف المخصصة هنا فقط
+            </small>
+            <div id="abbrList"></div>
+            <button class="btn-add-part" onclick="addAbbr()">+ إضافة اختصار مخصص</button>
+          </div>
+
+          <!-- PATTERN PARTS -->
+          <div class="b-section">
+            <div class="b-section-title">✂️ أجزاء الباترن</div>
+            <small style="color:var(--text-light);font-size:.72rem;display:block;margin-bottom:6px;text-align:right;">
+              كل جزء (الرأس، الجسم، الأيدي...) يصبح قسماً منفصلاً
+            </small>
+            <div id="partsList"></div>
+            <button class="btn-add-part" onclick="addPart()">+ إضافة جزء جديد</button>
+          </div>
+
+          <button class="btn-generate" onclick="generatePattern()">✨ &nbsp; Generate Pattern</button>
+        </div>
+
+        <!-- Preview Panel -->
+        <div class="preview-panel" id="previewPanel">
+          <div class="preview-placeholder" id="placeholder">
+            <div class="ph-icon">🧶</div>
+            <p>املئي البيانات على اليسار<br>ثم اضغطي <strong>Generate Pattern</strong></p>
+          </div>
+          <div id="patternOutput"></div>
+        </div>
+
+      </div><!-- /builder-area -->
+    </div><!-- /builder-content -->
+  </div><!-- /admin-main -->
+</div><!-- /admin-shell -->
+
+<div id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════
+   CONFIG
+══════════════════════════════════════════════ */
+const CSRF_TOKEN = '<%= csrfToken %>';
+
+/* ══════════════════════════════════════════════
+   DEFAULT DATA
+══════════════════════════════════════════════ */
+const DEFAULT_ABBR = [
+  {key:'MR',  val:'magic ring / magic loop'},
+  {key:'Ch',  val:'chain'},
+  {key:'sc',  val:'single crochet'},
+  {key:'inc', val:'increase (2 sc in 1 stitch)'},
+  {key:'inc+',val:'3 sc in 1 stitch'},
+  {key:'dec', val:'decrease (sc 2 together)'},
+  {key:'ss',  val:'slip stitch'},
+  {key:'f/o', val:'fasten off'},
+];
+
+/* ══════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════ */
+let tools = [];
+let abbrs = [];
+let parts = [];
+
+/* ══════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════ */
+function init() {
+  addTool('١- خيط قطن لون', 'سكري • وردي • برتقالي • أخضر');
+  addTool('٢- إبرة كروشيه', 'مناسبة للخيط');
+  addTool('٣- عيون دمى', '');
+  addTool('٤- زر مع إبرة وخيط', '');
+  addTool('٥- مقص وإبرة تثبيت', '');
+  addTool('٦- فايبر للحشو', '');
+  addPart('🐻 الرأس', 'R1: mr 6sc\nR2: inc X 6 = 12sc\nR3: (sc, inc) X 6 = 18sc\n...', 'نحشي بالفايبر قبل الإغلاق');
+}
+
+/* ══════════════════════════════════════════════
+   TOOLS
+══════════════════════════════════════════════ */
+function addTool(name='', detail='') {
+  const id = Date.now() + Math.random();
+  tools.push({id, name, detail});
+  renderTools();
+}
+function removeTool(id) {
+  tools = tools.filter(t => t.id !== id);
+  renderTools();
+}
+function renderTools() {
+  document.getElementById('toolsList').innerHTML = tools.map(t => `
+    <div class="part-block" style="padding:9px 11px;">
+      <div class="part-block-head">
+        <button class="btn-remove" onclick="removeTool(${t.id})">✕</button>
+        <input class="b-input part-name-input" type="text"
+          placeholder="اسم الأداة" value="${esc(t.name)}"
+          onchange="updateTool(${t.id},'name',this.value)">
+      </div>
+      <input type="text" class="b-input" style="margin-bottom:0!important;" placeholder="تفاصيل (اختياري)"
+        value="${esc(t.detail)}" onchange="updateTool(${t.id},'detail',this.value)">
+    </div>`).join('');
+}
+function updateTool(id, field, val) {
+  const t = tools.find(x => x.id === id);
+  if (t) t[field] = val;
+}
+
+/* ══════════════════════════════════════════════
+   ABBREVIATIONS
+══════════════════════════════════════════════ */
+function addAbbr(key='', val='') {
+  const id = Date.now() + Math.random();
+  abbrs.push({id, key, val});
+  renderAbbrs();
+}
+function removeAbbr(id) {
+  abbrs = abbrs.filter(a => a.id !== id);
+  renderAbbrs();
+}
+function renderAbbrs() {
+  document.getElementById('abbrList').innerHTML = abbrs.map(a => `
+    <div class="part-block" style="padding:9px 11px;">
+      <div class="b-row2">
+        <input type="text" class="b-input" style="margin-bottom:0!important;direction:ltr;text-align:left;"
+          placeholder="e.g. BLO" value="${esc(a.key)}" onchange="updateAbbr(${a.id},'key',this.value)">
+        <input type="text" class="b-input" style="margin-bottom:0!important;direction:ltr;text-align:left;"
+          placeholder="back loop only" value="${esc(a.val)}" onchange="updateAbbr(${a.id},'val',this.value)">
+      </div>
+      <button class="btn-remove" onclick="removeAbbr(${a.id})" style="margin-top:5px;">✕ حذف</button>
+    </div>`).join('');
+}
+function updateAbbr(id, field, val) {
+  const a = abbrs.find(x => x.id === id);
+  if (a) a[field] = val;
+}
+
+/* ══════════════════════════════════════════════
+   PARTS
+══════════════════════════════════════════════ */
+function addPart(name='', code='', note='') {
+  const id = Date.now() + Math.random();
+  parts.push({id, name, code, note});
+  renderParts();
+}
+function removePart(id) {
+  parts = parts.filter(p => p.id !== id);
+  renderParts();
+}
+function renderParts() {
+  document.getElementById('partsList').innerHTML = parts.map(p => `
+    <div class="part-block">
+      <div class="part-block-head">
+        <button class="btn-remove" onclick="removePart(${p.id})">✕</button>
+        <input class="b-input part-name-input" type="text"
+          placeholder="اسم الجزء (مثال: 🐻 الرأس)"
+          value="${esc(p.name)}" onchange="updatePart(${p.id},'name',this.value)">
+      </div>
+      <label class="b-label">كود الباترن (Rows)</label>
+      <textarea class="b-textarea" placeholder="R1: mr 6sc&#10;R2: inc X 6 = 12sc&#10;..."
+        onchange="updatePart(${p.id},'code',this.value)">${esc(p.code)}</textarea>
+      <label class="b-label">ملاحظة (اختياري)</label>
+      <textarea class="b-textarea part-note-input" style="min-height:36px!important;"
+        placeholder="مثال: نحشي بالفايبر قبل الإغلاق"
+        onchange="updatePart(${p.id},'note',this.value)">${esc(p.note)}</textarea>
+    </div>`).join('');
+}
+function updatePart(id, field, val) {
+  const p = parts.find(x => x.id === id);
+  if (p) p[field] = val;
+}
+
+/* ══════════════════════════════════════════════
+   GENERATE
+══════════════════════════════════════════════ */
+function generatePattern() {
+  syncAll();
+  const name      = document.getElementById('patternName').value.trim()     || 'باترن كروشيه';
+  const subtitle  = document.getElementById('patternSubtitle').value.trim() || 'باترن كروشيه متكامل';
+  const emoji     = document.getElementById('coverEmoji').value.trim()      || '🧶';
+  const coverImg  = window._coverImageData || null;
+  const allAbbrs  = [...DEFAULT_ABBR, ...abbrs.filter(a => a.key)];
+  const hasCoverImg = !!coverImg;
+  const PARTS_PER_PAGE = 4;
+  const totalPages = Math.ceil(parts.length / PARTS_PER_PAGE) + (hasCoverImg ? 2 : 1);
+
+  let html = '';
+
+  // Cover image page
+  if (hasCoverImg) {
+    html += `
+    <div class="page" style="min-height:520px;display:flex;flex-direction:column;">
+      <div class="cover-header" style="flex:1;padding:44px 36px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:0;">
+        <div style="position:relative;z-index:1;text-align:center;width:100%;">
+          <div class="brand-name" style="font-size:1.9rem;margin-bottom:2px;">croshim</div>
+          <div class="brand-tagline" style="margin-bottom:24px;">crochet with heart</div>
+        </div>
+        <div style="position:relative;z-index:1;display:flex;justify-content:center;margin-bottom:24px;">
+          <img src="${coverImg}" alt="product"
+            style="width:240px;height:240px;object-fit:cover;border-radius:50%;
+                   border:5px solid rgba(255,255,255,.8);box-shadow:0 10px 40px rgba(155,58,82,.3);">
+        </div>
+        <div style="position:relative;z-index:1;text-align:center;">
+          <div class="pattern-title-ar" style="font-size:1.9rem;">${name}</div>
+          <div class="pattern-subtitle-ar" style="margin-top:5px;">${subtitle}</div>
+        </div>
+      </div>
+      <div class="dots-deco"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="heart-divider" style="margin:0 32px;"><span class="heart-center">🤍</span></div>
+      <div class="page-footer">
+        <div><div class="footer-brand">croshim</div><div class="footer-tagline">crochet with heart</div></div>
+        <div class="footer-hearts">🤍 🤍 🤍</div>
+        <div class="footer-page-num">١ / ${totalPages}</div>
+      </div>
+    </div>`;
+  }
+
+  // Tools + Abbreviations page
+  const toolsPageNum = hasCoverImg ? 2 : 1;
+  html += `
+  <div class="page">
+    <div class="cover-header">
+      <div class="brand-row">
+        <div><div class="brand-name">croshim</div><div class="brand-tagline">crochet with heart</div></div>
+        <div class="yarn-icon">${emoji}</div>
+      </div>
+      <div class="pattern-title-ar">${name}</div>
+      <div class="pattern-subtitle-ar">${subtitle}</div>
+    </div>
+    <div class="dots-deco"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="page-body">
+      <div class="section-pill"><span>🧶</span> الأدوات المطلوبة</div>
+      <table class="tools-table">
+        ${tools.filter(t=>t.name).map(t=>`<tr><td>${t.detail}</td><td>${t.name}</td></tr>`).join('')}
+      </table>
+      <div style="height:16px"></div>
+      <div class="section-pill"><span>📋</span> الرموز والاختصارات</div>
+      <div class="abbr-grid">
+        ${allAbbrs.map(a=>`
+          <div class="abbr-item">
+            <span class="abbr-key">${a.key}</span>
+            <span class="abbr-val">${a.val}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="heart-divider"><span class="heart-center">🤍</span></div>
+    <div class="page-footer">
+      <div><div class="footer-brand">croshim</div><div class="footer-tagline">crochet with heart</div></div>
+      <div class="footer-hearts">🤍 🤍 🤍</div>
+      <div class="footer-page-num">${toolsPageNum} / ${totalPages}</div>
+    </div>
+  </div>`;
+
+  // Pattern pages
+  const chunks = chunkArray(parts, PARTS_PER_PAGE);
+  chunks.forEach((chunk, ci) => {
+    const pageNum = ci + (hasCoverImg ? 3 : 2);
+    html += `
+    <div class="page">
+      <div class="cover-header" style="padding:18px 32px;">
+        <div class="brand-row" style="margin-bottom:0;">
+          <div class="brand-name" style="font-size:1.25rem;">croshim</div>
+          <div style="text-align:center;flex:1;">
+            <div class="pattern-title-ar" style="font-size:1.35rem;">${emoji} ${name}</div>
+          </div>
+          <div class="yarn-icon" style="font-size:1.7rem;">🧶</div>
+        </div>
+      </div>
+      <div class="dots-deco"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="page-body">
+        ${chunk.map(p=>`
+          <div class="subsection-label">${p.name}</div>
+          <div class="code-card"><code>${escHtml(p.code)}</code></div>
+          ${p.note ? `<div class="note-box"><span class="note-star">⭐</span>${p.note}</div>` : ''}
+        `).join('')}
+      </div>
+      <div class="heart-divider"><span class="heart-center">🤍</span></div>
+      <div class="page-footer">
+        <div><div class="footer-brand">croshim</div><div class="footer-tagline">crochet with heart</div></div>
+        <div class="footer-hearts">🤍 🤍 🤍</div>
+        <div class="footer-page-num">${pageNum} / ${totalPages}</div>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('patternOutput').innerHTML = html;
+  document.getElementById('printBtn').style.display = 'inline-flex';
+  document.getElementById('previewPanel').scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ══════════════════════════════════════════════
+   SAVE / LOAD / DELETE (DB)
+══════════════════════════════════════════════ */
+async function savePattern() {
+  syncAll();
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+  const data = {
+    id:          document.getElementById('activePatternId').value || null,
+    name:        document.getElementById('patternName').value.trim()    || 'باترن جديد',
+    subtitle:    document.getElementById('patternSubtitle').value.trim(),
+    emoji:       document.getElementById('coverEmoji').value.trim()     || '🧶',
+    cover_image: window._coverImageData || null,
+    tools:       JSON.stringify(tools),
+    abbrs:       JSON.stringify(abbrs),
+    parts:       JSON.stringify(parts),
+  };
+
+  try {
+    const res  = await fetch('/ezshm_crochem/pattern-builder/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF_TOKEN },
+      body: JSON.stringify(data),
+    });
+    const json = await res.json();
+
+    if (json.success) {
+      document.getElementById('activePatternId').value = json.pattern.id;
+      upsertChip(json.pattern);
+      showToast('تم الحفظ بنجاح ✓');
+    } else {
+      showToast('خطأ في الحفظ: ' + (json.error || ''));
+    }
+  } catch (e) {
+    showToast('خطأ في الاتصال');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-save"></i> حفظ';
+  }
+}
+
+async function loadPattern(id) {
+  try {
+    const res  = await fetch(`/ezshm_crochem/pattern-builder/load/${id}`);
+    const data = await res.json();
+
+    document.getElementById('activePatternId').value  = id;
+    document.getElementById('patternName').value      = data.name     || '';
+    document.getElementById('patternSubtitle').value  = data.subtitle || '';
+    document.getElementById('coverEmoji').value       = data.emoji    || '🧶';
+
+    if (data.cover_image) {
+      window._coverImageData = data.cover_image;
+      const thumb = document.getElementById('imgThumb');
+      thumb.src = data.cover_image; thumb.style.display = 'block';
+      document.getElementById('removeImgBtn').style.display = 'block';
+    } else {
+      window._coverImageData = null;
+      document.getElementById('imgThumb').style.display = 'none';
+      document.getElementById('removeImgBtn').style.display = 'none';
+    }
+
+    tools = JSON.parse(data.tools || '[]');
+    abbrs = JSON.parse(data.abbrs || '[]');
+    parts = JSON.parse(data.parts || '[]');
+
+    renderTools(); renderAbbrs(); renderParts();
+
+    // Mark active chip
+    document.querySelectorAll('.saved-chip').forEach(c => c.classList.remove('active-chip'));
+    const chip = document.getElementById('chip-' + id);
+    if (chip) chip.classList.add('active-chip');
+
+    showToast(`تم تحميل "${data.name}" ✓`);
+  } catch (e) {
+    showToast('خطأ في التحميل');
+  }
+}
+
+async function deletePattern(id) {
+  if (!confirm('حذف هذا الباترن نهائياً؟')) return;
+  try {
+    const res  = await fetch(`/ezshm_crochem/pattern-builder/delete/${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF_TOKEN },
+    });
+    const json = await res.json();
+    if (json.success) {
+      const chip = document.getElementById('chip-' + id);
+      if (chip) chip.remove();
+      if (document.getElementById('activePatternId').value == id) {
+        document.getElementById('activePatternId').value = '';
+      }
+      if (!document.querySelectorAll('.saved-chip').length) {
+        const hint = document.createElement('span');
+        hint.className = 'saved-empty'; hint.id = 'emptyHint';
+        hint.textContent = 'لا يوجد باترنات محفوظة بعد';
+        document.getElementById('savedChips').prepend(hint);
+      }
+      showToast('تم الحذف ✓');
+    }
+  } catch (e) {
+    showToast('خطأ في الحذف');
+  }
+}
+
+function newPattern() {
+  document.getElementById('activePatternId').value = '';
+  document.getElementById('patternName').value     = '';
+  document.getElementById('patternSubtitle').value = '';
+  document.getElementById('coverEmoji').value      = '🧶';
+  removeImage();
+  tools = []; abbrs = []; parts = [];
+  renderTools(); renderAbbrs(); renderParts();
+  document.getElementById('placeholder').style.display = '';
+  document.getElementById('patternOutput').innerHTML = '';
+  document.getElementById('printBtn').style.display = 'none';
+  document.querySelectorAll('.saved-chip').forEach(c => c.classList.remove('active-chip'));
+  init();
+}
+
+/* ══════════════════════════════════════════════
+   CHIP HELPERS
+══════════════════════════════════════════════ */
+function upsertChip(pattern) {
+  const hint = document.getElementById('emptyHint');
+  if (hint) hint.remove();
+
+  let chip = document.getElementById('chip-' + pattern.id);
+  if (!chip) {
+    chip = document.createElement('span');
+    chip.className = 'saved-chip';
+    chip.id = 'chip-' + pattern.id;
+    chip.setAttribute('onclick', `loadPattern(${pattern.id})`);
+    document.getElementById('savedChips').prepend(chip);
+  }
+  chip.innerHTML = `${pattern.emoji || '🧶'} ${pattern.name}
+    <a class="chip-share" href="/pattern/${pattern.id}"
+      target="_blank" onclick="event.stopPropagation()" title="الصفحة العامة">
+      <i class="fas fa-external-link-alt"></i>
+    </a>
+    <a class="chip-pdf" href="/ezshm_crochem/pattern-builder/pdf/${pattern.id}"
+      target="_blank" onclick="event.stopPropagation()" title="عرض PDF">
+      <i class="fas fa-file-pdf"></i>
+    </a>
+    <span class="chip-del" onclick="event.stopPropagation();deletePattern(${pattern.id})" title="حذف">✕</span>`;
+
+  document.querySelectorAll('.saved-chip').forEach(c => c.classList.remove('active-chip'));
+  chip.classList.add('active-chip');
+}
+
+/* ══════════════════════════════════════════════
+   IMAGE UPLOAD
+══════════════════════════════════════════════ */
+function handleImageUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    window._coverImageData = ev.target.result;
+    const thumb = document.getElementById('imgThumb');
+    thumb.src = ev.target.result; thumb.style.display = 'block';
+    document.getElementById('removeImgBtn').style.display = 'block';
+    document.getElementById('uploadZone').style.borderColor = 'var(--deep-rose)';
+  };
+  reader.readAsDataURL(file);
+}
+function removeImage() {
+  window._coverImageData = null;
+  const thumb = document.getElementById('imgThumb');
+  thumb.src = ''; thumb.style.display = 'none';
+  document.getElementById('removeImgBtn').style.display = 'none';
+  document.getElementById('uploadZone').style.borderColor = 'var(--rose)';
+}
+
+/* ══════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+/* ══════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════ */
+function syncAll() {
+  document.querySelectorAll('#toolsList .part-block').forEach((el, i) => {
+    if (tools[i]) {
+      tools[i].name   = el.querySelectorAll('input')[0].value;
+      tools[i].detail = el.querySelectorAll('input')[1]?.value || '';
+    }
+  });
+  document.querySelectorAll('#partsList .part-block').forEach((el, i) => {
+    if (parts[i]) {
+      parts[i].name = el.querySelectorAll('input')[0].value;
+      parts[i].code = el.querySelectorAll('textarea')[0].value;
+      parts[i].note = el.querySelectorAll('textarea')[1].value;
+    }
+  });
+  document.querySelectorAll('#abbrList .part-block').forEach((el, i) => {
+    if (abbrs[i]) {
+      abbrs[i].key = el.querySelectorAll('input')[0].value;
+      abbrs[i].val = el.querySelectorAll('input')[1].value;
+    }
+  });
+}
+function chunkArray(arr, size) {
+  const res = [];
+  for (let i = 0; i < arr.length; i += size) res.push(arr.slice(i, i + size));
+  return res;
+}
+function esc(str) {
+  return (str||'').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function escHtml(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* boot */
+init();
+
+/* auto-load from ?load= query param (e.g. from saved-patterns list) */
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const loadId = params.get('load');
+  if (loadId) {
+    loadPattern(Number(loadId));
+    /* clean up the URL without reloading */
+    history.replaceState({}, '', window.location.pathname);
+  }
+})();
+</script>
+</body>
+</html>

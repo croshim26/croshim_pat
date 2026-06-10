@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Croshim – Pattern Builder 🧶</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   BRAND TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --blush:     #F4C2C2;
+  --rose:      #E8839A;
+  --deep-rose: #C0516B;
+  --mauve:     #9B3A52;
+  --cream:     #FDF0F3;
+  --soft-pink: #FAE4EA;
+  --petal:     #F9D4DC;
+  --text-dark: #5A2A38;
+  --text-mid:  #8B4D60;
+  --text-light:#B8798A;
+  --white:     #FFFFFF;
+  --code-bg:   #FDF5F7;
+  --code-border:#EEC5CF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+
+/* ═══════════════════════════════════════════════
+   LAYOUT — TWO COLUMNS
+═══════════════════════════════════════════════ */
+body {
+  background: var(--cream);
+  font-family: 'Noto Naskh Arabic','Lato',serif;
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  min-height: 100vh;
+}
+
+/* ── LEFT PANEL (Builder) ───────────────────── */
+.builder-panel {
+  background: var(--white);
+  border-left: 1px solid var(--blush);
+  padding: 24px 20px 40px;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.builder-logo {
+  font-family: 'Playfair Display',serif;
+  font-style: italic;
+  font-size: 1.6rem;
+  color: var(--mauve);
+  text-align: center;
+  margin-bottom: 2px;
+}
+.builder-sub {
+  font-family: 'Lato',sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--rose);
+  text-align: center;
+  margin-bottom: 18px;
+}
+.builder-divider {
+  height: 1px;
+  background: linear-gradient(90deg,transparent,var(--blush),transparent);
+  margin-bottom: 18px;
+}
+
+/* ── FORM SECTIONS ──────────────────────────── */
+.form-section {
+  margin-bottom: 16px;
+}
+.form-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--deep-rose);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Lato',sans-serif;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.form-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--blush);
+}
+
+label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--text-mid);
+  margin-bottom: 4px;
+  text-align: right;
+}
+input[type=text], input[type=number], textarea, select {
+  width: 100%;
+  background: var(--soft-pink);
+  border: 1.5px solid var(--blush);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-family: 'Noto Naskh Arabic','Lato',serif;
+  font-size: 0.88rem;
+  color: var(--text-dark);
+  outline: none;
+  text-align: right;
+  direction: rtl;
+  transition: border-color .2s;
+  margin-bottom: 10px;
+}
+input[type=text]:focus, textarea:focus, select:focus {
+  border-color: var(--rose);
+  background: var(--white);
+}
+textarea {
+  resize: vertical;
+  min-height: 70px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  direction: ltr;
+  text-align: left;
+}
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ── PART BLOCK ─────────────────────────────── */
+.part-block {
+  background: var(--soft-pink);
+  border: 1.5px solid var(--blush);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.part-block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+.part-name-input {
+  flex: 1;
+  background: var(--white) !important;
+  margin-bottom: 0 !important;
+}
+.part-emoji-input {
+  width: 60px !important;
+  text-align: center !important;
+  margin-bottom: 0 !important;
+}
+.btn-remove {
+  background: none;
+  border: none;
+  color: var(--rose);
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.btn-remove:hover { background: var(--petal); }
+
+.part-note-input {
+  font-family: 'Noto Naskh Arabic','Lato',serif !important;
+  direction: rtl !important;
+  text-align: right !important;
+  min-height: 44px !important;
+}
+
+/* ── BUTTONS ────────────────────────────────── */
+.btn-add-part {
+  width: 100%;
+  background: linear-gradient(135deg, var(--petal), var(--blush));
+  border: 2px dashed var(--rose);
+  border-radius: 12px;
+  padding: 9px;
+  color: var(--mauve);
+  font-family: 'Lato',sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all .2s;
+  margin-bottom: 16px;
+}
+.btn-add-part:hover { background: var(--petal); transform: translateY(-1px); }
+
+.btn-generate {
+  width: 100%;
+  background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+  border: none;
+  border-radius: 14px;
+  padding: 13px;
+  color: white;
+  font-family: 'Lato',sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .2s;
+  margin-top: 6px;
+}
+.btn-generate:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(180,80,100,.3); }
+
+.btn-print {
+  width: 100%;
+  background: white;
+  border: 2px solid var(--rose);
+  border-radius: 14px;
+  padding: 11px;
+  color: var(--deep-rose);
+  font-family: 'Lato',sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .2s;
+  margin-top: 8px;
+  display: none;
+}
+.btn-print:hover { background: var(--petal); }
+.btn-print.visible { display: block; }
+
+/* ═══════════════════════════════════════════════
+   RIGHT PANEL (Preview)
+═══════════════════════════════════════════════ */
+.preview-panel {
+  padding: 30px 24px;
+  overflow-y: auto;
+}
+
+.preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  color: var(--text-light);
+  gap: 14px;
+  text-align: center;
+}
+.preview-placeholder .ph-icon { font-size: 4rem; }
+.preview-placeholder p {
+  font-family: 'Noto Naskh Arabic',serif;
+  font-size: 1rem;
+}
+
+/* ═══════════════════════════════════════════════
+   GENERATED PATTERN PAGES
+═══════════════════════════════════════════════ */
+.page {
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  box-shadow: 0 8px 40px rgba(180,80,100,.12);
+}
+
+/* header */
+.cover-header {
+  background: linear-gradient(135deg,#F9D4DC 0%,#F0A8B8 40%,#E07A94 100%);
+  padding: 32px 36px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.cover-header::before {
+  content:'';position:absolute;top:-60px;left:-60px;
+  width:200px;height:200px;border-radius:50%;
+  background:rgba(255,255,255,.15);
+}
+.cover-header::after {
+  content:'';position:absolute;bottom:-40px;right:-40px;
+  width:150px;height:150px;border-radius:50%;
+  background:rgba(255,255,255,.10);
+}
+
+.brand-row {
+  display:flex;align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;position:relative;z-index:1;
+}
+.brand-name {
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-size:1.8rem;
+  color:var(--mauve);letter-spacing:2px;
+}
+.brand-tagline {
+  font-family:'Lato',sans-serif;font-size:.6rem;
+  letter-spacing:4px;text-transform:uppercase;
+  color:var(--deep-rose);margin-top:2px;
+}
+.yarn-icon {
+  font-size:2.4rem;
+  animation:wobble 3s ease-in-out infinite;
+}
+@keyframes wobble{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+
+.pattern-title-ar {
+  font-family:'Noto Naskh Arabic',serif;
+  font-size:1.8rem;font-weight:700;
+  color:var(--white);text-align:center;
+  text-shadow:0 2px 12px rgba(155,58,82,.3);
+  position:relative;z-index:1;
+}
+.pattern-subtitle-ar {
+  font-family:'Noto Naskh Arabic',serif;
+  font-size:.95rem;color:rgba(255,255,255,.88);
+  text-align:center;margin-top:5px;
+  position:relative;z-index:1;
+}
+
+/* dots */
+.dots-deco {
+  display:flex;gap:5px;padding:8px 20px 5px;
+  justify-content:center;
+}
+.dots-deco span {
+  width:7px;height:7px;border-radius:50%;
+  display:inline-block;animation:dotPulse 1.8s ease-in-out infinite;
+}
+.dots-deco span:nth-child(1){background:var(--blush);}
+.dots-deco span:nth-child(2){background:var(--rose);animation-delay:.15s;}
+.dots-deco span:nth-child(3){background:var(--blush);animation-delay:.3s;}
+.dots-deco span:nth-child(4){background:var(--petal);animation-delay:.45s;}
+.dots-deco span:nth-child(5){background:var(--rose);animation-delay:.6s;}
+.dots-deco span:nth-child(6){background:var(--blush);animation-delay:.75s;}
+@keyframes dotPulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.4);opacity:1}}
+
+/* body */
+.page-body { padding: 22px 36px 30px; }
+
+/* pills */
+.section-pill {
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--petal),var(--blush));
+  color:var(--mauve);font-family:'Noto Naskh Arabic',serif;
+  font-weight:700;font-size:1rem;
+  padding:6px 16px 6px 12px;border-radius:50px;
+  margin-bottom:12px;border:1.5px solid var(--rose);
+  box-shadow:0 3px 12px rgba(224,122,148,.18);
+  width:100%;justify-content:flex-end;
+}
+
+.subsection-label {
+  font-family:'Noto Naskh Arabic',serif;
+  font-size:.95rem;font-weight:600;
+  color:var(--deep-rose);
+  margin:14px 0 7px;
+  padding-right:10px;
+  border-right:3px solid var(--rose);
+  text-align:right;
+}
+
+/* code */
+.code-card {
+  background:var(--code-bg);
+  border:1.5px solid var(--code-border);
+  border-radius:12px;padding:12px 16px;
+  margin-bottom:10px;direction:ltr;text-align:left;
+  position:relative;overflow:hidden;
+}
+.code-card::before {
+  content:'';position:absolute;top:0;right:0;
+  width:4px;height:100%;
+  background:linear-gradient(180deg,var(--rose),var(--blush));
+  border-radius:0 12px 12px 0;
+}
+.code-card code {
+  font-family:'Courier New',monospace;
+  font-size:.82rem;color:var(--text-dark);
+  line-height:1.9;display:block;white-space:pre-wrap;
+  word-break:break-word;
+}
+
+/* note */
+.note-box {
+  background:linear-gradient(135deg,#FFF0F3,#FDE8EE);
+  border:1px solid var(--blush);border-radius:10px;
+  padding:9px 13px;margin:7px 0 4px;
+  display:flex;align-items:flex-start;gap:8px;
+  flex-direction:row-reverse;
+  font-family:'Noto Naskh Arabic',serif;
+  font-size:.88rem;color:var(--text-mid);text-align:right;
+}
+.note-star { font-size:1rem;flex-shrink:0; }
+
+/* tools table */
+.tools-table {
+  width:100%;border-collapse:separate;border-spacing:0 5px;
+  text-align:right;font-family:'Noto Naskh Arabic',serif;
+}
+.tools-table td { padding:7px 13px;font-size:.86rem; }
+.tools-table tr { border-radius:8px; }
+.tools-table tr:nth-child(odd)  td { background:var(--soft-pink); }
+.tools-table tr:nth-child(even) td { background:var(--petal); }
+.tools-table td:last-child { border-radius:8px 0 0 8px;font-weight:600;color:var(--mauve);white-space:nowrap; }
+.tools-table td:first-child { border-radius:0 8px 8px 0;color:var(--text-light);font-size:.8rem; }
+
+/* abbr grid */
+.abbr-grid {
+  display:grid;grid-template-columns:repeat(2,1fr);gap:7px;
+}
+.abbr-item {
+  background:var(--soft-pink);border-radius:10px;
+  padding:7px 11px;display:flex;align-items:center;gap:9px;
+  border:1px solid var(--code-border);
+}
+.abbr-key {
+  font-family:'Courier New',monospace;font-weight:bold;
+  font-size:.82rem;color:var(--deep-rose);
+  background:var(--white);border-radius:6px;
+  padding:2px 8px;border:1px solid var(--blush);
+  flex-shrink:0;min-width:40px;text-align:center;
+}
+.abbr-val {
+  font-family:'Lato',sans-serif;font-size:.76rem;
+  color:var(--text-mid);direction:ltr;text-align:left;
+}
+
+/* heart divider */
+.heart-divider {
+  display:flex;align-items:center;gap:12px;padding:0 36px;
+}
+.heart-divider::before,.heart-divider::after {
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,var(--blush),transparent);
+}
+.heart-center { font-size:1rem;color:var(--rose); }
+
+/* footer */
+.page-footer {
+  background:linear-gradient(135deg,var(--petal),var(--blush));
+  padding:12px 36px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.footer-brand {
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-size:.95rem;color:var(--mauve);
+}
+.footer-tagline {
+  font-family:'Lato',sans-serif;font-size:.58rem;
+  letter-spacing:3px;text-transform:uppercase;color:var(--deep-rose);
+}
+.footer-hearts { font-size:.85rem;letter-spacing:3px; }
+.footer-page-num {
+  font-family:'Lato',serif;font-size:.85rem;color:var(--text-light);
+}
+
+/* ── IMAGE UPLOAD ───────────────────────────── */
+.img-upload-zone {
+  border: 2px dashed var(--rose);
+  border-radius: 14px;
+  padding: 16px 12px;
+  text-align: center;
+  background: var(--soft-pink);
+  cursor: pointer;
+  transition: all .2s;
+  margin-bottom: 6px;
+  position: relative;
+}
+.img-upload-zone:hover { background: var(--petal); border-color: var(--deep-rose); }
+.img-upload-zone input[type=file] {
+  position: absolute; inset: 0; opacity: 0;
+  cursor: pointer; width: 100%; height: 100%;
+  border: none; background: none; margin: 0; padding: 0;
+}
+.img-upload-label {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: .85rem; color: var(--text-mid);
+  pointer-events: none;
+}
+.img-upload-label span { display: block; font-size: 1.6rem; margin-bottom: 4px; }
+.img-preview-thumb {
+  width: 100%; max-height: 110px; object-fit: cover;
+  border-radius: 10px; margin-top: 8px;
+  border: 2px solid var(--blush);
+  display: none;
+}
+.btn-remove-img {
+  display: none;
+  width: 100%; background: none;
+  border: 1.5px solid var(--blush);
+  border-radius: 8px; padding: 5px;
+  color: var(--rose); font-size: .78rem;
+  cursor: pointer; margin-top: 5px;
+  font-family: 'Lato', sans-serif;
+}
+.btn-remove-img:hover { background: var(--petal); }
+.cover-image-wrap {
+  position: relative; z-index: 1;
+  display: flex; justify-content: center;
+  margin-top: 16px;
+}
+.cover-image-wrap img {
+  width: 200px; height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid rgba(255,255,255,.7);
+  box-shadow: 0 8px 32px rgba(155,58,82,.3);
+}
+
+/* ── PRINT ─────────────────────────────────── */
+@media print {
+  .builder-panel, .preview-placeholder { display:none!important; }
+  .app-shell { grid-template-columns:1fr; }
+  .preview-panel { padding:0; }
+  .page { page-break-after:always;box-shadow:none!important;border-radius:0!important;margin:0!important; }
+  .btn-print,.btn-generate { display:none!important; }
+  @page { margin:0;size:A4 portrait; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ══════════════════════════════════════════
+       LEFT — BUILDER PANEL
+  ══════════════════════════════════════════ -->
+  <div class="builder-panel">
+
+    <div class="builder-logo">croshim</div>
+    <div class="builder-sub">pattern builder 🧶</div>
+    <div class="builder-divider"></div>
+
+    <!-- PATTERN INFO -->
+    <div class="form-section">
+      <div class="form-section-title">🪡 Pattern Info</div>
+
+      <label>اسم الدمية / المنتج</label>
+      <input type="text" id="patternName" placeholder="مثال: دُمية الدب اللطيف 🐻" value="">
+
+      <label>وصف قصير (اختياري)</label>
+      <input type="text" id="patternSubtitle" placeholder="مثال: باترن كروشيه متكامل 🐻🌿" value="">
+
+      <label>إيموجي الغلاف</label>
+      <input type="text" id="coverEmoji" placeholder="🐻" value="🧸" style="max-width:90px;text-align:center;">
+
+      <label>صورة المنتج (اختياري)</label>
+      <div class="img-upload-zone" id="uploadZone">
+        <input type="file" accept="image/*" onchange="handleImageUpload(event)">
+        <div class="img-upload-label">
+          <span>🖼️</span>
+          اضغطي لرفع صورة الدمية
+        </div>
+        <img class="img-preview-thumb" id="imgThumb" src="" alt="preview">
+      </div>
+      <button class="btn-remove-img" id="removeImgBtn" onclick="removeImage()">✕ حذف الصورة</button>
+    </div>
+
+    <!-- TOOLS -->
+    <div class="form-section">
+      <div class="form-section-title">🧶 الأدوات</div>
+      <div id="toolsList"></div>
+      <button class="btn-add-part" onclick="addTool()">+ إضافة أداة</button>
+    </div>
+
+    <!-- ABBREVIATIONS -->
+    <div class="form-section">
+      <div class="form-section-title">📋 Abbreviations</div>
+      <small style="color:var(--text-light);font-size:.75rem;display:block;margin-bottom:8px;text-align:right;">الاختصارات الافتراضية مضافة تلقائياً — أضف المخصصة هنا فقط</small>
+      <div id="abbrList"></div>
+      <button class="btn-add-part" onclick="addAbbr()">+ إضافة اختصار مخصص</button>
+    </div>
+
+    <!-- PATTERN PARTS -->
+    <div class="form-section">
+      <div class="form-section-title">✂️ أجزاء الباترن</div>
+      <small style="color:var(--text-light);font-size:.75rem;display:block;margin-bottom:8px;text-align:right;">كل جزء (الرأس، الجسم، الأيدي...) يصبح قسماً منفصلاً</small>
+      <div id="partsList"></div>
+      <button class="btn-add-part" onclick="addPart()">+ إضافة جزء جديد</button>
+    </div>
+
+    <button class="btn-generate" onclick="generatePattern()">✨ &nbsp; Generate Pattern</button>
+    <button class="btn-print" id="printBtn" onclick="window.print()">🖨️ &nbsp; Print / Save PDF</button>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       RIGHT — PREVIEW PANEL
+  ══════════════════════════════════════════ -->
+  <div class="preview-panel" id="previewPanel">
+    <div class="preview-placeholder" id="placeholder">
+      <div class="ph-icon">🧶</div>
+      <p>املئي البيانات على اليسار<br>ثم اضغطي <strong>Generate Pattern</strong></p>
+    </div>
+    <div id="patternOutput"></div>
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   DEFAULT DATA
+══════════════════════════════════════════════ */
+const DEFAULT_ABBR = [
+  {key:'MR',  val:'magic ring / magic loop'},
+  {key:'Ch',  val:'chain'},
+  {key:'sc',  val:'single crochet'},
+  {key:'inc', val:'increase (2 sc in 1 stitch)'},
+  {key:'inc+',val:'3 sc in 1 stitch'},
+  {key:'dec', val:'decrease (sc 2 together)'},
+  {key:'ss',  val:'slip stitch'},
+  {key:'f/o', val:'fasten off'},
+];
+
+/* ══════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════ */
+let tools  = [];
+let abbrs  = [];   // custom only
+let parts  = [];
+
+/* ══════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════ */
+function init() {
+  // default tools
+  addTool('١- خيط قطن لون', 'سكري • وردي • برتقالي • أخضر');
+  addTool('٢- إبرة كروشيه', 'مناسبة للخيط');
+  addTool('٣- عيون دمى', '');
+  addTool('٤- زر مع إبرة وخيط', '');
+  addTool('٥- مقص وإبرة تثبيت', '');
+  addTool('٦- فايبر للحشو', '');
+  // default part example
+  addPart('🐻 الرأس', 'R1: mr 6sc\nR2: inc X 6 = 12sc\nR3: (sc, inc) X 6 = 18sc\n...', 'نحشي بالفايبر قبل الإغلاق');
+}
+
+/* ══════════════════════════════════════════════
+   ADD / REMOVE — TOOLS
+══════════════════════════════════════════════ */
+function addTool(name='', detail='') {
+  const id = Date.now() + Math.random();
+  tools.push({id, name, detail});
+  renderTools();
+}
+function removeTool(id) {
+  tools = tools.filter(t => t.id !== id);
+  renderTools();
+}
+function renderTools() {
+  const el = document.getElementById('toolsList');
+  el.innerHTML = tools.map(t => `
+    <div class="part-block" style="padding:10px 12px;">
+      <div class="part-block-head">
+        <button class="btn-remove" onclick="removeTool(${t.id})">✕</button>
+        <input class="part-name-input" style="flex:1;margin-bottom:0!important;" type="text"
+          placeholder="اسم الأداة (مثال: إبرة كروشيه)"
+          value="${esc(t.name)}" onchange="updateTool(${t.id},'name',this.value)">
+      </div>
+      <input type="text" style="margin-bottom:0!important;" placeholder="تفاصيل (اختياري)"
+        value="${esc(t.detail)}" onchange="updateTool(${t.id},'detail',this.value)">
+    </div>`).join('');
+}
+function updateTool(id, field, val) {
+  const t = tools.find(x => x.id === id);
+  if(t) t[field] = val;
+}
+
+/* ══════════════════════════════════════════════
+   ADD / REMOVE — ABBR (custom)
+══════════════════════════════════════════════ */
+function addAbbr(key='', val='') {
+  const id = Date.now() + Math.random();
+  abbrs.push({id, key, val});
+  renderAbbrs();
+}
+function removeAbbr(id) {
+  abbrs = abbrs.filter(a => a.id !== id);
+  renderAbbrs();
+}
+function renderAbbrs() {
+  const el = document.getElementById('abbrList');
+  el.innerHTML = abbrs.map(a => `
+    <div class="part-block" style="padding:10px 12px;">
+      <div class="row-2">
+        <input type="text" style="margin-bottom:0!important;direction:ltr;text-align:left;"
+          placeholder="e.g. BLO" value="${esc(a.key)}" onchange="updateAbbr(${a.id},'key',this.value)">
+        <input type="text" style="margin-bottom:0!important;direction:ltr;text-align:left;"
+          placeholder="back loop only" value="${esc(a.val)}" onchange="updateAbbr(${a.id},'val',this.value)">
+      </div>
+      <button class="btn-remove" onclick="removeAbbr(${a.id})" style="margin-top:6px;">✕ حذف</button>
+    </div>`).join('');
+}
+function updateAbbr(id, field, val) {
+  const a = abbrs.find(x => x.id === id);
+  if(a) a[field] = val;
+}
+
+/* ══════════════════════════════════════════════
+   ADD / REMOVE — PARTS
+══════════════════════════════════════════════ */
+function addPart(name='', code='', note='') {
+  const id = Date.now() + Math.random();
+  parts.push({id, name, code, note});
+  renderParts();
+}
+function removePart(id) {
+  parts = parts.filter(p => p.id !== id);
+  renderParts();
+}
+function renderParts() {
+  const el = document.getElementById('partsList');
+  el.innerHTML = parts.map((p, i) => `
+    <div class="part-block">
+      <div class="part-block-head">
+        <button class="btn-remove" onclick="removePart(${p.id})">✕</button>
+        <input class="part-name-input" type="text"
+          placeholder="اسم الجزء (مثال: 🐻 الرأس)"
+          value="${esc(p.name)}" onchange="updatePart(${p.id},'name',this.value)">
+      </div>
+      <label>كود الباترن (Rows)</label>
+      <textarea placeholder="R1: mr 6sc&#10;R2: inc X 6 = 12sc&#10;..."
+        onchange="updatePart(${p.id},'code',this.value)">${esc(p.code)}</textarea>
+      <label>ملاحظة (اختياري)</label>
+      <textarea class="part-note-input" placeholder="مثال: نحشي بالفايبر قبل الإغلاق"
+        style="min-height:40px!important;"
+        onchange="updatePart(${p.id},'note',this.value)">${esc(p.note)}</textarea>
+    </div>`).join('');
+}
+function updatePart(id, field, val) {
+  const p = parts.find(x => x.id === id);
+  if(p) p[field] = val;
+}
+
+/* ══════════════════════════════════════════════
+   GENERATE
+══════════════════════════════════════════════ */
+function generatePattern() {
+  // read current input values (not just stored state)
+  syncAll();
+
+  const name     = document.getElementById('patternName').value.trim() || 'باترن كروشيه';
+  const subtitle = document.getElementById('patternSubtitle').value.trim() || 'باترن كروشيه متكامل';
+  const emoji    = document.getElementById('coverEmoji').value.trim() || '🧶';
+  const coverImg = window._coverImageData || null;
+
+  const allAbbrs = [...DEFAULT_ABBR, ...abbrs.filter(a => a.key)];
+
+  // Split parts into pages (max 4 parts per page for readability)
+  const PARTS_PER_PAGE = 4;
+  const hasCoverImg = !!coverImg;
+  const pageCount = Math.ceil(parts.length / PARTS_PER_PAGE) + (hasCoverImg ? 2 : 1); // cover img page + tools page + pattern pages
+  let totalPages = pageCount;
+
+  let html = '';
+
+  /* ── PAGE 1: IMAGE COVER (only if image uploaded) ── */
+  if (hasCoverImg) {
+    html += `
+    <div class="page" style="min-height:600px;display:flex;flex-direction:column;">
+      <div class="cover-header" style="flex:1;padding:48px 40px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:0;">
+        <div style="position:relative;z-index:1;text-align:center;width:100%;">
+          <div class="brand-name" style="font-size:2rem;margin-bottom:2px;">croshim</div>
+          <div class="brand-tagline" style="margin-bottom:28px;">crochet with heart</div>
+        </div>
+        <div style="position:relative;z-index:1;display:flex;justify-content:center;margin-bottom:28px;">
+          <img src="${coverImg}" alt="product"
+            style="width:280px;height:280px;object-fit:cover;border-radius:50%;
+                   border:5px solid rgba(255,255,255,.8);
+                   box-shadow:0 12px 48px rgba(155,58,82,.35);">
+        </div>
+        <div style="position:relative;z-index:1;text-align:center;">
+          <div class="pattern-title-ar" style="font-size:2rem;">${name}</div>
+          <div class="pattern-subtitle-ar" style="margin-top:6px;">${subtitle}</div>
+        </div>
+      </div>
+      <div class="dots-deco"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="heart-divider" style="margin:0 36px;"><span class="heart-center">🤍</span></div>
+      <div class="page-footer">
+        <div><div class="footer-brand">croshim</div><div class="footer-tagline">crochet with heart</div></div>
+        <div class="footer-hearts">🤍 🤍 🤍</div>
+        <div class="footer-page-num">١ / ${totalPages}</div>
+      </div>
+    </div>`;
+  }
+
+  /* ── PAGE 2 (or 1 if no image): Tools + Abbr ── */
+  const toolsPageNum = hasCoverImg ? 2 : 1;
+  html += `
+  <div class="page">
+    <div class="cover-header">
+      <div class="brand-row">
+        <div>
+          <div class="brand-name">croshim</div>
+          <div class="brand-tagline">crochet with heart</div>
+        </div>
+        <div class="yarn-icon">${emoji}</div>
+      </div>
+      <div class="pattern-title-ar">${name}</div>
+      <div class="pattern-subtitle-ar">${subtitle}</div>
+    </div>
+    <div class="dots-deco"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="page-body">
+
+      <div class="section-pill"><span>🧶</span> الأدوات المطلوبة</div>
+      <table class="tools-table">
+        ${tools.filter(t=>t.name).map(t=>`
+          <tr>
+            <td>${t.detail}</td>
+            <td>${t.name}</td>
+          </tr>`).join('')}
+      </table>
+
+      <div style="height:18px"></div>
+
+      <div class="section-pill"><span>📋</span> الرموز والاختصارات</div>
+      <div class="abbr-grid">
+        ${allAbbrs.map(a=>`
+          <div class="abbr-item">
+            <span class="abbr-key">${a.key}</span>
+            <span class="abbr-val">${a.val}</span>
+          </div>`).join('')}
+      </div>
+
+    </div>
+    <div class="heart-divider"><span class="heart-center">🤍</span></div>
+    <div class="page-footer">
+      <div><div class="footer-brand">croshim</div><div class="footer-tagline">crochet with heart</div></div>
+      <div class="footer-hearts">🤍 🤍 🤍</div>
+      <div class="footer-page-num">${toolsPageNum} / ${totalPages}</div>
+    </div>
+  </div>`;
+
+  /* ── PATTERN PAGES ─────────────────────────── */
+  const chunks = chunkArray(parts, PARTS_PER_PAGE);
+  chunks.forEach((chunk, ci) => {
+    const pageNum = ci + (hasCoverImg ? 3 : 2);
+    html += `
+    <div class="page">
+      <div class="cover-header" style="padding:20px 36px;">
+        <div class="brand-row" style="margin-bottom:0;">
+          <div class="brand-name" style="font-size:1.3rem;">croshim</div>
+          <div style="text-align:center;flex:1;">
+            <div class="pattern-title-ar" style="font-size:1.4rem;">${emoji} ${name}</div>
+          </div>
+          <div class="yarn-icon" style="font-size:1.8rem;">🧶</div>
+        </div>
+      </div>
+      <div class="dots-deco"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="page-body">
+        ${chunk.map(p => `
+          <div class="subsection-label">${p.name}</div>
+          <div class="code-card"><code>${escHtml(p.code)}</code></div>
+          ${p.note ? `<div class="note-box"><span class="note-star">⭐</span>${p.note}</div>` : ''}
+        `).join('')}
+      </div>
+      <div class="heart-divider"><span class="heart-center">🤍</span></div>
+      <div class="page-footer">
+        <div><div class="footer-brand">croshim</div><div class="footer-tagline">crochet with heart</div></div>
+        <div class="footer-hearts">🤍 🤍 🤍</div>
+        <div class="footer-page-num">${pageNum} / ${totalPages}</div>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('patternOutput').innerHTML = html;
+  document.getElementById('printBtn').classList.add('visible');
+
+  // scroll preview to top
+  document.getElementById('previewPanel').scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ══════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════ */
+function syncAll() {
+  // sync tools
+  document.querySelectorAll('#toolsList .part-block').forEach((el, i) => {
+    if(tools[i]) {
+      tools[i].name   = el.querySelectorAll('input')[0].value;
+      tools[i].detail = el.querySelectorAll('input')[1].value;
+    }
+  });
+  // sync parts
+  document.querySelectorAll('#partsList .part-block').forEach((el, i) => {
+    if(parts[i]) {
+      parts[i].name = el.querySelectorAll('input')[0].value;
+      parts[i].code = el.querySelectorAll('textarea')[0].value;
+      parts[i].note = el.querySelectorAll('textarea')[1].value;
+    }
+  });
+  // sync custom abbrs
+  document.querySelectorAll('#abbrList .part-block').forEach((el, i) => {
+    if(abbrs[i]) {
+      abbrs[i].key = el.querySelectorAll('input')[0].value;
+      abbrs[i].val = el.querySelectorAll('input')[1].value;
+    }
+  });
+}
+
+function chunkArray(arr, size) {
+  const res = [];
+  for(let i = 0; i < arr.length; i += size) res.push(arr.slice(i, i + size));
+  return res;
+}
+
+function esc(str) {
+  return (str||'').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function escHtml(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ══════════════════════════════════════════════
+   IMAGE UPLOAD
+══════════════════════════════════════════════ */
+function handleImageUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    window._coverImageData = ev.target.result;
+    const thumb = document.getElementById('imgThumb');
+    thumb.src = ev.target.result;
+    thumb.style.display = 'block';
+    document.getElementById('removeImgBtn').style.display = 'block';
+    document.getElementById('uploadZone').style.borderColor = 'var(--deep-rose)';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeImage() {
+  window._coverImageData = null;
+  const thumb = document.getElementById('imgThumb');
+  thumb.src = '';
+  thumb.style.display = 'none';
+  document.getElementById('removeImgBtn').style.display = 'none';
+  document.getElementById('uploadZone').style.borderColor = 'var(--rose)';
+}
+
+/* boot */
+init();
+</script>
+</body>
+</html>

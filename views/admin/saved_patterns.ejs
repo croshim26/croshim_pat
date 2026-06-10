@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>الباترنات المحفوظة — Croshim Studio</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/pages/admin.css">
+  <style>
+    .btn-view-pdf {
+      background: rgba(155,58,90,.1);
+      color: #9b3a5a;
+    }
+    .btn-view-pdf:hover { background: rgba(155,58,90,.18); }
+
+    .btn-public {
+      background: rgba(3,105,161,.09);
+      color: #0369a1;
+    }
+    .btn-public:hover { background: rgba(3,105,161,.16); }
+
+    .btn-edit {
+      background: rgba(22,163,74,.09);
+      color: #166534;
+    }
+    .btn-edit:hover { background: rgba(22,163,74,.16); }
+
+    .pattern-emoji {
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .pattern-name-cell {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .subtitle-cell {
+      font-size: .8rem;
+      color: #9e677a;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+<div class="admin-shell">
+
+  <%- include('./_sidebar', { currentPage: 'saved-patterns' }) %>
+
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1 class="admin-topbar-title">الباترنات المحفوظة</h1>
+      <span class="admin-topbar-user">
+        <i class="fas fa-user-shield"></i>
+        <%= adminUser.firstName %> <%= adminUser.lastName %>
+      </span>
+    </div>
+
+    <div class="admin-content">
+
+      <% if (successMessage) { %>
+        <div class="admin-alert admin-alert-success"><i class="fas fa-check-circle"></i> <%= successMessage %></div>
+      <% } %>
+      <% if (errorMessage) { %>
+        <div class="admin-alert admin-alert-error"><i class="fas fa-exclamation-circle"></i> <%= errorMessage %></div>
+      <% } %>
+
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <h2 class="admin-table-title">
+            <i class="fas fa-magic"></i>
+            جميع الباترنات
+            <span class="admin-count"><%= savedPatterns.length %></span>
+          </h2>
+          <a href="/ezshm_crochem/pattern-builder" class="btn-action btn-edit" style="text-decoration:none;">
+            <i class="fas fa-plus"></i> باترن جديد
+          </a>
+        </div>
+
+        <% if (savedPatterns.length === 0) { %>
+          <div class="admin-empty">
+            <i class="fas fa-magic"></i>
+            لا يوجد باترنات محفوظة بعد. ابدأ بإنشاء باترن جديد!
+          </div>
+        <% } else { %>
+        <div style="overflow-x:auto;">
+          <table class="atbl">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>الباترن</th>
+                <th>الوصف</th>
+                <th>تاريخ الإنشاء</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% savedPatterns.forEach(function(p) { %>
+              <tr>
+                <td style="color:#9e677a;font-size:.82rem;"><%= p.id %></td>
+                <td>
+                  <div class="pattern-name-cell">
+                    <span class="pattern-emoji"><%= p.emoji || '🧶' %></span>
+                    <span style="font-weight:800;color:#3d0e1e;"><%= p.name %></span>
+                  </div>
+                </td>
+                <td class="subtitle-cell" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                  <%= p.subtitle || '—' %>
+                </td>
+                <td><%= new Date(p.createdAt).toLocaleDateString('ar-SA') %></td>
+                <td>
+                  <div style="display:flex;gap:5px;flex-wrap:wrap;">
+
+                    <!-- PDF -->
+                    <a href="/ezshm_crochem/pattern-builder/pdf/<%= p.id %>"
+                      target="_blank" class="btn-action btn-view-pdf" title="عرض PDF">
+                      <i class="fas fa-file-pdf"></i> PDF
+                    </a>
+
+                    <!-- Public page -->
+                    <a href="/pattern/<%= p.id %>"
+                      target="_blank" class="btn-action btn-public" title="الصفحة العامة">
+                      <i class="fas fa-external-link-alt"></i> عرض
+                    </a>
+
+                    <!-- Edit in builder -->
+                    <a href="/ezshm_crochem/pattern-builder?load=<%= p.id %>"
+                      class="btn-action btn-edit" title="تعديل في Builder">
+                      <i class="fas fa-edit"></i> تعديل
+                    </a>
+
+                    <!-- Delete -->
+                    <form action="/ezshm_crochem/saved-patterns/<%= p.id %>/delete" method="POST"
+                      onsubmit="return confirm('حذف هذا الباترن نهائياً؟');" style="margin:0;">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                      <button type="submit" class="btn-action btn-del">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </form>
+
+                  </div>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+        <% } %>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

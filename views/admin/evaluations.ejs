@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>التقييمات — Croshim Studio</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/pages/admin.css">
+</head>
+<body>
+<div class="admin-shell">
+
+  <%- include('./_sidebar', { currentPage: 'evaluations' }) %>
+
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1 class="admin-topbar-title">التقييمات</h1>
+      <span class="admin-topbar-user">
+        <i class="fas fa-user-shield"></i>
+        <%= adminUser.firstName %> <%= adminUser.lastName %>
+      </span>
+    </div>
+
+    <div class="admin-content">
+
+      <% if (successMessage) { %>
+        <div class="admin-alert admin-alert-success"><i class="fas fa-check-circle"></i> <%= successMessage %></div>
+      <% } %>
+      <% if (errorMessage) { %>
+        <div class="admin-alert admin-alert-error"><i class="fas fa-exclamation-circle"></i> <%= errorMessage %></div>
+      <% } %>
+
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <h2 class="admin-table-title">
+            <i class="fas fa-file-medical-alt"></i>
+            قائمة التقييمات
+            <span class="admin-count"><%= evaluations.length %></span>
+          </h2>
+        </div>
+
+        <% if (evaluations.length === 0) { %>
+          <div class="admin-empty">
+            <i class="fas fa-file-medical-alt"></i>
+            لا توجد تقييمات بعد.
+          </div>
+        <% } else { %>
+        <div style="overflow-x:auto;">
+          <table class="atbl">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>اسم الملف الأصلي</th>
+                <th>المستخدم</th>
+                <th>ملف PDF المُحسَّن</th>
+                <th>نتيجة الذكاء الاصطناعي</th>
+                <th>التاريخ</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% evaluations.forEach(function(ev) { %>
+              <tr>
+                <td><%= ev.id %></td>
+                <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="<%= ev.original_filename %>">
+                  <%= ev.original_filename %>
+                </td>
+                <td><%= ev.user_id %></td>
+                <td>
+                  <% if (ev.pdf_path) { %>
+                    <a href="<%= ev.pdf_path %>" target="_blank" class="btn-action btn-toggle">
+                      <i class="fas fa-file-pdf"></i> عرض
+                    </a>
+                  <% } else { %>
+                    <span style="color:#9e677a;font-size:.82rem;">—</span>
+                  <% } %>
+                </td>
+                <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="<%= ev.ai_result ? ev.ai_result.substring(0,120) : '' %>">
+                  <%= ev.ai_result ? ev.ai_result.substring(0, 80) + '…' : '—' %>
+                </td>
+                <td><%= new Date(ev.createdAt).toLocaleDateString('ar-SA') %></td>
+                <td>
+                  <form action="/ezshm_crochem/evaluations/<%= ev.id %>/delete" method="POST"
+                    onsubmit="return confirm('حذف هذا التقييم نهائياً؟');">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit" class="btn-action btn-del">
+                      <i class="fas fa-trash-alt"></i> حذف
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+        <% } %>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

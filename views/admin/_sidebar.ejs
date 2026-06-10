@@ -1,0 +1,72 @@
+<aside class="admin-sidebar">
+  <a class="admin-brand" href="/ezshm_crochem">
+    <div class="admin-brand-badge">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+        <path d="M10 2 L10 13 C10 16.5 7 17.5 5.2 16 C3.5 14.5 4 12.5 6.2 12.2"
+          stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="10" cy="2" r="1.4" fill="white"/>
+      </svg>
+    </div>
+    <div>
+      <div class="admin-brand-name">Croshim Studio</div>
+      <div class="admin-brand-sub">Admin Panel</div>
+    </div>
+  </a>
+
+  <ul class="admin-nav">
+    <li>
+      <a href="/ezshm_crochem" class="<%= currentPage === 'dashboard' ? 'active' : '' %>">
+        <i class="fas fa-th-large"></i>
+        لوحة التحكم
+      </a>
+    </li>
+    <li>
+      <a href="/ezshm_crochem/users" class="<%= currentPage === 'users' ? 'active' : '' %>">
+        <i class="fas fa-users"></i>
+        المستخدمون
+      </a>
+    </li>
+    <li>
+      <a href="/ezshm_crochem/products" class="<%= currentPage === 'products' ? 'active' : '' %>">
+        <i class="fas fa-box-open"></i>
+        المنتجات
+      </a>
+    </li>
+    <li>
+      <a href="/ezshm_crochem/ai-patterns" class="<%= currentPage === 'ai_patterns' ? 'active' : '' %>">
+        <i class="fas fa-robot"></i>
+        باترنات الذكاء الاصطناعي
+      </a>
+    </li>
+    <li>
+      <a href="/ezshm_crochem/evaluations" class="<%= currentPage === 'evaluations' ? 'active' : '' %>">
+        <i class="fas fa-file-medical-alt"></i>
+        التقييمات
+      </a>
+    </li>
+
+    <li style="margin-top:10px;padding:0 10px;">
+      <div style="border-top:1px solid rgba(255,255,255,.12);margin-bottom:10px;"></div>
+    </li>
+
+    <li>
+      <a href="/ezshm_crochem/pattern-builder" class="<%= currentPage === 'pattern-builder' ? 'active' : '' %>">
+        <i class="fas fa-magic"></i>
+        Pattern Builder
+      </a>
+    </li>
+    <li>
+      <a href="/ezshm_crochem/saved-patterns" class="<%= currentPage === 'saved-patterns' ? 'active' : '' %>">
+        <i class="fas fa-layer-group"></i>
+        الباترنات المحفوظة
+      </a>
+    </li>
+  </ul>
+
+  <div class="admin-sidebar-footer">
+    <a href="/">
+      <i class="fas fa-external-link-alt"></i>
+      العودة للموقع
+    </a>
+  </div>
+</aside>
