@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>إنستغرام — Croshim Studio</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/pages/admin.css">
+  <style>
+    /* ── Instagram gradient ── */
+    .ig-gradient {
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    }
+
+    /* ── Status badge ── */
+    .ig-status {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .3rem .85rem; border-radius: 20px;
+      font-size: .8rem; font-weight: 800;
+    }
+    .ig-status-on  { background: rgba(34,197,94,.12);  color: #166534; }
+    .ig-status-off { background: rgba(234,179,8,.12);  color: #854d0e; }
+    .ig-status-err { background: rgba(220,38,38,.10);  color: #991b1b; }
+
+    /* ── Account card ── */
+    .ig-account-card {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.2rem;
+      background: #fff; border-radius: 16px;
+      border: 1px solid rgba(196,99,122,.1);
+      box-shadow: 0 3px 12px rgba(155,58,90,.06);
+      margin-bottom: 1.2rem;
+    }
+    .ig-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      object-fit: cover; flex-shrink: 0;
+      border: 3px solid transparent;
+      background-clip: padding-box;
+      box-shadow: 0 0 0 3px #dc2743;
+    }
+    .ig-avatar-placeholder {
+      width: 52px; height: 52px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; flex-shrink: 0;
+      background: linear-gradient(135deg, #f09433, #dc2743, #bc1888);
+      color: #fff;
+    }
+    .ig-username { font-weight: 900; font-size: 1rem; color: #3d0e1e; }
+    .ig-handle   { font-size: .82rem; color: #9e677a; font-weight: 700; }
+
+    /* ── Composer card ── */
+    .ig-card {
+      background: #fff; border-radius: 20px;
+      border: 1px solid rgba(196,99,122,.1);
+      box-shadow: 0 4px 18px rgba(155,58,90,.07);
+      overflow: hidden; margin-bottom: 1.2rem;
+    }
+    .ig-card-head {
+      padding: .9rem 1.25rem;
+      border-bottom: 1px solid rgba(155,58,90,.08);
+      display: flex; align-items: center; gap: .55rem;
+    }
+    .ig-card-head h2 { font-weight: 900; font-size: .98rem; color: #6b1a30; margin: 0; }
+    .ig-card-body { padding: 1.25rem; }
+
+    /* ── Image drop zone ── */
+    .ig-drop {
+      border: 2px dashed rgba(220,39,67,.3);
+      border-radius: 16px; padding: 1.8rem 1rem;
+      text-align: center; background: #fff5f7;
+      cursor: pointer; transition: .2s; position: relative;
+      margin-bottom: 1rem;
+    }
+    .ig-drop:hover, .ig-drop.over { border-color: #dc2743; background: #ffecf0; }
+    .ig-drop input[type="file"] {
+      position: absolute; inset: 0; opacity: 0;
+      cursor: pointer; width: 100%; height: 100%;
+    }
+    .ig-drop-icon { font-size: 2.2rem; color: #e6683c; margin-bottom: .5rem; }
+    .ig-drop-label { font-weight: 800; color: #6b1a30; font-size: .92rem; margin-bottom: .2rem; }
+    .ig-drop-hint  { font-size: .78rem; color: #9e677a; font-weight: 700; }
+    .ig-preview-img {
+      width: 100%; max-height: 260px; object-fit: cover;
+      border-radius: 12px; margin-top: .8rem;
+      border: 2px solid rgba(220,39,67,.15);
+      display: none;
+    }
+    .ig-drop-chosen {
+      margin-top: .7rem; font-weight: 800; font-size: .84rem;
+      color: #dc2743; display: none;
+    }
+
+    /* ── Caption ── */
+    .ig-caption {
+      width: 100%; background: #fff5f7;
+      border: 1.5px solid rgba(220,39,67,.2);
+      border-radius: 12px; padding: 10px 13px;
+      font-family: 'Cairo', sans-serif; font-size: .9rem;
+      color: #3d0e1e; outline: none;
+      resize: vertical; min-height: 100px;
+      text-align: right; direction: rtl;
+      transition: border-color .2s;
+    }
+    .ig-caption:focus { border-color: #dc2743; }
+    .caption-count { font-size: .74rem; color: #9e677a; font-weight: 700; text-align: left; margin-top: 4px; }
+
+    /* ── Post button ── */
+    .btn-ig-post {
+      width: 100%; margin-top: 1rem;
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: #fff; border: 0; border-radius: 14px;
+      padding: .9rem 1.5rem; font-weight: 900; font-size: .95rem;
+      font-family: 'Cairo', sans-serif; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+      box-shadow: 0 8px 28px rgba(220,39,67,.3); transition: .2s;
+    }
+    .btn-ig-post:hover { filter: brightness(1.06); transform: translateY(-2px); }
+    .btn-ig-post:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+    /* ── Settings card ── */
+    .ig-field { margin-bottom: .9rem; }
+    .ig-field label { display: block; font-size: .82rem; font-weight: 800; color: #6b1a30; margin-bottom: 4px; }
+    .ig-input {
+      width: 100%; background: #fff5f7;
+      border: 1.5px solid rgba(220,39,67,.2); border-radius: 10px;
+      padding: 8px 12px; font-family: 'Cairo', sans-serif;
+      font-size: .88rem; color: #3d0e1e; outline: none;
+      direction: ltr; text-align: left; transition: border-color .2s;
+    }
+    .ig-input:focus { border-color: #dc2743; }
+    .ig-hint { font-size: .75rem; color: #9e677a; font-weight: 600; margin-top: 3px; }
+
+    .btn-ig-save {
+      background: linear-gradient(135deg, #f09433, #dc2743);
+      color: #fff; border: 0; border-radius: 12px;
+      padding: .65rem 1.4rem; font-weight: 900; font-size: .88rem;
+      font-family: 'Cairo', sans-serif; cursor: pointer; transition: .2s;
+      display: inline-flex; align-items: center; gap: .4rem;
+    }
+    .btn-ig-save:hover { filter: brightness(1.07); transform: translateY(-1px); }
+
+    .btn-ig-refresh {
+      background: rgba(220,39,67,.1); color: #991b1b;
+      border: 1px solid rgba(220,39,67,.2); border-radius: 12px;
+      padding: .55rem 1.1rem; font-weight: 800; font-size: .82rem;
+      font-family: 'Cairo', sans-serif; cursor: pointer; transition: .2s;
+      display: inline-flex; align-items: center; gap: .35rem;
+    }
+    .btn-ig-refresh:hover { background: rgba(220,39,67,.16); }
+
+    /* ── How-to steps ── */
+    .steps { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+    .step  { display: flex; gap: .7rem; align-items: flex-start; }
+    .step-num {
+      width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, #f09433, #dc2743);
+      color: #fff; font-size: .7rem; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+    .step-text { font-size: .83rem; font-weight: 700; color: #6b1a30; line-height: 1.6; }
+    .step-text a { color: #dc2743; text-decoration: underline; }
+    .step-text code {
+      background: #fff5f7; border: 1px solid rgba(220,39,67,.2);
+      border-radius: 5px; padding: 1px 6px;
+      font-size: .8rem; color: #dc2743;
+    }
+
+    /* ── Disabled overlay ── */
+    .ig-disabled-overlay {
+      position: relative;
+    }
+    .ig-disabled-overlay::after {
+      content: 'اربط الحساب أولاً من الإعدادات أدناه';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,.82);
+      backdrop-filter: blur(2px);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: .9rem; color: #9e677a;
+      border-radius: 16px; z-index: 10;
+      font-family: 'Cairo', sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div class="admin-shell">
+
+  <%- include('./_sidebar', { currentPage: 'instagram' }) %>
+
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1 class="admin-topbar-title">
+        <i class="fab fa-instagram" style="background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.1rem;margin-left:.35rem;"></i>
+        إنستغرام
+      </h1>
+      <span class="admin-topbar-user">
+        <i class="fas fa-user-shield"></i>
+        <%= adminUser.firstName %> <%= adminUser.lastName %>
+      </span>
+    </div>
+
+    <div class="admin-content">
+
+      <% if (successMessage) { %>
+        <div class="admin-alert admin-alert-success"><i class="fas fa-check-circle"></i> <%= successMessage %></div>
+      <% } %>
+      <% if (errorMessage) { %>
+        <div class="admin-alert admin-alert-error"><i class="fas fa-exclamation-circle"></i> <%= errorMessage %></div>
+      <% } %>
+
+      <div class="row" style="margin:0;gap:0;">
+
+        <!-- ── LEFT: Composer ── -->
+        <div class="col-lg-7" style="padding: 0 10px 0 0;">
+
+          <!-- Account status -->
+          <% if (isConnected) { %>
+          <div class="ig-account-card">
+            <% if (account.profile_picture_url) { %>
+              <img src="<%= account.profile_picture_url %>" alt="avatar" class="ig-avatar">
+            <% } else { %>
+              <div class="ig-avatar-placeholder"><i class="fab fa-instagram"></i></div>
+            <% } %>
+            <div>
+              <div class="ig-username">@<%= account.username %></div>
+              <div class="ig-handle" style="margin-top:2px;">
+                <span class="ig-status ig-status-on"><i class="fas fa-circle" style="font-size:.5rem;"></i> متصل</span>
+              </div>
+            </div>
+            <div style="margin-right:auto;">
+              <form action="/ezshm_crochem/instagram/refresh" method="POST" style="display:inline;">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn-ig-refresh" title="تجديد الـ Token">
+                  <i class="fas fa-sync-alt"></i> تجديد Token
+                </button>
+              </form>
+            </div>
+          </div>
+          <% } else { %>
+          <div class="ig-account-card" style="margin-bottom:1.2rem;">
+            <div class="ig-avatar-placeholder"><i class="fab fa-instagram"></i></div>
+            <div>
+              <div class="ig-username">غير متصل</div>
+              <div style="margin-top:3px;">
+                <% if (tokenError) { %>
+                  <span class="ig-status ig-status-err"><i class="fas fa-exclamation-circle" style="font-size:.75rem;"></i> خطأ في الاتصال</span>
+                <% } else { %>
+                  <span class="ig-status ig-status-off"><i class="fas fa-clock" style="font-size:.75rem;"></i> في انتظار الإعداد</span>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <% } %>
+
+          <!-- Post Composer -->
+          <div class="ig-card <%= !isConnected ? 'ig-disabled-overlay' : '' %>">
+            <div class="ig-card-head">
+              <i class="fas fa-plus-square" style="color:#dc2743;"></i>
+              <h2>منشور جديد</h2>
+            </div>
+            <div class="ig-card-body">
+              <form action="/ezshm_crochem/instagram/post" method="POST"
+                enctype="multipart/form-data" onsubmit="handlePost(this)">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                <!-- Image -->
+                <div class="ig-drop" id="igDrop">
+                  <input type="file" name="ig_image" accept="image/jpeg,image/png,image/webp"
+                    id="igFile" <%= !isConnected ? 'disabled' : '' %>
+                    onchange="onIgFile(this)">
+                  <div class="ig-drop-icon"><i class="fas fa-image"></i></div>
+                  <div class="ig-drop-label">اسحب الصورة أو اضغط للاختيار</div>
+                  <div class="ig-drop-hint">JPEG · PNG · WebP — حد أقصى 8 MB</div>
+                  <div class="ig-drop-chosen" id="igChosen">
+                    <i class="fas fa-check-circle" style="color:#dc2743;"></i>
+                    <span id="igChosenName"></span>
+                  </div>
+                  <img id="igPreview" class="ig-preview-img" alt="preview">
+                </div>
+
+                <!-- Caption -->
+                <label style="font-size:.82rem;font-weight:800;color:#6b1a30;margin-bottom:4px;display:block;">
+                  النص والوصف
+                </label>
+                <textarea class="ig-caption" name="caption" id="igCaption" maxlength="2200"
+                  placeholder="اكتبي وصف المنشور... يمكنك إضافة الهاشتاقات هنا 🧶 #كروشيه #croshim"
+                  <%= !isConnected ? 'disabled' : '' %>
+                  oninput="updateCount(this)"></textarea>
+                <div class="caption-count" id="captionCount">0 / 2200</div>
+
+                <button type="submit" class="btn-ig-post" id="postBtn"
+                  <%= !isConnected ? 'disabled' : '' %>>
+                  <i class="fab fa-instagram"></i>
+                  نشر على إنستغرام
+                </button>
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── RIGHT: Settings ── -->
+        <div class="col-lg-5" style="padding: 0 0 0 10px;">
+
+          <!-- Settings form -->
+          <div class="ig-card">
+            <div class="ig-card-head">
+              <i class="fas fa-cog" style="color:#9b3a5a;"></i>
+              <h2>إعدادات الاتصال</h2>
+            </div>
+            <div class="ig-card-body">
+              <form action="/ezshm_crochem/instagram/settings" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                <div class="ig-field">
+                  <label>Instagram User ID</label>
+                  <input type="text" name="ig_user_id" class="ig-input"
+                    value="<%= igUserId %>" placeholder="17841400008460056" autocomplete="off">
+                  <div class="ig-hint">الرقم الخاص بحسابك (ليس اسم المستخدم)</div>
+                </div>
+
+                <div class="ig-field">
+                  <label>Access Token</label>
+                  <input type="password" name="access_token" class="ig-input"
+                    placeholder="<%= accessToken || 'EAABsbCS...' %>" autocomplete="off">
+                  <div class="ig-hint">Long-lived token — صالح 60 يوماً، يمكنك تجديده من هنا</div>
+                </div>
+
+                <div class="ig-field">
+                  <label>Base URL (رابط موقعك العام)</label>
+                  <input type="url" name="base_url" class="ig-input"
+                    value="<%= baseUrl %>" placeholder="https://yoursite.com">
+                  <div class="ig-hint">يُستخدم لرفع الصور — يجب أن يكون HTTPS وليس localhost</div>
+                </div>
+
+                <button type="submit" class="btn-ig-save">
+                  <i class="fas fa-check"></i> حفظ والتحقق
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- How-to guide -->
+          <div class="ig-card">
+            <div class="ig-card-head" style="cursor:pointer;" onclick="toggleGuide()">
+              <i class="fas fa-question-circle" style="color:#9b3a5a;"></i>
+              <h2>كيف أحصل على Access Token؟</h2>
+              <i class="fas fa-chevron-down" id="guideChevron" style="margin-right:auto;color:#9e677a;transition:.2s;"></i>
+            </div>
+            <div class="ig-card-body" id="guideBody" style="display:none;">
+              <ol class="steps">
+                <li class="step">
+                  <span class="step-num">١</span>
+                  <span class="step-text">حوّل حسابك على Instagram إلى <strong>Business أو Creator</strong> من الإعدادات ← الحساب ← نوع الحساب</span>
+                </li>
+                <li class="step">
+                  <span class="step-num">٢</span>
+                  <span class="step-text">افتح <a href="https://developers.facebook.com" target="_blank">developers.facebook.com</a> وأنشئ تطبيقاً جديداً من نوع <code>Business</code></span>
+                </li>
+                <li class="step">
+                  <span class="step-num">٣</span>
+                  <span class="step-text">أضف منتج <strong>Instagram Graph API</strong> للتطبيق</span>
+                </li>
+                <li class="step">
+                  <span class="step-num">٤</span>
+                  <span class="step-text">من <strong>Tools → Graph API Explorer</strong> اختر تطبيقك وأضف صلاحيات: <code>instagram_basic</code> و <code>instagram_content_publish</code></span>
+                </li>
+                <li class="step">
+                  <span class="step-num">٥</span>
+                  <span class="step-text">انقر <strong>Generate Access Token</strong> ثم حوّله إلى Long-Lived Token عبر <a href="https://developers.facebook.com/tools/debug/accesstoken/" target="_blank">Access Token Debugger</a></span>
+                </li>
+                <li class="step">
+                  <span class="step-num">٦</span>
+                  <span class="step-text">ابحث عن <strong>Instagram User ID</strong> الخاص بك عبر: <code>GET /me?fields=id,username</code> في Graph Explorer</span>
+                </li>
+                <li class="step">
+                  <span class="step-num">٧</span>
+                  <span class="step-text">الصق الـ User ID والـ Token في الخانات أعلاه ثم اضغط <strong>حفظ والتحقق</strong></span>
+                </li>
+              </ol>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /row -->
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* Drop zone */
+const drop = document.getElementById('igDrop');
+if (drop) {
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('over');
+    const f = e.dataTransfer.files[0];
+    if (f) { document.getElementById('igFile').files = e.dataTransfer.files; showIgFile(f); }
+  });
+}
+
+function onIgFile(input) { if (input.files[0]) showIgFile(input.files[0]); }
+function showIgFile(f) {
+  document.getElementById('igChosenName').textContent = f.name;
+  document.getElementById('igChosen').style.display = 'block';
+  const preview = document.getElementById('igPreview');
+  const reader = new FileReader();
+  reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; };
+  reader.readAsDataURL(f);
+}
+
+function updateCount(el) {
+  document.getElementById('captionCount').textContent = el.value.length + ' / 2200';
+}
+
+function handlePost(form) {
+  const btn = document.getElementById('postBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري النشر...';
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fab fa-instagram"></i> نشر على إنستغرام';
+  }, 30000);
+}
+
+function toggleGuide() {
+  const body    = document.getElementById('guideBody');
+  const chevron = document.getElementById('guideChevron');
+  const open    = body.style.display !== 'none';
+  body.style.display    = open ? 'none' : 'block';
+  chevron.style.transform = open ? '' : 'rotate(180deg)';
+}
+</script>
+</body>
+</html>

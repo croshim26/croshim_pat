@@ -1,9 +1,14 @@
+const path = require("path");
+const fs   = require("fs");
+
 const User = require("../models/user");
 const Product = require("../models/product");
 const AiProduct = require("../models/ai_product");
 const PatternEvaluation = require("../models/pattern_evaluation");
 const SavedPattern = require("../models/saved_pattern");
+const AppSetting = require("../models/app_setting");
 const { generatePatternPdf } = require("../util/patternPdfGenerator");
+const igApi = require("../util/instagramApi");
 
 const locals = (req, extra = {}) => ({
   successMessage: req.flash("success")[0] || null,
@@ -235,4 +240,141 @@ exports.downloadPatternPdf = async (req, res) => {
     req.flash("error", "خطأ في توليد الـ PDF. تأكد من تثبيت Chrome.");
     res.redirect("/ezshm_crochem/pattern-builder");
   }
+};
+
+/* ══════════════════════════════════════════════════════════
+   INSTAGRAM
+══════════════════════════════════════════════════════════ */
+
+const IG_ENV_MAP = {
+  ig_user_id:     process.env.IG_USER_ID,
+  ig_access_token: process.env.IG_ACCESS_TOKEN,
+  ig_base_url:    process.env.IG_BASE_URL,
+};
+
+async function getSetting(key) {
+  const row = await AppSetting.findOne({ where: { key } });
+  if (row && row.value) return row.value;
+  return IG_ENV_MAP[key] || null;
+}
+async function setSetting(key, value) {
+  await AppSetting.upsert({ key, value });
+}
+
+exports.getInstagramPage = async (req, res) => {
+  const igUserId      = await getSetting("ig_user_id");
+  const accessToken   = await getSetting("ig_access_token");
+  const baseUrl       = await getSetting("ig_base_url") || "";
+
+  let account = null;
+  let tokenError = null;
+
+  if (igUserId && accessToken) {
+    try {
+      account = await igApi.verifyAccount(igUserId, accessToken);
+    } catch (err) {
+      tokenError = err.message;
+    }
+  }
+
+  res.render("admin/instagram", {
+    pageTitle: "إنستغرام",
+    igUserId:    igUserId    || "",
+    accessToken: accessToken ? "••••••••" + accessToken.slice(-6) : "",
+    baseUrl,
+    account,
+    tokenError,
+    isConnected: !!account,
+    ...locals(req),
+  });
+};
+
+exports.saveInstagramSettings = async (req, res) => {
+  const { ig_user_id, access_token, base_url } = req.body;
+
+  if (!ig_user_id || !access_token) {
+    req.flash("error", "يرجى إدخال IG User ID و Access Token.");
+    return res.redirect("/ezshm_crochem/instagram");
+  }
+
+  try {
+    await igApi.verifyAccount(ig_user_id, access_token);
+  } catch (err) {
+    req.flash("error", `فشل التحقق من الحساب: ${err.message}`);
+    return res.redirect("/ezshm_crochem/instagram");
+  }
+
+  await setSetting("ig_user_id",      ig_user_id.trim());
+  await setSetting("ig_access_token", access_token.trim());
+  await setSetting("ig_base_url",     (base_url || "").trim());
+
+  req.flash("success", "تم حفظ إعدادات إنستغرام وتم التحقق من الحساب بنجاح ✓");
+  res.redirect("/ezshm_crochem/instagram");
+};
+
+exports.refreshInstagramToken = async (req, res) => {
+  const accessToken = await getSetting("ig_access_token");
+  if (!accessToken) {
+    req.flash("error", "لا يوجد token محفوظ.");
+    return res.redirect("/ezshm_crochem/instagram");
+  }
+  try {
+    const result = await igApi.refreshToken(accessToken);
+    await setSetting("ig_access_token", result.access_token);
+    req.flash("success", "تم تجديد الـ Token بنجاح — صالح 60 يوماً إضافية ✓");
+  } catch (err) {
+    req.flash("error", `خطأ في تجديد الـ Token: ${err.message}`);
+  }
+  res.redirect("/ezshm_crochem/instagram");
+};
+
+exports.postInstagram = async (req, res) => {
+  const igUserId    = await getSetting("ig_user_id");
+  const accessToken = await getSetting("ig_access_token");
+  let   baseUrl     = await getSetting("ig_base_url") || "";
+
+  if (!igUserId || !accessToken) {
+    req.flash("error", "الحساب غير متصل. أضف إعدادات إنستغرام أولاً.");
+    return res.redirect("/ezshm_crochem/instagram");
+  }
+
+  if (!req.file) {
+    req.flash("error", "يرجى اختيار صورة للمنشور.");
+    return res.redirect("/ezshm_crochem/instagram");
+  }
+
+  const { caption = "" } = req.body;
+
+  // Derive base URL from request if not configured
+  if (!baseUrl) {
+    baseUrl = `${req.protocol}://${req.get("host")}`;
+  }
+
+  if (baseUrl.includes("localhost") || baseUrl.includes("127.0.0.1")) {
+    req.flash("error", "لا يمكن النشر من localhost — Instagram يحتاج URL عام. أضف الـ Base URL في الإعدادات.");
+    return res.redirect("/ezshm_crochem/instagram");
+  }
+
+  // Save image to public folder
+  const uploadsDir = path.join(__dirname, "..", "public", "uploads", "ig");
+  fs.mkdirSync(uploadsDir, { recursive: true });
+
+  const ext      = (req.file.originalname.match(/\.(jpe?g|png|webp)$/i) || [".jpg"])[0];
+  const filename = `ig_${Date.now()}${ext}`;
+  const filepath = path.join(uploadsDir, filename);
+  fs.writeFileSync(filepath, req.file.buffer);
+
+  const imageUrl = `${baseUrl}/uploads/ig/${filename}`;
+
+  try {
+    await igApi.publishPhoto(igUserId, accessToken, imageUrl, caption);
+    req.flash("success", "تم نشر المنشور على إنستغرام بنجاح! 🎉");
+  } catch (err) {
+    console.error("Instagram post error:", err);
+    // Clean up saved image on failure
+    fs.unlink(filepath, () => {});
+    req.flash("error", `فشل النشر: ${err.message}`);
+  }
+
+  res.redirect("/ezshm_crochem/instagram");
 };

@@ -29,4 +29,9 @@ router.get("/ezshm_crochem/pattern-builder/load/:id", admin.loadPattern);
 router.post("/ezshm_crochem/pattern-builder/delete/:id", admin.deletePattern);
 router.get("/ezshm_crochem/pattern-builder/pdf/:id", admin.downloadPatternPdf);
 
+router.get("/ezshm_crochem/instagram",              admin.getInstagramPage);
+router.post("/ezshm_crochem/instagram/settings",    admin.saveInstagramSettings);
+router.post("/ezshm_crochem/instagram/refresh",     admin.refreshInstagramToken);
+router.post("/ezshm_crochem/instagram/post",        admin.postInstagram);
+
 module.exports = router;

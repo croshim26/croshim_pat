@@ -4,7 +4,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendPasswordResetEmail(toEmail, resetUrl) {
   await resend.emails.send({
-    from: "Croshim Studio <onboarding@resend.dev>",
+    from: process.env.EMAIL_FROM || "Croshim Studio <onboarding@resend.dev>",
     to: toEmail,
     subject: "إعادة تعيين كلمة المرور — Croshim Studio",
     html: `

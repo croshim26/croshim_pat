@@ -85,10 +85,12 @@ app.use(flash());
 const upload = multer({
   storage: multer.memoryStorage(),
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === "application/pdf") {
+    if (
+      file.mimetype === "application/pdf" ||
+      file.mimetype.startsWith("image/")
+    ) {
       return cb(null, true);
     }
-
     return cb(null, false);
   },
   limits: {
