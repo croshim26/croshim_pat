@@ -115,6 +115,7 @@ exports.postLogin = async (req, res) => {
       req.session.loggedIn = true;
       req.session.userId = existingUser.id;
       req.session.userName = existingUser.firstName || "";
+      req.session.isAdmin = existingUser.is_admin === true;
 
       req.session.save((saveError) => {
         if (saveError) {

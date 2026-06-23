@@ -4,8 +4,16 @@ const loggedin = require("../middleware/loggedin");
 
 const router = express.Router();
 
-router.get("/request_pattern", loggedin,aiProductController.getRequestPattern);
-router.post("/api/generate_pattern", loggedin,aiProductController.generatePattern);
-router.get("/ai_product", loggedin,aiProductController.getAiProducts);
+const guardGenerator = (req, res, next) => {
+  if (!res.locals.aiGeneratorEnabled) {
+    req.flash("error", "ميزة توليد الباترنات غير متاحة حالياً.");
+    return res.redirect("/");
+  }
+  next();
+};
+
+router.get("/request_pattern", loggedin, guardGenerator, aiProductController.getRequestPattern);
+router.post("/api/generate_pattern", loggedin, guardGenerator, aiProductController.generatePattern);
+router.get("/ai_product", loggedin, guardGenerator, aiProductController.getAiProducts);
 
 module.exports = router;

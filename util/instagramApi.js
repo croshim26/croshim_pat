@@ -24,7 +24,7 @@ async function publishPhoto(igUserId, accessToken, imageUrl, caption) {
   const containerRes = await fetch(`${API}/${igUserId}/media`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ image_url: imageUrl, caption, access_token: accessToken }),
+    body: JSON.stringify({ image_url: imageUrl, caption, media_type: "IMAGE", access_token: accessToken }),
   });
   const container = await containerRes.json();
   if (container.error) throw new Error(container.error.message);

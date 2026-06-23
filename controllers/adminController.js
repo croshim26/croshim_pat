@@ -1,6 +1,3 @@
-const path = require("path");
-const fs   = require("fs");
-
 const User = require("../models/user");
 const Product = require("../models/product");
 const AiProduct = require("../models/ai_product");
@@ -9,6 +6,7 @@ const SavedPattern = require("../models/saved_pattern");
 const AppSetting = require("../models/app_setting");
 const { generatePatternPdf } = require("../util/patternPdfGenerator");
 const igApi = require("../util/instagramApi");
+const featureFlags = require("../middleware/featureFlags");
 
 const locals = (req, extra = {}) => ({
   successMessage: req.flash("success")[0] || null,
@@ -18,13 +16,16 @@ const locals = (req, extra = {}) => ({
 
 /* ── Dashboard ─────────────────────────────────────────── */
 exports.getDashboard = async (req, res) => {
-  const [userCount, productCount, aiProductCount, evaluationCount, savedPatternCount] =
+  const [userCount, productCount, aiProductCount, evaluationCount, savedPatternCount,
+         generatorRow, evaluatorRow] =
     await Promise.all([
       User.count(),
       Product.count(),
       AiProduct.count(),
       PatternEvaluation.count(),
       SavedPattern.count(),
+      AppSetting.findOne({ where: { key: "ai_generator_enabled" } }),
+      AppSetting.findOne({ where: { key: "ai_evaluator_enabled" } }),
     ]);
 
   res.render("admin/dashboard", {
@@ -34,8 +35,23 @@ exports.getDashboard = async (req, res) => {
     aiProductCount,
     evaluationCount,
     savedPatternCount,
+    aiGeneratorEnabled: generatorRow ? generatorRow.value !== "false" : true,
+    aiEvaluatorEnabled: evaluatorRow ? evaluatorRow.value !== "false" : true,
     ...locals(req),
   });
+};
+
+exports.toggleFeatureFlag = async (req, res) => {
+  const { flag } = req.params;
+  const allowed = ["ai_generator_enabled", "ai_evaluator_enabled"];
+  if (!allowed.includes(flag)) return res.redirect("/ezshm_crochem");
+
+  const row = await AppSetting.findOne({ where: { key: flag } });
+  const current = row ? row.value !== "false" : true;
+  await AppSetting.upsert({ key: flag, value: current ? "false" : "true" });
+
+  featureFlags.invalidateCache();
+  res.redirect("/ezshm_crochem");
 };
 
 /* ── Users ─────────────────────────────────────────────── */
@@ -331,7 +347,6 @@ exports.refreshInstagramToken = async (req, res) => {
 exports.postInstagram = async (req, res) => {
   const igUserId    = await getSetting("ig_user_id");
   const accessToken = await getSetting("ig_access_token");
-  let   baseUrl     = await getSetting("ig_base_url") || "";
 
   if (!igUserId || !accessToken) {
     req.flash("error", "الحساب غير متصل. أضف إعدادات إنستغرام أولاً.");
@@ -343,36 +358,43 @@ exports.postInstagram = async (req, res) => {
     return res.redirect("/ezshm_crochem/instagram");
   }
 
-  const { caption = "" } = req.body;
-
-  // Derive base URL from request if not configured
-  if (!baseUrl) {
-    baseUrl = `${req.protocol}://${req.get("host")}`;
-  }
-
-  if (baseUrl.includes("localhost") || baseUrl.includes("127.0.0.1")) {
-    req.flash("error", "لا يمكن النشر من localhost — Instagram يحتاج URL عام. أضف الـ Base URL في الإعدادات.");
+  if (!["image/jpeg", "image/png"].includes(req.file.mimetype)) {
+    req.flash("error", "Instagram يقبل JPEG و PNG فقط. يرجى تحويل الصورة وإعادة المحاولة.");
     return res.redirect("/ezshm_crochem/instagram");
   }
 
-  // Save image to public folder
-  const uploadsDir = path.join(__dirname, "..", "public", "uploads", "ig");
-  fs.mkdirSync(uploadsDir, { recursive: true });
+  const { caption = "" } = req.body;
+  const ext        = req.file.mimetype === "image/png" ? ".png" : ".jpg";
+  const storageKey = `ig/ig_${Date.now()}${ext}`;
 
-  const ext      = (req.file.originalname.match(/\.(jpe?g|png|webp)$/i) || [".jpg"])[0];
-  const filename = `ig_${Date.now()}${ext}`;
-  const filepath = path.join(uploadsDir, filename);
-  fs.writeFileSync(filepath, req.file.buffer);
+  // Upload to Supabase so Instagram can fetch a stable public URL
+  const supabase = require("../util/supabase");
+  const { error: uploadError } = await supabase.storage
+    .from(process.env.SUPABASE_BUCKET)
+    .upload(storageKey, req.file.buffer, {
+      contentType: req.file.mimetype,
+      upsert: false,
+    });
 
-  const imageUrl = `${baseUrl}/uploads/ig/${filename}`;
+  if (uploadError) {
+    console.error("Supabase upload error:", uploadError);
+    req.flash("error", `فشل رفع الصورة: ${uploadError.message}`);
+    return res.redirect("/ezshm_crochem/instagram");
+  }
+
+  const { data: publicUrlData } = supabase.storage
+    .from(process.env.SUPABASE_BUCKET)
+    .getPublicUrl(storageKey);
+
+  const imageUrl = publicUrlData.publicUrl;
 
   try {
     await igApi.publishPhoto(igUserId, accessToken, imageUrl, caption);
     req.flash("success", "تم نشر المنشور على إنستغرام بنجاح! 🎉");
   } catch (err) {
     console.error("Instagram post error:", err);
-    // Clean up saved image on failure
-    fs.unlink(filepath, () => {});
+    // Remove image from Supabase on failure
+    await supabase.storage.from(process.env.SUPABASE_BUCKET).remove([storageKey]);
     req.flash("error", `فشل النشر: ${err.message}`);
   }
 

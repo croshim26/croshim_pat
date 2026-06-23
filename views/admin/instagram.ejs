@@ -266,12 +266,12 @@
 
                 <!-- Image -->
                 <div class="ig-drop" id="igDrop">
-                  <input type="file" name="ig_image" accept="image/jpeg,image/png,image/webp"
+                  <input type="file" name="ig_image" accept="image/jpeg,image/png"
                     id="igFile" <%= !isConnected ? 'disabled' : '' %>
                     onchange="onIgFile(this)">
                   <div class="ig-drop-icon"><i class="fas fa-image"></i></div>
                   <div class="ig-drop-label">اسحب الصورة أو اضغط للاختيار</div>
-                  <div class="ig-drop-hint">JPEG · PNG · WebP — حد أقصى 8 MB</div>
+                  <div class="ig-drop-hint">JPEG · PNG فقط — حد أقصى 8 MB</div>
                   <div class="ig-drop-chosen" id="igChosen">
                     <i class="fas fa-check-circle" style="color:#dc2743;"></i>
                     <span id="igChosenName"></span>

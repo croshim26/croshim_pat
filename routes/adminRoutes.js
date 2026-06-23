@@ -6,6 +6,7 @@ const admin = require("../controllers/adminController");
 router.use(isAdmin);
 
 router.get("/ezshm_crochem", admin.getDashboard);
+router.post("/ezshm_crochem/feature-flag/:flag/toggle", admin.toggleFeatureFlag);
 
 router.get("/ezshm_crochem/users", admin.getUsers);
 router.post("/ezshm_crochem/users/:id/toggle-admin", admin.toggleAdmin);
