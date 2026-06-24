@@ -152,19 +152,6 @@
           </div>
         </div>
 
-        <% if (locals.aiEvaluatorEnabled) { %>
-        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-robot"></i>
-            </div>
-            <h3 class="feature-title">ذكاء اصطناعي</h3>
-            <p class="feature-desc">
-              ارفع باترنك وسيقوم الذكاء الاصطناعي بتقييمه وإنشاء نسخة محسّنة جاهزة للتنفيذ.
-            </p>
-          </div>
-        </div>
-        <% } %>
 
       </div>
     </div>
@@ -190,9 +177,6 @@
 
   <%- include("../partials/login-modal") %>
 
-  <% if (locals.aiGeneratorEnabled) { %>
-  <%- include("../partials/request_pattern") %>
-  <% } %>
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

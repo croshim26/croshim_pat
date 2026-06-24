@@ -10,11 +10,8 @@ const multer = require("multer");
 
 const crochetRegisterRoutes = require("./routes/authRoutes");
 const crochetProductRoutes = require("./routes/productRoutes");
-const aiProductRoutes = require("./routes/aiProductRoutes");
-const patternEvaluationRoutes = require("./routes/patternEvaluationRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const patternRoutes = require("./routes/patternRoutes");
-const featureFlags = require("./middleware/featureFlags");
 
 const sequelize = require("./util/database");
 
@@ -127,8 +124,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(featureFlags);
-
 /* =========================================================
    Routes
    ========================================================= */
@@ -141,8 +136,6 @@ res.render("pages/landing", {
 
 app.use(crochetRegisterRoutes);
 app.use(crochetProductRoutes);
-app.use(aiProductRoutes);
-app.use(patternEvaluationRoutes);
 app.use(adminRoutes);
 app.use(patternRoutes);
 
