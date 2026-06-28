@@ -1,8 +1,7 @@
 const express = require("express");
 const router  = express.Router();
 
-const SavedPattern       = require("../models/saved_pattern");
-const { generatePatternPdf } = require("../util/patternPdfGenerator");
+const SavedPattern = require("../models/saved_pattern");
 
 const DEFAULT_ABBR = [
   { key: "MR",   val: "magic ring / magic loop" },
@@ -48,22 +47,5 @@ router.get("/pattern/:id", async (req, res) => {
   }
 });
 
-/* ── Public pattern PDF download ─────────────────────────── */
-router.get("/pattern/:id/pdf", async (req, res) => {
-  try {
-    const pattern = await SavedPattern.findByPk(req.params.id);
-    if (!pattern) return res.status(404).send("Pattern not found");
-
-    const pdfBuffer = await generatePatternPdf(pattern);
-    const safeName  = (pattern.name || "pattern").replace(/[^؀-ۿa-zA-Z0-9 _-]/g, "").trim() || "pattern";
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", `inline; filename*=UTF-8''croshim-${encodeURIComponent(safeName)}.pdf`);
-    res.send(pdfBuffer);
-  } catch (err) {
-    console.error("Public pattern PDF error:", err);
-    res.status(500).send("خطأ في توليد الـ PDF");
-  }
-});
 
 module.exports = router;
