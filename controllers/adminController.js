@@ -4,7 +4,6 @@ const AiProduct = require("../models/ai_product");
 const PatternEvaluation = require("../models/pattern_evaluation");
 const SavedPattern = require("../models/saved_pattern");
 const AppSetting = require("../models/app_setting");
-const { generatePatternPdf } = require("../util/patternPdfGenerator");
 const igApi = require("../util/instagramApi");
 const featureFlags = require("../middleware/featureFlags");
 
@@ -237,26 +236,6 @@ exports.deletePattern = async (req, res) => {
   }
 };
 
-exports.downloadPatternPdf = async (req, res) => {
-  try {
-    const pattern = await SavedPattern.findByPk(req.params.id);
-    if (!pattern) {
-      req.flash("error", "الباترن غير موجود.");
-      return res.redirect("/ezshm_crochem/pattern-builder");
-    }
-
-    const pdfBuffer = await generatePatternPdf(pattern);
-    const safeName  = (pattern.name || "pattern").replace(/[^؀-ۿa-zA-Z0-9 _-]/g, "").trim() || "pattern";
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", `inline; filename*=UTF-8''croshim-${encodeURIComponent(safeName)}.pdf`);
-    res.send(pdfBuffer);
-  } catch (err) {
-    console.error("Pattern PDF error:", err);
-    req.flash("error", "خطأ في توليد الـ PDF. تأكد من تثبيت Chrome.");
-    res.redirect("/ezshm_crochem/pattern-builder");
-  }
-};
 
 /* ══════════════════════════════════════════════════════════
    INSTAGRAM
