@@ -22,7 +22,6 @@ router.get("/ezshm_crochem/pattern-builder", admin.getPatternBuilder);
 router.post("/ezshm_crochem/pattern-builder/save", admin.savePattern);
 router.get("/ezshm_crochem/pattern-builder/load/:id", admin.loadPattern);
 router.post("/ezshm_crochem/pattern-builder/delete/:id", admin.deletePattern);
-router.get("/ezshm_crochem/pattern-builder/pdf/:id", admin.downloadPatternPdf);
 
 router.get("/ezshm_crochem/instagram",              admin.getInstagramPage);
 router.post("/ezshm_crochem/instagram/settings",    admin.saveInstagramSettings);
