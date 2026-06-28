@@ -1,9 +1,12 @@
 const User = require("../models/user");
 const Product = require("../models/product");
+const AiProduct = require("../models/ai_product");
+const PatternEvaluation = require("../models/pattern_evaluation");
 const SavedPattern = require("../models/saved_pattern");
 const AppSetting = require("../models/app_setting");
 const { generatePatternPdf } = require("../util/patternPdfGenerator");
 const igApi = require("../util/instagramApi");
+const featureFlags = require("../middleware/featureFlags");
 
 const locals = (req, extra = {}) => ({
   successMessage: req.flash("success")[0] || null,
@@ -13,20 +16,42 @@ const locals = (req, extra = {}) => ({
 
 /* ── Dashboard ─────────────────────────────────────────── */
 exports.getDashboard = async (req, res) => {
-  const [userCount, productCount, savedPatternCount] =
+  const [userCount, productCount, aiProductCount, evaluationCount, savedPatternCount,
+         generatorRow, evaluatorRow] =
     await Promise.all([
       User.count(),
       Product.count(),
+      AiProduct.count(),
+      PatternEvaluation.count(),
       SavedPattern.count(),
+      AppSetting.findOne({ where: { key: "ai_generator_enabled" } }),
+      AppSetting.findOne({ where: { key: "ai_evaluator_enabled" } }),
     ]);
 
   res.render("admin/dashboard", {
     pageTitle: "لوحة التحكم",
     userCount,
     productCount,
+    aiProductCount,
+    evaluationCount,
     savedPatternCount,
+    aiGeneratorEnabled: generatorRow ? generatorRow.value !== "false" : true,
+    aiEvaluatorEnabled: evaluatorRow ? evaluatorRow.value !== "false" : true,
     ...locals(req),
   });
+};
+
+exports.toggleFeatureFlag = async (req, res) => {
+  const { flag } = req.params;
+  const allowed = ["ai_generator_enabled", "ai_evaluator_enabled"];
+  if (!allowed.includes(flag)) return res.redirect("/ezshm_crochem");
+
+  const row = await AppSetting.findOne({ where: { key: flag } });
+  const current = row ? row.value !== "false" : true;
+  await AppSetting.upsert({ key: flag, value: current ? "false" : "true" });
+
+  featureFlags.invalidateCache();
+  res.redirect("/ezshm_crochem");
 };
 
 /* ── Users ─────────────────────────────────────────────── */
@@ -87,6 +112,43 @@ exports.deleteProduct = async (req, res) => {
   res.redirect("/ezshm_crochem/products");
 };
 
+/* ── AI Patterns ───────────────────────────────────────── */
+exports.getAiPatterns = async (req, res) => {
+  const patterns = await AiProduct.findAll({
+    order: [["createdAt", "DESC"]],
+  });
+  res.render("admin/ai_patterns", {
+    pageTitle: "باترنات الذكاء الاصطناعي",
+    patterns,
+    ...locals(req),
+  });
+};
+
+exports.deleteAiPattern = async (req, res) => {
+  const pattern = await AiProduct.findByPk(req.params.id);
+  if (pattern) await pattern.destroy();
+  req.flash("success", "تم حذف الباترن.");
+  res.redirect("/ezshm_crochem/ai-patterns");
+};
+
+/* ── Evaluations ───────────────────────────────────────── */
+exports.getEvaluations = async (req, res) => {
+  const evaluations = await PatternEvaluation.findAll({
+    order: [["createdAt", "DESC"]],
+  });
+  res.render("admin/evaluations", {
+    pageTitle: "التقييمات",
+    evaluations,
+    ...locals(req),
+  });
+};
+
+exports.deleteEvaluation = async (req, res) => {
+  const ev = await PatternEvaluation.findByPk(req.params.id);
+  if (ev) await ev.destroy();
+  req.flash("success", "تم حذف التقييم.");
+  res.redirect("/ezshm_crochem/evaluations");
+};
 
 /* ── Saved Patterns List ────────────────────────────────── */
 exports.getSavedPatternsPage = async (req, res) => {

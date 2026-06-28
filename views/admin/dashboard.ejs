@@ -47,11 +47,82 @@
           </div>
         </div>
         <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-robot"></i></div>
+          <div class="stat-info">
+            <div class="stat-label">باترنات الذكاء الاصطناعي</div>
+            <div class="stat-value"><%= aiProductCount %></div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-file-medical-alt"></i></div>
+          <div class="stat-info">
+            <div class="stat-label">التقييمات</div>
+            <div class="stat-value"><%= evaluationCount %></div>
+          </div>
+        </div>
+        <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-magic"></i></div>
           <div class="stat-info">
             <div class="stat-label">باترنات محفوظة</div>
             <div class="stat-value"><%= savedPatternCount %></div>
           </div>
+        </div>
+      </div>
+
+      <!-- AI Feature Flags -->
+      <div class="admin-table-wrap" style="padding:1.5rem 1.5rem 0;">
+        <h3 style="font-weight:900;color:#6b1a30;font-size:.95rem;margin-bottom:1rem;">
+          <i class="fas fa-robot" style="margin-left:.4rem;color:#9b3a5a;"></i>
+          ميزات الذكاء الاصطناعي
+        </h3>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+
+          <!-- AI Generator toggle -->
+          <div style="background:#fff5f7;border:1.5px solid rgba(155,58,90,.15);border-radius:16px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;min-width:260px;">
+            <div>
+              <div style="font-weight:900;color:#3d0e1e;font-size:.9rem;">توليد الباترنات بالذكاء الاصطناعي</div>
+              <div style="font-size:.78rem;font-weight:700;color:#9e677a;margin-top:2px;">
+                /request_pattern · /ai_product
+              </div>
+            </div>
+            <form action="/ezshm_crochem/feature-flag/ai_generator_enabled/toggle" method="POST" style="margin-right:auto;">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" style="
+                border:0;cursor:pointer;border-radius:20px;padding:.4rem .95rem;
+                font-family:'Cairo',sans-serif;font-weight:900;font-size:.8rem;
+                background:<%= aiGeneratorEnabled ? 'linear-gradient(135deg,#22c55e,#16a34a)' : 'rgba(220,38,38,.12)' %>;
+                color:<%= aiGeneratorEnabled ? '#fff' : '#991b1b' %>;
+                transition:.2s;
+              ">
+                <i class="fas fa-<%= aiGeneratorEnabled ? 'toggle-on' : 'toggle-off' %>"></i>
+                <%= aiGeneratorEnabled ? 'مفعّل' : 'معطّل' %>
+              </button>
+            </form>
+          </div>
+
+          <!-- AI Evaluator toggle -->
+          <div style="background:#fff5f7;border:1.5px solid rgba(155,58,90,.15);border-radius:16px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;min-width:260px;">
+            <div>
+              <div style="font-weight:900;color:#3d0e1e;font-size:.9rem;">تحسين الباترنات (المقيّم)</div>
+              <div style="font-size:.78rem;font-weight:700;color:#9e677a;margin-top:2px;">
+                /evaluate_pattern · /my_evaluations
+              </div>
+            </div>
+            <form action="/ezshm_crochem/feature-flag/ai_evaluator_enabled/toggle" method="POST" style="margin-right:auto;">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" style="
+                border:0;cursor:pointer;border-radius:20px;padding:.4rem .95rem;
+                font-family:'Cairo',sans-serif;font-weight:900;font-size:.8rem;
+                background:<%= aiEvaluatorEnabled ? 'linear-gradient(135deg,#22c55e,#16a34a)' : 'rgba(220,38,38,.12)' %>;
+                color:<%= aiEvaluatorEnabled ? '#fff' : '#991b1b' %>;
+                transition:.2s;
+              ">
+                <i class="fas fa-<%= aiEvaluatorEnabled ? 'toggle-on' : 'toggle-off' %>"></i>
+                <%= aiEvaluatorEnabled ? 'مفعّل' : 'معطّل' %>
+              </button>
+            </form>
+          </div>
+
         </div>
       </div>
 
