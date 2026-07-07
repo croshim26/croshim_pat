@@ -322,14 +322,22 @@ exports.savePatternPdf = async (req, res) => {
 
 exports.savePatternAsProduct = async (req, res) => {
   try {
-    const userId = req.session.userId;
+    const userId    = req.session.userId;
     const { name, description, patternId } = req.body;
+    const pdfPath   = patternId ? `/pattern/${patternId}` : null;
+
+    // Dedup: if this pattern already has a product entry, update it instead of creating a duplicate
+    const existing = await Product.findOne({ where: { user_id: userId, pdf_path: pdfPath } });
+    if (existing) {
+      await existing.update({ product_name: name || 'باترن كروشيه', product_description: description || '' });
+      return res.json({ success: true, productId: existing.id });
+    }
 
     const product = await Product.create({
       product_name:        name || 'باترن كروشيه',
       product_description: description || '',
       user_id:             userId,
-      pdf_path:            patternId ? `/pattern/${patternId}` : null,
+      pdf_path:            pdfPath,
     });
 
     res.json({ success: true, productId: product.id });
