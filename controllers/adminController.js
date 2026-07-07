@@ -54,6 +54,18 @@ exports.toggleAdmin = async (req, res) => {
   res.redirect("/ezshm_crochem/users");
 };
 
+exports.togglePatternBuilderAccess = async (req, res) => {
+  const user = await User.findByPk(req.params.id);
+  if (!user) {
+    req.flash("error", "المستخدم غير موجود.");
+    return res.redirect("/ezshm_crochem/users");
+  }
+  user.can_use_pattern_builder = !user.can_use_pattern_builder;
+  await user.save();
+  req.flash("success", `تم ${user.can_use_pattern_builder ? "تفعيل" : "إيقاف"} Pattern Builder للمستخدم ${user.email}.`);
+  res.redirect("/ezshm_crochem/users");
+};
+
 exports.deleteUser = async (req, res) => {
   const user = await User.findByPk(req.params.id);
   if (!user) {
