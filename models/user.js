@@ -51,6 +51,12 @@ const User =sequelize.define('user',{
         defaultValue: false,
         allowNull: false,
     },
+
+    can_use_pattern_builder: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+    },
 });
 
 module.exports=User
