@@ -19,12 +19,10 @@ router.get("/pattern/:id", async (req, res) => {
   try {
     const pattern = await SavedPattern.findByPk(req.params.id);
     if (!pattern) {
-      return res.status(404).render("pages/landing", {
-        error_message: "الباترن غير موجود.",
-        success_message: null,
-      });
+      return res.redirect("/");
     }
 
+    // Render the read-only workbook view for everyone
     let tools = [], abbrs = [], parts = [];
     try { tools = JSON.parse(pattern.tools || "[]"); } catch (_) {}
     try { abbrs = JSON.parse(pattern.abbrs || "[]"); } catch (_) {}
@@ -43,7 +41,7 @@ router.get("/pattern/:id", async (req, res) => {
     });
   } catch (err) {
     console.error("Pattern view error:", err);
-    res.status(500).redirect("/");
+    res.redirect("/");
   }
 });
 

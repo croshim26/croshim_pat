@@ -22,6 +22,7 @@ router.get("/pattern-builder", loggedin, canUseBuilder, productController.getPat
 router.post("/pattern-builder/save", loggedin, canUseBuilder, productController.savePattern);
 router.get("/pattern-builder/load/:id", loggedin, canUseBuilder, productController.loadPattern);
 router.post("/pattern-builder/delete/:id", loggedin, canUseBuilder, productController.deletePattern);
+router.post("/pattern-builder/save-pdf",        loggedin, canUseBuilder, productController.savePatternPdf);
 router.post("/pattern-builder/save-as-product", loggedin, canUseBuilder, productController.savePatternAsProduct);
 
 module.exports = router;
