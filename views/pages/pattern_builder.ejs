@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/layout.css">
   <link rel="stylesheet" href="/css/components.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     html, body { height: 100%; overflow: hidden; }
 
@@ -118,9 +117,6 @@
     .btn-strip-new:hover   { background: rgba(155,58,90,.18); }
     .btn-strip-print   { background: rgba(34,197,94,.1);  color: #166534; border: 1px solid rgba(34,197,94,.2); }
     .btn-strip-print:hover   { background: rgba(34,197,94,.18); }
-    .btn-strip-product { background: rgba(109,40,217,.1); color: #5b21b6; border: 1px solid rgba(109,40,217,.22); }
-    .btn-strip-product:hover { background: rgba(109,40,217,.18); }
-
     #toast a { color: #e8d5ff; text-decoration: underline; }
     #toast a:hover { color: #fff; }
 
@@ -351,12 +347,89 @@
     .cover-image-wrap img { width:160px; height:160px; object-fit:cover; border-radius:50%; border:4px solid rgba(255,255,255,.7); box-shadow:0 8px 28px rgba(155,58,82,.28); }
 
     @media print {
-      .pb-topbar, .saved-strip, .builder-panel { display:none !important; }
-      .pb-shell { display:block !important; }
-      .builder-area { display:block !important; height:auto !important; }
-      .preview-panel { padding:0 !important; height:auto !important; overflow:visible !important; }
-      .page { page-break-after:always; box-shadow:none !important; border-radius:0 !important; margin:0 !important; }
-      @page { margin:0; size:A4 portrait; }
+      @page { size: A4 portrait; margin: 0; }
+
+      /* ── Preserve every colour and background exactly as on-screen ── */
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust:         exact !important;
+        animation:  none !important;
+        transition: none !important;
+      }
+
+      /* ── Hide all UI chrome ── */
+      .pb-topbar, .saved-strip, .builder-panel,
+      #toast, .preview-placeholder { display: none !important; }
+
+      /* ── Flatten the shell so pages flow vertically ── */
+      html, body {
+        height: auto !important;
+        overflow: visible !important;
+        background: #fff !important;
+      }
+      .pb-shell {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      .builder-area {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      .preview-panel {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        background: #fff !important;
+      }
+      #patternOutput { display: block !important; }
+
+      /* ── One .page div = one printed A4 page ── */
+      .page {
+        width:      210mm !important;
+        min-height: 297mm !important;
+        max-height: 297mm !important;
+        overflow:   hidden !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        page-break-after:  always !important;
+        break-after:       page !important;
+        page-break-inside: avoid !important;
+        break-inside:      avoid !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+      .page:last-child {
+        page-break-after: avoid !important;
+        break-after:      avoid !important;
+      }
+
+      /* ── Make page body grow to fill remaining space ── */
+      .page-body { flex: 1 !important; }
+
+      /* ── Arabic text: lock direction and font ── */
+      .pattern-title-ar, .pattern-subtitle-ar,
+      .section-pill, .subsection-label,
+      .note-box, .b-label,
+      .tools-table td, .abbr-val,
+      .footer-brand, .footer-tagline,
+      .brand-tagline {
+        font-family: 'Noto Naskh Arabic', 'Cairo', serif !important;
+        direction: rtl !important;
+      }
+
+      /* ── Code stays LTR ── */
+      .code-card, .code-card code, .abbr-key {
+        direction: ltr !important;
+        text-align: left !important;
+        font-family: 'Courier New', monospace !important;
+      }
+
+      /* ── Brand names keep Playfair ── */
+      .brand-name, .footer-brand { font-family: 'Playfair Display', serif !important; }
     }
   </style>
 </head>
@@ -397,11 +470,8 @@
       <button onclick="newPattern()" class="btn-strip btn-strip-new">
         <i class="fas fa-plus"></i> جديد
       </button>
-      <button onclick="window.print()" class="btn-strip btn-strip-print" id="printBtn" style="display:none;">
-        <i class="fas fa-print"></i> طباعة
-      </button>
-      <button onclick="saveAsProduct()" class="btn-strip btn-strip-product" id="saveProductBtn" style="display:none;">
-        <i class="fas fa-file-pdf"></i> حفظ في المنتجات
+      <button onclick="printPattern()" class="btn-strip btn-strip-print" id="printBtn" style="display:none;">
+        <i class="fas fa-print"></i> طباعة / PDF
       </button>
     </div>
   </div>
@@ -679,7 +749,6 @@ function generatePattern() {
   document.getElementById('placeholder').style.display = 'none';
   document.getElementById('patternOutput').innerHTML = html;
   document.getElementById('printBtn').style.display = 'inline-flex';
-  document.getElementById('saveProductBtn').style.display = 'inline-flex';
   document.getElementById('previewPanel').scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -786,6 +855,7 @@ async function deletePattern(id) {
 }
 
 function newPattern() {
+  _productSavedForId = null;
   document.getElementById('activePatternId').value = '';
   document.getElementById('patternName').value     = '';
   document.getElementById('patternSubtitle').value = '';
@@ -796,7 +866,6 @@ function newPattern() {
   document.getElementById('placeholder').style.display = '';
   document.getElementById('patternOutput').innerHTML = '';
   document.getElementById('printBtn').style.display = 'none';
-  document.getElementById('saveProductBtn').style.display = 'none';
   document.querySelectorAll('.saved-chip').forEach(c => c.classList.remove('active-chip'));
   init();
 }
@@ -844,56 +913,6 @@ function removeImage() {
   document.getElementById('uploadZone').style.borderColor = 'var(--rose)';
 }
 
-/* ── Save as product PDF ── */
-async function saveAsProduct() {
-  generatePattern();
-  const output = document.getElementById('patternOutput');
-  if (!output || !output.children.length) {
-    showToast('اضغطي على Generate Pattern أولاً');
-    return;
-  }
-  const btn = document.getElementById('saveProductBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإنشاء...';
-
-  const name        = document.getElementById('patternName').value.trim()    || 'باترن كروشيه';
-  const description = document.getElementById('patternSubtitle').value.trim();
-
-  try {
-    const opt = {
-      margin:      0,
-      filename:    `${name}.pdf`,
-      image:       { type: 'jpeg', quality: 0.92 },
-      html2canvas: { scale: 2, useCORS: true, logging: false, letterRendering: true },
-      jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    };
-
-    const pdfBlob = await html2pdf().set(opt).from(output).outputPdf('blob');
-
-    const arrayBuffer = await pdfBlob.arrayBuffer();
-    const bytes = new Uint8Array(arrayBuffer);
-    let binary = '';
-    bytes.forEach(b => binary += String.fromCharCode(b));
-    const base64 = btoa(binary);
-
-    const res  = await fetch('/pattern-builder/save-as-product', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF_TOKEN },
-      body:    JSON.stringify({ name, description, pdf_data: base64 }),
-    });
-    const json = await res.json();
-    if (json.success) {
-      showToast('تم الحفظ في المنتجات ✓ — <a href="/dashboard">عرض اللوحة</a>', true);
-    } else {
-      showToast('خطأ: ' + (json.error || ''));
-    }
-  } catch (e) {
-    showToast('خطأ في إنشاء PDF: ' + e.message);
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-file-pdf"></i> حفظ في المنتجات';
-  }
-}
 
 /* ── Toast ── */
 let toastTimer;
@@ -924,6 +943,38 @@ function chunkArray(arr, size) {
 }
 function esc(str) { return (str||'').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function escHtml(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+
+let _productSavedForId = null; // guard: one product entry per pattern per session
+
+async function printPattern() {
+  generatePattern();
+
+  // 1 – ensure the pattern has an ID (save if new)
+  await savePattern();
+  const patternId = document.getElementById('activePatternId').value;
+
+  // 2 – add to dashboard once per pattern per session
+  if (patternId && _productSavedForId !== patternId) {
+    const name        = document.getElementById('patternName').value.trim()    || 'باترن كروشيه';
+    const description = document.getElementById('patternSubtitle').value.trim();
+    try {
+      const r = await fetch('/pattern-builder/save-as-product', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF_TOKEN },
+        body:    JSON.stringify({ name, description, patternId }),
+      });
+      const j = await r.json();
+      if (j.success) {
+        _productSavedForId = patternId;
+        showToast('تمت الإضافة للوحتي ✓');
+      }
+    } catch (e) { /* non-blocking — print still opens */ }
+  }
+
+  // 3 – open print / save-as-PDF dialog once fonts are ready
+  document.fonts.ready.then(() => window.print());
+}
 
 init();
 
