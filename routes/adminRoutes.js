@@ -9,6 +9,7 @@ router.get("/ezshm_crochem", admin.getDashboard);
 
 router.get("/ezshm_crochem/users", admin.getUsers);
 router.post("/ezshm_crochem/users/:id/toggle-admin", admin.toggleAdmin);
+router.post("/ezshm_crochem/users/:id/toggle-pattern-builder", admin.togglePatternBuilderAccess);
 router.post("/ezshm_crochem/users/:id/delete", admin.deleteUser);
 
 router.get("/ezshm_crochem/products", admin.getProducts);
