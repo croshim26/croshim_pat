@@ -286,15 +286,14 @@ exports.deletePattern = async (req, res) => {
   }
 };
 
-exports.savePatternAsProduct = async (req, res) => {
-  
+exports.savePatternPdf = async (req, res) => {
   try {
     const userId = req.session.userId;
-    const { name, description, pdf_data } = req.body;
+    const { name, description, patternId, pdf_data } = req.body;
 
-    if (!pdf_data) return res.status(400).json({ success: false, error: 'No PDF data provided' });
+    if (!pdf_data) return res.status(400).json({ success: false, error: 'No PDF data' });
 
-    const pdfBuffer = Buffer.from(pdf_data, 'base64');
+    const pdfBuffer  = Buffer.from(pdf_data, 'base64');
     const storageKey = `${userId}/patterns/${uuidv4()}.pdf`;
 
     const { error: uploadError } = await supabase.storage
@@ -312,6 +311,25 @@ exports.savePatternAsProduct = async (req, res) => {
       product_description: description || '',
       user_id:             userId,
       pdf_path:            publicUrlData.publicUrl,
+    });
+
+    res.json({ success: true, productId: product.id });
+  } catch (err) {
+    console.error('savePatternPdf error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+exports.savePatternAsProduct = async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    const { name, description, patternId } = req.body;
+
+    const product = await Product.create({
+      product_name:        name || 'باترن كروشيه',
+      product_description: description || '',
+      user_id:             userId,
+      pdf_path:            patternId ? `/pattern/${patternId}` : null,
     });
 
     res.json({ success: true, productId: product.id });
