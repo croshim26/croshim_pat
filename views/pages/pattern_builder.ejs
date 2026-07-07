@@ -117,6 +117,8 @@
     .btn-strip-new:hover   { background: rgba(155,58,90,.18); }
     .btn-strip-print   { background: rgba(34,197,94,.1);  color: #166534; border: 1px solid rgba(34,197,94,.2); }
     .btn-strip-print:hover   { background: rgba(34,197,94,.18); }
+    .btn-strip-dash  { background: rgba(109,40,217,.1); color: #5b21b6; border: 1px solid rgba(109,40,217,.22); }
+    .btn-strip-dash:hover { background: rgba(109,40,217,.18); }
     #toast a { color: #e8d5ff; text-decoration: underline; }
     #toast a:hover { color: #fff; }
 
@@ -470,6 +472,9 @@
       <button onclick="newPattern()" class="btn-strip btn-strip-new">
         <i class="fas fa-plus"></i> جديد
       </button>
+      <button onclick="saveToProduct()" class="btn-strip btn-strip-dash" id="saveDashBtn" style="display:none;">
+        <i class="fas fa-layer-group"></i> حفظ في لوحتي
+      </button>
       <button onclick="printPattern()" class="btn-strip btn-strip-print" id="printBtn" style="display:none;">
         <i class="fas fa-print"></i> طباعة / PDF
       </button>
@@ -748,6 +753,7 @@ function generatePattern() {
 
   document.getElementById('placeholder').style.display = 'none';
   document.getElementById('patternOutput').innerHTML = html;
+  document.getElementById('saveDashBtn').style.display = 'inline-flex';
   document.getElementById('printBtn').style.display = 'inline-flex';
   document.getElementById('previewPanel').scrollTo({top:0, behavior:'smooth'});
 }
@@ -855,7 +861,6 @@ async function deletePattern(id) {
 }
 
 function newPattern() {
-  _productSavedForId = null;
   document.getElementById('activePatternId').value = '';
   document.getElementById('patternName').value     = '';
   document.getElementById('patternSubtitle').value = '';
@@ -865,6 +870,7 @@ function newPattern() {
   renderTools(); renderAbbrs(); renderParts();
   document.getElementById('placeholder').style.display = '';
   document.getElementById('patternOutput').innerHTML = '';
+  document.getElementById('saveDashBtn').style.display = 'none';
   document.getElementById('printBtn').style.display = 'none';
   document.querySelectorAll('.saved-chip').forEach(c => c.classList.remove('active-chip'));
   init();
@@ -945,34 +951,42 @@ function esc(str) { return (str||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')
 function escHtml(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 
-let _productSavedForId = null; // guard: one product entry per pattern per session
-
-async function printPattern() {
-  generatePattern();
-
-  // 1 – ensure the pattern has an ID (save if new)
+/* ── Save to dashboard (dedup handled server-side) ── */
+async function saveToProduct() {
   await savePattern();
   const patternId = document.getElementById('activePatternId').value;
+  if (!patternId) { showToast('احفظي الباترن أولاً'); return; }
 
-  // 2 – add to dashboard once per pattern per session
-  if (patternId && _productSavedForId !== patternId) {
-    const name        = document.getElementById('patternName').value.trim()    || 'باترن كروشيه';
-    const description = document.getElementById('patternSubtitle').value.trim();
-    try {
-      const r = await fetch('/pattern-builder/save-as-product', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF_TOKEN },
-        body:    JSON.stringify({ name, description, patternId }),
-      });
-      const j = await r.json();
-      if (j.success) {
-        _productSavedForId = patternId;
-        showToast('تمت الإضافة للوحتي ✓');
-      }
-    } catch (e) { /* non-blocking — print still opens */ }
+  const btn = document.getElementById('saveDashBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+  const name = document.getElementById('patternName').value.trim() || 'باترن كروشيه';
+  const desc = document.getElementById('patternSubtitle').value.trim();
+
+  try {
+    const res  = await fetch('/pattern-builder/save-as-product', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF_TOKEN },
+      body:    JSON.stringify({ name, description: desc, patternId }),
+    });
+    const json = await res.json();
+    if (json.success) {
+      showToast('تمت الإضافة للوحتي ✓ — <a href="/dashboard">عرض</a>', true);
+    } else {
+      showToast('خطأ: ' + (json.error || ''));
+    }
+  } catch (e) {
+    showToast('خطأ: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-layer-group"></i> حفظ في لوحتي';
   }
+}
 
-  // 3 – open print / save-as-PDF dialog once fonts are ready
+/* ── Print only ── */
+function printPattern() {
+  generatePattern();
   document.fonts.ready.then(() => window.print());
 }
 
