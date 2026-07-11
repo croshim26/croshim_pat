@@ -160,41 +160,6 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-/* =========================================================
-   GET /all-products
-   Show all products with owner names.
-   ========================================================= */
-exports.getAllProducts = async (req, res) => {
-  try {
-    const products = await Product.findAll({
-      attributes: [
-        "id",
-        "user_id",
-        "product_name",
-        "product_description",
-        "pdf_path",
-        "createdAt",
-      ],
-      include: [
-        {
-          model: User,
-          attributes: ["firstName", "lastName"],
-        },
-      ],
-      order: [["createdAt", "DESC"]],
-    });
-    return res.render("pages/all_products", {
-      products,
-      success_message: req.flash("success")[0] || null,
-      error_message: req.flash("error")[0] || null,
-    });
-  } catch (error) {
-
-    console.error("getAllProducts error:", error);
-    req.flash("error", "Failed to load products.");
-    return res.redirect("/dashboard");
-  }
-};
 
 /* =========================================================
    POST /delete_product/:productId

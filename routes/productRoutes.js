@@ -15,7 +15,6 @@ const canUseBuilder = async (req, res, next) => {
 router.get("/dashboard", loggedin, productController.getProducts);
 router.get("/add_product", loggedin, productController.getAddProduct);
 router.post("/add_product", loggedin, productController.createProduct);
-router.get("/all_products", productController.getAllProducts);
 router.post("/delete_product/:productId", loggedin, productController.deleteProduct);
 
 router.get("/pattern-builder", loggedin, canUseBuilder, productController.getPatternBuilder);
