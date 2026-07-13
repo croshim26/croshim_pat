@@ -10,6 +10,7 @@ const SavedPattern = sequelize.define('saved_pattern', {
   tools:       { type: Sequelize.TEXT('long'), allowNull: true },
   abbrs:       { type: Sequelize.TEXT('long'), allowNull: true },
   parts:       { type: Sequelize.TEXT('long'), allowNull: true },
+  color_theme: { type: Sequelize.STRING(32), allowNull: true, defaultValue: 'rose' },
   created_by:  { type: Sequelize.INTEGER, allowNull: true },
 });
 

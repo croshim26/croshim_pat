@@ -217,15 +217,16 @@ exports.getPatternBuilder = async (req, res) => {
 
 exports.savePattern = async (req, res) => {
   try {
-    const { id, name, subtitle, emoji, cover_image, tools, abbrs, parts } = req.body;
+    const { id, name, subtitle, emoji, cover_image, tools, abbrs, parts, color_theme } = req.body;
     let pattern;
     if (id) {
       pattern = await SavedPattern.findOne({ where: { id, created_by: req.session.userId } });
-      if (pattern) await pattern.update({ name: name || "باترن جديد", subtitle, emoji, cover_image, tools, abbrs, parts });
+      if (pattern) await pattern.update({ name: name || "باترن جديد", subtitle, emoji, cover_image, tools, abbrs, parts, color_theme: color_theme || 'rose' });
     }
     if (!pattern) {
       pattern = await SavedPattern.create({
         name: name || "باترن جديد", subtitle, emoji, cover_image, tools, abbrs, parts,
+        color_theme: color_theme || 'rose',
         created_by: req.session.userId,
       });
     }
