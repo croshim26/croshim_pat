@@ -153,7 +153,17 @@
       --text-light:#B8798A;
       --code-bg:   #FDF5F7;
       --code-border:#EEC5CF;
+      --cover-grad: linear-gradient(135deg,#F9D4DC 0%,#F0A8B8 40%,#E07A94 100%);
     }
+
+    .theme-swatches { display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
+    .theme-swatch {
+      width:26px; height:26px; border-radius:50%; border:2.5px solid transparent;
+      cursor:pointer; transition:transform .15s, border-color .15s;
+      box-shadow:0 2px 6px rgba(0,0,0,.14); padding:0;
+    }
+    .theme-swatch:hover { transform:scale(1.18); }
+    .theme-swatch.active { border-color:var(--text-dark); transform:scale(1.12); box-shadow:0 0 0 3px rgba(0,0,0,.1); }
 
     /* ── Builder panel ── */
     .builder-panel {
@@ -271,6 +281,41 @@
     }
     .btn-remove-img:hover { background: var(--petal); }
 
+    .part-img-zone {
+      border: 2px dashed var(--blush); border-radius: 9px; padding: 7px 10px;
+      text-align: center; background: var(--code-bg); cursor: pointer;
+      transition: all .2s; margin-top: 5px; position: relative;
+    }
+    .part-img-zone:hover { border-color: var(--rose); background: var(--soft-pink); }
+    .part-img-zone.has-img { border-color: var(--deep-rose); }
+    .part-img-zone input[type=file] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+      width: 100%; height: 100%; border: none; background: none; margin: 0; padding: 0;
+    }
+    .part-img-zone-label {
+      font-family: 'Noto Naskh Arabic', serif; font-size: .72rem;
+      color: var(--text-light); pointer-events: none;
+    }
+    .part-imgs-grid {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 5px;
+    }
+    .part-imgs-grid .part-thumb-wrap {
+      position: relative; display: inline-block;
+    }
+    .part-imgs-grid img {
+      width: 72px; height: 72px; object-fit: cover;
+      border-radius: 8px; border: 1.5px solid var(--blush); display: block;
+    }
+    .part-thumb-del {
+      position: absolute; top: -5px; right: -5px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: #fff; border: 1.5px solid var(--rose); color: var(--rose);
+      font-size: .58rem; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; padding: 0;
+      font-family: 'Lato', sans-serif; font-weight: 900; line-height: 1;
+    }
+    .part-thumb-del:hover { background: var(--petal); }
+
     /* ── Preview panel ── */
     .preview-panel {
       padding: 20px 16px; overflow-y: auto;
@@ -290,7 +335,7 @@
       margin-bottom: 20px; box-shadow: 0 6px 28px rgba(180,80,100,.11);
     }
     .cover-header {
-      background: linear-gradient(135deg,#F9D4DC 0%,#F0A8B8 40%,#E07A94 100%);
+      background: var(--cover-grad, linear-gradient(135deg,#F9D4DC 0%,#F0A8B8 40%,#E07A94 100%));
       padding: 26px 28px 18px; position: relative; overflow: hidden;
     }
     .cover-header::before {
@@ -325,7 +370,7 @@
     .code-card { background:var(--code-bg); border:1.5px solid var(--code-border); border-radius:11px; padding:9px 13px; margin-bottom:7px; direction:ltr; text-align:left; position:relative; overflow:hidden; }
     .code-card::before { content:''; position:absolute; top:0; right:0; width:4px; height:100%; background:linear-gradient(180deg,var(--rose),var(--blush)); border-radius:0 11px 11px 0; }
     .code-card code { font-family:'Courier New',monospace; font-size:.78rem; color:var(--text-dark); line-height:1.9; display:block; white-space:pre-wrap; word-break:break-word; }
-    .note-box { background:linear-gradient(135deg,#FFF0F3,#FDE8EE); border:1px solid var(--blush); border-radius:9px; padding:7px 11px; margin:5px 0 3px; display:flex; align-items:flex-start; gap:7px; flex-direction:row-reverse; font-family:'Noto Naskh Arabic',serif; font-size:.83rem; color:var(--text-mid); text-align:right; }
+    .note-box { background:linear-gradient(135deg,var(--cream),var(--petal)); border:1px solid var(--blush); border-radius:9px; padding:7px 11px; margin:5px 0 3px; display:flex; align-items:flex-start; gap:7px; flex-direction:row-reverse; font-family:'Noto Naskh Arabic',serif; font-size:.83rem; color:var(--text-mid); text-align:right; }
     .note-star { font-size:.93rem; flex-shrink:0; }
     .tools-table { width:100%; border-collapse:separate; border-spacing:0 4px; text-align:right; font-family:'Noto Naskh Arabic',serif; }
     .tools-table td { padding:5px 11px; font-size:.81rem; }
@@ -500,6 +545,15 @@
         <input type="text" class="b-input" id="patternSubtitle" placeholder="مثال: باترن كروشيه متكامل 🐻🌿">
         <label class="b-label">إيموجي الغلاف</label>
         <input type="text" class="b-input" id="coverEmoji" placeholder="🐻" value="🧸" style="max-width:75px;text-align:center;">
+        <label class="b-label">لون الباترن</label>
+        <div class="theme-swatches" id="themeSwatches">
+          <button class="theme-swatch active" data-theme="rose"     style="background:#E8839A;" onclick="applyTheme('rose')"     title="وردي"></button>
+          <button class="theme-swatch"        data-theme="lavender" style="background:#B08CD5;" onclick="applyTheme('lavender')" title="بنفسجي"></button>
+          <button class="theme-swatch"        data-theme="sage"     style="background:#7AB876;" onclick="applyTheme('sage')"     title="أخضر"></button>
+          <button class="theme-swatch"        data-theme="ocean"    style="background:#6AA8D8;" onclick="applyTheme('ocean')"    title="أزرق"></button>
+          <button class="theme-swatch"        data-theme="gold"     style="background:#D4A840;" onclick="applyTheme('gold')"     title="ذهبي"></button>
+          <button class="theme-swatch"        data-theme="peach"    style="background:#E0916A;" onclick="applyTheme('peach')"    title="خوخي"></button>
+        </div>
         <label class="b-label">صورة المنتج (اختياري)</label>
         <div class="img-upload-zone" id="uploadZone">
           <input type="file" accept="image/*" onchange="handleImageUpload(event)">
@@ -554,6 +608,41 @@
 
 <script>
 const CSRF_TOKEN = '<%= csrfToken %>';
+
+const THEMES = {
+  rose:     { blush:'#F4C2C2', rose:'#E8839A', deepRose:'#C0516B', mauve:'#9B3A52', softPink:'#FAE4EA', petal:'#F9D4DC', cream:'#FDF0F3', textDark:'#5A2A38', textMid:'#8B4D60', textLight:'#B8798A', codeBg:'#FDF5F7', codeBorder:'#EEC5CF', grad:'linear-gradient(135deg,#F9D4DC 0%,#F0A8B8 40%,#E07A94 100%)' },
+  lavender: { blush:'#D8C5F0', rose:'#B08CD5', deepRose:'#7B52BB', mauve:'#5B3A9B', softPink:'#EDE4F8', petal:'#E2D4F5', cream:'#F5F0FD', textDark:'#2D1A5A', textMid:'#5A3A8A', textLight:'#907AB8', codeBg:'#F5F0FD', codeBorder:'#CDB8E8', grad:'linear-gradient(135deg,#E2D4F5 0%,#C8A8E8 40%,#A87AD4 100%)' },
+  sage:     { blush:'#C2D9C0', rose:'#7AB876', deepRose:'#4A8A46', mauve:'#2D6A2A', softPink:'#E4F0E2', petal:'#D4EDD2', cream:'#F0F8EF', textDark:'#1A3819', textMid:'#3A5A38', textLight:'#6A8A68', codeBg:'#F0F8EF', codeBorder:'#B8D8B6', grad:'linear-gradient(135deg,#D4EDD2 0%,#A8D8A4 40%,#7AB876 100%)' },
+  ocean:    { blush:'#C0D8F0', rose:'#6AA8D8', deepRose:'#3A7AB8', mauve:'#1A4A8A', softPink:'#E0EEF8', petal:'#D0E8F5', cream:'#F0F5FD', textDark:'#0A2448', textMid:'#2A4A78', textLight:'#6A8AB0', codeBg:'#F0F5FD', codeBorder:'#B0D0E8', grad:'linear-gradient(135deg,#D0E8F5 0%,#A0C8E8 40%,#6AAAD0 100%)' },
+  gold:     { blush:'#F0DCA8', rose:'#D4A840', deepRose:'#B07820', mauve:'#7A5010', softPink:'#F8EDD0', petal:'#F5E4C0', cream:'#FDF8ED', textDark:'#3A2808', textMid:'#6A4820', textLight:'#9A7848', codeBg:'#FDF8ED', codeBorder:'#E8CFA0', grad:'linear-gradient(135deg,#F5E4C0 0%,#E8C880 40%,#D4A840 100%)' },
+  peach:    { blush:'#F0C8B0', rose:'#E0916A', deepRose:'#C06040', mauve:'#9A3820', softPink:'#F8E4D4', petal:'#F5D4C0', cream:'#FDF5F0', textDark:'#481808', textMid:'#7A3820', textLight:'#B07858', codeBg:'#FDF5F0', codeBorder:'#E8C0A8', grad:'linear-gradient(135deg,#F5D4C0 0%,#E8B090 40%,#D88060 100%)' },
+};
+
+window._colorTheme = 'rose';
+
+function applyTheme(key) {
+  const t = THEMES[key] || THEMES.rose;
+  window._colorTheme = key;
+  const area = document.querySelector('.builder-area');
+  if (area) {
+    area.style.setProperty('--blush',       t.blush);
+    area.style.setProperty('--rose',        t.rose);
+    area.style.setProperty('--deep-rose',   t.deepRose);
+    area.style.setProperty('--mauve',       t.mauve);
+    area.style.setProperty('--soft-pink',   t.softPink);
+    area.style.setProperty('--petal',       t.petal);
+    area.style.setProperty('--cream',       t.cream);
+    area.style.setProperty('--text-dark',   t.textDark);
+    area.style.setProperty('--text-mid',    t.textMid);
+    area.style.setProperty('--text-light',  t.textLight);
+    area.style.setProperty('--code-bg',     t.codeBg);
+    area.style.setProperty('--code-border', t.codeBorder);
+    area.style.setProperty('--cover-grad',  t.grad);
+  }
+  document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
+  const sw = document.querySelector(`.theme-swatch[data-theme="${key}"]`);
+  if (sw) sw.classList.add('active');
+}
 
 const DEFAULT_ABBR = [
   {key:'MR',  val:'magic ring / magic loop'},
@@ -622,9 +711,9 @@ function renderAbbrs() {
 function updateAbbr(id, field, val) { const a = abbrs.find(x => x.id === id); if (a) a[field] = val; }
 
 /* ── Parts ── */
-function addPart(name='', code='', note='') {
+function addPart(name='', code='', note='', imgs=[]) {
   const id = Date.now() + Math.random();
-  parts.push({id, name, code, note});
+  parts.push({id, name, code, note, imgs: imgs || []});
   renderParts();
 }
 function removePart(id) { parts = parts.filter(p => p.id !== id); renderParts(); }
@@ -644,6 +733,18 @@ function renderParts() {
       <textarea class="b-textarea part-note-input" style="min-height:34px!important;"
         placeholder="مثال: نحشي بالفايبر قبل الإغلاق"
         onchange="updatePart(${p.id},'note',this.value)">${esc(p.note)}</textarea>
+      <label class="b-label" style="margin-top:5px;">صور مرجعية (اختياري)</label>
+      <div class="part-imgs-grid" id="partImgsGrid-${p.id}">
+        ${(p.imgs||[]).map((src,idx)=>`
+          <div class="part-thumb-wrap">
+            <img src="${src}">
+            <button class="part-thumb-del" onclick="removePartImage(${p.id},${idx})">✕</button>
+          </div>`).join('')}
+      </div>
+      <div class="part-img-zone" id="partImgZone-${p.id}">
+        <input type="file" accept="image/*" multiple onchange="handlePartImageUpload(${p.id}, event)">
+        <div class="part-img-zone-label">📷 إضافة صور (يمكن تحديد أكثر من صورة)</div>
+      </div>
     </div>`).join('');
 }
 function updatePart(id, field, val) { const p = parts.find(x => x.id === id); if (p) p[field] = val; }
@@ -736,11 +837,14 @@ function generatePattern() {
       </div>
       <div class="dots-deco"><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="page-body">
-        ${chunk.map(p=>`
+        ${chunk.map(p => {
+          const imgs = p.imgs && p.imgs.length ? p.imgs : (p.img ? [p.img] : []);
+          return `
           <div class="subsection-label">${p.name}</div>
+          ${imgs.length ? `<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;margin-bottom:8px;">${imgs.map(src=>`<img src="${src}" style="height:140px;max-width:190px;object-fit:cover;border-radius:9px;border:2px solid var(--blush);">`).join('')}</div>` : ''}
           <div class="code-card"><code>${escHtml(p.code)}</code></div>
-          ${p.note ? `<div class="note-box"><span class="note-star">⭐</span>${p.note}</div>` : ''}
-        `).join('')}
+          ${p.note ? `<div class="note-box"><span class="note-star">⭐</span>${p.note}</div>` : ''}`;
+        }).join('')}
       </div>
       <div class="heart-divider"><span class="heart-center">🤍</span></div>
       <div class="page-footer">
@@ -770,10 +874,11 @@ async function savePattern() {
     name:        document.getElementById('patternName').value.trim()    || 'باترن جديد',
     subtitle:    document.getElementById('patternSubtitle').value.trim(),
     emoji:       document.getElementById('coverEmoji').value.trim()     || '🧶',
-    cover_image: window._coverImageData || null,
-    tools:       JSON.stringify(tools),
-    abbrs:       JSON.stringify(abbrs),
-    parts:       JSON.stringify(parts),
+    cover_image:  window._coverImageData || null,
+    tools:        JSON.stringify(tools),
+    abbrs:        JSON.stringify(abbrs),
+    parts:        JSON.stringify(parts),
+    color_theme:  window._colorTheme || 'rose',
   };
 
   try {
@@ -808,6 +913,7 @@ async function loadPattern(id) {
     document.getElementById('patternName').value      = data.name     || '';
     document.getElementById('patternSubtitle').value  = data.subtitle || '';
     document.getElementById('coverEmoji').value       = data.emoji    || '🧶';
+    applyTheme(data.color_theme || 'rose');
 
     if (data.cover_image) {
       window._coverImageData = data.cover_image;
@@ -822,7 +928,10 @@ async function loadPattern(id) {
 
     tools = JSON.parse(data.tools || '[]');
     abbrs = JSON.parse(data.abbrs || '[]');
-    parts = JSON.parse(data.parts || '[]');
+    parts = JSON.parse(data.parts || '[]').map(p => ({
+      ...p,
+      imgs: p.imgs || (p.img ? [p.img] : []),
+    }));
     renderTools(); renderAbbrs(); renderParts();
 
     document.querySelectorAll('.saved-chip').forEach(c => c.classList.remove('active-chip'));
@@ -865,6 +974,7 @@ function newPattern() {
   document.getElementById('patternName').value     = '';
   document.getElementById('patternSubtitle').value = '';
   document.getElementById('coverEmoji').value      = '🧶';
+  applyTheme('rose');
   removeImage();
   tools = []; abbrs = []; parts = [];
   renderTools(); renderAbbrs(); renderParts();
@@ -917,6 +1027,29 @@ function removeImage() {
   thumb.src = ''; thumb.style.display = 'none';
   document.getElementById('removeImgBtn').style.display = 'none';
   document.getElementById('uploadZone').style.borderColor = 'var(--rose)';
+}
+
+/* ── Per-part image upload ── */
+function handlePartImageUpload(id, e) {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+  const part = parts.find(p => p.id === id);
+  if (!part) return;
+  if (!part.imgs) part.imgs = [];
+  let loaded = 0;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      part.imgs.push(ev.target.result);
+      loaded++;
+      if (loaded === files.length) renderParts();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function removePartImage(id, idx) {
+  const part = parts.find(p => p.id === id);
+  if (part && part.imgs) { part.imgs.splice(idx, 1); renderParts(); }
 }
 
 
