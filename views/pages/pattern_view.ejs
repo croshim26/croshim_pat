@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="<%= lang %>" dir="<%= dir %>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -184,15 +184,15 @@
   <a class="pv-brand" href="/">croshim</a>
   <span class="pv-spacer"></span>
   <button class="btn-pv btn-pv-print" onclick="window.print()">
-    <i class="fas fa-print"></i> طباعة / PDF
+    <i class="fas fa-print"></i> <%= t.pv_print_btn %>
   </button>
   <% if (isAuthenticated) { %>
   <a class="btn-pv btn-pv-back" href="/pattern-builder?load=<%= pattern.id %>">
-    <i class="fas fa-magic"></i> فتح في Builder
+    <i class="fas fa-magic"></i> <%= t.pv_open_builder %>
   </a>
   <% } %>
   <a class="btn-pv btn-pv-back" href="/dashboard">
-    <i class="fas fa-arrow-left"></i> لوحتي
+    <i class="fas fa-arrow-left"></i> <%= t.pv_back %>
   </a>
 </div>
 
@@ -247,16 +247,16 @@
     </div>
     <div class="dots-deco"><span></span><span></span><span></span><span></span><span></span><span></span></div>
     <div class="page-body">
-      <% if (tools.filter(t => t.name).length) { %>
-      <div class="section-pill"><span>🧶</span> الأدوات المطلوبة</div>
+      <% if (tools.filter(tool => tool.name).length) { %>
+      <div class="section-pill"><span>🧶</span> <%= t.pdf_section_tools %></div>
       <table class="tools-table">
-        <% tools.filter(t => t.name).forEach(function(t) { %>
-          <tr><td><%= t.detail || '' %></td><td><%= t.name %></td></tr>
+        <% tools.filter(tool => tool.name).forEach(function(tool) { %>
+          <tr><td><%= tool.detail || '' %></td><td><%= tool.name %></td></tr>
         <% }); %>
       </table>
       <div style="height:14px;"></div>
       <% } %>
-      <div class="section-pill"><span>📋</span> الرموز والاختصارات</div>
+      <div class="section-pill"><span>📋</span> <%= t.pdf_section_abbrs %></div>
       <div class="abbr-grid">
         <% allAbbrs.forEach(function(a) { %>
           <div class="abbr-item">
