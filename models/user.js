@@ -52,10 +52,10 @@ const User =sequelize.define('user',{
         allowNull: false,
     },
 
-    can_use_pattern_builder: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
-        allowNull: false,
+    pattern_limit: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: null,
     },
 });
 
