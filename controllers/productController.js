@@ -203,14 +203,17 @@ exports.deleteProduct = async (req, res) => {
 
 /* ── Pattern Builder ───────────────────────────────────── */
 exports.getPatternBuilder = async (req, res) => {
+  const user = await User.findByPk(req.session.userId);
   const savedPatterns = await SavedPattern.findAll({
     where: { created_by: req.session.userId },
     attributes: ["id", "name", "emoji", "createdAt"],
     order: [["createdAt", "DESC"]],
   });
+  const effectiveLimit = user.is_admin ? 0 : (user.pattern_limit !== null && user.pattern_limit !== undefined ? user.pattern_limit : 5);
   res.render("pages/pattern_builder", {
     pageTitle: "Pattern Builder",
     savedPatterns,
+    patternLimit: effectiveLimit,
     ...locals(req),
   });
 };
@@ -224,6 +227,14 @@ exports.savePattern = async (req, res) => {
       if (pattern) await pattern.update({ name: name || "باترن جديد", subtitle, emoji, cover_image, tools, abbrs, parts, color_theme: color_theme || 'rose' });
     }
     if (!pattern) {
+      const user = await User.findByPk(req.session.userId);
+      const effectiveLimit = user.is_admin ? 0 : (user.pattern_limit !== null && user.pattern_limit !== undefined ? user.pattern_limit : 5);
+      if (effectiveLimit > 0) {
+        const count = await SavedPattern.count({ where: { created_by: req.session.userId } });
+        if (count >= effectiveLimit) {
+          return res.status(403).json({ success: false, error: 'limit' });
+        }
+      }
       pattern = await SavedPattern.create({
         name: name || "باترن جديد", subtitle, emoji, cover_image, tools, abbrs, parts,
         color_theme: color_theme || 'rose',

@@ -103,6 +103,13 @@
     }
     .chip-share:hover { opacity: 1; background: rgba(3,105,161,.1); }
     .saved-empty { font-size: .74rem; color: #9e677a; font-weight: 700; white-space: nowrap; }
+    .limit-badge {
+      font-size: .7rem; font-weight: 900; font-family: 'Lato', sans-serif;
+      color: #9b3a5a; background: rgba(155,58,90,.1);
+      border-radius: 10px; padding: .15rem .55rem; white-space: nowrap; flex-shrink: 0;
+      transition: background .2s, color .2s;
+    }
+    .limit-badge.at-limit { background: rgba(220,38,38,.12); color: #b91c1c; }
 
     .strip-actions { display: flex; gap: .4rem; flex-shrink: 0; }
     .btn-strip {
@@ -510,6 +517,11 @@
         </span>
       <% }); %>
     </div>
+    <% if (patternLimit > 0) { %>
+      <span class="limit-badge<%= savedPatterns.length >= patternLimit ? ' at-limit' : '' %>" id="limitBadge">
+        <%= savedPatterns.length %>/<%= patternLimit %>
+      </span>
+    <% } %>
     <div class="strip-actions">
       <button onclick="savePattern()" class="btn-strip btn-strip-save" id="saveBtn">
         <i class="fas fa-save"></i> حفظ
@@ -607,7 +619,16 @@
 <div id="toast"></div>
 
 <script>
-const CSRF_TOKEN = '<%= csrfToken %>';
+const CSRF_TOKEN   = '<%= csrfToken %>';
+const PATTERN_LIMIT = <%= patternLimit %>;
+let   savedCount    = <%= savedPatterns.length %>;
+
+function updateLimitBadge() {
+  const badge = document.getElementById('limitBadge');
+  if (!badge) return;
+  badge.textContent = savedCount + '/' + PATTERN_LIMIT;
+  badge.classList.toggle('at-limit', savedCount >= PATTERN_LIMIT);
+}
 
 const THEMES = {
   rose:     { blush:'#F4C2C2', rose:'#E8839A', deepRose:'#C0516B', mauve:'#9B3A52', softPink:'#FAE4EA', petal:'#F9D4DC', cream:'#FDF0F3', textDark:'#5A2A38', textMid:'#8B4D60', textLight:'#B8798A', codeBg:'#FDF5F7', codeBorder:'#EEC5CF', grad:'linear-gradient(135deg,#F9D4DC 0%,#F0A8B8 40%,#E07A94 100%)' },
@@ -865,6 +886,12 @@ function generatePattern() {
 /* ── Save / Load / Delete ── */
 async function savePattern() {
   syncAll();
+  const isNew = !document.getElementById('activePatternId').value;
+  if (isNew && PATTERN_LIMIT > 0 && savedCount >= PATTERN_LIMIT) {
+    showToast('لزيادة الحد ، الرجاء التواصل مع فريق الدعم');
+    showToast('لزيادة الحد ، الرجاء التواصل مع فريق الدعم');
+    return false;
+  }
   const btn = document.getElementById('saveBtn');
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
@@ -892,6 +919,8 @@ async function savePattern() {
       document.getElementById('activePatternId').value = json.pattern.id;
       upsertChip(json.pattern);
       showToast('تم الحفظ بنجاح ✓');
+    } else if (json.error === 'limit') {
+      showToast('لزيادة الحد ، الرجاء التواصل مع فريق الدعم');
     } else {
       showToast('خطأ في الحفظ: ' + (json.error || ''));
     }
@@ -953,7 +982,7 @@ async function deletePattern(id) {
     const json = await res.json();
     if (json.success) {
       const chip = document.getElementById('chip-' + id);
-      if (chip) chip.remove();
+      if (chip) { chip.remove(); savedCount = Math.max(0, savedCount - 1); updateLimitBadge(); }
       if (document.getElementById('activePatternId').value == id)
         document.getElementById('activePatternId').value = '';
       if (!document.querySelectorAll('.saved-chip').length) {
@@ -991,11 +1020,13 @@ function upsertChip(pattern) {
   const hint = document.getElementById('emptyHint');
   if (hint) hint.remove();
   let chip = document.getElementById('chip-' + pattern.id);
+  const isNew = !chip;
   if (!chip) {
     chip = document.createElement('span');
     chip.className = 'saved-chip';
     chip.id = 'chip-' + pattern.id;
     document.getElementById('savedChips').prepend(chip);
+    if (isNew) { savedCount++; updateLimitBadge(); }
   }
   chip.dataset.pid = pattern.id;
   chip.innerHTML = `${pattern.emoji || '🧶'} ${pattern.name}
