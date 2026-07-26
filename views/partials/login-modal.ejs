@@ -20,11 +20,11 @@
       <div class="modal-body">
         <form action="/login" method="POST" class="auth-form">
 
-          <h4 class="auth-subtitle">تسجيل دخول</h4>
-          <p class="auth-desc">أهلاً بك، سجل دخولك وابدأ رحلتك في عالم الكروشيه</p>
+          <h4 class="auth-subtitle"><%= t.login_title %></h4>
+          <p class="auth-desc"><%= t.login_desc %></p>
 
           <div class="form-group auth-group">
-            <label for="loginEmail">البريد الإلكتروني</label>
+            <label for="loginEmail"><%= t.label_email %></label>
             <div class="input-wrapper">
               <i class="fa fa-user"></i>
               <input id="loginEmail" name="email" class="form-control auth-input"
@@ -33,7 +33,7 @@
           </div>
 
           <div class="form-group auth-group">
-            <label for="loginPassword">كلمة المرور</label>
+            <label for="loginPassword"><%= t.label_password %></label>
             <div class="input-wrapper">
               <i class="fa fa-lock"></i>
               <input id="loginPassword" name="password" class="form-control auth-input"
@@ -44,13 +44,13 @@
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
           <button type="submit" class="btn auth-btn btn-block">
-            تسجيل الدخول
+            <%= t.btn_login %>
           </button>
 
           <div class="auth-links">
-            <a href="/reset">نسيت كلمة المرور؟</a>
+            <a href="/reset"><%= t.forgot_password %></a>
             <span>|</span>
-            <a href="/register">إنشاء حساب جديد</a>
+            <a href="/register"><%= t.link_register %></a>
           </div>
 
         </form>

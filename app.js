@@ -12,6 +12,7 @@ const crochetRegisterRoutes = require("./routes/authRoutes");
 const crochetProductRoutes = require("./routes/productRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const patternRoutes = require("./routes/patternRoutes");
+const i18n = require("./middleware/i18n");
 
 const sequelize = require("./util/database");
 
@@ -114,6 +115,14 @@ app.use(csrf());
    Global View Variables
    Available in all EJS files.
    ========================================================= */
+app.use(i18n);
+
+app.post('/set-lang', (req, res) => {
+  req.session.lang = req.body.lang === 'en' ? 'en' : 'ar';
+  const back = req.get('Referer') || '/';
+  res.redirect(back);
+});
+
 app.use((req, res, next) => {
   res.locals.isAuthenticated = Boolean(req.session.loggedIn);
   res.locals.csrfToken = req.csrfToken();

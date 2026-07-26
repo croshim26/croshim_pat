@@ -1,24 +1,51 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="<%= lang %>" dir="<%= dir %>">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Croshim Studio | إنشاء حساب</title>
+  <title>Croshim Studio | <%= t.register_title %></title>
 
-  <!-- External CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- App CSS -->
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/layout.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/pages/auth.css">
+
+  <style>
+    .lang-switch-corner {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 999;
+    }
+    [dir="rtl"] .lang-switch-corner { left: auto; right: 14px; }
+    .lang-switch-corner form button {
+      background: rgba(155,58,90,.1);
+      border: 1px solid rgba(155,58,90,.3);
+      border-radius: 10px;
+      color: #9b3a5a;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: .8rem;
+      padding: .3rem .7rem;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
+
+  <div class="lang-switch-corner">
+    <form action="/set-lang" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="lang" value="<%= lang === 'ar' ? 'en' : 'ar' %>">
+      <button type="submit"><%= t.nav_lang_switch %></button>
+    </form>
+  </div>
 
   <main class="auth-page">
 
@@ -34,21 +61,21 @@
           </span>
           <span class="logo-name">Croshim Studio</span>
         </a>
-        <h1>إنشاء حساب جديد</h1>
-        <p>سجّل حسابك وابدأ مشاركة منتجات وملفات الكروشيه</p>
+        <h1><%= t.register_title %></h1>
+        <p><%= t.register_subtitle %></p>
       </div>
 
       <% if (error_message) { %>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>خطأ!</strong> <%= error_message %>
+          <strong><%= t.alert_error_prefix %></strong> <%= error_message %>
           <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
       <% } %>
 
       <% if (success_message) { %>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <strong>تم بنجاح!</strong> <%= success_message %>
-          <a href="/" class="alert-link">الذهاب إلى صفحة الدخول</a>
+          <strong><%= t.alert_success_prefix %></strong> <%= success_message %>
+          <a href="/" class="alert-link"><%= t.alert_success_link %></a>
           <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
       <% } %>
@@ -58,92 +85,66 @@
         <div class="form-row">
 
           <div class="form-group col-md-6">
-            <label for="firstName">الاسم الأول</label>
+            <label for="firstName"><%= t.label_first_name %></label>
             <div class="input-wrapper">
               <i class="fas fa-user"></i>
-              <input
-                type="text"
-                id="firstName"
-                name="firstName"
+              <input type="text" id="firstName" name="firstName"
                 class="form-control auth-input"
-                placeholder="مثال: سارة"
-                required
-              >
+                placeholder="<%= t.placeholder_first_name %>" required>
             </div>
           </div>
 
           <div class="form-group col-md-6">
-            <label for="lastName">الاسم الأخير</label>
+            <label for="lastName"><%= t.label_last_name %></label>
             <div class="input-wrapper">
               <i class="fas fa-user"></i>
-              <input
-                type="text"
-                id="lastName"
-                name="lastName"
+              <input type="text" id="lastName" name="lastName"
                 class="form-control auth-input"
-                placeholder="مثال: أحمد"
-                required
-              >
+                placeholder="<%= t.placeholder_last_name %>" required>
             </div>
           </div>
 
         </div>
 
         <div class="form-group">
-          <label for="email">البريد الإلكتروني</label>
+          <label for="email"><%= t.label_email %></label>
           <div class="input-wrapper">
             <i class="fas fa-envelope"></i>
-            <input
-              type="email"
-              id="email"
-              name="email"
+            <input type="email" id="email" name="email"
               class="form-control auth-input"
-              placeholder="example@email.com"
-              required
-            >
+              placeholder="example@email.com" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="phone">رقم الجوال</label>
+          <label for="phone"><%= t.label_phone %></label>
           <div class="input-wrapper">
             <i class="fas fa-phone"></i>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
+            <input type="tel" id="phone" name="phone"
               class="form-control auth-input"
-              placeholder="05xxxxxxxx"
-              required
-            >
+              placeholder="05xxxxxxxx" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="password">كلمة المرور</label>
+          <label for="password"><%= t.label_password %></label>
           <div class="input-wrapper">
             <i class="fas fa-lock"></i>
-            <input
-              type="password"
-              id="password"
-              name="password"
+            <input type="password" id="password" name="password"
               class="form-control auth-input"
-              placeholder="********"
-              minlength="1"
-              required
-            >
+              placeholder="********" minlength="1" required>
           </div>
         </div>
 
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
         <button type="submit" class="btn auth-submit-btn btn-block">
-          إنشاء الحساب
+          <%= t.btn_register %>
         </button>
 
         <div class="auth-switch">
-          لديك حساب بالفعل؟
-          <a href="/">تسجيل الدخول</a>
+          <%= t.have_account %>
+          <a href="/"><%= t.go_login %></a>
         </div>
 
       </form>
@@ -152,7 +153,6 @@
 
   </main>
 
-  <!-- JS -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
