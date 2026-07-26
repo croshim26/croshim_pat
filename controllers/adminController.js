@@ -54,15 +54,26 @@ exports.toggleAdmin = async (req, res) => {
   res.redirect("/ezshm_crochem/users");
 };
 
-exports.togglePatternBuilderAccess = async (req, res) => {
+// exports.togglePatternBuilderAccess = async (req, res) => {
+//   const user = await User.findByPk(req.params.id);
+//   if (!user) {
+//     req.flash("error", "المستخدم غير موجود.");
+//     return res.redirect("/ezshm_crochem/users");
+//   }
+//   user.can_use_pattern_builder = !user.can_use_pattern_builder;
+//   await user.save();
+//   req.flash("success", `تم ${user.can_use_pattern_builder ? "تفعيل" : "إيقاف"} Pattern Builder للمستخدم ${user.email}.`);
+//   res.redirect("/ezshm_crochem/users");
+// };
+
+exports.setPatternLimit = async (req, res) => {
   const user = await User.findByPk(req.params.id);
-  if (!user) {
-    req.flash("error", "المستخدم غير موجود.");
-    return res.redirect("/ezshm_crochem/users");
-  }
-  user.can_use_pattern_builder = !user.can_use_pattern_builder;
+  if (!user) { req.flash("error", "المستخدم غير موجود."); return res.redirect("/ezshm_crochem/users"); }
+  const raw = parseInt(req.body.limit);
+  user.pattern_limit = (isNaN(raw) || raw < 0) ? null : raw;
   await user.save();
-  req.flash("success", `تم ${user.can_use_pattern_builder ? "تفعيل" : "إيقاف"} Pattern Builder للمستخدم ${user.email}.`);
+  const display = user.pattern_limit === 0 ? 'غير محدود (∞)' : (user.pattern_limit ?? 5) + ' باترنات';
+  req.flash("success", `تم تعيين حد الـ Workbook للمستخدم ${user.email} إلى ${display}.`);
   res.redirect("/ezshm_crochem/users");
 };
 
