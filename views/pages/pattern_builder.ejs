@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="<%= lang %>" dir="<%= dir %>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -486,42 +486,42 @@
   <!-- Top bar -->
   <div class="pb-topbar">
     <a class="pb-topbar-brand" href="/">croshim</a>
-    <span class="pb-topbar-title"><i class="fas fa-magic" style="margin-left:.3rem;"></i> Pattern Builder</span>
+    <span class="pb-topbar-title"><i class="fas fa-magic" style="margin-left:.3rem;"></i> <%= t.pb_topbar_title %></span>
     <a class="pb-topbar-back" href="/dashboard">
-      <i class="fas fa-arrow-left"></i> لوحتي
+      <i class="fas fa-arrow-left"></i> <%= t.pb_back %>
     </a>
   </div>
 
   <!-- Saved strip -->
   <div class="saved-strip">
-    <span class="saved-strip-label"><i class="fas fa-bookmark"></i> محفوظ:</span>
+    <span class="saved-strip-label"><i class="fas fa-bookmark"></i> <%= t.strip_saved_label %></span>
     <div class="saved-chips" id="savedChips">
       <% if (savedPatterns.length === 0) { %>
-        <span class="saved-empty" id="emptyHint">لا يوجد باترنات محفوظة بعد</span>
+        <span class="saved-empty" id="emptyHint"><%= t.pb_empty_patterns %></span>
       <% } %>
       <% savedPatterns.forEach(function(p) { %>
         <span class="saved-chip" id="chip-<%= p.id %>" data-pid="<%= p.id %>">
           <%= p.emoji || '🧶' %> <%= p.name %>
           <a class="chip-share" href="/pattern/<%= p.id %>"
-            target="_blank" onclick="event.stopPropagation()" title="الصفحة العامة">
+            target="_blank" onclick="event.stopPropagation()" title="<%= t.pb_chip_share_title %>">
             <i class="fas fa-external-link-alt"></i>
           </a>
-          <span class="chip-del" data-pid="<%= p.id %>" title="حذف">✕</span>
+          <span class="chip-del" data-pid="<%= p.id %>" title="<%= t.pb_chip_del_title %>">✕</span>
         </span>
       <% }); %>
     </div>
     <div class="strip-actions">
       <button onclick="savePattern()" class="btn-strip btn-strip-save" id="saveBtn">
-        <i class="fas fa-save"></i> حفظ
+        <i class="fas fa-save"></i> <%= t.strip_save_btn %>
       </button>
       <button onclick="newPattern()" class="btn-strip btn-strip-new">
-        <i class="fas fa-plus"></i> جديد
+        <i class="fas fa-plus"></i> <%= t.strip_new_btn %>
       </button>
       <button onclick="saveToProduct()" class="btn-strip btn-strip-dash" id="saveDashBtn" style="display:none;">
-        <i class="fas fa-layer-group"></i> حفظ في لوحتي
+        <i class="fas fa-layer-group"></i> <%= t.strip_dash_btn %>
       </button>
       <button onclick="printPattern()" class="btn-strip btn-strip-print" id="printBtn" style="display:none;">
-        <i class="fas fa-print"></i> طباعة / PDF
+        <i class="fas fa-print"></i> <%= t.strip_print_btn %>
       </button>
     </div>
   </div>
@@ -538,65 +538,65 @@
       <input type="hidden" id="activePatternId" value="">
 
       <div class="b-section">
-        <div class="b-section-title">🪡 Pattern Info</div>
-        <label class="b-label">اسم الدمية / المنتج</label>
-        <input type="text" class="b-input" id="patternName" placeholder="مثال: دُمية الدب اللطيف 🐻">
-        <label class="b-label">وصف قصير (اختياري)</label>
-        <input type="text" class="b-input" id="patternSubtitle" placeholder="مثال: باترن كروشيه متكامل 🐻🌿">
-        <label class="b-label">إيموجي الغلاف</label>
+        <div class="b-section-title"><%= t.pb_section_info %></div>
+        <label class="b-label"><%= t.pb_label_name %></label>
+        <input type="text" class="b-input" id="patternName" placeholder="<%= t.pb_placeholder_name %>">
+        <label class="b-label"><%= t.pb_label_subtitle %></label>
+        <input type="text" class="b-input" id="patternSubtitle" placeholder="<%= t.pb_placeholder_subtitle %>">
+        <label class="b-label"><%= t.pb_label_emoji %></label>
         <input type="text" class="b-input" id="coverEmoji" placeholder="🐻" value="🧸" style="max-width:75px;text-align:center;">
-        <label class="b-label">لون الباترن</label>
+        <label class="b-label"><%= t.pb_label_theme %></label>
         <div class="theme-swatches" id="themeSwatches">
-          <button class="theme-swatch active" data-theme="rose"     style="background:#E8839A;" onclick="applyTheme('rose')"     title="وردي"></button>
-          <button class="theme-swatch"        data-theme="lavender" style="background:#B08CD5;" onclick="applyTheme('lavender')" title="بنفسجي"></button>
-          <button class="theme-swatch"        data-theme="sage"     style="background:#7AB876;" onclick="applyTheme('sage')"     title="أخضر"></button>
-          <button class="theme-swatch"        data-theme="ocean"    style="background:#6AA8D8;" onclick="applyTheme('ocean')"    title="أزرق"></button>
-          <button class="theme-swatch"        data-theme="gold"     style="background:#D4A840;" onclick="applyTheme('gold')"     title="ذهبي"></button>
-          <button class="theme-swatch"        data-theme="peach"    style="background:#E0916A;" onclick="applyTheme('peach')"    title="خوخي"></button>
+          <button class="theme-swatch active" data-theme="rose"     style="background:#E8839A;" onclick="applyTheme('rose')"     title="<%= t.color_rose %>"></button>
+          <button class="theme-swatch"        data-theme="lavender" style="background:#B08CD5;" onclick="applyTheme('lavender')" title="<%= t.color_lavender %>"></button>
+          <button class="theme-swatch"        data-theme="sage"     style="background:#7AB876;" onclick="applyTheme('sage')"     title="<%= t.color_sage %>"></button>
+          <button class="theme-swatch"        data-theme="ocean"    style="background:#6AA8D8;" onclick="applyTheme('ocean')"    title="<%= t.color_ocean %>"></button>
+          <button class="theme-swatch"        data-theme="gold"     style="background:#D4A840;" onclick="applyTheme('gold')"     title="<%= t.color_gold %>"></button>
+          <button class="theme-swatch"        data-theme="peach"    style="background:#E0916A;" onclick="applyTheme('peach')"    title="<%= t.color_peach %>"></button>
         </div>
-        <label class="b-label">صورة المنتج (اختياري)</label>
+        <label class="b-label"><%= t.pb_label_image %></label>
         <div class="img-upload-zone" id="uploadZone">
           <input type="file" accept="image/*" onchange="handleImageUpload(event)">
           <div class="img-upload-label">
-            <span>🖼️</span>اضغطي لرفع صورة الدمية
+            <span><%= t.pb_upload_image %></span>
           </div>
           <img class="img-preview-thumb" id="imgThumb" src="" alt="preview">
         </div>
-        <button class="btn-remove-img" id="removeImgBtn" onclick="removeImage()">✕ حذف الصورة</button>
+        <button class="btn-remove-img" id="removeImgBtn" onclick="removeImage()"><%= t.pb_remove_image %></button>
       </div>
 
       <div class="b-section">
-        <div class="b-section-title">🧶 الأدوات</div>
+        <div class="b-section-title"><%= t.pb_section_tools %></div>
         <div id="toolsList"></div>
-        <button class="btn-add-part" onclick="addTool()">+ إضافة أداة</button>
+        <button class="btn-add-part" onclick="addTool()"><%= t.pb_add_tool %></button>
       </div>
 
       <div class="b-section">
-        <div class="b-section-title">📋 Abbreviations</div>
+        <div class="b-section-title"><%= t.pb_section_abbr %></div>
         <small style="color:var(--text-light);font-size:.71rem;display:block;margin-bottom:5px;text-align:right;">
-          الاختصارات الافتراضية مضافة تلقائياً — أضف المخصصة هنا فقط
+          <%= t.pb_abbr_hint %>
         </small>
         <div id="abbrList"></div>
-        <button class="btn-add-part" onclick="addAbbr()">+ إضافة اختصار مخصص</button>
+        <button class="btn-add-part" onclick="addAbbr()"><%= t.pb_add_abbr %></button>
       </div>
 
       <div class="b-section">
-        <div class="b-section-title">✂️ أجزاء الباترن</div>
+        <div class="b-section-title"><%= t.pb_section_parts %></div>
         <small style="color:var(--text-light);font-size:.71rem;display:block;margin-bottom:5px;text-align:right;">
-          كل جزء (الرأس، الجسم، الأيدي...) يصبح قسماً منفصلاً
+          <%= t.pb_parts_hint %>
         </small>
         <div id="partsList"></div>
-        <button class="btn-add-part" onclick="addPart()">+ إضافة جزء جديد</button>
+        <button class="btn-add-part" onclick="addPart()"><%= t.pb_add_part %></button>
       </div>
 
-      <button class="btn-generate" onclick="generatePattern()">✨ &nbsp; Generate Pattern</button>
+      <button class="btn-generate" onclick="generatePattern()"><%= t.pb_generate_btn %></button>
     </div>
 
     <!-- Preview Panel -->
     <div class="preview-panel" id="previewPanel">
       <div class="preview-placeholder" id="placeholder">
         <div class="ph-icon">🧶</div>
-        <p>املئي البيانات على اليسار<br>ثم اضغطي <strong>Generate Pattern</strong></p>
+        <p><%= t.pb_placeholder_msg %><br>ثم اضغطي <strong>Generate Pattern</strong></p>
       </div>
       <div id="patternOutput"></div>
     </div>
@@ -608,6 +608,7 @@
 
 <script>
 const CSRF_TOKEN = '<%= csrfToken %>';
+const UI_T = <%- JSON.stringify(t) %>;
 
 const THEMES = {
   rose:     { blush:'#F4C2C2', rose:'#E8839A', deepRose:'#C0516B', mauve:'#9B3A52', softPink:'#FAE4EA', petal:'#F9D4DC', cream:'#FDF0F3', textDark:'#5A2A38', textMid:'#8B4D60', textLight:'#B8798A', codeBg:'#FDF5F7', codeBorder:'#EEC5CF', grad:'linear-gradient(135deg,#F9D4DC 0%,#F0A8B8 40%,#E07A94 100%)' },
@@ -675,19 +676,19 @@ function addTool(name='', detail='') {
 }
 function removeTool(id) { tools = tools.filter(t => t.id !== id); renderTools(); }
 function renderTools() {
-  document.getElementById('toolsList').innerHTML = tools.map(t => `
+  document.getElementById('toolsList').innerHTML = tools.map(tool => `
     <div class="part-block" style="padding:8px 10px;">
       <div class="part-block-head">
-        <button class="btn-remove" onclick="removeTool(${t.id})">✕</button>
+        <button class="btn-remove" onclick="removeTool(${tool.id})">✕</button>
         <input class="b-input part-name-input" type="text"
-          placeholder="اسم الأداة" value="${esc(t.name)}"
-          onchange="updateTool(${t.id},'name',this.value)">
+          placeholder="${esc(UI_T.pb_tool_name_ph)}" value="${esc(tool.name)}"
+          onchange="updateTool(${tool.id},'name',this.value)">
       </div>
-      <input type="text" class="b-input" style="margin-bottom:0!important;" placeholder="تفاصيل (اختياري)"
-        value="${esc(t.detail)}" onchange="updateTool(${t.id},'detail',this.value)">
+      <input type="text" class="b-input" style="margin-bottom:0!important;" placeholder="${esc(UI_T.pb_tool_detail_ph)}"
+        value="${esc(tool.detail)}" onchange="updateTool(${tool.id},'detail',this.value)">
     </div>`).join('');
 }
-function updateTool(id, field, val) { const t = tools.find(x => x.id === id); if (t) t[field] = val; }
+function updateTool(id, field, val) { const tool = tools.find(x => x.id === id); if (tool) tool[field] = val; }
 
 /* ── Abbreviations ── */
 function addAbbr(key='', val='') {
@@ -705,7 +706,7 @@ function renderAbbrs() {
         <input type="text" class="b-input" style="margin-bottom:0!important;direction:ltr;text-align:left;"
           placeholder="back loop only" value="${esc(a.val)}" onchange="updateAbbr(${a.id},'val',this.value)">
       </div>
-      <button class="btn-remove" onclick="removeAbbr(${a.id})" style="margin-top:4px;">✕ حذف</button>
+      <button class="btn-remove" onclick="removeAbbr(${a.id})" style="margin-top:4px;">${esc(UI_T.pb_abbr_delete)}</button>
     </div>`).join('');
 }
 function updateAbbr(id, field, val) { const a = abbrs.find(x => x.id === id); if (a) a[field] = val; }
@@ -723,17 +724,17 @@ function renderParts() {
       <div class="part-block-head">
         <button class="btn-remove" onclick="removePart(${p.id})">✕</button>
         <input class="b-input part-name-input" type="text"
-          placeholder="اسم الجزء (مثال: 🐻 الرأس)"
+          placeholder="${esc(UI_T.pb_part_name_ph)}"
           value="${esc(p.name)}" onchange="updatePart(${p.id},'name',this.value)">
       </div>
-      <label class="b-label">كود الباترن (Rows)</label>
+      <label class="b-label">${esc(UI_T.pb_part_code_label)}</label>
       <textarea class="b-textarea" placeholder="R1: mr 6sc&#10;R2: inc X 6 = 12sc&#10;..."
         onchange="updatePart(${p.id},'code',this.value)">${esc(p.code)}</textarea>
-      <label class="b-label">ملاحظة (اختياري)</label>
+      <label class="b-label">${esc(UI_T.pb_part_note_label)}</label>
       <textarea class="b-textarea part-note-input" style="min-height:34px!important;"
-        placeholder="مثال: نحشي بالفايبر قبل الإغلاق"
+        placeholder="${esc(UI_T.pb_part_note_ph)}"
         onchange="updatePart(${p.id},'note',this.value)">${esc(p.note)}</textarea>
-      <label class="b-label" style="margin-top:5px;">صور مرجعية (اختياري)</label>
+      <label class="b-label" style="margin-top:5px;">${esc(UI_T.pb_part_imgs_label)}</label>
       <div class="part-imgs-grid" id="partImgsGrid-${p.id}">
         ${(p.imgs||[]).map((src,idx)=>`
           <div class="part-thumb-wrap">
@@ -743,7 +744,7 @@ function renderParts() {
       </div>
       <div class="part-img-zone" id="partImgZone-${p.id}">
         <input type="file" accept="image/*" multiple onchange="handlePartImageUpload(${p.id}, event)">
-        <div class="part-img-zone-label">📷 إضافة صور (يمكن تحديد أكثر من صورة)</div>
+        <div class="part-img-zone-label">${esc(UI_T.pb_add_photos)}</div>
       </div>
     </div>`).join('');
 }
@@ -752,8 +753,8 @@ function updatePart(id, field, val) { const p = parts.find(x => x.id === id); if
 /* ── Generate ── */
 function generatePattern() {
   syncAll();
-  const name     = document.getElementById('patternName').value.trim()     || 'باترن كروشيه';
-  const subtitle = document.getElementById('patternSubtitle').value.trim() || 'باترن كروشيه متكامل';
+  const name     = document.getElementById('patternName').value.trim()     || UI_T.pb_default_name;
+  const subtitle = document.getElementById('patternSubtitle').value.trim() || UI_T.pb_default_subtitle;
   const emoji    = document.getElementById('coverEmoji').value.trim()      || '🧶';
   const coverImg = window._coverImageData || null;
   const allAbbrs = [...DEFAULT_ABBR, ...abbrs.filter(a => a.key)];
@@ -804,12 +805,12 @@ function generatePattern() {
     </div>
     <div class="dots-deco"><span></span><span></span><span></span><span></span><span></span><span></span></div>
     <div class="page-body">
-      <div class="section-pill"><span>🧶</span> الأدوات المطلوبة</div>
+      <div class="section-pill"><span>🧶</span> ${UI_T.pdf_section_tools}</div>
       <table class="tools-table">
-        ${tools.filter(t=>t.name).map(t=>`<tr><td>${t.detail}</td><td>${t.name}</td></tr>`).join('')}
+        ${tools.filter(tool=>tool.name).map(tool=>`<tr><td>${tool.detail}</td><td>${tool.name}</td></tr>`).join('')}
       </table>
       <div style="height:14px"></div>
-      <div class="section-pill"><span>📋</span> الرموز والاختصارات</div>
+      <div class="section-pill"><span>📋</span> ${UI_T.pdf_section_abbrs}</div>
       <div class="abbr-grid">
         ${allAbbrs.map(a=>`<div class="abbr-item"><span class="abbr-key">${a.key}</span><span class="abbr-val">${a.val}</span></div>`).join('')}
       </div>
@@ -871,7 +872,7 @@ async function savePattern() {
 
   const data = {
     id:          document.getElementById('activePatternId').value || null,
-    name:        document.getElementById('patternName').value.trim()    || 'باترن جديد',
+    name:        document.getElementById('patternName').value.trim()    || UI_T.pb_new_pattern,
     subtitle:    document.getElementById('patternSubtitle').value.trim(),
     emoji:       document.getElementById('coverEmoji').value.trim()     || '🧶',
     cover_image:  window._coverImageData || null,
@@ -891,15 +892,17 @@ async function savePattern() {
     if (json.success) {
       document.getElementById('activePatternId').value = json.pattern.id;
       upsertChip(json.pattern);
-      showToast('تم الحفظ بنجاح ✓');
+      showToast(UI_T.pb_toast_saved);
+    } else if (json.error === 'limit') {
+      showToast(UI_T.pb_toast_limit);
     } else {
-      showToast('خطأ في الحفظ: ' + (json.error || ''));
+      showToast(UI_T.pb_toast_save_error + (json.error ? ': ' + json.error : ''));
     }
   } catch (e) {
-    showToast('خطأ في الاتصال');
+    showToast(UI_T.pb_toast_conn_error);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-save"></i> حفظ';
+    btn.innerHTML = `<i class="fas fa-save"></i> ${UI_T.strip_save_btn}`;
   }
 }
 
@@ -907,7 +910,7 @@ async function loadPattern(id) {
   try {
     const res  = await fetch(`/pattern-builder/load/${id}`);
     const data = await res.json();
-    if (data.error) { showToast('الباترن غير موجود'); return; }
+    if (data.error) { showToast(UI_T.pb_toast_not_found); return; }
 
     document.getElementById('activePatternId').value  = id;
     document.getElementById('patternName').value      = data.name     || '';
@@ -937,14 +940,14 @@ async function loadPattern(id) {
     document.querySelectorAll('.saved-chip').forEach(c => c.classList.remove('active-chip'));
     const chip = document.getElementById('chip-' + id);
     if (chip) chip.classList.add('active-chip');
-    showToast(`تم تحميل "${data.name}" ✓`);
+    showToast(`${UI_T.pb_toast_loaded} "${data.name}"`);
   } catch (e) {
-    showToast('خطأ في التحميل');
+    showToast(UI_T.pb_toast_load_error);
   }
 }
 
 async function deletePattern(id) {
-  if (!confirm('حذف هذا الباترن نهائياً؟')) return;
+  if (!confirm(UI_T.pb_confirm_delete)) return;
   try {
     const res  = await fetch(`/pattern-builder/delete/${id}`, {
       method: 'POST',
@@ -959,13 +962,13 @@ async function deletePattern(id) {
       if (!document.querySelectorAll('.saved-chip').length) {
         const hint = document.createElement('span');
         hint.className = 'saved-empty'; hint.id = 'emptyHint';
-        hint.textContent = 'لا يوجد باترنات محفوظة بعد';
+        hint.textContent = UI_T.pb_empty_hint;
         document.getElementById('savedChips').prepend(hint);
       }
-      showToast('تم الحذف ✓');
+      showToast(UI_T.pb_toast_deleted);
     }
   } catch (e) {
-    showToast('خطأ في الحذف');
+    showToast(UI_T.pb_toast_delete_error);
   }
 }
 
@@ -1000,10 +1003,10 @@ function upsertChip(pattern) {
   chip.dataset.pid = pattern.id;
   chip.innerHTML = `${pattern.emoji || '🧶'} ${pattern.name}
     <a class="chip-share" href="/pattern/${pattern.id}"
-      target="_blank" onclick="event.stopPropagation()" title="الصفحة العامة">
+      target="_blank" onclick="event.stopPropagation()" title="${esc(UI_T.pb_chip_share_title)}">
       <i class="fas fa-external-link-alt"></i>
     </a>
-    <span class="chip-del" data-pid="${pattern.id}" title="حذف">✕</span>`;
+    <span class="chip-del" data-pid="${pattern.id}" title="${esc(UI_T.pb_chip_del_title)}">✕</span>`;
   document.querySelectorAll('.saved-chip').forEach(c => c.classList.remove('active-chip'));
   chip.classList.add('active-chip');
 }
@@ -1088,13 +1091,13 @@ function escHtml(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt
 async function saveToProduct() {
   await savePattern();
   const patternId = document.getElementById('activePatternId').value;
-  if (!patternId) { showToast('احفظي الباترن أولاً'); return; }
+  if (!patternId) { showToast(UI_T.pb_toast_save_first); return; }
 
   const btn = document.getElementById('saveDashBtn');
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
-  const name = document.getElementById('patternName').value.trim() || 'باترن كروشيه';
+  const name = document.getElementById('patternName').value.trim() || UI_T.pb_default_name;
   const desc = document.getElementById('patternSubtitle').value.trim();
 
   try {
@@ -1105,15 +1108,15 @@ async function saveToProduct() {
     });
     const json = await res.json();
     if (json.success) {
-      showToast('تمت الإضافة للوحتي ✓ — <a href="/dashboard">عرض</a>', true);
+      showToast(UI_T.pb_toast_added_dash + ' — <a href="/dashboard">' + UI_T.pb_toast_view + '</a>', true);
     } else {
-      showToast('خطأ: ' + (json.error || ''));
+      showToast(UI_T.pb_toast_error + ': ' + (json.error || ''));
     }
   } catch (e) {
-    showToast('خطأ: ' + e.message);
+    showToast(UI_T.pb_toast_error + ': ' + e.message);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-layer-group"></i> حفظ في لوحتي';
+    btn.innerHTML = '<i class="fas fa-layer-group"></i> ' + UI_T.pb_save_dash_btn;
   }
 }
 
