@@ -67,7 +67,6 @@
     resize: vertical;
   }
 
-  /* file input polish */
   .add-modal input[type="file"].form-control{
     padding: .55rem .75rem;
     background: rgba(0,0,0,.02);
@@ -120,7 +119,6 @@
     transform: translateY(-1px);
   }
 
-  /* RTL friendliness */
   .add-modal .modal-body,
   .add-modal .modal-header,
   .add-modal .modal-footer{
@@ -128,7 +126,6 @@
     text-align: right;
   }
 
-  /* Small screens */
   @media (max-width: 576px){
     .add-modal .modal-dialog{ margin: .75rem; }
     .add-modal .modal-footer{ flex-direction: column; }
@@ -151,7 +148,7 @@
                 <circle cx="10" cy="2" r="1.4" fill="white"/>
               </svg>
             </span>
-            إضافة منتج
+            <%= t.add_product_modal_title %>
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:1.6rem;">
             <span aria-hidden="true">&times;</span>
@@ -161,30 +158,30 @@
         <div class="modal-body">
 
           <div class="field">
-            <label for="product_name">اسم المنتج</label>
+            <label for="product_name"><%= t.label_product_name_field %></label>
             <input id="product_name" type="text" class="form-control" name="product_name" required>
-            <div class="hint">مثال: شنطة كروشيه، طقم بيبي، قبعة شتوية…</div>
+            <div class="hint"><%= t.hint_product_name %></div>
           </div>
 
           <div class="field">
-            <label for="product_description">وصف المنتج</label>
+            <label for="product_description"><%= t.label_product_desc_field %></label>
             <textarea id="product_description" rows="8" class="form-control"
               name="product_description" required></textarea>
-            <div class="hint">اكتب تفاصيل الخامة، المقاس، الوقت المتوقع، مستوى الصعوبة…</div>
+            <div class="hint"><%= t.hint_product_desc %></div>
           </div>
 
           <div class="field">
-            <label for="product_pdf">ملف PDF</label>
+            <label for="product_pdf"><%= t.label_product_pdf %></label>
             <input id="product_pdf" type="file" class="form-control" name="product_pdf" accept="application/pdf,.pdf">
-            <div class="hint">PDF فقط (باترن / شرح / صور)</div>
+            <div class="hint"><%= t.hint_product_pdf %></div>
           </div>
 
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-close" data-dismiss="modal">إغلاق</button>
-          <button type="submit" class="btn btn-save">إضافة المنتج</button>
+          <button type="button" class="btn btn-close" data-dismiss="modal"><%= t.btn_close %></button>
+          <button type="submit" class="btn btn-save"><%= t.btn_save_product %></button>
         </div>
 
       </div>
