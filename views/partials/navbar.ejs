@@ -79,6 +79,8 @@
   .lang-toggle-btn:hover { background: rgba(255,255,255,.22); color: #fff; }
 </style>
 
+<%- include("./demo_banner") %>
+
 <nav class="navbar navbar-expand-lg hero-nav">
   <a class="navbar-brand hero-brand" href="/">
     <span class="logo-badge">
@@ -101,7 +103,7 @@
 
       <!-- Anchor links — shown on home page only, hidden via JS elsewhere -->
       <li class="nav-item home-only-link">
-        <a class="nav-link hero-link" href="#footer"><%= t.nav_contact %></a>
+        <a class="nav-link hero-link" href="#contact"><%= t.nav_contact %></a>
       </li>
       <li class="nav-item home-only-link">
         <a class="nav-link hero-link" href="#about"><%= t.nav_about %></a>
@@ -110,10 +112,18 @@
         <a class="nav-link hero-link" href="#products-section"><%= t.nav_content %></a>
       </li>
 
+
+      <li class="nav-item">
+        <a class="nav-link hero-link" target="_blank" data-nav-path="https://croshim.com/" href="https://croshim.com/"><%= t.nav_store %></a>
+      </li>
+
       <!-- Persistent links -->
       <li class="nav-item">
         <a class="nav-link hero-link" data-nav-path="/" href="/"><%= t.nav_home %></a>
       </li>
+
+
+      
 
       <% if (!isAuthenticated) { %>
         <li class="nav-item">
