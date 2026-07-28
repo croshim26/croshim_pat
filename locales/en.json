@@ -1,5 +1,8 @@
 {
+  "demo_banner": "🚧 This is a demo website",
+
   "nav_home": "Home",
+  "nav_store": "our Store",
   "nav_contact": "Contact",
   "nav_about": "About",
   "nav_content": "Content",
@@ -160,6 +163,11 @@
   "pb_new_pattern": "New Pattern",
   "pdf_section_tools": "Required Tools",
   "pdf_section_abbrs": "Symbols & Abbreviations",
+
+  "contact_title": "Contact Us",
+  "contact_subtitle": "We're here to help — reach us through any of the following",
+  "contact_email_btn": "Send us an Email",
+  "contact_whatsapp_btn": "Chat on WhatsApp",
 
   "pv_print_btn": "Print / PDF",
   "pv_open_builder": "Open in Builder",

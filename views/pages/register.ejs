@@ -39,6 +39,8 @@
 
 <body>
 
+  <%- include("../partials/demo_banner") %>
+
   <div class="lang-switch-corner">
     <form action="/set-lang" method="POST">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">

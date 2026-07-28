@@ -1,3 +1,105 @@
+/* DEMO BANNER */
+.demo-banner {
+  background: linear-gradient(90deg, #fef3c7, #fde68a);
+  color: #92400e;
+  text-align: center;
+  padding: 7px 16px;
+  font-size: .82rem;
+  font-weight: 700;
+  font-family: 'Cairo', sans-serif;
+  border-bottom: 1px solid #fcd34d;
+  letter-spacing: .2px;
+  position: relative;
+  z-index: 1200;
+}
+.demo-banner a {
+  color: #78350f;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* CONTACT SECTION */
+.contact-section {
+  padding: 72px 0 60px;
+  background: #fff;
+}
+.contact-section .section-title { margin-bottom: .5rem; }
+.contact-subtitle {
+  text-align: center;
+  color: #8B4D60;
+  font-size: .95rem;
+  margin-bottom: 2.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+.contact-cards {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  background: #FDF0F3;
+  border: 1.5px solid #EEC5CF;
+  border-radius: 20px;
+  padding: 36px 40px 28px;
+  min-width: 220px;
+  transition: transform .18s, box-shadow .18s;
+  text-decoration: none;
+}
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(155,58,90,.14);
+  text-decoration: none;
+}
+.contact-card-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.55rem;
+}
+.contact-card-icon.email  { background: linear-gradient(135deg, #F9D4DC, #E8839A); color: #fff; }
+.contact-card-icon.whatsapp { background: linear-gradient(135deg, #d4edda, #25d366); color: #fff; }
+.contact-card-label {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 800;
+  font-size: .82rem;
+  color: #9b3a5a;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+}
+.contact-card-value {
+  font-family: 'Cairo', sans-serif;
+  font-size: .95rem;
+  font-weight: 700;
+  color: #5A2A38;
+  direction: ltr;
+  text-align: center;
+}
+.contact-card-btn {
+  background: linear-gradient(135deg, #9b3a5a, #e8839a);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: .45rem 1.2rem;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 800;
+  font-size: .82rem;
+  cursor: pointer;
+  transition: filter .15s;
+  margin-top: 4px;
+}
+.contact-card-btn.whatsapp-btn {
+  background: linear-gradient(135deg, #128c7e, #25d366);
+}
+.contact-card:hover .contact-card-btn { filter: brightness(1.08); }
+
 /* ALERT */
 .hero-alert{border-radius:16px;border:0;box-shadow:0 12px 30px rgba(0,0,0,.14)}
 

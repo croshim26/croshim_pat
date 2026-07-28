@@ -1,5 +1,8 @@
 {
+  "demo_banner": "🚧 هذا الموقع تجريبي",
+
   "nav_home": "الصفحة الرئيسية",
+  "nav_store": "متجرنا",
   "nav_contact": "تواصل معنا",
   "nav_about": "عن المنصة",
   "nav_content": "المحتوى",
@@ -160,6 +163,11 @@
   "pb_new_pattern": "باترن جديد",
   "pdf_section_tools": "الأدوات المطلوبة",
   "pdf_section_abbrs": "الرموز والاختصارات",
+
+  "contact_title": "تواصل معنا",
+  "contact_subtitle": "نحن هنا للمساعدة — تواصل معنا عبر أي من الوسائل التالية",
+  "contact_email_btn": "مراسلتنا بالبريد",
+  "contact_whatsapp_btn": "تواصل عبر واتساب",
 
   "pv_print_btn": "طباعة / PDF",
   "pv_open_builder": "فتح في Builder",

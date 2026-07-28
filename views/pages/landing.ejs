@@ -96,7 +96,7 @@
       <h2 class="section-title"><%= t.features_title %></h2>
       <div class="row features-row">
 
-        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="col-md-6 mb-6" data-aos="fade-up" data-aos-delay="0">
           <div class="feature-card">
             <div class="feature-icon"><i class="fas fa-file-pdf"></i></div>
             <h3 class="feature-title"><%= t.feature1_title %></h3>
@@ -104,15 +104,15 @@
           </div>
         </div>
 
-        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+        <!-- <div class="col-md-6 mb-6" data-aos="fade-up" data-aos-delay="100">
           <div class="feature-card">
             <div class="feature-icon"><i class="fas fa-store"></i></div>
             <h3 class="feature-title"><%= t.feature2_title %></h3>
             <p class="feature-desc"><%= t.feature2_desc %></p>
           </div>
-        </div>
+        </div> -->
 
-        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-md-6 mb-6" data-aos="fade-up" data-aos-delay="200">
           <div class="feature-card">
             <div class="feature-icon"><i class="fas fa-book-open"></i></div>
             <h3 class="feature-title"><%= t.feature3_title %></h3>
@@ -131,6 +131,35 @@
         <div class="about-icon">🧶</div>
         <h2 class="section-title"><%= t.about_title %></h2>
         <p class="section-text"><%= t.about_text %></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="contact-section" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title"><%= t.contact_title %></h2>
+      <p class="contact-subtitle"><%= t.contact_subtitle %></p>
+      <div class="contact-cards">
+
+        <a class="contact-card" href="mailto:admin@croshim-studio.com">
+          <div class="contact-card-icon email">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <span class="contact-card-label"><%= t.footer_email_label %></span>
+          <span class="contact-card-value">admin@croshim-studio.com</span>
+          <span class="contact-card-btn"><%= t.contact_email_btn %></span>
+        </a>
+
+        <a class="contact-card" href="https://wa.me/966507689445" target="_blank" rel="noopener noreferrer">
+          <div class="contact-card-icon whatsapp">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <span class="contact-card-label">WhatsApp</span>
+          <span class="contact-card-value" dir="ltr">+966 50 768 9445</span>
+          <span class="contact-card-btn whatsapp-btn"><%= t.contact_whatsapp_btn %></span>
+        </a>
+
       </div>
     </div>
   </section>
