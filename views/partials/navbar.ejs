@@ -160,6 +160,11 @@
             <i class="fas fa-user-circle"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="/profile">
+              <i class="fas fa-user-edit"></i>
+              <%= t.nav_profile %>
+            </a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#"
                onclick="event.preventDefault(); document.getElementById('magic-form').submit();">
               <i class="fas fa-sign-out-alt"></i>
