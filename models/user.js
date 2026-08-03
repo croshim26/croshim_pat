@@ -57,6 +57,31 @@ const User =sequelize.define('user',{
         allowNull: true,
         defaultValue: null,
     },
+
+    country: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+
+    gender: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+
+    crochet_experience: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+
+    age: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+    },
+
+    last_login: {
+        type: Sequelize.DATE,
+        allowNull: true,
+    },
 });
 
 module.exports=User

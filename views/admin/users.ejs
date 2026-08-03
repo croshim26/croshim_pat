@@ -59,9 +59,12 @@
                 <th>الاسم</th>
                 <th>البريد الإلكتروني</th>
                 <th>الهاتف</th>
+                <th>الجنس</th>
+                <th>العمر</th>
                 <th>الصلاحية</th>
                 <th>حد الـ Workbook</th>
                 <th>تاريخ التسجيل</th>
+                <th>آخر دخول</th>
                 <th>إجراءات</th>
               </tr>
             </thead>
@@ -72,6 +75,12 @@
                 <td><%= user.firstName %> <%= user.lastName %></td>
                 <td><%= user.email %></td>
                 <td><%= user.phone || '—' %></td>
+                <td>
+                  <% if (user.gender === 'female')     { %>أنثى
+                  <% } else if (user.gender === 'male') { %>ذكر
+                  <% } else { %>—<% } %>
+                </td>
+                <td><%= user.age || '—' %></td>
                 <td>
                   <% if (user.is_admin) { %>
                     <span class="badge-admin">مدير</span>
@@ -96,6 +105,17 @@
                   <% } %>
                 </td>
                 <td><%= new Date(user.createdAt).toLocaleDateString('ar-SA') %></td>
+                <td>
+                  <% if (user.last_login) { %>
+                    <%= new Date(user.last_login).toLocaleDateString('ar-SA') %>
+                    <br>
+                    <span style="font-size:.72rem;color:#9e677a;">
+                      <%= new Date(user.last_login).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }) %>
+                    </span>
+                  <% } else { %>
+                    <span style="color:#bbb;">—</span>
+                  <% } %>
+                </td>
                 <td style="white-space:nowrap;display:flex;gap:6px;flex-wrap:wrap;">
                   <form action="/ezshm_crochem/users/<%= user.id %>/toggle-admin" method="POST" style="display:inline;">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
