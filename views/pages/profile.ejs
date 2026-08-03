@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Croshim Studio | <%= t.profile_title %></title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages/auth.css">
+
+  <style>
+    body { background: #fdf5f7; }
+
+    .profile-page {
+      min-height: calc(100vh - 70px);
+      padding: 40px 0 60px;
+    }
+
+    /* ── Avatar card ── */
+    .profile-avatar-card {
+      background: linear-gradient(135deg, #9b3a5a, #e8839a);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 28px rgba(155,58,90,.22);
+    }
+    .avatar-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.22);
+      border: 3px solid rgba(255,255,255,.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 900;
+      font-family: 'Cairo', sans-serif;
+      margin: 0 auto 14px;
+      letter-spacing: 1px;
+    }
+    .avatar-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      font-family: 'Cairo', sans-serif;
+      margin-bottom: 4px;
+    }
+    .avatar-email {
+      font-size: .82rem;
+      opacity: .85;
+      font-family: 'Cairo', sans-serif;
+      direction: ltr;
+    }
+    .avatar-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: .75rem;
+      font-weight: 700;
+      font-family: 'Cairo', sans-serif;
+      margin-top: 10px;
+    }
+
+    /* ── Info card ── */
+    .profile-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px 28px 24px;
+      box-shadow: 0 4px 18px rgba(155,58,90,.08);
+      margin-bottom: 24px;
+    }
+    .profile-card-title {
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #9b3a5a;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #fae4ea;
+      padding-bottom: 12px;
+    }
+
+    .profile-save-btn {
+      background: linear-gradient(135deg, #9b3a5a, #e8839a);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      height: 46px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: .95rem;
+      width: 100%;
+      margin-top: .4rem;
+      transition: filter .15s;
+      cursor: pointer;
+    }
+    .profile-save-btn:hover { filter: brightness(1.07); }
+
+    .profile-save-btn.pw-btn {
+      background: linear-gradient(135deg, #3a5a9b, #839ae8);
+    }
+
+    .email-readonly {
+      background: #f8f9fa;
+      border-radius: 14px;
+      padding: .6rem 42px .6rem 14px;
+      border: 1px solid rgba(0,0,0,.08);
+      color: #888;
+      font-family: 'Cairo', sans-serif;
+      font-size: .9rem;
+      direction: ltr;
+      text-align: left;
+    }
+    [dir="rtl"] .email-readonly { text-align: right; }
+
+    .field-note {
+      font-size: .75rem;
+      color: #aaa;
+      margin-top: 4px;
+      font-family: 'Cairo', sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+
+  <%- include("../partials/navbar") %>
+
+  <main class="profile-page">
+    <div class="container">
+      <div class="row justify-content-center">
+
+        <div class="col-lg-4 col-md-5">
+
+          <!-- Avatar card -->
+          <div class="profile-avatar-card">
+            <div class="avatar-circle">
+              <%= (user.firstName || '?')[0].toUpperCase() %><%= (user.lastName || '')[0] ? (user.lastName)[0].toUpperCase() : '' %>
+            </div>
+            <div class="avatar-name"><%= user.firstName %> <%= user.lastName %></div>
+            <div class="avatar-email"><%= user.email %></div>
+            <% if (user.crochet_experience) { %>
+              <div class="avatar-badge">
+                <% if (user.crochet_experience === 'beginner')    { %><%= t.exp_beginner    %><% } %>
+                <% if (user.crochet_experience === 'intermediate') { %><%= t.exp_intermediate %><% } %>
+                <% if (user.crochet_experience === 'advanced')    { %><%= t.exp_advanced    %><% } %>
+              </div>
+            <% } %>
+          </div>
+
+        </div>
+
+        <div class="col-lg-7 col-md-7">
+
+          <% if (success_message) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <%= success_message %>
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+          <% } %>
+          <% if (error_message) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <%= error_message %>
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+          <% } %>
+
+          <!-- Personal info form -->
+          <div class="profile-card">
+            <div class="profile-card-title">
+              <i class="fas fa-user-edit"></i>
+              <%= t.profile_info_section %>
+            </div>
+
+            <form action="/profile" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="firstName"><%= t.label_first_name %></label>
+                  <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="firstName" name="firstName"
+                      class="form-control auth-input"
+                      value="<%= user.firstName || '' %>" required>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="lastName"><%= t.label_last_name %></label>
+                  <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="lastName" name="lastName"
+                      class="form-control auth-input"
+                      value="<%= user.lastName || '' %>" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label><%= t.label_email %></label>
+                <div class="input-wrapper">
+                  <i class="fas fa-envelope"></i>
+                  <div class="email-readonly"><%= user.email %></div>
+                </div>
+                <p class="field-note"><%= t.profile_email_note %></p>
+              </div>
+
+              <div class="form-group">
+                <label for="phone"><%= t.label_phone %></label>
+                <div class="input-wrapper">
+                  <i class="fas fa-phone"></i>
+                  <input type="tel" id="phone" name="phone"
+                    class="form-control auth-input"
+                    value="<%= user.phone || '' %>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="country"><%= t.label_country %></label>
+                <div class="input-wrapper">
+                  <i class="fas fa-globe"></i>
+                  <select id="country" name="country" class="form-control auth-input">
+                    <option value=""><%= t.placeholder_country %></option>
+                    <% if (lang === 'ar') { %>
+                      <option value="SA" <%= user.country==='SA'?'selected':'' %>>المملكة العربية السعودية</option>
+                      <option value="AE" <%= user.country==='AE'?'selected':'' %>>الإمارات العربية المتحدة</option>
+                      <option value="KW" <%= user.country==='KW'?'selected':'' %>>الكويت</option>
+                      <option value="QA" <%= user.country==='QA'?'selected':'' %>>قطر</option>
+                      <option value="BH" <%= user.country==='BH'?'selected':'' %>>البحرين</option>
+                      <option value="OM" <%= user.country==='OM'?'selected':'' %>>عُمان</option>
+                      <option value="EG" <%= user.country==='EG'?'selected':'' %>>مصر</option>
+                      <option value="JO" <%= user.country==='JO'?'selected':'' %>>الأردن</option>
+                      <option value="LB" <%= user.country==='LB'?'selected':'' %>>لبنان</option>
+                      <option value="SY" <%= user.country==='SY'?'selected':'' %>>سوريا</option>
+                      <option value="IQ" <%= user.country==='IQ'?'selected':'' %>>العراق</option>
+                      <option value="MA" <%= user.country==='MA'?'selected':'' %>>المغرب</option>
+                      <option value="TN" <%= user.country==='TN'?'selected':'' %>>تونس</option>
+                      <option value="DZ" <%= user.country==='DZ'?'selected':'' %>>الجزائر</option>
+                      <option value="LY" <%= user.country==='LY'?'selected':'' %>>ليبيا</option>
+                      <option value="SD" <%= user.country==='SD'?'selected':'' %>>السودان</option>
+                      <option value="YE" <%= user.country==='YE'?'selected':'' %>>اليمن</option>
+                      <option value="PS" <%= user.country==='PS'?'selected':'' %>>فلسطين</option>
+                      <option value="OTHER" <%= user.country==='OTHER'?'selected':'' %>>أخرى</option>
+                    <% } else { %>
+                      <option value="SA" <%= user.country==='SA'?'selected':'' %>>Saudi Arabia</option>
+                      <option value="AE" <%= user.country==='AE'?'selected':'' %>>United Arab Emirates</option>
+                      <option value="KW" <%= user.country==='KW'?'selected':'' %>>Kuwait</option>
+                      <option value="QA" <%= user.country==='QA'?'selected':'' %>>Qatar</option>
+                      <option value="BH" <%= user.country==='BH'?'selected':'' %>>Bahrain</option>
+                      <option value="OM" <%= user.country==='OM'?'selected':'' %>>Oman</option>
+                      <option value="EG" <%= user.country==='EG'?'selected':'' %>>Egypt</option>
+                      <option value="JO" <%= user.country==='JO'?'selected':'' %>>Jordan</option>
+                      <option value="LB" <%= user.country==='LB'?'selected':'' %>>Lebanon</option>
+                      <option value="SY" <%= user.country==='SY'?'selected':'' %>>Syria</option>
+                      <option value="IQ" <%= user.country==='IQ'?'selected':'' %>>Iraq</option>
+                      <option value="MA" <%= user.country==='MA'?'selected':'' %>>Morocco</option>
+                      <option value="TN" <%= user.country==='TN'?'selected':'' %>>Tunisia</option>
+                      <option value="DZ" <%= user.country==='DZ'?'selected':'' %>>Algeria</option>
+                      <option value="LY" <%= user.country==='LY'?'selected':'' %>>Libya</option>
+                      <option value="SD" <%= user.country==='SD'?'selected':'' %>>Sudan</option>
+                      <option value="YE" <%= user.country==='YE'?'selected':'' %>>Yemen</option>
+                      <option value="PS" <%= user.country==='PS'?'selected':'' %>>Palestine</option>
+                      <option value="US" <%= user.country==='US'?'selected':'' %>>United States</option>
+                      <option value="GB" <%= user.country==='GB'?'selected':'' %>>United Kingdom</option>
+                      <option value="DE" <%= user.country==='DE'?'selected':'' %>>Germany</option>
+                      <option value="FR" <%= user.country==='FR'?'selected':'' %>>France</option>
+                      <option value="CA" <%= user.country==='CA'?'selected':'' %>>Canada</option>
+                      <option value="AU" <%= user.country==='AU'?'selected':'' %>>Australia</option>
+                      <option value="OTHER" <%= user.country==='OTHER'?'selected':'' %>>Other</option>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="gender"><%= t.label_gender %></label>
+                  <div class="input-wrapper">
+                    <i class="fas fa-venus-mars"></i>
+                    <select id="gender" name="gender" class="form-control auth-input">
+                      <option value=""><%= t.placeholder_gender %></option>
+                      <option value="female"     <%= user.gender==='female'?'selected':'' %>><%= t.gender_female %></option>
+                      <option value="male"       <%= user.gender==='male'?'selected':'' %>><%= t.gender_male %></option>
+                      <option value="prefer_not" <%= user.gender==='prefer_not'?'selected':'' %>><%= t.gender_prefer_not %></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="age"><%= t.label_age %></label>
+                  <div class="input-wrapper">
+                    <i class="fas fa-birthday-cake"></i>
+                    <input type="number" id="age" name="age"
+                      class="form-control auth-input"
+                      value="<%= user.age || '' %>"
+                      min="10" max="100"
+                      placeholder="<%= t.placeholder_age %>">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="crochet_experience"><%= t.label_crochet_exp %></label>
+                <div class="input-wrapper">
+                  <i class="fas fa-layer-group"></i>
+                  <select id="crochet_experience" name="crochet_experience" class="form-control auth-input">
+                    <option value=""><%= t.placeholder_exp %></option>
+                    <option value="beginner"     <%= user.crochet_experience==='beginner'?'selected':'' %>><%= t.exp_beginner %></option>
+                    <option value="intermediate" <%= user.crochet_experience==='intermediate'?'selected':'' %>><%= t.exp_intermediate %></option>
+                    <option value="advanced"     <%= user.crochet_experience==='advanced'?'selected':'' %>><%= t.exp_advanced %></option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="profile-save-btn">
+                <i class="fas fa-check"></i> <%= t.btn_save_profile %>
+              </button>
+            </form>
+          </div>
+
+          <!-- Password change form -->
+          <div class="profile-card">
+            <div class="profile-card-title">
+              <i class="fas fa-lock"></i>
+              <%= t.profile_password_section %>
+            </div>
+
+            <form action="/profile/password" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+              <div class="form-group">
+                <label for="current_password"><%= t.label_current_password %></label>
+                <div class="input-wrapper">
+                  <i class="fas fa-lock"></i>
+                  <input type="password" id="current_password" name="current_password"
+                    class="form-control auth-input"
+                    placeholder="••••••••" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="new_password"><%= t.label_new_password %></label>
+                  <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="new_password" name="new_password"
+                      class="form-control auth-input"
+                      placeholder="••••••••" minlength="6" required>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="confirm_password"><%= t.label_confirm_password %></label>
+                  <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="confirm_password" name="confirm_password"
+                      class="form-control auth-input"
+                      placeholder="••••••••" minlength="6" required>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="profile-save-btn pw-btn">
+                <i class="fas fa-key"></i> <%= t.btn_change_password %>
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include("../partials/footer") %>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
