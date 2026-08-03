@@ -121,6 +121,7 @@
   "pb_add_tool": "+ Add Tool",
   "pb_section_abbr": "📋 Abbreviations",
   "pb_abbr_hint": "Default abbreviations are added automatically — add custom ones here only",
+  "pb_abbr_catalog_label": "Pick from common abbreviations:",
   "pb_add_abbr": "+ Add Custom Abbreviation",
   "pb_section_parts": "✂️ Pattern Parts",
   "pb_parts_hint": "Each part (head, body, arms...) becomes a separate section",

@@ -393,6 +393,11 @@
     .tools-table tr:nth-child(even) td { background:var(--petal); }
     .tools-table td:last-child { border-radius:7px 0 0 7px; font-weight:600; color:var(--mauve); white-space:nowrap; }
     .tools-table td:first-child { border-radius:0 7px 7px 0; color:var(--text-light); font-size:.76rem; }
+    .abbr-catalog { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+    .abbr-chip { display:inline-flex; align-items:center; background:#fff; border:1.5px solid var(--blush); border-radius:8px; padding:3px 8px; font-size:.72rem; font-family:'Courier New',monospace; font-weight:700; color:var(--deep-rose); cursor:pointer; transition:.15s; line-height:1.4; }
+    .abbr-chip:hover:not(:disabled) { background:var(--soft-pink); border-color:var(--rose); }
+    .abbr-chip:disabled { opacity:.38; cursor:default; }
+    .abbr-catalog-label { font-size:.72rem; color:var(--text-light); display:block; margin-bottom:6px; }
     .abbr-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:5px; }
     .abbr-item { background:var(--soft-pink); border-radius:9px; padding:5px 9px; display:flex; align-items:center; gap:7px; border:1px solid var(--code-border); }
     .abbr-key { font-family:'Courier New',monospace; font-weight:bold; font-size:.77rem; color:var(--deep-rose); background:#fff; border-radius:5px; padding:2px 6px; border:1px solid var(--blush); flex-shrink:0; min-width:36px; text-align:center; }
@@ -598,6 +603,8 @@
         <small style="color:var(--text-light);font-size:.71rem;display:block;margin-bottom:5px;text-align:right;">
           <%= t.pb_abbr_hint %>
         </small>
+        <span class="abbr-catalog-label"><%= t.pb_abbr_catalog_label %></span>
+        <div class="abbr-catalog" id="abbrCatalog"></div>
         <div id="abbrList"></div>
         <button class="btn-add-part" onclick="addAbbr()"><%= t.pb_add_abbr %></button>
       </div>
@@ -688,6 +695,51 @@ const DEFAULT_ABBR = [
   {key:'f/o', val:'fasten off'},
 ];
 
+const ABBR_CATALOG = [
+  {key:'ch',     val:'chain'},
+  {key:'sl st',  val:'slip stitch'},
+  {key:'st',     val:'stitch'},
+  {key:'sk',     val:'skip'},
+  {key:'sp',     val:'space'},
+  {key:'yo',     val:'yarn over'},
+  {key:'sc',     val:'single crochet'},
+  {key:'hdc',    val:'half double crochet'},
+  {key:'dc',     val:'double crochet'},
+  {key:'tr',     val:'treble crochet'},
+  {key:'dtr',    val:'double treble crochet'},
+  {key:'inc',    val:'increase'},
+  {key:'dec',    val:'decrease'},
+  {key:'inv dec',val:'invisible decrease'},
+  {key:'rep',    val:'repeat'},
+  {key:'rnd',    val:'round'},
+  {key:'row',    val:'row'},
+  {key:'RS',     val:'right side'},
+  {key:'WS',     val:'wrong side'},
+  {key:'BLO',    val:'back loop only'},
+  {key:'FLO',    val:'front loop only'},
+  {key:'MR',     val:'magic ring'},
+  {key:'FO',     val:'fasten off'},
+  {key:'join',   val:'join'},
+  {key:'beg',    val:'beginning'},
+  {key:'pm',     val:'place marker'},
+  {key:'rem',    val:'remaining'},
+  {key:'tog',    val:'together'},
+  {key:'fsc',    val:'foundation single crochet'},
+  {key:'fdc',    val:'foundation double crochet'},
+  {key:'fpdc',   val:'front post double crochet'},
+  {key:'bpdc',   val:'back post double crochet'},
+  {key:'cl',     val:'cluster'},
+  {key:'pop',    val:'popcorn'},
+  {key:'puff',   val:'puff stitch'},
+  {key:'picot',  val:'picot'},
+  {key:'shell',  val:'shell stitch'},
+  {key:'V-st',   val:'V stitch'},
+  {key:'bobble', val:'bobble stitch'},
+  {key:'esc',    val:'extended single crochet'},
+  {key:'ehdc',   val:'extended half double crochet'},
+  {key:'edc',    val:'extended double crochet'},
+];
+
 let tools = [], abbrs = [], parts = [];
 
 function init() {
@@ -740,8 +792,28 @@ function renderAbbrs() {
       </div>
       <button class="btn-remove" onclick="removeAbbr(${a.id})" style="margin-top:4px;">${esc(UI_T.pb_abbr_delete)}</button>
     </div>`).join('');
+  renderAbbrCatalog();
 }
 function updateAbbr(id, field, val) { const a = abbrs.find(x => x.id === id); if (a) a[field] = val; }
+
+function addFromCatalog(key, val) {
+  const used = new Set([
+    ...DEFAULT_ABBR.map(a => a.key.toLowerCase()),
+    ...abbrs.map(a => a.key.toLowerCase()),
+  ]);
+  if (used.has(key.toLowerCase())) return;
+  addAbbr(key, val);
+}
+function renderAbbrCatalog() {
+  const used = new Set([
+    ...DEFAULT_ABBR.map(a => a.key.toLowerCase()),
+    ...abbrs.map(a => a.key.toLowerCase()),
+  ]);
+  document.getElementById('abbrCatalog').innerHTML = ABBR_CATALOG.map(a => {
+    const added = used.has(a.key.toLowerCase());
+    return `<button class="abbr-chip" ${added ? 'disabled' : `onclick="addFromCatalog('${esc(a.key)}','${esc(a.val)}')" title="${esc(a.val)}"`}>${esc(a.key)}</button>`;
+  }).join('');
+}
 
 /* ── Parts ── */
 function addPart(name='', code='', note='', imgs=[]) {
