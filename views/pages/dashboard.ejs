@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="<%= lang %>" dir="<%= dir %>">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Croshim Studio | لوحة منتجاتي</title>
+  <title>Croshim Studio | <%= t.my_products_title %></title>
 
-  <!-- External CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
 
-  <!-- App CSS -->
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/layout.css">
   <link rel="stylesheet" href="/css/components.css">
@@ -21,28 +19,24 @@
 
 <body>
 
-  <!-- NAVBAR -->
   <%- include("../partials/navbar") %>
 
-  <!-- DASHBOARD PRODUCTS -->
   <main class="products-page">
     <div class="container">
 
-      <!-- ALERTS -->
       <% if (success_message) { %>
         <div class="alert alert-success alert-dismissible fade show hero-alert mt-3" role="alert">
-          <strong>تم بنجاح!</strong> <%= success_message %>
+          <strong><%= t.alert_success_prefix %></strong> <%= success_message %>
           <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
       <% } %>
       <% if (error_message) { %>
         <div class="alert alert-danger alert-dismissible fade show hero-alert mt-3" role="alert">
-          <strong>خطأ!</strong> <%= error_message %>
+          <strong><%= t.alert_error_prefix %></strong> <%= error_message %>
           <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
       <% } %>
 
-      <!-- WELCOME BANNER -->
       <div class="welcome-banner" data-aos="fade-up">
         <div class="welcome-info">
           <div class="welcome-avatar">
@@ -50,22 +44,20 @@
           </div>
           <div>
             <h2 class="welcome-name">
-              أهلاً، <%= currentUser.firstName %> <%= currentUser.lastName %>
+              <%= t.welcome_greeting %> <%= currentUser.firstName %> <%= currentUser.lastName %>
             </h2>
-            <p class="welcome-sub">إدارة منتجاتك وملفات الباترن الخاصة بك</p>
+            <p class="welcome-sub"><%= t.manage_subtitle %></p>
           </div>
         </div>
         <div class="welcome-stat">
           <span class="stat-count"><%= products ? products.length : 0 %></span>
-          <span class="stat-label">منتج</span>
+          <span class="stat-label"><%= t.stat_label %></span>
         </div>
       </div>
 
       <header class="page-header" data-aos="fade-up">
-        <h1 class="products-title">منتجاتي</h1>
-        <p class="products-subtitle">
-          تصفح منتجاتك المضافة وقم بإدارتها
-        </p>
+        <h1 class="products-title"><%= t.my_products_title %></h1>
+        <p class="products-subtitle"><%= t.products_subtitle %></p>
       </header>
 
       <div class="row">
@@ -78,56 +70,41 @@
               <article class="card product-card">
 
                 <div class="product-header">
-                  <span class="label-title">اسم المنتج</span>
-                  <h2 class="product-name">
-                    <%= product.product_name %>
-                  </h2>
+                  <span class="label-title"><%= t.label_product_name %></span>
+                  <h2 class="product-name"><%= product.product_name %></h2>
                 </div>
 
                 <div class="product-body">
 
                   <div class="product-meta">
-                    <span class="label-title">وصف المنتج</span>
-                    <p class="product-description">
-                      <%= product.product_description %>
-                    </p>
+                    <span class="label-title"><%= t.label_product_desc %></span>
+                    <p class="product-description"><%= product.product_description %></p>
                   </div>
 
                   <div class="product-meta">
-                    <span class="label-title">ملف المنتج</span>
+                    <span class="label-title"><%= t.label_product_file %></span>
 
                     <% if (product.pdf_path) { %>
-                      <a
-                        href="<%= product.pdf_path %>"
-                        target="_blank"
-                        class="btn pdf-btn"
-                        rel="noopener noreferrer"
-                      >
+                      <a href="<%= product.pdf_path %>" target="_blank"
+                        class="btn pdf-btn" rel="noopener noreferrer">
                         <i class="fas fa-file-pdf"></i>
-                        عرض ملف المنتج
+                        <%= t.btn_view_file %>
                       </a>
                     <% } else { %>
                       <div class="no-file">
                         <i class="far fa-folder-open"></i>
-                        لا يوجد ملف للمنتج
+                        <%= t.no_file %>
                       </div>
                     <% } %>
                   </div>
 
-                  <form
-                    action="/delete_product/<%= product.id %>"
-                    method="POST"
-                    class="delete-product-form"
-                  >
+                  <form action="/delete_product/<%= product.id %>" method="POST"
+                    class="delete-product-form">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
-                    <button
-                      type="submit"
-                      class="btn delete-btn btn-block"
-                      onclick="return confirm('هل أنت متأكد من حذف المنتج؟');"
-                    >
+                    <button type="submit" class="btn delete-btn btn-block"
+                      onclick="return confirm('<%= t.confirm_delete_product %>');">
                       <i class="fas fa-trash-alt"></i>
-                      حذف المنتج
+                      <%= t.btn_delete_product %>
                     </button>
                   </form>
 
@@ -143,10 +120,10 @@
           <div class="col-12" data-aos="fade-up">
             <div class="empty-state">
               <i class="fas fa-box-open empty-icon"></i>
-              <h5>لا توجد منتجات حالياً</h5>
-              <p>يمكنك إضافة منتج جديد من خلال زر إضافة منتج.</p>
+              <h5><%= t.no_products_title %></h5>
+              <p><%= t.no_products_desc %></p>
               <a href="#" class="btn pdf-btn mt-3" data-toggle="modal" data-target="#exampleModal3">
-                <i class="fas fa-plus"></i> إضافة منتجك الأول
+                <i class="fas fa-plus"></i> <%= t.btn_add_first %>
               </a>
             </div>
           </div>
@@ -157,20 +134,15 @@
     </div>
   </main>
 
-  <!-- ADD PRODUCT MODAL -->
   <%- include("../partials/add_product") %>
-
-  <!-- FOOTER -->
   <%- include("../partials/footer") %>
 
-  <!-- JS -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script>AOS.init({ once: true, duration: 500 });</script>
 
-
-
 </body>
+
 </html>

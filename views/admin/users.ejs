@@ -7,6 +7,11 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/pages/admin.css">
+  <style>
+    .limit-form { display:flex; align-items:center; gap:4px; }
+    .limit-input { width:60px; padding:3px 6px; border:1px solid rgba(155,58,90,.3); border-radius:6px; font-family:'Cairo',sans-serif; font-size:.8rem; text-align:center; }
+    .limit-hint  { font-size:.7rem; color:#9e677a; display:block; margin-top:2px; }
+  </style>
 </head>
 <body>
 <div class="admin-shell">
@@ -54,9 +59,12 @@
                 <th>الاسم</th>
                 <th>البريد الإلكتروني</th>
                 <th>الهاتف</th>
+                <th>الجنس</th>
+                <th>العمر</th>
                 <th>الصلاحية</th>
-                <th>Pattern Builder</th>
+                <th>حد الـ Workbook</th>
                 <th>تاريخ التسجيل</th>
+                <th>آخر دخول</th>
                 <th>إجراءات</th>
               </tr>
             </thead>
@@ -68,6 +76,12 @@
                 <td><%= user.email %></td>
                 <td><%= user.phone || '—' %></td>
                 <td>
+                  <% if (user.gender === 'female')     { %>أنثى
+                  <% } else if (user.gender === 'male') { %>ذكر
+                  <% } else { %>—<% } %>
+                </td>
+                <td><%= user.age || '—' %></td>
+                <td>
                   <% if (user.is_admin) { %>
                     <span class="badge-admin">مدير</span>
                   <% } else { %>
@@ -75,26 +89,39 @@
                   <% } %>
                 </td>
                 <td>
-                  <% if (user.can_use_pattern_builder) { %>
-                    <span style="color:#166534;font-weight:800;font-size:.82rem;"><i class="fas fa-check-circle"></i> مفعّل</span>
+                  <% if (user.is_admin) { %>
+                    <span style="color:#166534;font-weight:700;font-size:.8rem;"><i class="fas fa-infinity"></i> غير محدود</span>
                   <% } else { %>
-                    <span style="color:#9e677a;font-weight:700;font-size:.82rem;"><i class="fas fa-times-circle"></i> موقوف</span>
+                    <form class="limit-form" action="/ezshm_crochem/users/<%= user.id %>/set-pattern-limit" method="POST">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                      <input type="number" name="limit" class="limit-input" min="0"
+                             value="<%= user.pattern_limit !== null && user.pattern_limit !== undefined ? user.pattern_limit : 5 %>"
+                             title="0 = غير محدود">
+                      <button type="submit" class="btn-action btn-toggle" style="padding:3px 8px;font-size:.75rem;" title="تعيين الحد">
+                        <i class="fas fa-check"></i> تعيين
+                      </button>
+                    </form>
+                    <span class="limit-hint">0 = غير محدود | الافتراضي 5</span>
                   <% } %>
                 </td>
                 <td><%= new Date(user.createdAt).toLocaleDateString('ar-SA') %></td>
+                <td>
+                  <% if (user.last_login) { %>
+                    <%= new Date(user.last_login).toLocaleDateString('ar-SA') %>
+                    <br>
+                    <span style="font-size:.72rem;color:#9e677a;">
+                      <%= new Date(user.last_login).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }) %>
+                    </span>
+                  <% } else { %>
+                    <span style="color:#bbb;">—</span>
+                  <% } %>
+                </td>
                 <td style="white-space:nowrap;display:flex;gap:6px;flex-wrap:wrap;">
                   <form action="/ezshm_crochem/users/<%= user.id %>/toggle-admin" method="POST" style="display:inline;">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn-action btn-toggle" title="تبديل الصلاحية">
                       <i class="fas fa-shield-alt"></i>
                       <%= user.is_admin ? 'إزالة المدير' : 'ترقية لمدير' %>
-                    </button>
-                  </form>
-                  <form action="/ezshm_crochem/users/<%= user.id %>/toggle-pattern-builder" method="POST" style="display:inline;">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button type="submit" class="btn-action" style="background:<%= user.can_use_pattern_builder ? 'rgba(220,38,38,.12)' : 'rgba(34,197,94,.12)' %>;color:<%= user.can_use_pattern_builder ? '#b91c1c' : '#166534' %>;border:1px solid <%= user.can_use_pattern_builder ? 'rgba(220,38,38,.25)' : 'rgba(34,197,94,.25)' %>;" title="تبديل Pattern Builder">
-                      <i class="fas fa-magic"></i>
-                      <%= user.can_use_pattern_builder ? 'إيقاف Builder' : 'تفعيل Builder' %>
                     </button>
                   </form>
                   <form action="/ezshm_crochem/users/<%= user.id %>/delete" method="POST" style="display:inline;"

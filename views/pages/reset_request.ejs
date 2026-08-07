@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="<%= lang %>" dir="<%= dir %>">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Croshim Studio | نسيت كلمة المرور</title>
+  <title>Croshim Studio | <%= t.reset_title %></title>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
@@ -14,9 +14,31 @@
   <link rel="stylesheet" href="/css/layout.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/pages/auth.css">
+
+  <style>
+    .lang-switch-corner {
+      position: fixed; top: 14px; left: 14px; z-index: 999;
+    }
+    [dir="rtl"] .lang-switch-corner { left: auto; right: 14px; }
+    .lang-switch-corner form button {
+      background: rgba(155,58,90,.1); border: 1px solid rgba(155,58,90,.3);
+      border-radius: 10px; color: #9b3a5a; font-family: 'Cairo', sans-serif;
+      font-weight: 800; font-size: .8rem; padding: .3rem .7rem; cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
+
+  <%- include("../partials/demo_banner") %>
+
+  <div class="lang-switch-corner">
+    <form action="/set-lang" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="lang" value="<%= lang === 'ar' ? 'en' : 'ar' %>">
+      <button type="submit"><%= t.nav_lang_switch %></button>
+    </form>
+  </div>
 
   <main class="auth-page">
     <div class="auth-card" style="max-width: 480px;">
@@ -31,8 +53,8 @@
           </span>
           <span class="logo-name">Croshim Studio</span>
         </a>
-        <h1>نسيت كلمة المرور؟</h1>
-        <p>أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين</p>
+        <h1><%= t.reset_title %></h1>
+        <p><%= t.reset_desc %></p>
       </div>
 
       <% if (error_message) { %>
@@ -55,29 +77,23 @@
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
         <div class="form-group">
-          <label for="email">البريد الإلكتروني</label>
+          <label for="email"><%= t.label_email %></label>
           <div class="input-wrapper">
             <i class="fas fa-envelope"></i>
-            <input
-              type="email"
-              id="email"
-              name="email"
+            <input type="email" id="email" name="email"
               class="form-control auth-input"
-              placeholder="example@email.com"
-              required
-              autofocus
-            >
+              placeholder="example@email.com" required autofocus>
           </div>
         </div>
 
         <button type="submit" class="btn auth-submit-btn btn-block">
           <i class="fas fa-paper-plane ml-1"></i>
-          إرسال رابط إعادة التعيين
+          <%= t.btn_send_reset %>
         </button>
       </form>
 
       <div class="auth-switch mt-3">
-        <a href="/"><i class="fas fa-arrow-right ml-1"></i>العودة لتسجيل الدخول</a>
+        <a href="/"><i class="fas fa-arrow-right ml-1"></i><%= t.back_to_login %></a>
       </div>
 
     </div>
