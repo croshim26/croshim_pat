@@ -103,7 +103,7 @@
   "new_password_title": "New Password",
   "new_password_desc": "Choose a strong password for your account",
   "label_new_password": "New Password",
-  "placeholder_min6": "At least 6 characters",
+  "placeholder_min6": "At least 8 characters",
   "label_confirm_password": "Confirm Password",
   "placeholder_retype": "Re-enter your password",
   "btn_save_password": "Save New Password",

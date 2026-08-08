@@ -2,6 +2,8 @@
 <html lang="<%= lang %>" dir="<%= dir %>">
 <head>
   <meta charset="utf-8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pattern Builder — Croshim Studio</title>
   <!-- Google tag (gtag.js) -->
@@ -1124,17 +1126,24 @@ function upsertChip(pattern) {
 }
 
 /* ── Image upload ── */
-function handleImageUpload(e) {
+async function handleImageUpload(e) {
   const file = e.target.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(ev) {
-    window._coverImageData = ev.target.result;
+  const form = new FormData();
+  form.append('image', file);
+  const csrfInput = document.querySelector('[name="_csrf"]');
+  if (csrfInput) form.append('_csrf', csrfInput.value);
+  try {
+    const r = await fetch('/pattern-builder/upload-image', { method: 'POST', body: form });
+    const data = await r.json();
+    if (!data.success) { console.error('Image upload failed:', data.error); return; }
+    window._coverImageData = data.url;
     const thumb = document.getElementById('imgThumb');
-    thumb.src = ev.target.result; thumb.style.display = 'block';
+    thumb.src = data.url; thumb.style.display = 'block';
     document.getElementById('removeImgBtn').style.display = 'block';
     document.getElementById('uploadZone').style.borderColor = 'var(--deep-rose)';
-  };
-  reader.readAsDataURL(file);
+  } catch (err) {
+    console.error('Image upload error:', err);
+  }
 }
 function removeImage() {
   window._coverImageData = null;

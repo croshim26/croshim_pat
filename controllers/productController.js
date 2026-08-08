@@ -4,7 +4,6 @@ const SavedPattern = require("../models/saved_pattern");
 
 const { Product, User } = require("../models");
 const supabase = require("../util/supabase");
-const { log } = require("console");
 
 
 const locals = (req, extra = {}) => ({
@@ -259,6 +258,31 @@ exports.deletePattern = async (req, res) => {
     if (pattern) await pattern.destroy();
     res.json({ success: true });
   } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+exports.uploadCoverImage = async (req, res) => {
+  try {
+    if (!req.file || !req.file.mimetype.startsWith('image/')) {
+      return res.status(400).json({ success: false, error: 'No image file provided' });
+    }
+    const userId = req.session.userId;
+    const ext = path.extname(req.file.originalname) || '.jpg';
+    const storageKey = `${userId}/covers/${uuidv4()}${ext}`;
+    const { error: uploadError } = await supabase.storage
+      .from(process.env.SUPABASE_BUCKET)
+      .upload(storageKey, Buffer.from(req.file.buffer), {
+        contentType: req.file.mimetype,
+        upsert: false,
+      });
+    if (uploadError) return res.status(500).json({ success: false, error: uploadError.message });
+    const { data: publicUrlData } = supabase.storage
+      .from(process.env.SUPABASE_BUCKET)
+      .getPublicUrl(storageKey);
+    res.json({ success: true, url: publicUrlData.publicUrl });
+  } catch (err) {
+    console.error('uploadCoverImage error:', err);
     res.status(500).json({ success: false, error: err.message });
   }
 };

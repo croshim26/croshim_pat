@@ -29,6 +29,12 @@ exports.postRegister = async (req, res) => {
       return res.redirect("/register");
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      req.flash("error", "Please enter a valid email address.");
+      return res.redirect("/register");
+    }
+
     const existingUser = await User.findOne({
       where: { email },
     });
@@ -71,10 +77,8 @@ exports.postRegister = async (req, res) => {
    GET Login Page
    ========================================================= */
 exports.getLogin = (req, res) => {
-  res.render("pages/dashboard", {
-    error_message: req.flash("error")[0] || null,
-    success_message: req.flash("success")[0] || null,
-  });
+  if (req.session.loggedIn) return res.redirect("/dashboard");
+  res.redirect("/");
 };
 
 /* =========================================================
@@ -230,8 +234,8 @@ exports.postResetPassword = async (req, res) => {
     const { token } = req.params;
     const { password, confirm_password } = req.body;
 
-    if (!password || password.length < 6) {
-      req.flash("error", "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.");
+    if (!password || password.length < 8) {
+      req.flash("error", "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.");
       return res.redirect(`/reset/${token}`);
     }
 
@@ -333,8 +337,8 @@ exports.postProfilePassword = async (req, res) => {
       return res.redirect("/profile");
     }
 
-    if (new_password.length < 6) {
-      req.flash("error", "كلمة المرور الجديدة يجب أن تكون 6 أحرف على الأقل.");
+    if (new_password.length < 8) {
+      req.flash("error", "كلمة المرور الجديدة يجب أن تكون 8 أحرف على الأقل.");
       return res.redirect("/profile");
     }
 
