@@ -2,7 +2,6 @@ const User = require("../models/user");
 const Product = require("../models/product");
 const SavedPattern = require("../models/saved_pattern");
 const AppSetting = require("../models/app_setting");
-const igApi = require("../util/instagramApi");
 
 const locals = (req, extra = {}) => ({
   successMessage: req.flash("success")[0] || null,
@@ -11,116 +10,118 @@ const locals = (req, extra = {}) => ({
 });
 
 /* ── Dashboard ─────────────────────────────────────────── */
-exports.getDashboard = async (req, res) => {
-  const [userCount, productCount, savedPatternCount] =
-    await Promise.all([
-      User.count(),
-      Product.count(),
-      SavedPattern.count(),
-    ]);
-
-  res.render("admin/dashboard", {
-    pageTitle: "لوحة التحكم",
-    userCount,
-    productCount,
-    savedPatternCount,
-    ...locals(req),
-  });
+exports.getDashboard = async (req, res, next) => {
+  try {
+    const [userCount, productCount, savedPatternCount] =
+      await Promise.all([User.count(), Product.count(), SavedPattern.count()]);
+    res.render("admin/dashboard", {
+      pageTitle: "لوحة التحكم",
+      userCount, productCount, savedPatternCount,
+      ...locals(req),
+    });
+  } catch (err) {
+    console.error("getDashboard error:", err);
+    next(err);
+  }
 };
 
 /* ── Users ─────────────────────────────────────────────── */
-exports.getUsers = async (req, res) => {
-  const users = await User.findAll({ order: [["createdAt", "DESC"]] });
-  res.render("admin/users", {
-    pageTitle: "المستخدمون",
-    users,
-    ...locals(req),
-  });
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await User.findAll({ order: [["createdAt", "DESC"]] });
+    res.render("admin/users", { pageTitle: "المستخدمون", users, ...locals(req) });
+  } catch (err) {
+    console.error("getUsers error:", err);
+    next(err);
+  }
 };
 
 exports.toggleAdmin = async (req, res) => {
-  const user = await User.findByPk(req.params.id);
-  if (!user) {
-    req.flash("error", "المستخدم غير موجود.");
-    return res.redirect("/ezshm_crochem/users");
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) { req.flash("error", "المستخدم غير موجود."); return res.redirect("/ezshm_crochem/users"); }
+    if (user.id === req.session.userId) { req.flash("error", "لا يمكنك تغيير صلاحياتك بنفسك."); return res.redirect("/ezshm_crochem/users"); }
+    user.is_admin = !user.is_admin;
+    await user.save();
+    req.flash("success", `تم تحديث صلاحيات ${user.email}.`);
+    res.redirect("/ezshm_crochem/users");
+  } catch (err) {
+    console.error("toggleAdmin error:", err);
+    req.flash("error", "حدث خطأ أثناء تحديث الصلاحيات.");
+    res.redirect("/ezshm_crochem/users");
   }
-  if (user.id === req.session.userId) {
-    req.flash("error", "لا يمكنك تغيير صلاحياتك بنفسك.");
-    return res.redirect("/ezshm_crochem/users");
-  }
-  user.is_admin = !user.is_admin;
-  await user.save();
-  req.flash("success", `تم تحديث صلاحيات ${user.email}.`);
-  res.redirect("/ezshm_crochem/users");
 };
 
-// exports.togglePatternBuilderAccess = async (req, res) => {
-//   const user = await User.findByPk(req.params.id);
-//   if (!user) {
-//     req.flash("error", "المستخدم غير موجود.");
-//     return res.redirect("/ezshm_crochem/users");
-//   }
-//   user.can_use_pattern_builder = !user.can_use_pattern_builder;
-//   await user.save();
-//   req.flash("success", `تم ${user.can_use_pattern_builder ? "تفعيل" : "إيقاف"} Pattern Builder للمستخدم ${user.email}.`);
-//   res.redirect("/ezshm_crochem/users");
-// };
+// exports.togglePatternBuilderAccess = async (req, res) => { ... };
 
 exports.setPatternLimit = async (req, res) => {
-  const user = await User.findByPk(req.params.id);
-  if (!user) { req.flash("error", "المستخدم غير موجود."); return res.redirect("/ezshm_crochem/users"); }
-  const raw = parseInt(req.body.limit);
-  user.pattern_limit = (isNaN(raw) || raw < 0) ? null : raw;
-  await user.save();
-  const display = user.pattern_limit === 0 ? 'غير محدود (∞)' : (user.pattern_limit ?? 5) + ' باترنات';
-  req.flash("success", `تم تعيين حد الـ Workbook للمستخدم ${user.email} إلى ${display}.`);
-  res.redirect("/ezshm_crochem/users");
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) { req.flash("error", "المستخدم غير موجود."); return res.redirect("/ezshm_crochem/users"); }
+    const raw = parseInt(req.body.limit);
+    user.pattern_limit = (isNaN(raw) || raw < 0) ? null : raw;
+    await user.save();
+    const display = user.pattern_limit === 0 ? 'غير محدود (∞)' : (user.pattern_limit ?? 5) + ' باترنات';
+    req.flash("success", `تم تعيين حد الـ Workbook للمستخدم ${user.email} إلى ${display}.`);
+    res.redirect("/ezshm_crochem/users");
+  } catch (err) {
+    console.error("setPatternLimit error:", err);
+    req.flash("error", "حدث خطأ أثناء تحديث الحد.");
+    res.redirect("/ezshm_crochem/users");
+  }
 };
 
 exports.deleteUser = async (req, res) => {
-  const user = await User.findByPk(req.params.id);
-  if (!user) {
-    req.flash("error", "المستخدم غير موجود.");
-    return res.redirect("/ezshm_crochem/users");
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) { req.flash("error", "المستخدم غير موجود."); return res.redirect("/ezshm_crochem/users"); }
+    if (user.id === req.session.userId) { req.flash("error", "لا يمكنك حذف حسابك الخاص."); return res.redirect("/ezshm_crochem/users"); }
+    await user.destroy();
+    req.flash("success", "تم حذف المستخدم.");
+    res.redirect("/ezshm_crochem/users");
+  } catch (err) {
+    console.error("deleteUser error:", err);
+    req.flash("error", "حدث خطأ أثناء حذف المستخدم.");
+    res.redirect("/ezshm_crochem/users");
   }
-  if (user.id === req.session.userId) {
-    req.flash("error", "لا يمكنك حذف حسابك الخاص.");
-    return res.redirect("/ezshm_crochem/users");
-  }
-  await user.destroy();
-  req.flash("success", "تم حذف المستخدم.");
-  res.redirect("/ezshm_crochem/users");
 };
 
 /* ── Products ──────────────────────────────────────────── */
-exports.getProducts = async (req, res) => {
-  const products = await Product.findAll({ order: [["createdAt", "DESC"]] });
-  res.render("admin/products", {
-    pageTitle: "المنتجات",
-    products,
-    ...locals(req),
-  });
+exports.getProducts = async (req, res, next) => {
+  try {
+    const products = await Product.findAll({ order: [["createdAt", "DESC"]] });
+    res.render("admin/products", { pageTitle: "المنتجات", products, ...locals(req) });
+  } catch (err) {
+    console.error("getProducts error:", err);
+    next(err);
+  }
 };
 
 exports.deleteProduct = async (req, res) => {
-  const product = await Product.findByPk(req.params.id);
-  if (product) await product.destroy();
-  req.flash("success", "تم حذف المنتج.");
-  res.redirect("/ezshm_crochem/products");
+  try {
+    const product = await Product.findByPk(req.params.id);
+    if (product) await product.destroy();
+    req.flash("success", "تم حذف المنتج.");
+    res.redirect("/ezshm_crochem/products");
+  } catch (err) {
+    console.error("deleteProduct error:", err);
+    req.flash("error", "حدث خطأ أثناء حذف المنتج.");
+    res.redirect("/ezshm_crochem/products");
+  }
 };
 
-
-/* ── Saved Patterns List ────────────────────────────────── */
-exports.getSavedPatternsPage = async (req, res) => {
-  const savedPatterns = await SavedPattern.findAll({
-    attributes: ["id", "name", "emoji", "subtitle", "createdAt"],
-    order: [["createdAt", "DESC"]],
-  });
-  res.render("admin/saved_patterns", {
-    pageTitle: "الباترنات المحفوظة",
-    savedPatterns,
-    ...locals(req),
-  });
+/* ── Saved Patterns ────────────────────────────────────── */
+exports.getSavedPatternsPage = async (req, res, next) => {
+  try {
+    const savedPatterns = await SavedPattern.findAll({
+      attributes: ["id", "name", "emoji", "subtitle", "createdAt"],
+      order: [["createdAt", "DESC"]],
+    });
+    res.render("admin/saved_patterns", { pageTitle: "الباترنات المحفوظة", savedPatterns, ...locals(req) });
+  } catch (err) {
+    console.error("getSavedPatternsPage error:", err);
+    next(err);
+  }
 };
 
 exports.deleteSavedPatternFromList = async (req, res) => {
@@ -129,61 +130,53 @@ exports.deleteSavedPatternFromList = async (req, res) => {
     if (pattern) await pattern.destroy();
     req.flash("success", "تم حذف الباترن.");
   } catch (err) {
-    console.error("Delete pattern error:", err);
+    console.error("deleteSavedPatternFromList error:", err);
     req.flash("error", "خطأ أثناء الحذف.");
   }
   res.redirect("/ezshm_crochem/saved-patterns");
 };
 
-/* ── Pattern Builder ───────────────────────────────────── */
-exports.getPatternBuilder = async (req, res) => {
-  const savedPatterns = await SavedPattern.findAll({
-    attributes: ["id", "name", "emoji", "createdAt"],
-    order: [["createdAt", "DESC"]],
-  });
-  res.render("admin/pattern_builder", {
-    pageTitle: "Pattern Builder",
-    savedPatterns,
-    ...locals(req),
-  });
+/* ── Admin Pattern Builder ─────────────────────────────── */
+exports.getPatternBuilder = async (req, res, next) => {
+  try {
+    const savedPatterns = await SavedPattern.findAll({
+      attributes: ["id", "name", "emoji", "createdAt"],
+      order: [["createdAt", "DESC"]],
+    });
+    res.render("admin/pattern_builder", { pageTitle: "Pattern Builder", savedPatterns, ...locals(req) });
+  } catch (err) {
+    console.error("getPatternBuilder error:", err);
+    next(err);
+  }
 };
 
 exports.savePattern = async (req, res) => {
   try {
     const { id, name, subtitle, emoji, cover_image, tools, abbrs, parts } = req.body;
-
     let pattern;
     if (id) {
       pattern = await SavedPattern.findByPk(id);
-      if (pattern) {
-        await pattern.update({ name: name || "باترن جديد", subtitle, emoji, cover_image, tools, abbrs, parts });
-      }
+      if (pattern) await pattern.update({ name: name || "باترن جديد", subtitle, emoji, cover_image, tools, abbrs, parts });
     }
-
     if (!pattern) {
-      pattern = await SavedPattern.create({
-        name: name || "باترن جديد",
-        subtitle,
-        emoji,
-        cover_image,
-        tools,
-        abbrs,
-        parts,
-        created_by: req.session.userId,
-      });
+      pattern = await SavedPattern.create({ name: name || "باترن جديد", subtitle, emoji, cover_image, tools, abbrs, parts, created_by: req.session.userId });
     }
-
     res.json({ success: true, pattern });
   } catch (err) {
-    console.error("Save pattern error:", err);
+    console.error("savePattern error:", err);
     res.status(500).json({ success: false, error: err.message });
   }
 };
 
 exports.loadPattern = async (req, res) => {
-  const pattern = await SavedPattern.findByPk(req.params.id);
-  if (!pattern) return res.status(404).json({ error: "not found" });
-  res.json(pattern);
+  try {
+    const pattern = await SavedPattern.findByPk(req.params.id);
+    if (!pattern) return res.status(404).json({ error: "not found" });
+    res.json(pattern);
+  } catch (err) {
+    console.error("loadPattern error:", err);
+    res.status(500).json({ error: "server error" });
+  }
 };
 
 exports.deletePattern = async (req, res) => {
@@ -192,20 +185,19 @@ exports.deletePattern = async (req, res) => {
     if (pattern) await pattern.destroy();
     res.json({ success: true });
   } catch (err) {
-    console.error("Delete pattern error:", err);
+    console.error("deletePattern error:", err);
     res.status(500).json({ success: false, error: err.message });
   }
 };
-
 
 /* ══════════════════════════════════════════════════════════
    INSTAGRAM
 ══════════════════════════════════════════════════════════ */
 
 const IG_ENV_MAP = {
-  ig_user_id:     process.env.IG_USER_ID,
+  ig_user_id:      process.env.IG_USER_ID,
   ig_access_token: process.env.IG_ACCESS_TOKEN,
-  ig_base_url:    process.env.IG_BASE_URL,
+  ig_base_url:     process.env.IG_BASE_URL,
 };
 
 async function getSetting(key) {
@@ -217,126 +209,3 @@ async function setSetting(key, value) {
   await AppSetting.upsert({ key, value });
 }
 
-exports.getInstagramPage = async (req, res) => {
-  const igUserId      = await getSetting("ig_user_id");
-  const accessToken   = await getSetting("ig_access_token");
-  const baseUrl       = await getSetting("ig_base_url") || "";
-
-  let account = null;
-  let tokenError = null;
-
-  if (igUserId && accessToken) {
-    try {
-      account = await igApi.verifyAccount(igUserId, accessToken);
-    } catch (err) {
-      tokenError = err.message;
-    }
-  }
-
-  res.render("admin/instagram", {
-    pageTitle: "إنستغرام",
-    igUserId:    igUserId    || "",
-    accessToken: accessToken ? "••••••••" + accessToken.slice(-6) : "",
-    baseUrl,
-    account,
-    tokenError,
-    isConnected: !!account,
-    ...locals(req),
-  });
-};
-
-exports.saveInstagramSettings = async (req, res) => {
-  const { ig_user_id, access_token, base_url } = req.body;
-
-  if (!ig_user_id || !access_token) {
-    req.flash("error", "يرجى إدخال IG User ID و Access Token.");
-    return res.redirect("/ezshm_crochem/instagram");
-  }
-
-  try {
-    await igApi.verifyAccount(ig_user_id, access_token);
-  } catch (err) {
-    req.flash("error", `فشل التحقق من الحساب: ${err.message}`);
-    return res.redirect("/ezshm_crochem/instagram");
-  }
-
-  await setSetting("ig_user_id",      ig_user_id.trim());
-  await setSetting("ig_access_token", access_token.trim());
-  await setSetting("ig_base_url",     (base_url || "").trim());
-
-  req.flash("success", "تم حفظ إعدادات إنستغرام وتم التحقق من الحساب بنجاح ✓");
-  res.redirect("/ezshm_crochem/instagram");
-};
-
-exports.refreshInstagramToken = async (req, res) => {
-  const accessToken = await getSetting("ig_access_token");
-  if (!accessToken) {
-    req.flash("error", "لا يوجد token محفوظ.");
-    return res.redirect("/ezshm_crochem/instagram");
-  }
-  try {
-    const result = await igApi.refreshToken(accessToken);
-    await setSetting("ig_access_token", result.access_token);
-    req.flash("success", "تم تجديد الـ Token بنجاح — صالح 60 يوماً إضافية ✓");
-  } catch (err) {
-    req.flash("error", `خطأ في تجديد الـ Token: ${err.message}`);
-  }
-  res.redirect("/ezshm_crochem/instagram");
-};
-
-exports.postInstagram = async (req, res) => {
-  const igUserId    = await getSetting("ig_user_id");
-  const accessToken = await getSetting("ig_access_token");
-
-  if (!igUserId || !accessToken) {
-    req.flash("error", "الحساب غير متصل. أضف إعدادات إنستغرام أولاً.");
-    return res.redirect("/ezshm_crochem/instagram");
-  }
-
-  if (!req.file) {
-    req.flash("error", "يرجى اختيار صورة للمنشور.");
-    return res.redirect("/ezshm_crochem/instagram");
-  }
-
-  if (!["image/jpeg", "image/png"].includes(req.file.mimetype)) {
-    req.flash("error", "Instagram يقبل JPEG و PNG فقط. يرجى تحويل الصورة وإعادة المحاولة.");
-    return res.redirect("/ezshm_crochem/instagram");
-  }
-
-  const { caption = "" } = req.body;
-  const ext        = req.file.mimetype === "image/png" ? ".png" : ".jpg";
-  const storageKey = `ig/ig_${Date.now()}${ext}`;
-
-  // Upload to Supabase so Instagram can fetch a stable public URL
-  const supabase = require("../util/supabase");
-  const { error: uploadError } = await supabase.storage
-    .from(process.env.SUPABASE_BUCKET)
-    .upload(storageKey, req.file.buffer, {
-      contentType: req.file.mimetype,
-      upsert: false,
-    });
-
-  if (uploadError) {
-    console.error("Supabase upload error:", uploadError);
-    req.flash("error", `فشل رفع الصورة: ${uploadError.message}`);
-    return res.redirect("/ezshm_crochem/instagram");
-  }
-
-  const { data: publicUrlData } = supabase.storage
-    .from(process.env.SUPABASE_BUCKET)
-    .getPublicUrl(storageKey);
-
-  const imageUrl = publicUrlData.publicUrl;
-
-  try {
-    await igApi.publishPhoto(igUserId, accessToken, imageUrl, caption);
-    req.flash("success", "تم نشر المنشور على إنستغرام بنجاح! 🎉");
-  } catch (err) {
-    console.error("Instagram post error:", err);
-    // Remove image from Supabase on failure
-    await supabase.storage.from(process.env.SUPABASE_BUCKET).remove([storageKey]);
-    req.flash("error", `فشل النشر: ${err.message}`);
-  }
-
-  res.redirect("/ezshm_crochem/instagram");
-};

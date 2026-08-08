@@ -103,7 +103,7 @@
   "new_password_title": "كلمة مرور جديدة",
   "new_password_desc": "اختر كلمة مرور قوية لحسابك",
   "label_new_password": "كلمة المرور الجديدة",
-  "placeholder_min6": "6 أحرف على الأقل",
+  "placeholder_min6": "8 أحرف على الأقل",
   "label_confirm_password": "تأكيد كلمة المرور",
   "placeholder_retype": "أعد كتابة كلمة المرور",
   "btn_save_password": "حفظ كلمة المرور الجديدة",

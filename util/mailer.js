@@ -1,9 +1,13 @@
 const { Resend } = require("resend");
 
+if (!process.env.RESEND_API_KEY) {
+  console.warn("WARNING: RESEND_API_KEY is not set — password reset emails will fail.");
+}
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendPasswordResetEmail(toEmail, resetUrl) {
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: process.env.EMAIL_FROM || "Croshim Studio <onboarding@resend.dev>",
     to: toEmail,
     subject: "إعادة تعيين كلمة المرور — Croshim Studio",
@@ -39,6 +43,7 @@ async function sendPasswordResetEmail(toEmail, resetUrl) {
       </div>
     `,
   });
+  if (error) throw new Error(`Resend error: ${JSON.stringify(error)}`);
 }
 
 module.exports = { sendPasswordResetEmail };
