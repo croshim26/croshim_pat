@@ -95,7 +95,23 @@ app.set("views", "views");
    Note: multipart/form-data is handled by Multer below.
    ========================================================= */
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json({ limit: "1mb" }));
+
+/* Pattern-builder saves carry base64 reference photos inside the parts JSON,
+   so those endpoints need a much larger body limit than the rest of the app.
+   Note: this parser runs first, so a route-level express.json() would be a
+   no-op — the limit has to be decided here. */
+const jsonSmall = express.json({ limit: "1mb" });
+const jsonLarge = express.json({ limit: "60mb" });
+const LARGE_JSON_PATHS = new Set([
+  "/pattern-builder/save",
+  "/pattern-builder/save-pdf",
+]);
+
+app.use((req, res, next) =>
+  LARGE_JSON_PATHS.has(req.path)
+    ? jsonLarge(req, res, next)
+    : jsonSmall(req, res, next)
+);
 
 /* =========================================================
    Static Files
@@ -165,7 +181,7 @@ const upload = multer({
     return cb(null, false);
   },
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB
+    fileSize: 40 * 1024 * 1024, // 40MB — modern phone photos exceed 10MB
   },
 });
 
@@ -191,12 +207,10 @@ const { generateCsrfToken, doubleCsrfProtection, invalidCsrfTokenError } = doubl
     secure: process.env.NODE_ENV === "production",
     path: "/",
   },
-  getCsrfTokenFromRequest: (req) => {
-    const ct = req.headers["content-type"] || "";
-    return ct.includes("application/json")
-      ? req.headers["x-csrf-token"]
-      : req.body?._csrf;
-  },
+  /* Header first (fetch/JSON and multipart uploads), then the hidden
+     _csrf field used by classic EJS form posts. */
+  getCsrfTokenFromRequest: (req) =>
+    req.headers["x-csrf-token"] || req.body?._csrf,
   ignoredMethods: ["GET", "HEAD", "OPTIONS"],
 });
 
@@ -253,9 +267,33 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   console.error("App error:", err);
 
+  // fetch() callers expect JSON, not a redirect or an HTML error page
+  const wantsJson =
+    req.xhr ||
+    (req.headers.accept || "").includes("application/json") ||
+    (req.headers["content-type"] || "").includes("application/json") ||
+    req.path.startsWith("/pattern-builder/");
+
   if (err === invalidCsrfTokenError) {
+    if (wantsJson) {
+      return res.status(403).json({
+        success: false,
+        error: "Invalid or expired session. Please refresh the page.",
+      });
+    }
     req.flash("error", "Invalid or expired form submission. Please try again.");
     return res.redirect("/");
+  }
+
+  if (err.type === "entity.too.large" || err.code === "LIMIT_FILE_SIZE") {
+    const msg = "File is too large. Please use a smaller image.";
+    if (wantsJson) return res.status(413).json({ success: false, error: msg });
+    req.flash("error", msg);
+    return res.redirect(req.get("Referer") || "/");
+  }
+
+  if (wantsJson) {
+    return res.status(500).json({ success: false, error: "Server error" });
   }
 
   res.status(500).render("500", {
