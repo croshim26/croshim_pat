@@ -1130,12 +1130,19 @@ async function handleImageUpload(e) {
   const file = e.target.files[0]; if (!file) return;
   const form = new FormData();
   form.append('image', file);
-  const csrfInput = document.querySelector('[name="_csrf"]');
-  if (csrfInput) form.append('_csrf', csrfInput.value);
+  form.append('_csrf', CSRF_TOKEN);
   try {
-    const r = await fetch('/pattern-builder/upload-image', { method: 'POST', body: form });
+    const r = await fetch('/pattern-builder/upload-image', {
+      method: 'POST',
+      headers: { 'X-CSRF-Token': CSRF_TOKEN },
+      body: form,
+    });
     const data = await r.json();
-    if (!data.success) { console.error('Image upload failed:', data.error); return; }
+    if (!data.success) {
+      console.error('Image upload failed:', data.error);
+      showToast(UI_T.pb_toast_error + (data.error ? ': ' + data.error : ''));
+      return;
+    }
     window._coverImageData = data.url;
     const thumb = document.getElementById('imgThumb');
     thumb.src = data.url; thumb.style.display = 'block';
@@ -1153,23 +1160,64 @@ function removeImage() {
   document.getElementById('uploadZone').style.borderColor = 'var(--rose)';
 }
 
-/* ── Per-part image upload ── */
-function handlePartImageUpload(id, e) {
+/* ── Per-part image upload ──
+   Reference photos are stored inline in the pattern JSON, so a raw 10MB+
+   phone photo would blow up the save payload. Any size is accepted here and
+   scaled down to a print-friendly size before it is embedded. */
+const PART_IMG_MAX_DIM = 1600;
+const PART_IMG_QUALITY = 0.85;
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = ev => resolve(ev.target.result);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+function shrinkImage(dataUrl) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, PART_IMG_MAX_DIM / Math.max(img.width, img.height));
+      if (scale === 1 && dataUrl.length < 700000) return resolve(dataUrl);
+      const canvas = document.createElement('canvas');
+      canvas.width  = Math.round(img.width  * scale);
+      canvas.height = Math.round(img.height * scale);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      try {
+        resolve(canvas.toDataURL('image/jpeg', PART_IMG_QUALITY));
+      } catch (_) {
+        resolve(dataUrl); // tainted canvas / unsupported — keep the original
+      }
+    };
+    img.onerror = () => resolve(null);
+    img.src = dataUrl;
+  });
+}
+
+async function handlePartImageUpload(id, e) {
   const files = Array.from(e.target.files);
+  e.target.value = '';
   if (!files.length) return;
   const part = parts.find(p => p.id === id);
   if (!part) return;
   if (!part.imgs) part.imgs = [];
-  let loaded = 0;
-  files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = function(ev) {
-      part.imgs.push(ev.target.result);
-      loaded++;
-      if (loaded === files.length) renderParts();
-    };
-    reader.readAsDataURL(file);
-  });
+
+  syncAll(); // renderParts() below rebuilds the inputs — keep any unsaved text
+  let failed = 0;
+  for (const file of files) {
+    try {
+      const shrunk = await shrinkImage(await readFileAsDataUrl(file));
+      if (shrunk) part.imgs.push(shrunk); else failed++;
+    } catch (_) {
+      failed++;
+    }
+  }
+  renderParts();
+  if (failed) showToast(UI_T.pb_toast_error + ' (' + failed + ')');
 }
 function removePartImage(id, idx) {
   const part = parts.find(p => p.id === id);

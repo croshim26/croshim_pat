@@ -276,14 +276,32 @@ exports.uploadCoverImage = async (req, res) => {
         contentType: req.file.mimetype,
         upsert: false,
       });
-    if (uploadError) return res.status(500).json({ success: false, error: uploadError.message });
+    if (uploadError) {
+      console.error('uploadCoverImage storage error:', {
+        bucket: process.env.SUPABASE_BUCKET,
+        storageKey,
+        message: uploadError.message,
+      });
+      return res.status(502).json({ success: false, error: uploadError.message });
+    }
     const { data: publicUrlData } = supabase.storage
       .from(process.env.SUPABASE_BUCKET)
       .getPublicUrl(storageKey);
     res.json({ success: true, url: publicUrlData.publicUrl });
   } catch (err) {
+    // "fetch failed" here means Node could not reach SUPABASE_URL at all
+    // (bad project ref / DNS / offline) — not a problem with the image.
+    const unreachable = err.message === 'fetch failed';
     console.error('uploadCoverImage error:', err);
-    res.status(500).json({ success: false, error: err.message });
+    if (unreachable) {
+      console.error(
+        `  ↳ could not reach Supabase at ${process.env.SUPABASE_URL} — check SUPABASE_URL and network`
+      );
+    }
+    res.status(unreachable ? 502 : 500).json({
+      success: false,
+      error: unreachable ? 'Image storage is unreachable' : err.message,
+    });
   }
 };
 
