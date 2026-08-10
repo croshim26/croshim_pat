@@ -22,7 +22,9 @@ router.post("/pattern-builder/save", loggedin, productController.savePattern);
 router.get("/pattern-builder/load/:id", loggedin, productController.loadPattern);
 router.post("/pattern-builder/delete/:id", loggedin, productController.deletePattern);
 router.post("/pattern-builder/upload-image",    loggedin, productController.uploadCoverImage);
-router.post("/pattern-builder/save-pdf",        loggedin, express.json({ limit: "20mb" }), productController.savePatternPdf);
+// Body limit for this route is set in app.js (LARGE_JSON_PATHS) — the global
+// parser runs first, so a parser mounted here would never take effect.
+router.post("/pattern-builder/save-pdf",        loggedin, productController.savePatternPdf);
 router.post("/pattern-builder/save-as-product", loggedin, productController.savePatternAsProduct);
 
 module.exports = router;
