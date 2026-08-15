@@ -16,6 +16,7 @@ const crochetRegisterRoutes = require("./routes/authRoutes");
 const crochetProductRoutes = require("./routes/productRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const patternRoutes = require("./routes/patternRoutes");
+const feedbackRoutes = require("./routes/feedbackRoutes");
 const i18n = require("./middleware/i18n");
 
 const sequelize = require("./util/database");
@@ -250,6 +251,11 @@ res.render("pages/landing", {
 
 app.use(crochetRegisterRoutes);
 app.use(crochetProductRoutes);
+
+/* Public routes must be mounted before adminRoutes: that router applies
+   isAdmin to every request reaching it, which would redirect visitors away. */
+app.use(feedbackRoutes);
+
 app.use(adminRoutes);
 app.use(patternRoutes);
 
