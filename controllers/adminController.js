@@ -2,6 +2,7 @@ const User = require("../models/user");
 const Product = require("../models/product");
 const SavedPattern = require("../models/saved_pattern");
 const AppSetting = require("../models/app_setting");
+const Feedback = require("../models/feedback");
 
 const locals = (req, extra = {}) => ({
   successMessage: req.flash("success")[0] || null,
@@ -108,6 +109,29 @@ exports.deleteProduct = async (req, res) => {
     req.flash("error", "حدث خطأ أثناء حذف المنتج.");
     res.redirect("/ezshm_crochem/products");
   }
+};
+
+/* ── Suggestions & Complaints ──────────────────────────── */
+exports.getFeedback = async (req, res, next) => {
+  try {
+    const items = await Feedback.findAll({ order: [["createdAt", "DESC"]] });
+    res.render("admin/feedback", { pageTitle: "الاقتراحات والشكاوى", items, ...locals(req) });
+  } catch (err) {
+    console.error("getFeedback error:", err);
+    next(err);
+  }
+};
+
+exports.deleteFeedback = async (req, res) => {
+  try {
+    const entry = await Feedback.findByPk(req.params.id);
+    if (entry) await entry.destroy();
+    req.flash("success", "تم حذف الرسالة.");
+  } catch (err) {
+    console.error("deleteFeedback error:", err);
+    req.flash("error", "حدث خطأ أثناء الحذف.");
+  }
+  res.redirect("/ezshm_crochem/feedback");
 };
 
 /* ── Saved Patterns ────────────────────────────────────── */
