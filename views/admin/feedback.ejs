@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>الاقتراحات والشكاوى — Croshim Studio</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/pages/admin.css">
+  <style>
+    .fb-badge {
+      font-family: 'Cairo', sans-serif; font-weight: 800; font-size: .7rem;
+      padding: .2rem .55rem; border-radius: 8px; white-space: nowrap;
+    }
+    .fb-badge-suggestion { background: #eef6ff; color: #1f5f9e; }
+    .fb-badge-complaint { background: #fdecec; color: #a12525; }
+    .fb-msg {
+      font-family: 'Cairo', sans-serif; font-size: .84rem; color: #4a3b41;
+      line-height: 1.8; white-space: pre-wrap; word-break: break-word; max-width: 460px;
+    }
+    .fb-contact { font-family: 'Cairo', sans-serif; font-size: .78rem; color: #6b5b62; }
+    .fb-contact a { color: #9b3a5a; }
+  </style>
+</head>
+<body>
+<div class="admin-shell">
+
+  <%- include('./_sidebar', { currentPage: 'feedback' }) %>
+
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1 class="admin-topbar-title">الاقتراحات والشكاوى</h1>
+      <span class="admin-topbar-user">
+        <i class="fas fa-user-shield"></i>
+        <%= adminUser.firstName %> <%= adminUser.lastName %>
+      </span>
+    </div>
+
+    <div class="admin-content">
+
+      <% if (successMessage) { %>
+        <div class="admin-alert admin-alert-success"><i class="fas fa-check-circle"></i> <%= successMessage %></div>
+      <% } %>
+      <% if (errorMessage) { %>
+        <div class="admin-alert admin-alert-error"><i class="fas fa-exclamation-circle"></i> <%= errorMessage %></div>
+      <% } %>
+
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <h2 class="admin-table-title">
+            <i class="fas fa-comment-dots"></i>
+            الرسائل الواردة
+            <span class="admin-count"><%= items.length %></span>
+          </h2>
+        </div>
+
+        <% if (items.length === 0) { %>
+          <div class="admin-empty">
+            <i class="fas fa-comment-dots"></i>
+            لا توجد رسائل بعد.
+          </div>
+        <% } else { %>
+        <div style="overflow-x:auto;">
+          <table class="atbl">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>النوع</th>
+                <th>المرسل</th>
+                <th>الرسالة</th>
+                <th>التاريخ</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% items.forEach(function (f) { %>
+              <tr>
+                <td><%= f.id %></td>
+                <td>
+                  <span class="fb-badge fb-badge-<%= f.type %>">
+                    <%= f.type === 'complaint' ? 'شكوى' : 'اقتراح' %>
+                  </span>
+                </td>
+                <td>
+                  <div class="fb-contact">
+                    <div><%= f.name || 'بدون اسم' %></div>
+                    <% if (f.email) { %>
+                      <div dir="ltr"><a href="mailto:<%= f.email %>"><%= f.email %></a></div>
+                    <% } %>
+                    <div style="opacity:.7;"><%= f.user_id ? 'مستخدم #' + f.user_id : 'زائر' %></div>
+                  </div>
+                </td>
+                <td><div class="fb-msg"><%= f.message %></div></td>
+                <td><%= new Date(f.createdAt).toLocaleDateString('ar-SA') %></td>
+                <td>
+                  <form action="/ezshm_crochem/feedback/<%= f.id %>/delete" method="POST"
+                    onsubmit="return confirm('حذف هذه الرسالة نهائياً؟');">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit" class="btn-action btn-del">
+                      <i class="fas fa-trash-alt"></i> حذف
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+        <% } %>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

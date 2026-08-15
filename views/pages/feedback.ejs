@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= pageTitle %></title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+
+  <style>
+    .fb-page {
+      min-height: calc(100vh - 120px);
+      padding: 3rem 1rem 4rem;
+      background: linear-gradient(180deg, #fdf0f3 0%, #faf9f7 55%);
+    }
+    .fb-card {
+      max-width: 620px; margin: 0 auto; background: #fff;
+      border: 1px solid #f0dbe2; border-radius: 22px;
+      padding: 2.1rem 1.8rem 1.9rem;
+      box-shadow: 0 18px 45px rgba(155, 58, 90, .08);
+      font-family: 'Cairo', sans-serif;
+    }
+    .fb-head { text-align: center; margin-bottom: 1.5rem; }
+    .fb-head-icon {
+      width: 54px; height: 54px; margin: 0 auto .8rem; border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.45rem; color: #fff;
+      background: linear-gradient(135deg, #9b3a5a, #e8a0b0);
+      box-shadow: 0 10px 22px rgba(155, 58, 90, .25);
+    }
+    .fb-head h1 { font-weight: 900; font-size: 1.45rem; color: #0f172a; margin: 0 0 .35rem; }
+    .fb-head p { color: #6b7280; font-size: .9rem; margin: 0; line-height: 1.7; }
+
+    .fb-label { font-weight: 800; font-size: .86rem; color: #3f2b33; display: block; margin-bottom: .35rem; }
+    .fb-field { margin-bottom: 1.05rem; }
+    .fb-row { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+
+    .fb-input, .fb-textarea, .fb-select {
+      width: 100%; font-family: 'Cairo', sans-serif; font-size: .92rem; color: #0f172a;
+      background: #fdfbfc; border: 1.5px solid #f0dbe2; border-radius: 14px;
+      padding: .68rem .9rem; transition: .18s;
+    }
+    .fb-input:focus, .fb-textarea:focus, .fb-select:focus {
+      outline: none; border-color: #9b3a5a; background: #fff;
+      box-shadow: 0 0 0 3px rgba(155, 58, 90, .1);
+    }
+    .fb-textarea { min-height: 165px; resize: vertical; line-height: 1.8; }
+    .fb-note { font-size: .76rem; color: #9e8e96; margin: .3rem 0 0; }
+
+    .fb-submit {
+      width: 100%; font-weight: 900; font-size: 1rem; color: #fff; border: 0;
+      border-radius: 16px; padding: .82rem 1rem; cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #9b3a5a, #e8a0b0);
+      box-shadow: 0 12px 26px rgba(155, 58, 90, .22); transition: .2s;
+    }
+    .fb-submit:hover { transform: translateY(-1px); }
+    .fb-back {
+      display: block; text-align: center; margin-top: 1rem;
+      font-weight: 700; font-size: .86rem; color: #9b3a5a; text-decoration: none;
+    }
+    .fb-back:hover { color: #7a2c46; text-decoration: underline; }
+
+    .fb-alert {
+      font-size: .89rem; font-weight: 700; border-radius: 14px;
+      padding: .72rem 1rem; margin-bottom: 1.15rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .fb-alert-success { background: #eafaf1; color: #14683f; border: 1px solid #b9e6cd; }
+    .fb-alert-error { background: #fdecec; color: #a12525; border: 1px solid #f3c4c4; }
+
+    /* Hidden from humans, visible to naive bots */
+    .fb-hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; overflow: hidden; }
+
+    @media (max-width: 576px) {
+      .fb-page { padding: 1.8rem .75rem 3rem; }
+      .fb-card { padding: 1.5rem 1.1rem 1.4rem; border-radius: 18px; }
+      .fb-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <%- include("../partials/navbar") %>
+
+  <main class="fb-page">
+    <div class="fb-card">
+
+      <div class="fb-head">
+        <div class="fb-head-icon"><i class="fas fa-comment-dots"></i></div>
+        <h1><%= t.fb_title %></h1>
+        <p><%= t.fb_subtitle %></p>
+      </div>
+
+      <% if (successMessage) { %>
+        <div class="fb-alert fb-alert-success">
+          <i class="fas fa-check-circle"></i> <%= successMessage %>
+        </div>
+      <% } %>
+
+      <% if (formError || errorMessage) { %>
+        <div class="fb-alert fb-alert-error">
+          <i class="fas fa-exclamation-circle"></i> <%= formError || errorMessage %>
+        </div>
+      <% } %>
+
+      <form action="/feedback" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <div class="fb-field">
+          <label class="fb-label" for="fbType"><%= t.fb_type_label %></label>
+          <select class="fb-select" id="fbType" name="type">
+            <option value="suggestion" <%= selectedType === 'suggestion' ? 'selected' : '' %>><%= t.fb_type_suggestion %></option>
+            <option value="complaint"  <%= selectedType === 'complaint'  ? 'selected' : '' %>><%= t.fb_type_complaint %></option>
+          </select>
+        </div>
+
+        <div class="fb-row">
+          <div class="fb-field">
+            <label class="fb-label" for="fbName"><%= t.fb_label_name %></label>
+            <input type="text" class="fb-input" id="fbName" name="name" maxlength="120"
+              placeholder="<%= t.fb_placeholder_name %>" value="<%= prefill.name %>">
+          </div>
+          <div class="fb-field">
+            <label class="fb-label" for="fbEmail"><%= t.fb_label_email %></label>
+            <input type="email" class="fb-input" id="fbEmail" name="email" maxlength="160"
+              placeholder="example@email.com" dir="ltr" value="<%= prefill.email %>">
+          </div>
+        </div>
+
+        <div class="fb-field">
+          <label class="fb-label" for="fbMessage"><%= t.fb_label_message %></label>
+          <textarea class="fb-textarea" id="fbMessage" name="message" maxlength="5000" required
+            placeholder="<%= t.fb_placeholder_message %>"><%= prefill.message %></textarea>
+          <p class="fb-note"><%= t.fb_email_note %></p>
+        </div>
+
+        <div class="fb-hp" aria-hidden="true">
+          <label for="fbWebsite">Website</label>
+          <input type="text" id="fbWebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button type="submit" class="fb-submit">
+          <i class="fas fa-paper-plane"></i>
+          <%= t.fb_submit %>
+        </button>
+
+        <p class="fb-note" style="text-align:center;margin-top:.8rem;"><%= t.fb_privacy_note %></p>
+      </form>
+
+      <a class="fb-back" href="/"><%= t.fb_back_home %></a>
+
+    </div>
+  </main>
+
+  <%- include("../partials/footer") %>
+  <% if (isAuthenticated) { %>
+    <%- include("../partials/add_product") %>
+  <% } else { %>
+    <%- include("../partials/login-modal") %>
+  <% } %>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
