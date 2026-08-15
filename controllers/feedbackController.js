@@ -9,6 +9,7 @@ const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const pickType = (value) => (TYPES.includes(value) ? value : "suggestion");
 
 /* =========================================================
+  Feedback Page 
    GET /feedback
    Open to everyone — visitors and members. Logged-in users
    get their name and email filled in for them.
