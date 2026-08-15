@@ -18,8 +18,4 @@ router.post("/ezshm_crochem/users/:id/delete", admin.deleteUser);
 router.get("/ezshm_crochem/products", admin.getProducts);
 router.post("/ezshm_crochem/products/:id/delete", admin.deleteProduct);
 
-/* ── Suggestions & Complaints ──────────────────────────── */
-router.get("/ezshm_crochem/feedback", admin.getFeedback);
-router.post("/ezshm_crochem/feedback/:id/delete", admin.deleteFeedback);
-
 module.exports = router;
