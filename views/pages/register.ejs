@@ -6,7 +6,11 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Croshim Studio | <%= t.register_title %></title>
+  <title><%= t.seo_register_title %></title>
+
+  <%- include("../partials/seo", {
+    seo: { title: t.seo_register_title, description: t.seo_register_desc }
+  }) %>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">

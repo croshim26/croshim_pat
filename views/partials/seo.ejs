@@ -1,0 +1,57 @@
+<%
+/* =========================================================
+   SEO meta block — include inside <head> on every page.
+
+   Optional `seo` local (all fields optional):
+     { title, description, keywords, image, type, noindex, jsonLd }
+
+   Falls back to the localised site defaults, so a page can
+   include this with no locals at all.
+   ========================================================= */
+const _seo   = (locals.seo && typeof locals.seo === 'object') ? locals.seo : {};
+const _site  = locals.siteUrl    || 'https://croshim-studio.com';
+const _canon = _seo.canonical    || locals.canonicalUrl || _site;
+const _path  = locals.canonicalPath || '/';
+const _title = _seo.title        || locals.pageTitle || t.seo_default_title;
+const _desc  = (_seo.description || t.seo_default_desc).replace(/\s+/g, ' ').trim();
+const _keys  = _seo.keywords     || t.seo_keywords;
+const _img   = _seo.image        || (_site + '/images/photo_cro.webp');
+const _type  = _seo.type         || 'website';
+const _noidx = _seo.noindex === true;
+const _jsonLd = _seo.jsonLd || null;
+%>
+<meta name="description" content="<%= _desc %>">
+<meta name="keywords" content="<%= _keys %>">
+<meta name="author" content="<%= t.seo_site_name %>">
+<% if (_noidx) { %>
+<meta name="robots" content="noindex, nofollow">
+<% } else { %>
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<% } %>
+
+<link rel="canonical" href="<%= _canon %>">
+<link rel="alternate" hreflang="ar" href="<%= _site + _path %>">
+<link rel="alternate" hreflang="en" href="<%= _site + _path %>?lang=en">
+<link rel="alternate" hreflang="x-default" href="<%= _site + _path %>">
+
+<!-- Open Graph -->
+<meta property="og:type" content="<%= _type %>">
+<meta property="og:site_name" content="<%= t.seo_site_name %>">
+<meta property="og:locale" content="<%= lang === 'en' ? 'en_US' : 'ar_AR' %>">
+<meta property="og:title" content="<%= _title %>">
+<meta property="og:description" content="<%= _desc %>">
+<meta property="og:url" content="<%= _canon %>">
+<meta property="og:image" content="<%= _img %>">
+<meta property="og:image:alt" content="<%= t.seo_image_alt %>">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<%= _title %>">
+<meta name="twitter:description" content="<%= _desc %>">
+<meta name="twitter:image" content="<%= _img %>">
+
+<% if (_jsonLd) { %>
+<script type="application/ld+json">
+<%- JSON.stringify(_jsonLd) %>
+</script>
+<% } %>
