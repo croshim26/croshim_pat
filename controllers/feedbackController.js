@@ -27,7 +27,7 @@ exports.getFeedbackPage = async (req, res, next) => {
     }
 
     res.render("pages/feedback", {
-      pageTitle: `Croshim Studio | ${res.locals.t.fb_title}`,
+      pageTitle: res.locals.t.seo_feedback_title,
       selectedType: pickType(req.query.type),
       prefill,
       formError: null,
@@ -51,7 +51,7 @@ exports.postFeedback = async (req, res) => {
   // Re-render on error so a long message is never lost
   const renderWithError = (formError) =>
     res.render("pages/feedback", {
-      pageTitle: `Croshim Studio | ${t.fb_title}`,
+      pageTitle: t.seo_feedback_title,
       selectedType: type,
       prefill: { name, email, message: message.slice(0, MAX_MESSAGE) },
       formError,
