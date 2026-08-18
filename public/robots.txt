@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Private areas — nothing here belongs in search results
+Disallow: /ezshm_crochem
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /pattern-builder
+Disallow: /add_product
+Disallow: /login
+Disallow: /logout
+Disallow: /reset
+
+Sitemap: https://croshim-studio.com/sitemap.xml

@@ -1,7 +1,38 @@
 <!DOCTYPE html>
 <html lang="<%= lang %>" dir="<%= dir %>">
 
-<%- include("../layouts/head", { pageTitle: "Croshim Studio | الصفحة الرئيسية" }) %>
+<%- include("../layouts/head", {
+  pageTitle: t.seo_home_title,
+  seo: {
+    title: t.seo_home_title,
+    description: t.seo_home_desc,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": siteUrl + "/#organization",
+          "name": t.seo_site_name,
+          "url": siteUrl,
+          "logo": siteUrl + "/favicon.svg",
+          "image": siteUrl + "/images/photo_cro.webp",
+          "description": t.seo_home_desc,
+          "email": "admin@croshim-studio.com",
+          "sameAs": ["https://croshim.com/"]
+        },
+        {
+          "@type": "WebSite",
+          "@id": siteUrl + "/#website",
+          "url": siteUrl,
+          "name": t.seo_site_name,
+          "description": t.seo_home_desc,
+          "inLanguage": lang === "en" ? "en" : "ar",
+          "publisher": { "@id": siteUrl + "/#organization" }
+        }
+      ]
+    }
+  }
+}) %>
 
 <body>
 
@@ -65,6 +96,9 @@
           <h1 class="hero-title">
             Croshim<br>
             <span class="hero-title-accent">Studio</span>
+            <!-- Keyword line lives inside the H1 on purpose: it is the page's
+                 main heading signal for كروشيه / باترون / crochet searches -->
+            <span class="hero-title-keywords"><%= t.seo_home_h1_line %></span>
           </h1>
 
           <p class="hero-subtitle"><%= t.hero_subtitle %></p>

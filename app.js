@@ -17,6 +17,7 @@ const crochetProductRoutes = require("./routes/productRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const patternRoutes = require("./routes/patternRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
+const seoRoutes = require("./routes/seoRoutes");
 const i18n = require("./middleware/i18n");
 
 const sequelize = require("./util/database");
@@ -229,12 +230,21 @@ app.post('/set-lang', (req, res) => {
   res.redirect(back);
 });
 
+const SITE_URL = (process.env.APP_URL || "https://croshim-studio.com").replace(/\/$/, "");
+
 app.use((req, res, next) => {
   res.locals.isAuthenticated = Boolean(req.session.loggedIn);
   res.locals.csrfToken = generateCsrfToken(req, res);
 
   res.locals.errorMessage = req.flash("error")[0] || null;
   res.locals.successMessage = req.flash("success")[0] || null;
+
+  /* SEO: absolute canonical for the current page. The ?lang=en variant keeps
+     its own canonical so both languages can be indexed separately. */
+  res.locals.siteUrl = SITE_URL;
+  res.locals.canonicalPath = req.path;
+  res.locals.canonicalUrl =
+    SITE_URL + req.path + (req.query.lang === "en" ? "?lang=en" : "");
 
   next();
 });
@@ -253,11 +263,13 @@ app.use(crochetRegisterRoutes);
 app.use(crochetProductRoutes);
 
 /* Public routes must be mounted before adminRoutes: that router applies
-   isAdmin to every request reaching it, which would redirect visitors away. */
+   isAdmin to every request reaching it, which would redirect visitors
+   (and search engine crawlers) away from public pages. */
 app.use(feedbackRoutes);
+app.use(patternRoutes);
+app.use(seoRoutes);
 
 app.use(adminRoutes);
-app.use(patternRoutes);
 
 /* =========================================================
    404 Handler
