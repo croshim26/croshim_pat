@@ -1,6 +1,8 @@
 const express = require("express");
 
-const SavedPattern = require("../models/saved_pattern");
+const { Op } = require("sequelize");
+
+const { SavedPattern, Product } = require("../models");
 
 const router = express.Router();
 
@@ -36,11 +38,23 @@ const urlEntry = ({ loc, lastmod, changefreq, priority }) => `  <url>
    ========================================================= */
 router.get("/sitemap.xml", async (req, res) => {
   try {
-    const patterns = await SavedPattern.findAll({
-      attributes: ["id", "updatedAt"],
-      order: [["updatedAt", "DESC"]],
-      limit: 5000,
+    /* Only patterns their owner published are advertised — the pattern route
+       answers 404 for the rest, so listing them would advertise dead URLs. */
+    const publishedLinks = await Product.findAll({
+      attributes: ["saved_pattern_id"],
+      where: { is_pattern_published: true, saved_pattern_id: { [Op.ne]: null } },
+      group: ["saved_pattern_id"],
     });
+    const publishedIds = publishedLinks.map((row) => row.saved_pattern_id);
+
+    const patterns = publishedIds.length
+      ? await SavedPattern.findAll({
+          attributes: ["id", "updatedAt"],
+          where: { id: { [Op.in]: publishedIds } },
+          order: [["updatedAt", "DESC"]],
+          limit: 5000,
+        })
+      : [];
 
     const entries = [
       ...STATIC_PAGES.map((p) => urlEntry({ loc: SITE_URL + p.path, ...p })),
