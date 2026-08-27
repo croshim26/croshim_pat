@@ -84,11 +84,23 @@
             >
               <article class="card product-card">
 
+                           <% if (product.pattern && product.pattern.cover_image) { %>
+                    <img
+                      src="<%= product.pattern.cover_image %>"
+                      alt="<%= product.pattern.name || product.product_name %>"
+                      class="product-cover"
+                      loading="lazy"
+                    >
+                <% } %>
+
+
                 <div class="product-header">
                   <span class="label-title">اسم المنتج</span>
                   <h2 class="product-name">
                     <%= product.product_name %>
                   </h2>
+ 
+
                 </div>
 
                 <div class="product-body">
@@ -106,16 +118,20 @@
                     </div>
                   </div>
 
+
                   <div class="product-meta">
                     <span class="label-title">وصف المنتج</span>
                     <p class="product-description">
                       <%= product.product_description %>
                     </p>
                   </div>
-
+                    
                   <div class="product-meta">
+                    <% if (product.is_pattern_published) { %>
                     <span class="label-title">ملف المنتج</span>
+                    
 
+                      
                     <% if (product.pdf_path) { %>
                       <a
                         href="<%= product.pdf_path %>"
@@ -132,6 +148,15 @@
                         لا يوجد ملف للمنتج
                       </div>
                     <% } %>
+                    <% } else { %>
+
+                           <div class="no-file">
+                        <i class="far fa-folder-open"></i>
+                        لا يوجد ملف للمنتج
+                      </div>
+
+                      <% } %>
+
                   </div>
 
                 </div>

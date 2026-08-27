@@ -1,6 +1,5 @@
 {
   "demo_banner": "🚧 This is a demo website",
-
   "nav_home": "Home",
   "nav_store": "our Store",
   "nav_contact": "Contact",
@@ -12,7 +11,6 @@
   "nav_workbook": "Workbook",
   "nav_logout": "Logout",
   "nav_lang_switch": "AR",
-
   "footer_tagline": "We Teach, We Make, We Sell",
   "footer_explore": "Explore",
   "footer_home": "Home",
@@ -20,7 +18,6 @@
   "footer_products": "Products",
   "footer_email_label": "Email",
   "footer_follow": "Follow Us",
-
   "login_title": "Login",
   "login_desc": "Welcome back! Log in to continue your crochet journey.",
   "label_email": "Email",
@@ -28,7 +25,6 @@
   "btn_login": "Login",
   "forgot_password": "Forgot password?",
   "link_register": "Create new account",
-
   "hero_subtitle": "A crochet platform that empowers users to write PDF patterns in a better and easier way.",
   "hero_signup": "Sign Up Free",
   "hero_dashboard": "My Dashboard",
@@ -41,7 +37,6 @@
   "feature3_desc": "Design your patterns step by step inside the platform — add tools, abbreviations, and parts, then save or print the workbook with one click.",
   "about_title": "About Croshim Studio",
   "about_text": "Croshim Studio is a platform that helps crochet enthusiasts share products, showcase pattern files, and provide easy access to educational content and products all in one place.",
-
   "register_title": "Create New Account",
   "register_subtitle": "Register your account and start sharing crochet products and pattern files",
   "label_first_name": "First Name",
@@ -68,7 +63,6 @@
   "alert_success_prefix": "Success!",
   "alert_error_prefix": "Error!",
   "alert_success_link": "Go to login page",
-
   "welcome_greeting": "Hello,",
   "manage_subtitle": "Manage your products and pattern files",
   "stat_label": "products",
@@ -84,7 +78,6 @@
   "no_products_title": "No products yet",
   "no_products_desc": "You can add a new product using the Add Product button.",
   "btn_add_first": "Add Your First Product",
-
   "add_product_modal_title": "Add Product",
   "label_product_name_field": "Product Name",
   "hint_product_name": "e.g. Crochet bag, baby set, winter hat…",
@@ -94,12 +87,10 @@
   "hint_product_pdf": "PDF only (pattern / instructions / photos)",
   "btn_close": "Close",
   "btn_save_product": "Add Product",
-
   "reset_title": "Forgot Password?",
   "reset_desc": "Enter your email and we'll send you a reset link",
   "btn_send_reset": "Send Reset Link",
   "back_to_login": "Back to Login",
-
   "new_password_title": "New Password",
   "new_password_desc": "Choose a strong password for your account",
   "label_new_password": "New Password",
@@ -109,7 +100,6 @@
   "btn_save_password": "Save New Password",
   "passwords_match": "✓ Passwords match",
   "passwords_no_match": "✗ Passwords do not match",
-
   "pb_topbar_title": "Pattern Builder",
   "pb_back": "Dashboard",
   "strip_saved_label": "📂 Saved:",
@@ -118,7 +108,6 @@
   "strip_new_btn": "New",
   "strip_dash_btn": "Save to Dashboard",
   "strip_print_btn": "Print / PDF",
-
   "pb_section_info": "🪡 Pattern Info",
   "pb_label_name": "Doll / Product Name",
   "pb_placeholder_name": "e.g. Cute Teddy Bear 🐻",
@@ -129,7 +118,6 @@
   "pb_label_image": "Product Image (optional)",
   "pb_upload_image": "🖼️ Click to upload an image",
   "pb_remove_image": "✕ Remove Image",
-
   "pb_section_tools": "🧶 Tools",
   "pb_add_tool": "+ Add Tool",
   "pb_section_abbr": "📋 Abbreviations",
@@ -142,7 +130,6 @@
   "pb_generate_btn": "✨   Generate Pattern",
   "pb_placeholder_msg": "Fill in the data on the left",
   "pb_placeholder_msg2": "then click Generate Pattern",
-
   "pb_tool_name_ph": "Tool name",
   "pb_tool_detail_ph": "Details (optional)",
   "pb_part_name_ph": "Part name (e.g. 🐻 Head)",
@@ -154,7 +141,6 @@
   "pb_abbr_delete": "✕ Delete",
   "pb_chip_share_title": "Public Page",
   "pb_chip_del_title": "Delete",
-
   "pb_confirm_delete": "Permanently delete this pattern?",
   "pb_toast_saved": "Saved successfully ✓",
   "pb_toast_limit": "To increase the limit, please contact the support team",
@@ -171,13 +157,11 @@
   "pb_toast_error": "Error",
   "pb_empty_hint": "No saved patterns yet",
   "pb_save_dash_btn": "Save to Dashboard",
-
   "pb_default_name": "Crochet Pattern",
   "pb_default_subtitle": "Complete Crochet Pattern",
   "pb_new_pattern": "New Pattern",
   "pdf_section_tools": "Required Tools",
   "pdf_section_abbrs": "Symbols & Abbreviations",
-
   "nav_profile": "My Profile",
   "profile_title": "My Profile",
   "profile_subtitle": "Update your personal information",
@@ -188,16 +172,13 @@
   "btn_change_password": "Change Password",
   "profile_email_note": "Email cannot be changed",
   "profile_member_since": "Member since",
-
   "contact_title": "Contact Us",
   "contact_subtitle": "We're here to help — reach us through any of the following",
   "contact_email_btn": "Send us an Email",
   "contact_whatsapp_btn": "Chat on WhatsApp",
-
   "pv_print_btn": "Print / PDF",
   "pv_open_builder": "Open in Builder",
   "pv_back": "Dashboard",
-
   "seo_site_name": "Croshim Studio",
   "seo_keywords": "crochet, crochet pattern, crochet patterns PDF, amigurumi, amigurumi pattern, arabic crochet, crochet for beginners, crochet tutorial, pattern builder, كروشيه, باترون كروشيه, باترونات كروشيه, أميغورومي",
   "seo_default_title": "Crochet Patterns & Amigurumi PDF Builder | Croshim Studio",
@@ -212,7 +193,6 @@
   "seo_pattern_suffix": "Crochet Pattern PDF",
   "seo_pattern_desc": "A step-by-step crochet pattern with tools, abbreviations and reference photos — from the Croshim Studio crochet platform.",
   "seo_image_alt": "Crochet and amigurumi patterns by Croshim Studio",
-
   "fb_title": "Suggestions & Complaints",
   "fb_subtitle": "Your opinion helps us improve Croshim Studio — tell us anything, big or small",
   "fb_type_label": "Message type",
@@ -234,11 +214,23 @@
   "fb_err_server": "Something went wrong while sending. Please try again.",
   "nav_feedback": "Suggestions",
   "footer_feedback": "Suggestions & Complaints",
-
   "color_rose": "Rose",
   "color_lavender": "Lavender",
   "color_sage": "Sage",
   "color_ocean": "Ocean",
   "color_gold": "Gold",
-  "color_peach": "Peach"
+  "color_peach": "Peach",
+  "dash_visibility_label": "Visibility on the Browse Products page",
+  "dash_product_label": "Product",
+  "dash_pattern_label": "Pattern",
+  "dash_file_label": "Product file",
+  "dash_status_published": "Published",
+  "dash_status_hidden": "Hidden",
+  "btn_publish_product": "Publish product",
+  "btn_unpublish_product": "Hide product",
+  "btn_publish_pattern": "Publish pattern",
+  "btn_unpublish_pattern": "Hide pattern",
+  "btn_publish_file": "Publish file",
+  "btn_unpublish_file": "Hide file",
+  "dash_hidden_hint": "This product is hidden and will not appear to visitors on the Browse Products page."
 }

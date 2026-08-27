@@ -28,7 +28,23 @@ const Product =sequelize.define('product',{
     pdf_path: {
         type: Sequelize.STRING,
         allowNull: true
-      }
+      },
+    saved_pattern_id: {
+        type:Sequelize.INTEGER,
+        allowNull:true
+    },
+      
+      is_published: {
+        type:Sequelize.BOOLEAN,
+        allowNull:false,
+        defaultValue: false
+    },
+      is_pattern_published: {
+        type:Sequelize.BOOLEAN,
+        allowNull:false,
+        defaultValue: false
+    },
+
 
 
 });
