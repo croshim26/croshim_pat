@@ -12,9 +12,15 @@ const router = express.Router();
 //   res.redirect("/dashboard");
 // };
 
+router.get("/all_products", productController.getAllProducts);
+
 router.get("/dashboard", loggedin, productController.getProducts);
 router.get("/add_product", loggedin, productController.getAddProduct);
 router.post("/add_product", loggedin, productController.createProduct);
+
+router.post('/products/:id/toggle-published', loggedin,productController.toggleProductPublished);
+router.post('/products/:id/toggle-pattern-published',loggedin, productController.togglePatternPublished);
+
 router.post("/delete_product/:productId", loggedin, productController.deleteProduct);
 
 router.get("/pattern-builder", loggedin, productController.getPatternBuilder);

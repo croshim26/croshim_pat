@@ -4,6 +4,7 @@ const SavedPattern = require("../models/saved_pattern");
 
 const { Product, User } = require("../models");
 const supabase = require("../util/supabase");
+const { log } = require("console");
 
 
 const locals = (req, extra = {}) => ({
@@ -11,7 +12,62 @@ const locals = (req, extra = {}) => ({
   errorMessage: req.flash("error")[0] || null,
   ...extra,
 });
+/* =========================================================
+   GET /all-products
+   Show all products with owner names and linked patterns.
+   ========================================================= */
+const ALL_PRODUCTS_PAGE_SIZE = 12;
 
+exports.getAllProducts = async (req, res) => {
+  try {
+    /* cover_image can hold a multi-MB base64 data URL, so the listing is
+       paginated rather than loading every published product at once. */
+    const requestedPage = Number.parseInt(req.query.page, 10);
+    const page = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+    const limit = ALL_PRODUCTS_PAGE_SIZE;
+    const offset = (page - 1) * limit;
+
+    const { count, rows: products } = await Product.findAndCountAll({
+      attributes: [
+        "id", "user_id", "product_name",
+        "product_description", "pdf_path", "createdAt","is_pattern_published"
+      ],
+      include: [
+        // phone deliberately not selected: /all_products is public, no PII on it
+        { model: User, attributes: ["firstName", "lastName"] },
+        {
+          model: SavedPattern,
+          as: "pattern",
+          attributes: ["id", "name", "emoji", "cover_image", "createdAt"],
+          required: false,
+        },
+      ],
+      where: { is_published: true ,},
+      order: [["createdAt", "DESC"]],
+      limit,
+      offset,
+      distinct: true,
+    });
+
+    const totalPages = Math.max(1, Math.ceil(count / limit));
+
+    // A page number past the end should not be a dead end
+    if (page > totalPages) {
+      return res.redirect(`/all_products?page=${totalPages}`);
+    }
+
+    return res.render("pages/all_products", {
+      products,
+      pagination: { page, totalPages, totalProducts: count, pageSize: limit },
+      success_message: req.flash("success")[0] || null,
+      error_message: req.flash("error")[0] || null,
+    });
+  } catch (error) {
+    console.error("getAllProducts error:", error);
+    // Public page: never bounce visitors into the login-only dashboard
+    return res.status(500).render("500", { pageTitle: "Server Error" });
+  }
+};
 
 /* =========================================================
    GET /dashboard
@@ -43,11 +99,22 @@ exports.getProducts = async (req, res, next) => {
         "product_description",
         "pdf_path",
         "createdAt",
+        'is_published',
+        'is_pattern_published'
+      ],
+        include: [
+        {
+          model: SavedPattern,
+          as: "pattern",
+          attributes: ["id", "name", "emoji", "cover_image", "createdAt"],
+          required: false,
+        },
       ],
       where: { user_id: userId },
       order: [["createdAt", "DESC"]],
     });
 
+    
     
     
     return res.render("pages/dashboard", {
@@ -158,6 +225,61 @@ exports.createProduct = async (req, res) => {
     return res.redirect("/add_product");
   }
 };
+
+
+/* =========================================================
+   POST /ProductPublished
+   Show The product.
+   ========================================================= */
+exports.toggleProductPublished = async (req, res) => {
+  try {
+    const product = await Product.findOne({
+      where: { id: req.params.id, user_id: req.session.userId },
+    });
+    if (!product) {
+      req.flash('error', 'Product not found.');
+      return res.redirect('/dashboard');
+    }
+
+    product.is_published = !product.is_published;
+    await product.save();
+
+    req.flash('success', product.is_published ? 'تم نشر المنتج' : 'تم إخفاء المنتج');
+    return res.redirect('/dashboard');
+  } catch (error) {
+    console.error('toggleProductPublished error:', error);
+    req.flash('error', 'Failed to update.');
+    return res.redirect('/dashboard');
+  }
+};
+
+/* =========================================================
+   POST /PatternPublished
+   Show The Pattern.
+   ========================================================= */
+exports.togglePatternPublished = async (req, res) => {
+  try {
+    const product = await Product.findOne({
+      where: { id: req.params.id, user_id: req.session.userId },
+    });
+    if (!product) {
+      req.flash('error', 'Product not found.');
+      return res.redirect('/dashboard');
+    }
+
+    product.is_pattern_published = !product.is_pattern_published;
+    await product.save();
+
+    req.flash('success', product.is_pattern_published ? 'تم نشر الباترون' : 'تم إخفاء الباترون');
+    return res.redirect('/dashboard');
+  } catch (error) {
+    console.error('togglePatternPublished error:', error);
+    req.flash('error', 'Failed to update.');
+    return res.redirect('/dashboard');
+  }
+};
+
+
 
 
 /* =========================================================
@@ -340,10 +462,13 @@ exports.savePatternPdf = async (req, res) => {
 };
 
 exports.savePatternAsProduct = async (req, res) => {
+  console.log('test test');
+  
   try {
     const userId    = req.session.userId;
     const { name, description, patternId } = req.body;
     const pdfPath   = patternId ? `/pattern/${patternId}` : null;
+    const saved_pattern_id=patternId
 
     // Dedup: if this pattern already has a product entry, update it instead of creating a duplicate
     const existing = await Product.findOne({ where: { user_id: userId, pdf_path: pdfPath } });
@@ -357,6 +482,7 @@ exports.savePatternAsProduct = async (req, res) => {
       product_description: description || '',
       user_id:             userId,
       pdf_path:            pdfPath,
+      saved_pattern_id: saved_pattern_id || null,
     });
 
     res.json({ success: true, productId: product.id });

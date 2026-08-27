@@ -73,9 +73,33 @@
             <div class="col-12 col-sm-6 col-md-4 mb-4" data-aos="fade-up" data-aos-delay="<%= index * 60 %>">
               <article class="card product-card">
 
+                                <%
+                  /* cover_image is user-supplied (saved from the builder), so only
+                     real image sources are allowed through into src. */
+                  const rawCover = (product.pattern && product.pattern.cover_image) || "";
+                  const cover = /^(https?:\/\/|data:image\/)/i.test(rawCover) ? rawCover : null;
+                  const coverEmoji = (product.pattern && product.pattern.emoji) || "🧶";
+                %>
+                <% if (cover) { %>
+                  <img
+                    src="<%= cover %>"
+                    alt="<%= (product.pattern && product.pattern.name) || product.product_name || "" %>"
+                    class="product-cover"
+                    loading="lazy"
+                    onerror="this.onerror=null;this.hidden=true;if(this.nextElementSibling){this.nextElementSibling.hidden=false;}"
+                  >
+                  <!-- shown only if the image 404s (e.g. dead storage URL) -->
+                  <div class="product-cover-placeholder" hidden><span><%= coverEmoji %></span></div>
+                <% } else { %>
+                  <div class="product-cover-placeholder"><span><%= coverEmoji %></span></div>
+                <% } %>
+
+
+
                 <div class="product-header">
                   <span class="label-title"><%= t.label_product_name %></span>
                   <h2 class="product-name"><%= product.product_name %></h2>
+
                 </div>
 
                 <div class="product-body">
@@ -101,6 +125,56 @@
                       </div>
                     <% } %>
                   </div>
+
+                  
+
+<div class="product-visibility">
+                    <span class="label-title"><%= t.dash_visibility_label %></span>
+
+                    <div class="vis-row">
+                      <span class="vis-state <%= product.is_published ? "is-on" : "is-off" %>">
+                        <i class="fas <%= product.is_published ? "fa-eye" : "fa-eye-slash" %>"></i>
+                        <%= t.dash_product_label %>:
+                        <%= product.is_published ? t.dash_status_published : t.dash_status_hidden %>
+                      </span>
+                      <form action="/products/<%= product.id %>/toggle-published" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit" class="vis-toggle <%= product.is_published ? "to-hide" : "to-publish" %>">
+                          <i class="fas <%= product.is_published ? "fa-eye-slash" : "fa-eye" %>"></i>
+                          <%= product.is_published ? t.btn_unpublish_product : t.btn_publish_product %>
+                        </button>
+                      </form>
+                    </div>
+
+                    <%
+                      /* The second flag currently gates whichever file the card
+                         links to, so label it after what this product actually
+                         has: a builder pattern, or an uploaded PDF. */
+                      const hasPattern = Boolean(product.pattern);
+                      const fileLabel = hasPattern ? t.dash_pattern_label : t.dash_file_label;
+                      const publishLabel = hasPattern ? t.btn_publish_pattern : t.btn_publish_file;
+                      const hideLabel = hasPattern ? t.btn_unpublish_pattern : t.btn_unpublish_file;
+                    %>
+                    <div class="vis-row">
+                      <span class="vis-state <%= product.is_pattern_published ? "is-on" : "is-off" %>">
+                        <i class="fas <%= product.is_pattern_published ? "fa-eye" : "fa-eye-slash" %>"></i>
+                        <%= fileLabel %>:
+                        <%= product.is_pattern_published ? t.dash_status_published : t.dash_status_hidden %>
+                      </span>
+                      <form action="/products/<%= product.id %>/toggle-pattern-published" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit" class="vis-toggle <%= product.is_pattern_published ? "to-hide" : "to-publish" %>">
+                          <i class="fas <%= product.is_pattern_published ? "fa-eye-slash" : "fa-eye" %>"></i>
+                          <%= product.is_pattern_published ? hideLabel : publishLabel %>
+                        </button>
+                      </form>
+                    </div>
+
+                    <% if (!product.is_published) { %>
+                      <p class="vis-hint"><%= t.dash_hidden_hint %></p>
+                    <% } %>
+                  </div>
+
 
                   <form action="/delete_product/<%= product.id %>" method="POST"
                     class="delete-product-form">

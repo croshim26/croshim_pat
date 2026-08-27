@@ -1,6 +1,5 @@
 {
   "demo_banner": "🚧 هذا الموقع تجريبي",
-
   "nav_home": "الصفحة الرئيسية",
   "nav_store": "متجرنا",
   "nav_contact": "تواصل معنا",
@@ -12,7 +11,6 @@
   "nav_workbook": "Workbook",
   "nav_logout": "تسجيل خروج",
   "nav_lang_switch": "EN",
-
   "footer_tagline": "نعلّم ونصنع ونبيع",
   "footer_explore": "استكشاف",
   "footer_home": "الرئيسية",
@@ -20,7 +18,6 @@
   "footer_products": "المنتجات",
   "footer_email_label": "البريد الإلكتروني",
   "footer_follow": "تابعنا",
-
   "login_title": "تسجيل دخول",
   "login_desc": "أهلاً بك، سجل دخولك وابدأ رحلتك في عالم الكروشيه",
   "label_email": "البريد الإلكتروني",
@@ -28,7 +25,6 @@
   "btn_login": "تسجيل الدخول",
   "forgot_password": "نسيت كلمة المرور؟",
   "link_register": "إنشاء حساب جديد",
-
   "hero_subtitle": "منصة كروشيه تمكن المستخدم بكتابة باترونات PDF بشكل افضل واسهل",
   "hero_signup": "سجّلي مجاناً",
   "hero_dashboard": "لوحتي",
@@ -41,7 +37,6 @@
   "feature3_desc": "صمّمي باترناتك خطوةً بخطوة داخل المنصة — أضيفي الأدوات والاختصارات والأجزاء، ثم احفظي أو اطبعي الكتاب بضغطة واحدة.",
   "about_title": "عن Croshim Studio",
   "about_text": "Croshim Studio منصة تساعد المهتمين بالكروشيه على مشاركة المنتجات، عرض ملفات الباترن، وتسهيل الوصول إلى المحتوى التعليمي والمنتجات في مكان واحد.",
-
   "register_title": "إنشاء حساب جديد",
   "register_subtitle": "سجّل حسابك وابدأ مشاركة منتجات وملفات الكروشيه",
   "label_first_name": "الاسم الأول",
@@ -68,7 +63,6 @@
   "alert_success_prefix": "تم بنجاح!",
   "alert_error_prefix": "خطأ!",
   "alert_success_link": "الذهاب إلى صفحة الدخول",
-
   "welcome_greeting": "أهلاً،",
   "manage_subtitle": "إدارة منتجاتك وملفات الباترن الخاصة بك",
   "stat_label": "منتج",
@@ -84,7 +78,6 @@
   "no_products_title": "لا توجد منتجات حالياً",
   "no_products_desc": "يمكنك إضافة منتج جديد من خلال زر إضافة منتج.",
   "btn_add_first": "إضافة منتجك الأول",
-
   "add_product_modal_title": "إضافة منتج",
   "label_product_name_field": "اسم المنتج",
   "hint_product_name": "مثال: شنطة كروشيه، طقم بيبي، قبعة شتوية…",
@@ -94,12 +87,10 @@
   "hint_product_pdf": "PDF فقط (باترن / شرح / صور)",
   "btn_close": "إغلاق",
   "btn_save_product": "إضافة المنتج",
-
   "reset_title": "نسيت كلمة المرور؟",
   "reset_desc": "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين",
   "btn_send_reset": "إرسال رابط إعادة التعيين",
   "back_to_login": "العودة لتسجيل الدخول",
-
   "new_password_title": "كلمة مرور جديدة",
   "new_password_desc": "اختر كلمة مرور قوية لحسابك",
   "label_new_password": "كلمة المرور الجديدة",
@@ -109,7 +100,6 @@
   "btn_save_password": "حفظ كلمة المرور الجديدة",
   "passwords_match": "✓ كلمتا المرور متطابقتان",
   "passwords_no_match": "✗ كلمتا المرور غير متطابقتين",
-
   "pb_topbar_title": "باني الباترن",
   "pb_back": "لوحتي",
   "strip_saved_label": "📂 محفوظ:",
@@ -118,7 +108,6 @@
   "strip_new_btn": "جديد",
   "strip_dash_btn": "حفظ في لوحتي",
   "strip_print_btn": "طباعة / PDF",
-
   "pb_section_info": "🪡 معلومات الباترن",
   "pb_label_name": "اسم الدمية / المنتج",
   "pb_placeholder_name": "مثال: دُمية الدب اللطيف 🐻",
@@ -129,7 +118,6 @@
   "pb_label_image": "صورة المنتج (اختياري)",
   "pb_upload_image": "🖼️ اضغطي لرفع صورة الدمية",
   "pb_remove_image": "✕ حذف الصورة",
-
   "pb_section_tools": "🧶 الأدوات",
   "pb_add_tool": "+ إضافة أداة",
   "pb_section_abbr": "📋 الاختصارات",
@@ -142,7 +130,6 @@
   "pb_generate_btn": "✨   Generate Pattern",
   "pb_placeholder_msg": "املئي البيانات على اليسار",
   "pb_placeholder_msg2": "ثم اضغطي Generate Pattern",
-
   "pb_tool_name_ph": "اسم الأداة",
   "pb_tool_detail_ph": "تفاصيل (اختياري)",
   "pb_part_name_ph": "اسم الجزء (مثال: 🐻 الرأس)",
@@ -154,7 +141,6 @@
   "pb_abbr_delete": "✕ حذف",
   "pb_chip_share_title": "الصفحة العامة",
   "pb_chip_del_title": "حذف",
-
   "pb_confirm_delete": "حذف هذا الباترن نهائياً؟",
   "pb_toast_saved": "تم الحفظ بنجاح ✓",
   "pb_toast_limit": "لزيادة الحد ، الرجاء التواصل مع فريق الدعم",
@@ -171,13 +157,11 @@
   "pb_toast_error": "خطأ",
   "pb_empty_hint": "لا يوجد باترنات محفوظة بعد",
   "pb_save_dash_btn": "حفظ في لوحتي",
-
   "pb_default_name": "باترن كروشيه",
   "pb_default_subtitle": "باترن كروشيه متكامل",
   "pb_new_pattern": "باترن جديد",
   "pdf_section_tools": "الأدوات المطلوبة",
   "pdf_section_abbrs": "الرموز والاختصارات",
-
   "nav_profile": "ملفي الشخصي",
   "profile_title": "ملفي الشخصي",
   "profile_subtitle": "قومي بتحديث معلوماتك الشخصية",
@@ -188,16 +172,13 @@
   "btn_change_password": "تغيير كلمة المرور",
   "profile_email_note": "البريد الإلكتروني لا يمكن تغييره",
   "profile_member_since": "عضو منذ",
-
   "contact_title": "تواصل معنا",
   "contact_subtitle": "نحن هنا للمساعدة — تواصل معنا عبر أي من الوسائل التالية",
   "contact_email_btn": "مراسلتنا بالبريد",
   "contact_whatsapp_btn": "تواصل عبر واتساب",
-
   "pv_print_btn": "طباعة / PDF",
   "pv_open_builder": "فتح في Builder",
   "pv_back": "لوحتي",
-
   "seo_site_name": "Croshim Studio",
   "seo_keywords": "كروشيه, باترون, باترون كروشيه, باترونات كروشيه, باترن كروشيه, كروشيه بالعربي, أميغورومي, تعليم الكروشيه, كروشيه للمبتدئين, باترون كروشيه PDF, باترونات أميغورومي, صنارة كروشيه, خيوط كروشيه, crochet, crochet pattern, amigurumi",
   "seo_default_title": "كروشيه وباترونات كروشيه PDF بالعربي | Croshim Studio",
@@ -212,7 +193,6 @@
   "seo_pattern_suffix": "باترون كروشيه PDF",
   "seo_pattern_desc": "باترون كروشيه بالعربي خطوة بخطوة مع الأدوات والاختصارات وصور مرجعية — من منصة الكروشيه Croshim Studio.",
   "seo_image_alt": "باترونات كروشيه وأميغورومي من Croshim Studio",
-
   "fb_title": "الاقتراحات والشكاوى",
   "fb_subtitle": "رأيك يساعدنا نطور Croshim Studio — اكتبي لنا أي شيء، كبير أو صغير",
   "fb_type_label": "نوع الرسالة",
@@ -234,11 +214,23 @@
   "fb_err_server": "حدث خطأ أثناء الإرسال. حاولي مرة أخرى.",
   "nav_feedback": "اقتراحاتك",
   "footer_feedback": "الاقتراحات والشكاوى",
-
   "color_rose": "وردي",
   "color_lavender": "بنفسجي",
   "color_sage": "أخضر",
   "color_ocean": "أزرق",
   "color_gold": "ذهبي",
-  "color_peach": "خوخي"
+  "color_peach": "خوخي",
+  "dash_visibility_label": "الظهور في صفحة تصفح المنتجات",
+  "dash_product_label": "المنتج",
+  "dash_pattern_label": "الباترون",
+  "dash_file_label": "ملف المنتج",
+  "dash_status_published": "منشور",
+  "dash_status_hidden": "مخفي",
+  "btn_publish_product": "نشر المنتج",
+  "btn_unpublish_product": "إخفاء المنتج",
+  "btn_publish_pattern": "نشر الباترون",
+  "btn_unpublish_pattern": "إخفاء الباترون",
+  "btn_publish_file": "نشر الملف",
+  "btn_unpublish_file": "إخفاء الملف",
+  "dash_hidden_hint": "المنتج مخفي حالياً ولن يظهر للزوار في صفحة تصفح المنتجات."
 }

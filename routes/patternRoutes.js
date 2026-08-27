@@ -1,7 +1,7 @@
 const express = require("express");
 const router  = express.Router();
 
-const SavedPattern = require("../models/saved_pattern");
+const { SavedPattern, Product } = require("../models");
 
 const DEFAULT_ABBR = [
   { key: "MR",   val: "magic ring / magic loop" },
@@ -15,11 +15,29 @@ const DEFAULT_ABBR = [
 ];
 
 /* ── Public pattern view ────────────────────────────────── */
+/* A pattern is only readable by outsiders once its owner has published it
+   (a linked product with is_pattern_published = true). Everything else
+   answers 404 — identical to a pattern that does not exist — so walking
+   /pattern/1, /pattern/2, ... leaks nothing. The owner always sees their
+   own pattern so they can preview before publishing. */
+const isPatternVisibleTo = async (pattern, req) => {
+  if (req.session.userId && pattern.created_by === req.session.userId) return true;
+  const published = await Product.count({
+    where: { saved_pattern_id: pattern.id, is_pattern_published: true },
+  });
+  return published > 0;
+};
+
 router.get("/pattern/:id", async (req, res) => {
   try {
-    const pattern = await SavedPattern.findByPk(req.params.id);
-    if (!pattern) {
-      return res.redirect("/");
+    const id = Number.parseInt(req.params.id, 10);
+    if (!Number.isInteger(id) || id < 1) {
+      return res.status(404).render("404");
+    }
+
+    const pattern = await SavedPattern.findByPk(id);
+    if (!pattern || !(await isPatternVisibleTo(pattern, req))) {
+      return res.status(404).render("404");
     }
 
     // Render the read-only workbook view for everyone
