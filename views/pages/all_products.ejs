@@ -21,6 +21,56 @@
   <link rel="stylesheet" href="/css/pages/products.css">
 </head>
 
+<style>
+
+.access-signup-note {
+  max-width: 260px;
+  margin: 12px auto 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(155, 58, 90, 0.22);
+  border-radius: 12px;
+  background: rgba(255, 245, 247, 0.92);
+  color: #596273;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.access-signup-note > i {
+  color: #9b3a5a;
+  margin-left: 4px;
+}
+
+.access-signup-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 5px;
+  color: #c24f72;
+}
+
+.access-signup-actions a,
+.access-signup-actions button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #b43d62;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.access-signup-actions a:hover,
+.access-signup-actions button:hover {
+  color: #7e2947;
+  text-decoration: underline;
+}
+
+</style>
+
 <body>
 
   <!-- NAVBAR -->
@@ -126,38 +176,64 @@
                     </p>
                   </div>
                     
-                  <div class="product-meta">
-                    <% if (product.is_pattern_published) { %>
-                    <span class="label-title">ملف المنتج</span>
-                    
+           <div class="product-meta">
+  <span class="label-title">ملف المنتج</span>
 
-                      
-                    <% if (product.pdf_path) { %>
-                      <a
-                        href="<%= product.pdf_path %>"
-                        target="_blank"
-                        class="btn pdf-btn"
-                        rel="noopener noreferrer"
-                      >
-                        <i class="fas fa-file-pdf"></i>
-                        عرض ملف المنتج
-                      </a>
-                    <% } else { %>
-                      <div class="no-file">
-                        <i class="far fa-folder-open"></i>
-                        لا يوجد ملف للمنتج
-                      </div>
-                    <% } %>
-                    <% } else { %>
+  <% if (!product.pdf_path) { %>
+    <div class="no-file">
+      <i class="far fa-folder-open"></i>
+      لا يوجد ملف للمنتج
+    </div>
 
-                           <div class="no-file">
-                        <i class="far fa-folder-open"></i>
-                        لا يوجد ملف للمنتج
-                      </div>
+  <% } else if (product.is_pattern_published) { %>
+    <!-- Owner published this PDF for everybody -->
+    <a
+      href="<%= product.pdf_path %>"
+      target="_blank"
+      class="btn pdf-btn"
+      rel="noopener noreferrer"
+    >
+      <i class="fas fa-file-pdf"></i>
+      عرض ملف المنتج
+    </a>
 
-                      <% } %>
+  <% } else if (isAuthenticated) { %>
+    <!-- File is private: logged-in user can request permission -->
+    <form action="/products/<%= product.id %>/request-access" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-                  </div>
+      <button type="submit" class="btn pdf-btn">
+        <i class="fas fa-lock"></i>
+        طلب الوصول للملف
+      </button>
+    </form>
+
+  <% } else { %>
+    <!-- File is private: visitor must sign up first -->
+    <button
+      type="button"
+      class="btn pdf-btn"
+      data-toggle="modal"
+      data-target="#loginModal"
+    >
+      <i class="fas fa-lock"></i>
+      طلب الوصول للملف
+    </button>
+
+    <div class="access-signup-note">
+      <i class="fas fa-lock"></i>
+      <span>لطلب الوصول للملف، يرجى إنشاء حساب أو تسجيل الدخول.</span>
+
+      <div class="access-signup-actions">
+        <a href="/register">إنشاء حساب</a>
+        <span>·</span>
+        <button type="button" data-toggle="modal" data-target="#loginModal">
+          تسجيل الدخول
+        </button>
+      </div>
+    </div>
+  <% } %>
+</div>
 
                 </div>
               </article>
