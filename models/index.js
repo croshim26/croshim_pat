@@ -1,6 +1,8 @@
 const User = require("./user");
 const Product = require("./product");
 const SavedPattern = require("./saved_pattern");
+const AccessRequest = require("./access_request");
+const Message = require("./message");
 
 User.hasMany(Product, { foreignKey: "user_id" });
 Product.belongsTo(User, { foreignKey: "user_id" });
@@ -17,4 +19,38 @@ SavedPattern.hasMany(Product, {
   as: 'products',
 });
 
-module.exports = { User, Product, SavedPattern };
+
+
+Product.hasMany(AccessRequest, { foreignKey: "product_id" });
+AccessRequest.belongsTo(Product, { foreignKey: "product_id" });
+
+User.hasMany(AccessRequest, {
+  foreignKey: "requester_id",
+  as: "sentAccessRequests",
+});
+AccessRequest.belongsTo(User, {
+  foreignKey: "requester_id",
+  as: "requester",
+});
+
+User.hasMany(AccessRequest, {
+  foreignKey: "owner_id",
+  as: "receivedAccessRequests",
+});
+AccessRequest.belongsTo(User, {
+  foreignKey: "owner_id",
+  as: "owner",
+});
+
+AccessRequest.hasMany(Message, {
+  foreignKey: "access_request_id",
+  onDelete: "CASCADE",
+});
+Message.belongsTo(AccessRequest, {
+  foreignKey: "access_request_id",
+});
+
+User.hasMany(Message, { foreignKey: "sender_id" });
+Message.belongsTo(User, { foreignKey: "sender_id", as: "sender" });
+
+module.exports = { User, Product, SavedPattern,AccessRequest,Message };

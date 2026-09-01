@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>طلبات الوصول | Croshim Studio</title>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages/products.css">
+
+  
+</head>
+
+<body>
+  <%- include("../partials/navbar") %>
+  
+  <main class="container py-5" style="max-width:900px">
+    <h1 class="products-title">طلبات الوصول</h1>
+    <% if (!requests.length) { %><p class="text-muted">لا توجد طلبات وصول حتى الآن.</p><% } %>
+    <% requests.forEach(function (request) { %>
+      <a href="/access-requests/<%= request.id %>" class="d-block p-3 mb-3 bg-white rounded shadow-sm text-dark text-decoration-none">
+        <strong><%= request.product.product_name %></strong>
+        <span class="badge badge-<%= request.status === 'approved' ? 'success' : request.status === 'rejected' ? 'danger' : 'warning' %> mx-2"><%= request.status %></span>
+        <small class="d-block mt-1">طالب الوصول: <%= request.requester.firstName %> <%= request.requester.lastName %></small>
+      </a>
+    <% }) %>
+  </main>
+
+
+    <%- include("../partials/footer") %>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>AOS.init({ once: true, duration: 500 });</script>
+
+
+</body>
+</html>
