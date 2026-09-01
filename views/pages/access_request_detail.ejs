@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>طلبات الوصول | Croshim Studio</title>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages/products.css">
+</head>
+<body>
+  <%- include("../partials/navbar") %>
+  <main class="container py-5" style="max-width:820px">
+    <a href="/access-requests" class="text-muted">← العودة إلى الطلبات</a>
+    <section class="bg-white rounded shadow-sm p-4 mt-3">
+      <h1 class="h4"><%= request.product.product_name %></h1>
+      <p>الحالة: <strong><%= request.status %></strong></p>
+      <% if (isOwner && request.status === 'pending') { %>
+        <form class="d-inline" action="/access-requests/<%= request.id %>/approved" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-success">قبول الطلب</button></form>
+        <form class="d-inline" action="/access-requests/<%= request.id %>/rejected" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-outline-danger">رفض</button></form>
+      <% } %>
+      <% if (request.status === 'approved' && !isOwner) { %>
+        <a class="btn pdf-btn" href="<%= request.product.pdf_path %>" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-pdf"></i> عرض ملف المنتج</a>
+      <% } %>
+    </section>
+    <section class="bg-white rounded shadow-sm p-4 mt-3">
+      <% request.messages.forEach(function (message) { %>
+        <div class="p-3 mb-2 rounded <%= message.sender_id === request.requester_id ? 'bg-light' : 'border' %>">
+          <strong><%= message.sender.firstName %> <%= message.sender.lastName %></strong>
+          <p class="mb-0"><%= message.body %></p>
+        </div>
+      <% }) %>
+      <form class="mt-3" action="/access-requests/<%= request.id %>/messages" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <textarea name="body" class="form-control" rows="3" maxlength="3000" required placeholder="اكتب رسالتك..."></textarea>
+        <button class="btn pdf-btn mt-2" type="submit"><i class="fas fa-paper-plane"></i> إرسال</button>
+      </form>
+    </section>
+  </main>
+
+      <%- include("../partials/footer") %>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>AOS.init({ once: true, duration: 500 });</script>
+</body>
+</html>
