@@ -64,7 +64,12 @@ app.use(
           "https://use.fontawesome.com",
         ],
         imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'"],
+        // Required for gtag.js to send GA4 events to Google Analytics.
+        connectSrc: [
+          "'self'",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com",
+        ],
         frameSrc: ["'none'"],
         objectSrc: ["'none'"],
         scriptSrcAttr: ["'unsafe-inline'"],
