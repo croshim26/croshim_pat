@@ -109,22 +109,24 @@
         </p>
       </header>
 
-      <!-- SEARCH BAR -->
-      <% if (products && products.length > 0) { %>
-        <div class="search-wrap" data-aos="fade-up">
+      <!-- SEARCH BAR: submitted to the server so it searches every page. -->
+      <form class="search-wrap" data-aos="fade-up" action="/all_products" method="GET">
           <div class="search-input-wrapper">
             <i class="fas fa-search search-icon"></i>
             <input
-              type="text"
-              id="productSearch"
+              type="search"
+              name="q"
               class="form-control search-input"
               placeholder="ابحث عن منتج باسمه أو وصفه..."
               autocomplete="off"
+              value="<%= searchQuery || '' %>"
             >
           </div>
-          <span id="searchCount" class="search-count"><%= products.length %> منتج</span>
-        </div>
-      <% } %>
+          <button type="submit" class="search-submit">بحث</button>
+          <span class="search-count">
+            <%= pagination.totalProducts %> <%= searchQuery ? 'نتيجة' : 'منتج' %>
+          </span>
+      </form>
 
       <!-- PRODUCTS LIST -->
       <div class="row" id="productsGrid">
@@ -260,16 +262,32 @@
 
         <% } %>
 
-        <!-- No search results message -->
-        <div class="col-12" id="noSearchResults" style="display:none;">
-          <div class="empty-state">
-            <i class="fas fa-search empty-icon"></i>
-            <h5>لا توجد نتائج</h5>
-            <p>لم يُعثر على منتج يطابق بحثك. جرّب كلمة أخرى.</p>
-          </div>
-        </div>
-
       </div>
+
+      <% if (pagination.totalPages > 1) { %>
+        <% const searchSuffix = searchQuery ? '&q=' + encodeURIComponent(searchQuery) : ''; %>
+        <nav class="products-pager" aria-label="صفحات المنتجات">
+          <% if (pagination.page > 1) { %>
+            <a class="pager-btn" href="/all_products?page=<%= pagination.page - 1 %><%= searchSuffix %>">
+              <i class="fas fa-chevron-right"></i> السابق
+            </a>
+          <% } %>
+
+          <% pagination.pageNumbers.forEach(function (pageNumber) { %>
+            <% if (pageNumber === pagination.page) { %>
+              <span class="pager-btn is-current" aria-current="page"><%= pageNumber %></span>
+            <% } else { %>
+              <a class="pager-btn" href="/all_products?page=<%= pageNumber %><%= searchSuffix %>"><%= pageNumber %></a>
+            <% } %>
+          <% }) %>
+
+          <% if (pagination.page < pagination.totalPages) { %>
+            <a class="pager-btn" href="/all_products?page=<%= pagination.page + 1 %><%= searchSuffix %>">
+              التالي <i class="fas fa-chevron-left"></i>
+            </a>
+          <% } %>
+        </nav>
+      <% } %>
     </div>
   </main>
 
@@ -289,33 +307,6 @@
   <script>AOS.init({ once: true, duration: 500 });</script>
 
 
-
-  <script>
-    (function () {
-      var searchInput = document.getElementById('productSearch');
-      var searchCount = document.getElementById('searchCount');
-      var noResults = document.getElementById('noSearchResults');
-
-      if (!searchInput) return;
-
-      searchInput.addEventListener('input', function () {
-        var query = this.value.trim().toLowerCase();
-        var items = document.querySelectorAll('.product-item');
-        var visible = 0;
-
-        items.forEach(function (item) {
-          var name = item.dataset.name || '';
-          var desc = item.dataset.desc || '';
-          var match = !query || name.includes(query) || desc.includes(query);
-          item.style.display = match ? '' : 'none';
-          if (match) visible++;
-        });
-
-        if (searchCount) searchCount.textContent = visible + ' منتج';
-        if (noResults) noResults.style.display = visible === 0 ? '' : 'none';
-      });
-    })();
-  </script>
 
 </body>
 </html>

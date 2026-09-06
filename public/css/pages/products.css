@@ -282,6 +282,21 @@ body::before{
   box-shadow:0 0 0 3px rgba(155,58,90,.12);
 }
 
+.search-submit{
+  height:48px;
+  padding:0 18px;
+  border:0;
+  border-radius:14px;
+  color:#fff;
+  background:linear-gradient(135deg,#9b3a5a,#e8a0b0);
+  font-family:inherit;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(155,58,90,.18);
+}
+
+.search-submit:hover{ filter:brightness(1.05); }
+
 .search-count{
   white-space:nowrap;
   font-weight:800;
@@ -426,6 +441,13 @@ body::before{
   box-shadow:none;
   cursor:default;
   transform:none;
+}
+
+.products-pager .pager-btn.is-current{
+  color:#fff;
+  background:#9b3a5a;
+  border-color:#9b3a5a;
+  cursor:default;
 }
 
 .products-pager .pager-status{
