@@ -1,6 +1,6 @@
 <style>
   .hero-nav .dropdown-menu {
-    background: rgba(15, 23, 42, 0.96);
+    background: rgba(78, 35, 52, 0.98);
     border: 1px solid rgba(255,255,255,.15);
     border-radius: 14px;
     backdrop-filter: blur(12px);
@@ -77,6 +77,20 @@
     letter-spacing: .5px;
   }
   .lang-toggle-btn:hover { background: rgba(255,255,255,.22); color: #fff; }
+  .nav-segment {
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+  .nav-segment:hover,
+  .nav-segment.active-item {
+    background: rgba(232,160,176,.30) !important;
+    border-color: rgba(255,255,255,.20);
+  }
+  .nav-requests {
+    background: rgba(232,160,176,.20);
+    border: 1px solid rgba(232,160,176,.30);
+  }
+  .nav-requests:hover { background: rgba(232,160,176,.34) !important; }
 </style>
 
 <%- include("./demo_banner") %>
@@ -101,38 +115,42 @@
   <div class="collapse navbar-collapse" id="mainNavbar">
     <ul class="navbar-nav ml-auto hero-links">
 
-      <!-- Anchor links — shown on home page only, hidden via JS elsewhere -->
-      <li class="nav-item home-only-link">
-        <a class="nav-link hero-link" href="#contact"><%= t.nav_contact %></a>
-      </li>
-      <li class="nav-item home-only-link">
-        <a class="nav-link hero-link" href="#about"><%= t.nav_about %></a>
-      </li>
-      <li class="nav-item home-only-link">
-        <a class="nav-link hero-link" href="#products-section"><%= t.nav_content %></a>
-      </li>
-
-
-      <li class="nav-item">
-        <a class="nav-link hero-link" target="_blank" data-nav-path="https://croshim.com/" href="https://croshim.com/"><%= t.nav_store %></a>
-      </li>
-
-      <!-- Persistent links -->
       <li class="nav-item">
         <a class="nav-link hero-link" data-nav-path="/" href="/"><%= t.nav_home %></a>
       </li>
 
-
-      <li class="nav-item">
-        <a class="nav-link hero-link" data-nav-path="/all_products" href="/all_products">تصفح المنتجات</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link hero-link nav-segment dropdown-toggle" href="#" id="productsDropdown"
+           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">المنتجات</a>
+        <div class="dropdown-menu" aria-labelledby="productsDropdown">
+          <a class="dropdown-item" data-nav-path="/all_products" href="/all_products"><i class="fas fa-th-large"></i> تصفح المنتجات</a>
+          <% if (isAuthenticated) { %>
+            <a class="dropdown-item" data-nav-path="/dashboard" href="/dashboard"><i class="fas fa-box"></i> <%= t.nav_my_products %></a>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#exampleModal3"><i class="fas fa-plus-circle"></i> <%= t.nav_add_product %></a>
+          <% } %>
+        </div>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link hero-link" data-nav-path="/feedback" href="/feedback"><%= t.nav_feedback %></a>
+      <% if (isAuthenticated) { %>
+        <li class="nav-item dropdown">
+          <a class="nav-link hero-link nav-segment dropdown-toggle" href="#" id="patternsDropdown"
+             role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">الباترونات</a>
+          <div class="dropdown-menu" aria-labelledby="patternsDropdown">
+            <a class="dropdown-item" data-nav-path="/pattern-builder" href="/pattern-builder"><i class="fas fa-book"></i> <%= t.nav_workbook %></a>
+          </div>
+        </li>
+      <% } %>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link hero-link nav-segment dropdown-toggle" href="#" id="moreDropdown"
+           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">المزيد</a>
+        <div class="dropdown-menu" aria-labelledby="moreDropdown">
+          <a class="dropdown-item" data-nav-path="/feedback" href="/feedback"><i class="fas fa-lightbulb"></i> <%= t.nav_feedback %></a>
+          <a class="dropdown-item" href="/#about"><i class="fas fa-heart"></i> <%= t.nav_about %></a>
+          <a class="dropdown-item" href="/#contact"><i class="fas fa-envelope"></i> <%= t.nav_contact %></a>
+        </div>
       </li>
 
-
-      
 
       <% if (!isAuthenticated) { %>
         <li class="nav-item">
@@ -145,22 +163,9 @@
       <% if (isAuthenticated) { %>
 
         <li class="nav-item">
-          <a class="nav-link hero-link" data-nav-path="/access-requests" href="/access-requests">طلبات الوصول</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link hero-link" data-nav-path="/dashboard" href="/dashboard"><%= t.nav_my_products %></a>
-        </li>
-
-        <li class="nav-item d-flex align-items-center" style="margin-left:6px;">
-          <a class="nav-add-btn" href="#" data-toggle="modal" data-target="#exampleModal3">
-            <i class="fas fa-plus"></i>
-            <%= t.nav_add_product %>
+          <a class="nav-link hero-link nav-requests" data-nav-path="/access-requests" href="/access-requests">
+            <i class="fas fa-user-friends"></i> طلبات الوصول
           </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link hero-link" data-nav-path="/pattern-builder" href="/pattern-builder"><%= t.nav_workbook %></a>
         </li>
 
         <form id="magic-form" action="/logout" method="POST" style="display:none;">
@@ -187,6 +192,10 @@
         </li>
 
       <% } %>
+
+      <li class="nav-item">
+        <a class="nav-link hero-link" target="_blank" href="https://croshim.com/"><%= t.nav_store %></a>
+      </li>
 
       <!-- Language toggle -->
       <li class="nav-item d-flex align-items-center" style="margin-left:6px;">
@@ -216,16 +225,5 @@
     }
   });
 
-  var aiPaths = ['/ai_product', '/evaluate_pattern', '/my_evaluations'];
-  if (aiPaths.some(function (p) { return path.startsWith(p); })) {
-    var toggle = document.getElementById('aiDropdown');
-    if (toggle) toggle.classList.add('hero-link-active');
-  }
-
-  if (path !== '/') {
-    document.querySelectorAll('.home-only-link').forEach(function (el) {
-      el.style.display = 'none';
-    });
-  }
 })();
 </script>
