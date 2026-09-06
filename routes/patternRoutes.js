@@ -1,7 +1,8 @@
 const express = require("express");
+const { Op } = require("sequelize");
 const router  = express.Router();
 
-const { SavedPattern, Product } = require("../models");
+const { SavedPattern, Product, AccessRequest } = require("../models");
 
 const DEFAULT_ABBR = [
   { key: "MR",   val: "magic ring / magic loop" },
@@ -15,17 +16,38 @@ const DEFAULT_ABBR = [
 ];
 
 /* ── Public pattern view ────────────────────────────────── */
-/* A pattern is only readable by outsiders once its owner has published it
-   (a linked product with is_pattern_published = true). Everything else
-   answers 404 — identical to a pattern that does not exist — so walking
-   /pattern/1, /pattern/2, ... leaks nothing. The owner always sees their
-   own pattern so they can preview before publishing. */
+/* A pattern is readable by its owner, everyone when generally published, or
+   a signed-in user whose access request for its linked product was approved.
+   Everything else answers 404, so walking /pattern/1, /pattern/2, ... leaks
+   nothing. */
 const isPatternVisibleTo = async (pattern, req) => {
   if (req.session.userId && pattern.created_by === req.session.userId) return true;
+
   const published = await Product.count({
     where: { saved_pattern_id: pattern.id, is_pattern_published: true },
   });
-  return published > 0;
+  if (published > 0) return true;
+
+  // A guest cannot have an approved request. For signed-in users, find every
+  // product that points to this pattern, then check whether this user has an
+  // approved request for any of those products.
+  if (!req.session.userId) return false;
+
+  const linkedProducts = await Product.findAll({
+    attributes: ["id"],
+    where: { saved_pattern_id: pattern.id },
+  });
+  const productIds = linkedProducts.map((product) => product.id);
+  if (!productIds.length) return false;
+
+  const approved = await AccessRequest.count({
+    where: {
+      requester_id: req.session.userId,
+      product_id: { [Op.in]: productIds },
+      status: "approved",
+    },
+  });
+  return approved > 0;
 };
 
 router.get("/pattern/:id", async (req, res) => {

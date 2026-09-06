@@ -1,4 +1,5 @@
 const path = require("path");
+const { Op } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 const SavedPattern = require("../models/saved_pattern");
 
@@ -20,20 +21,35 @@ const ALL_PRODUCTS_PAGE_SIZE = 12;
 
 exports.getAllProducts = async (req, res) => {
   try {
-    /* cover_image can hold a multi-MB base64 data URL, so the listing is
-       paginated rather than loading every published product at once. */
     const requestedPage = Number.parseInt(req.query.page, 10);
     const page = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+    const searchQuery = String(req.query.q || "").trim().slice(0, 100);
     const limit = ALL_PRODUCTS_PAGE_SIZE;
-    const offset = (page - 1) * limit;
+    const where = { is_published: true };
 
-    const { count, rows: products } = await Product.findAndCountAll({
+    // PostgreSQL ILIKE makes Arabic and English product search case-insensitive.
+    if (searchQuery) {
+      where[Op.or] = [
+        { product_name: { [Op.iLike]: `%${searchQuery}%` } },
+        { product_description: { [Op.iLike]: `%${searchQuery}%` } },
+      ];
+    }
+
+    const count = await Product.count({ where });
+    const totalPages = Math.max(1, Math.ceil(count / limit));
+
+    if (page > totalPages) {
+      const params = new URLSearchParams({ page: String(totalPages) });
+      if (searchQuery) params.set("q", searchQuery);
+      return res.redirect(`/all_products?${params.toString()}`);
+    }
+
+    const products = await Product.findAll({
       attributes: [
-        "id", "user_id", "product_name",
-        "product_description", "pdf_path", "createdAt","is_pattern_published"
+        "id", "user_id", "product_name", "product_description",
+        "pdf_path", "createdAt", "is_pattern_published",
       ],
       include: [
-        // phone deliberately not selected: /all_products is public, no PII on it
         { model: User, attributes: ["firstName", "lastName"] },
         {
           model: SavedPattern,
@@ -42,29 +58,28 @@ exports.getAllProducts = async (req, res) => {
           required: false,
         },
       ],
-      where: { is_published: true ,},
+      where,
       order: [["createdAt", "DESC"]],
       limit,
-      offset,
-      distinct: true,
+      offset: (page - 1) * limit,
     });
 
-    const totalPages = Math.max(1, Math.ceil(count / limit));
-
-    // A page number past the end should not be a dead end
-    if (page > totalPages) {
-      return res.redirect(`/all_products?page=${totalPages}`);
-    }
+    const firstPage = Math.max(1, Math.min(page - 2, totalPages - 4));
+    const lastPage = Math.min(totalPages, firstPage + 4);
+    const pageNumbers = Array.from(
+      { length: lastPage - firstPage + 1 },
+      (_, index) => firstPage + index
+    );
 
     return res.render("pages/all_products", {
       products,
-      pagination: { page, totalPages, totalProducts: count, pageSize: limit },
+      searchQuery,
+      pagination: { page, totalPages, totalProducts: count, pageSize: limit, pageNumbers },
       success_message: req.flash("success")[0] || null,
       error_message: req.flash("error")[0] || null,
     });
   } catch (error) {
     console.error("getAllProducts error:", error);
-    // Public page: never bounce visitors into the login-only dashboard
     return res.status(500).render("500", { pageTitle: "Server Error" });
   }
 };
