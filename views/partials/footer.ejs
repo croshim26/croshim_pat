@@ -6,7 +6,7 @@
 
       <div class="col-md-3 footer-col">
         <div class="footer-brand">
-          <span class="footer-title">CROCHET HUB</span>
+          <span class="footer-title"><%= t.seo_site_name %></span>
           <p class="footer-tagline"><%= t.footer_tagline %></p>
         </div>
       </div>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="footer-bottom">
-      <p class="copy">© <%= new Date().getFullYear() %> Croshim Studio. All rights reserved.</p>
+      <p class="copy">© <%= new Date().getFullYear() %> <%= t.seo_site_name %>. <%= lang === 'en' ? 'All rights reserved.' : 'جميع الحقوق محفوظة.' %></p>
     </div>
   </div>
 </footer>
