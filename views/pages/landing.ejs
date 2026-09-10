@@ -53,6 +53,25 @@
 
         <!-- ILLUSTRATION (hidden on mobile) -->
         <div class="col-lg-5 d-none d-lg-flex justify-content-center hero-art-col">
+          <div class="hero-workbook-preview" dir="rtl" aria-label="<%= lang === 'en' ? 'Crochet pattern workbook preview' : 'معاينة باني باترون الكروشيه' %>">
+            <aside class="hero-workbook-sidebar">
+              <h3><i class="fas fa-magic"></i> <%= lang === 'en' ? 'Pattern details' : 'معلومات الباترون' %></h3>
+              <label><%= lang === 'en' ? 'Pattern name' : 'اسم الباترون' %></label><div><%= lang === 'en' ? 'Bellflower charm' : 'ميدالية زهرة الأجراس' %></div>
+              <label><%= lang === 'en' ? 'Skill level' : 'مستوى الصعوبة' %></label><div><%= lang === 'en' ? 'Beginner' : 'مبتدئة' %>⌄</div>
+              <label><%= lang === 'en' ? 'Materials' : 'الأدوات والخامات' %></label><p><span><%= lang === 'en' ? 'Cotton yarn' : 'خيط قطني' %></span><span><%= lang === 'en' ? 'Hook 2.5 mm' : 'إبرة 2.5 مم' %></span></p>
+              <hr><h3><i class="fas fa-cut"></i> <%= lang === 'en' ? 'Pattern parts' : 'أجزاء الباترون' %></h3>
+              <ul><li>R1 <span><%= lang === 'en' ? 'Magic ring, 6 sc' : 'حلقة سحرية، 6 غرز' %></span></li><li>R2 <span><%= lang === 'en' ? 'Increase x 6' : 'زيادة × 6' %></span></li><li>R3 <span><%= lang === 'en' ? 'Repeat stitches' : 'تكرار الغرز' %></span></li></ul>
+              <b><i class="fas fa-file-pdf"></i> <%= lang === 'en' ? 'Preview PDF' : 'معاينة الباترون PDF' %></b>
+            </aside>
+            <div class="hero-workbook-cover">
+              <em>croshim<small>CROCHET WITH HEART</small></em>
+              <span class="hero-workbook-photo">🧶</span>
+              <h3><%= lang === 'en' ? 'Bellflower Charm' : 'ميدالية زهرة الأجراس' %></h3>
+              <p><%= lang === 'en' ? 'A cheerful crochet pattern' : 'باترون كروشيه لطيف' %></p>
+              <i>● ● <strong>●</strong> ● ●</i>
+              <footer><span>1 / 3</span><span>♥ ♥ ♥</span><em>croshim</em></footer>
+            </div>
+          </div>
           <div class="yarn-art">
             <svg viewBox="0 0 320 310" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="185" cy="155" r="130" fill="rgba(232,160,176,.18)"/>
@@ -122,6 +141,55 @@
       </div>
     </div>
 
+  </section>
+
+  <!-- WORKBOOK SHOWCASE -->
+  <section class="workbook-showcase" data-aos="fade-up">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-5 workbook-copy">
+          <p class="workbook-eyebrow">♥ <%= lang === 'en' ? 'FROM IDEA TO BEAUTIFUL PATTERN' : 'من الفكرة إلى باترون جميل' %> ♥</p>
+          <h2><%= lang === 'en' ? 'Write your pattern your way' : 'اكتبي باترونك بطريقتك الجميلة' %></h2>
+          <p class="workbook-intro"><%= lang === 'en' ? 'Everything you need to write, arrange, and share crochet patterns in one friendly place.' : 'كل ما تحتاجينه لكتابة وتنسيق باترونات الكروشيه في مكان واحد وبأسلوب يعكس شغفك.' %></p>
+          <div class="workbook-benefits">
+            <p><i class="fas fa-pen"></i><span><b><%= lang === 'en' ? 'Simple, organised editor' : 'محرر سهل ومنظّم' %></b><%= lang === 'en' ? 'Add materials, abbreviations, parts, and instructions.' : 'أضيفي الأدوات والاختصارات والأجزاء والخطوات بسهولة.' %></span></p>
+            <p><i class="fas fa-file-pdf"></i><span><b><%= lang === 'en' ? 'A polished PDF pattern' : 'باترون PDF احترافي' %></b><%= lang === 'en' ? 'Preview, save, print, or share your finished work.' : 'عايني النتيجة ثم احفظيها أو اطبعيها أو شاركيها.' %></span></p>
+            <p><i class="fas fa-folder-open"></i><span><b><%= lang === 'en' ? 'Your ideas in one place' : 'كل أفكارك في مكان واحد' %></b><%= lang === 'en' ? 'Return to and update your patterns anytime.' : 'ارجعي إلى باتروناتك وعدّليها في أي وقت.' %></span></p>
+          </div>
+          <% if (isAuthenticated) { %>
+            <a class="btn workbook-cta" href="/pattern-builder"><i class="fas fa-magic"></i> <%= lang === 'en' ? 'Start writing your pattern' : 'ابدئي كتابة باترونك الآن' %></a>
+          <% } else { %>
+            <a class="btn workbook-cta" href="#" data-toggle="modal" data-target="#loginModal"><i class="fas fa-magic"></i> <%= lang === 'en' ? 'Start writing your pattern' : 'ابدئي كتابة باترونك الآن' %></a>
+          <% } %>
+        </div>
+
+        <div class="col-lg-7 workbook-preview-col">
+          <div class="workbook-window" dir="rtl">
+            <div class="workbook-document">
+              <div class="workbook-cover">
+                <div class="workbook-brand">croshim<small>CROCHET WITH HEART</small></div>
+                <div class="workbook-photo">🧶</div>
+                <h3><%= lang === 'en' ? 'Bellflower Charm' : 'ميدالية زهرة الأجراس' %></h3>
+                <p><%= lang === 'en' ? 'A cheerful crochet pattern' : 'باترون كروشيه لطيف' %></p>
+                <div class="workbook-dots">● ● <b>●</b> ● ●</div>
+                <footer><span>1 / 3</span><span>♥ ♥ ♥</span><em>croshim</em></footer>
+              </div>
+            </div>
+            <aside class="workbook-editor">
+              <h3><i class="fas fa-magic"></i> <%= lang === 'en' ? 'Pattern details' : 'معلومات الباترون' %></h3>
+              <label><%= lang === 'en' ? 'Pattern name' : 'اسم الباترون' %></label><div class="editor-field"><%= lang === 'en' ? 'Bellflower charm' : 'ميدالية زهرة الأجراس' %></div>
+              <label><%= lang === 'en' ? 'Skill level' : 'مستوى الصعوبة' %></label><div class="editor-field"><%= lang === 'en' ? 'Beginner' : 'مبتدئة' %>⌄</div>
+              <label><%= lang === 'en' ? 'Materials' : 'الأدوات والخامات' %></label><div class="editor-tags"><span><%= lang === 'en' ? 'Cotton yarn' : 'خيط قطني' %></span><span><%= lang === 'en' ? 'Hook 2.5 mm' : 'إبرة 2.5 مم' %></span></div>
+              <hr><h3><i class="fas fa-cut"></i> <%= lang === 'en' ? 'Pattern parts' : 'أجزاء الباترون' %></h3>
+              <div class="editor-step">R1 <span><%= lang === 'en' ? 'Magic ring, 6 sc' : 'حلقة سحرية، 6 غرز' %></span></div>
+              <div class="editor-step">R2 <span><%= lang === 'en' ? 'Increase x 6' : 'زيادة × 6' %></span></div>
+              <div class="editor-step">R3 <span><%= lang === 'en' ? 'Repeat the stitches' : 'تكرار الغرز' %></span></div>
+              <div class="editor-pdf"><i class="fas fa-file-pdf"></i> <%= lang === 'en' ? 'Preview PDF' : 'معاينة الباترون PDF' %></div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- FEATURES SECTION -->
@@ -213,6 +281,11 @@
     crossorigin="anonymous"></script>
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script>AOS.init({ once: true, duration: 600 });</script>
+
+  <style>
+    .hero-art-col .yarn-art{display:none}.hero-workbook-preview{display:grid;grid-template-columns:.72fr 1.28fr;width:100%;max-width:650px;overflow:hidden;direction:ltr;border:7px solid rgba(255,255,255,.78);border-radius:26px;background:#fff6f8;box-shadow:0 24px 48px rgba(128,39,68,.2);transform:rotate(-1.5deg);transition:transform .25s}.hero-workbook-preview:hover{transform:rotate(0) translateY(-4px)}.hero-workbook-sidebar{padding:.8rem;background:#fff;color:#9d4e68;font-size:.58rem;direction:rtl}.hero-workbook-sidebar h3{margin:0 0 .6rem;color:#bd5677;font-size:.74rem;font-weight:900}.hero-workbook-sidebar label{display:block;margin:.48rem 0 .2rem;font-size:.56rem;font-weight:800}.hero-workbook-sidebar>div,.hero-workbook-sidebar li{display:flex;justify-content:space-between;padding:.3rem .4rem;border:1px solid #f3bdca;border-radius:8px;background:#fff8fa;font-weight:700}.hero-workbook-sidebar p{display:flex;flex-wrap:wrap;gap:.2rem;margin:.25rem 0}.hero-workbook-sidebar p span{padding:.18rem .3rem;border-radius:6px;background:#fae0e7;color:#ad5570;font-weight:800}.hero-workbook-sidebar hr{margin:.7rem 0;border:0;border-top:1px solid #f5d6de}.hero-workbook-sidebar ul{display:grid;gap:.28rem;margin:0;padding:0;list-style:none}.hero-workbook-sidebar li span{color:#824558}.hero-workbook-sidebar>b{display:block;margin-top:.7rem;padding:.48rem;border-radius:8px;color:#fff;background:#bd4f70;text-align:center}.hero-workbook-cover{display:flex;min-height:355px;align-items:center;flex-direction:column;justify-content:center;padding:1.2rem;border-radius:18px;color:#fff;text-align:center;background:radial-gradient(circle at 15% 12%,rgba(255,255,255,.18) 0 13%,transparent 13.5%),radial-gradient(circle at 85% 90%,rgba(255,255,255,.13) 0 12%,transparent 12.5%),linear-gradient(135deg,#f4a8bd,#d96d91)}.hero-workbook-cover>em{color:#8f3653;font:italic 1.7rem Georgia,serif}.hero-workbook-cover>em small{display:block;margin-top:.35rem;font:900 .45rem Arial,sans-serif;letter-spacing:.22em}.hero-workbook-photo{display:flex;width:100px;height:100px;align-items:center;justify-content:center;margin:1.15rem 0 .9rem;border:5px solid rgba(255,255,255,.85);border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3ea,#dac1aa);font-size:3.1rem}.hero-workbook-cover h3{margin:0;font-size:1.22rem;font-weight:1000}.hero-workbook-cover p{margin:.3rem 0 .8rem;font-size:.7rem;font-weight:700}.hero-workbook-cover>i{color:rgba(255,255,255,.5);font-size:.6rem}.hero-workbook-cover>i strong{color:#fff}.hero-workbook-cover footer{display:flex;width:100%;justify-content:space-between;margin-top:1.1rem;color:rgba(255,255,255,.75);font-size:.6rem;font-weight:700}.hero-workbook-cover footer em{font:italic .8rem Georgia,serif}
+    .workbook-showcase{padding:5rem 0;background:linear-gradient(135deg,#fffaf8,#fdf0f4 55%,#f7d7e1);overflow:hidden}.workbook-copy h2{color:#6b1a30;font-size:clamp(2rem,3.5vw,3rem);font-weight:1000;line-height:1.25}.workbook-eyebrow{color:#c4637a;font-size:.8rem;font-weight:900;letter-spacing:.04em}.workbook-intro{color:#8f6371;font-weight:700;line-height:2}.workbook-benefits{display:grid;gap:.9rem}.workbook-benefits p{display:flex;align-items:center;gap:.9rem;margin:0;color:#9e677a;font-size:.84rem;font-weight:700}.workbook-benefits i{display:inline-flex;align-items:center;justify-content:center;flex:0 0 48px;width:48px;height:48px;border-radius:16px;background:rgba(232,160,176,.23);color:#a83f61;font-size:1.15rem}.workbook-benefits span,.workbook-benefits b{display:block}.workbook-benefits b{color:#6b1a30;font-size:.98rem;margin-bottom:.1rem}.workbook-cta{margin-top:2rem;padding:.88rem 1.6rem;border:0;border-radius:50px;color:#fff!important;background:linear-gradient(135deg,#9b3a5a,#d96d91);box-shadow:0 14px 30px rgba(155,58,90,.25);font-weight:900}.workbook-cta:hover{color:#fff;transform:translateY(-2px)}.workbook-preview-col{margin-top:2rem}.workbook-window{display:grid;grid-template-columns:1.35fr .65fr;max-width:830px;margin:auto;overflow:hidden;border:8px solid rgba(255,255,255,.72);border-radius:28px;background:#fff6f8;box-shadow:0 28px 55px rgba(128,39,68,.2)}.workbook-document{padding:16px;background:#fbe3ea}.workbook-cover{display:flex;min-height:390px;align-items:center;flex-direction:column;justify-content:center;padding:1.5rem;border-radius:18px;color:#fff;text-align:center;background:radial-gradient(circle at 15% 12%,rgba(255,255,255,.18) 0 13%,transparent 13.5%),radial-gradient(circle at 85% 90%,rgba(255,255,255,.13) 0 12%,transparent 12.5%),linear-gradient(135deg,#f4a8bd,#d96d91)}.workbook-brand{color:#8f3653;font:italic 2rem Georgia,serif}.workbook-brand small{display:block;margin-top:.45rem;font:900 .53rem Arial,sans-serif;letter-spacing:.26em}.workbook-photo{display:flex;width:120px;height:120px;align-items:center;justify-content:center;margin:1.5rem 0 1.2rem;border:6px solid rgba(255,255,255,.85);border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3ea,#dac1aa);font-size:3.7rem}.workbook-cover h3{margin:0;font-size:1.45rem;font-weight:1000}.workbook-cover p{margin:.35rem 0 1rem;font-size:.8rem;font-weight:700}.workbook-dots{color:rgba(255,255,255,.5);font-size:.65rem}.workbook-dots b{color:#fff}.workbook-cover footer{display:flex;width:100%;justify-content:space-between;margin-top:1.4rem;color:rgba(255,255,255,.75);font-size:.67rem;font-weight:700}.workbook-cover em{font:italic .9rem Georgia,serif}.workbook-editor{padding:1rem;background:#fff;color:#91425a;font-size:.7rem}.workbook-editor h3{margin:0 0 .75rem;color:#bc5777;font-size:.82rem;font-weight:900}.workbook-editor label{display:block;margin:.6rem 0 .28rem;color:#9f6274;font-size:.65rem;font-weight:800}.editor-field,.editor-tags,.editor-step{border:1px solid #f3bdca;border-radius:9px;background:#fff8fa}.editor-field{display:flex;min-height:30px;align-items:center;justify-content:space-between;padding:.35rem .5rem;font-weight:700}.editor-tags{display:flex;flex-wrap:wrap;gap:.3rem;padding:.35rem}.editor-tags span{padding:.18rem .35rem;border-radius:6px;background:#fae0e7;color:#ad5570;font-size:.59rem;font-weight:800}.workbook-editor hr{margin:.9rem 0;border:0;border-top:1px solid #f5d6de}.editor-step{display:flex;gap:.4rem;margin-top:.38rem;padding:.4rem;color:#d66b8b;font-size:.61rem}.editor-step span{color:#91425a}.editor-pdf{margin-top:.9rem;padding:.52rem;border-radius:8px;background:#bd4f70;color:#fff;font-size:.65rem;font-weight:900;text-align:center}@media(max-width:991px){.workbook-copy{text-align:center}.workbook-benefits{max-width:480px;margin:auto;text-align:start}.workbook-preview-col{margin-top:3rem}}@media(max-width:575px){.workbook-showcase{padding:3.5rem 0}.workbook-window{grid-template-columns:1fr;border-width:5px;border-radius:20px}.workbook-cover{min-height:350px}.workbook-copy h2{font-size:2rem}}
+  </style>
 
 </body>
 </html>

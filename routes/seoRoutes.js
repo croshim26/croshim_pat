@@ -13,6 +13,7 @@ const STATIC_PAGES = [
   { path: "/",          changefreq: "weekly",  priority: "1.0" },
   { path: "/feedback",  changefreq: "monthly", priority: "0.5" },
   { path: "/register",  changefreq: "monthly", priority: "0.6" },
+  { path: "/policy",    changefreq: "yearly",  priority: "0.4" },
 ];
 
 const xmlEscape = (str) =>
