@@ -18,6 +18,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const patternRoutes = require("./routes/patternRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 const seoRoutes = require("./routes/seoRoutes");
+const policyRoutes = require("./routes/policyRoutes");
 const accessRequestRoutes = require("./routes/accessRequestRoutes");
 const i18n = require("./middleware/i18n");
 
@@ -275,6 +276,7 @@ app.use(accessRequestRoutes);
 app.use(feedbackRoutes);
 app.use(patternRoutes);
 app.use(seoRoutes);
+app.use(policyRoutes);
 
 app.use(adminRoutes);
 

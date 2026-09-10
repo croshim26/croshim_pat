@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<%- include("../layouts/head") %>
+<body>
+  <%- include("../partials/navbar") %>
+
+  <main class="policy-page">
+    <article class="policy-card">
+      <% if (lang === "en") { %>
+        <header class="policy-header">
+          <p class="policy-eyebrow">Croshim Studio</p>
+          <h1>Order Policy & Intellectual Property Rights</h1>
+          <p>By using the Croshim Studio website and services, you agree to this policy. Please read it carefully before creating, uploading, displaying, or purchasing any crochet pattern through the platform.</p>
+        </header>
+
+        <section>
+          <h2>1. Order and Use Policy</h2>
+          <h3>1.1 Creating patterns</h3>
+          <p>Croshim Studio enables users to create, format, display, and share crochet patterns using the tools and services available on the website.</p>
+          <p>The user is fully responsible for:</p>
+          <ul>
+            <li>The accuracy of all information, steps, measurements, and abbreviations included in a pattern.</li>
+            <li>Ensuring that a pattern is free of errors before publishing or sharing it.</li>
+            <li>Owning the right to use any images, text, symbols, or designs added to a pattern.</li>
+            <li>Not using the platform to create or publish content that infringes the rights of others.</li>
+          </ul>
+
+          <h3>1.2 Displaying patterns</h3>
+          <p>Users may display patterns they create, subject to the features available on the platform. Croshim Studio may reject, hide, or remove content that violates this policy or applicable laws, without liability for losses arising from that action.</p>
+
+          <h3>1.3 Orders and payments</h3>
+          <p>If the platform offers the purchase of patterns or digital services, the user acknowledges that digital products may be available for use or download once payment is completed.</p>
+          <p>Once a digital product has been purchased and access or use has begun, cancellation or a refund may not be available except where required by the platform's policy or applicable law.</p>
+
+          <h3>1.4 User responsibility</h3>
+          <p>Users must not:</p>
+          <ul>
+            <li>Publish or sell stolen or copied patterns without the rights holder's permission.</li>
+            <li>Resell or distribute a pattern purchased from another person without permission.</li>
+            <li>Copy or share platform content in a way that harms its rights holder.</li>
+            <li>Use images, designs, or text owned by others without authorization.</li>
+            <li>Create content that violates laws or the intellectual property rights of others.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>2. Intellectual Property Rights</h2>
+          <h3>2.1 Ownership of patterns</h3>
+          <p>Intellectual property rights in a pattern belong to its creator or rights holder unless otherwise agreed. Uploading a pattern does not transfer ownership to Croshim Studio; it grants the platform only the limited permission needed to host, display, process technically, and provide the website's services.</p>
+
+          <h3>2.2 User rights</h3>
+          <p>Users retain rights in their original content, including patterns, images, text, and designs they create, provided that they own those rights or have the required permission to use them.</p>
+
+          <h3>2.3 Third-party content</h3>
+          <p>Users agree not to upload, publish, or sell content for which they do not have usage rights. The user is solely responsible for any claim or dispute concerning intellectual property infringement arising from content they upload or publish through the platform.</p>
+
+          <h3>2.4 Croshim Studio rights</h3>
+          <p>All platform elements, including the Croshim Studio name and logo, website design and interface, software and systems, original text and content, graphics and visual elements, and the way services are organized and presented, belong to Croshim Studio or its licensors. They may not be copied, reused, modified, distributed, or commercially exploited without prior permission.</p>
+
+          <h3>2.5 Use of purchased patterns</h3>
+          <p>Purchasing a pattern grants the buyer a personal right to use it. It does not transfer copyright or intellectual property rights unless the pattern owner expressly states otherwise. Buyers may not resell, share with others, publish all or part of the pattern online, copy or translate it and resell it, distribute it free of charge or for payment, or use its content to create a competing digital product.</p>
+
+          <h3>2.6 Products made from patterns</h3>
+          <p>Unless the pattern owner sets different terms, purchasing a pattern does not necessarily prevent the buyer from selling handmade products made using it. Users should review the pattern owner's terms before commercial use, especially where the pattern includes specific conditions.</p>
+        </section>
+
+        <section>
+          <h2>3. Reporting intellectual property infringement</h2>
+          <p>If you believe content published on the platform infringes your intellectual property rights, please contact Croshim Studio and provide information and documents that demonstrate your ownership of the content.</p>
+          <p>Where there is a reasonable basis to believe that an infringement has occurred, Croshim Studio may take appropriate action, including temporarily hiding or removing content, restricting, suspending, or terminating an account in repeated or serious cases, or requesting additional information or documents from the relevant parties.</p>
+        </section>
+
+        <section>
+          <h2>4. Changes to this policy</h2>
+          <p>Croshim Studio may update or amend this policy when needed. The latest version will be published on the website, and continued use of the platform after publication means acceptance of the updated policy.</p>
+        </section>
+
+        <section>
+          <h2>5. Contact</h2>
+          <p>For questions about orders, intellectual property rights, or reporting an infringement, please contact Croshim Studio through the contact methods listed on the website.</p>
+        </section>
+      <% } else { %>
+        <header class="policy-header">
+          <p class="policy-eyebrow">كروشيم ستوديو</p>
+          <h1>سياسة الطلب وحقوق الملكية الفكرية</h1>
+          <p>مرحبًا بك في كروشيم ستوديو. باستخدامك للموقع وخدماته، فإنك توافق على الالتزام بهذه السياسة. نرجو قراءتها بعناية قبل إنشاء أو رفع أو عرض أو شراء أي باترون كروشيه من خلال المنصة.</p>
+        </header>
+
+        <section>
+          <h2>أولًا: سياسة الطلب والاستخدام</h2>
+          <h3>1. إنشاء الباترونات</h3>
+          <p>تتيح منصة كروشيم ستوديو للمستخدم إنشاء وتنسيق وعرض ومشاركة الباترونات باستخدام الأدوات والخدمات المتوفرة في الموقع.</p>
+          <p>يتحمل المستخدم المسؤولية الكاملة عن:</p>
+          <ul>
+            <li>صحة المعلومات والخطوات والمقاسات والرموز التي يتضمنها الباترون.</li>
+            <li>التأكد من خلو الباترون من الأخطاء قبل نشره أو مشاركته.</li>
+            <li>امتلاكه الحق في استخدام أي صور أو نصوص أو رموز أو تصاميم يضيفها إلى الباترون.</li>
+            <li>عدم استخدام المنصة لإنشاء أو نشر محتوى ينتهك حقوق الآخرين.</li>
+          </ul>
+
+          <h3>2. عرض الباترونات</h3>
+          <p>يمكن للمستخدم عرض الباترونات التي أنشأها وفق الخصائص المتاحة في المنصة. ويحق للمنصة رفض أو إخفاء أو حذف أي محتوى يخالف هذه السياسة أو الأنظمة المعمول بها، دون أن تتحمل مسؤولية أي خسائر ناتجة عن ذلك.</p>
+
+          <h3>3. الطلبات والمدفوعات</h3>
+          <p>إذا كانت المنصة تتيح شراء الباترونات أو الخدمات الرقمية، فإن المستخدم يقر بأن المنتجات الرقمية قد تكون متاحة للاستخدام أو التنزيل بعد إتمام عملية الدفع.</p>
+          <p>بمجرد إتمام عملية شراء منتج رقمي وبدء الاستفادة منه، قد لا يكون الإلغاء أو الاسترداد ممكنًا إلا في الحالات التي تقررها المنصة أو التي يوجبها النظام المعمول به.</p>
+
+          <h3>4. مسؤولية المستخدم</h3>
+          <p>يُمنع استخدام المنصة في:</p>
+          <ul>
+            <li>نشر أو بيع باترونات مسروقة أو منسوخة دون إذن صاحب الحقوق.</li>
+            <li>إعادة بيع أو توزيع باترون تم شراؤه من شخص آخر دون الحصول على إذن.</li>
+            <li>نسخ أو مشاركة محتوى المنصة بطريقة تضر بحقوق مالكه.</li>
+            <li>استخدام صور أو تصاميم أو نصوص مملوكة للغير دون تصريح.</li>
+            <li>إنشاء محتوى يخالف الأنظمة أو حقوق الملكية الفكرية للآخرين.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>ثانيًا: حقوق الملكية الفكرية</h2>
+          <h3>1. ملكية الباترونات</h3>
+          <p>تعود حقوق الملكية الفكرية للباترون إلى منشئه أو صاحب الحقوق عليه، ما لم يتم الاتفاق على خلاف ذلك. ولا يمنح رفع الباترون إلى منصة كروشيم ستوديو المنصة ملكية الباترون أو حقوقه الفكرية، وإنما يمنحها فقط الترخيص اللازم لتقديم خدمات الموقع، مثل استضافة الباترون وعرضه ومعالجته تقنيًا للمستخدمين وفق إعدادات المنصة.</p>
+
+          <h3>2. حقوق المستخدم</h3>
+          <p>يحتفظ المستخدم بحقوقه في المحتوى الأصلي الذي يقوم بإنشائه، بما في ذلك الباترونات والصور والنصوص والتصاميم، بشرط أن يكون مالكًا لهذه الحقوق أو حاصلًا على التصاريح اللازمة لاستخدامها.</p>
+
+          <h3>3. محتوى الغير</h3>
+          <p>يتعهد المستخدم بعدم رفع أو نشر أو بيع أي محتوى لا يملك حقوق استخدامه. ويتحمل المستخدم وحده المسؤولية عن أي مطالبة أو نزاع يتعلق بانتهاك حقوق الملكية الفكرية نتيجة المحتوى الذي قام برفعه أو نشره عبر المنصة.</p>
+
+          <h3>4. حقوق منصة كروشيم ستوديو</h3>
+          <p>جميع العناصر الخاصة بالمنصة، بما في ذلك اسم وشعار كروشيم ستوديو، تصميم الموقع وواجهته، البرمجيات والأنظمة والأدوات، النصوص والمحتوى الأصلي الخاص بالمنصة، الرسومات والعناصر البصرية، وطريقة تنظيم وعرض الخدمات، هي ملك للمنصة أو للجهات المرخصة لها. ولا يجوز نسخها أو إعادة استخدامها أو تعديلها أو توزيعها أو استغلالها تجاريًا دون الحصول على إذن مسبق.</p>
+
+          <h3>5. استخدام الباترونات المشتراة</h3>
+          <p>شراء باترون من خلال المنصة يمنح المشتري حق الاستخدام الشخصي للباترون، ولا يعني انتقال ملكية حقوق التأليف أو الملكية الفكرية إليه، ما لم يذكر صاحب الباترون خلاف ذلك. ويُمنع إعادة بيع الباترون، أو مشاركته مع الآخرين، أو نشره أو أجزاء منه على الإنترنت، أو نسخه أو ترجمته وإعادة بيعه، أو توزيعه مجانًا أو بمقابل، أو استخدام محتواه لإنشاء منتج رقمي منافس.</p>
+
+          <h3>6. المنتجات المصنوعة من الباترونات</h3>
+          <p>ما لم يحدد صاحب الباترون شروطًا مختلفة، فإن شراء الباترون لا يعني بالضرورة منع المشتري من بيع المنتجات اليدوية التي يصنعها اعتمادًا عليه. ويُنصح المستخدم بمراجعة شروط صاحب الباترون قبل الاستخدام التجاري، خصوصًا إذا كان الباترون يتضمن قيودًا خاصة على نتائج أو منتجات استخدامه.</p>
+        </section>
+
+        <section>
+          <h2>ثالثًا: الإبلاغ عن انتهاك حقوق الملكية الفكرية</h2>
+          <p>إذا كنت تعتقد أن أحد المحتويات المنشورة على المنصة ينتهك حقوق الملكية الفكرية الخاصة بك، يمكنك التواصل مع إدارة كروشيم ستوديو وتقديم المعلومات والمستندات التي تثبت ملكيتك للمحتوى.</p>
+          <p>يحق لإدارة المنصة، عند وجود سبب معقول للاعتقاد بوجود انتهاك، اتخاذ الإجراءات المناسبة، والتي قد تشمل إخفاء المحتوى مؤقتًا أو حذفه، تقييد أو تعليق أو إنهاء حساب المستخدم في الحالات المتكررة أو الجسيمة، أو طلب معلومات أو مستندات إضافية من الأطراف المعنية.</p>
+        </section>
+
+        <section>
+          <h2>رابعًا: التعديلات على السياسة</h2>
+          <p>تحتفظ كروشيم ستوديو بحقها في تحديث أو تعديل هذه السياسة عند الحاجة، وسيتم نشر النسخة المحدثة على الموقع. ويُعد استمرار المستخدم في استخدام المنصة بعد نشر التعديلات موافقةً على السياسة المحدثة.</p>
+        </section>
+
+        <section>
+          <h2>خامسًا: التواصل</h2>
+          <p>للاستفسارات المتعلقة بالطلبات أو حقوق الملكية الفكرية أو الإبلاغ عن انتهاك، يمكن التواصل مع إدارة كروشيم ستوديو من خلال وسائل التواصل الموضحة في الموقع.</p>
+        </section>
+      <% } %>
+    </article>
+  </main>
+
+  <%- include("../partials/footer") %>
+
+  <style>
+    .policy-page { padding: 3.5rem 1rem 4.5rem; background: linear-gradient(180deg, #fdf0f3 0%, #faf9f7 55%); }
+    .policy-card { max-width: 920px; margin: 0 auto; padding: 2.6rem; background: #fff; border: 1px solid #f0dbe2; border-radius: 24px; box-shadow: 0 18px 45px rgba(155, 58, 90, .08); }
+    .policy-header { padding-bottom: 1.6rem; margin-bottom: 2rem; border-bottom: 1px solid #f0dbe2; }
+    .policy-eyebrow { margin: 0 0 .55rem; color: #9b3a5a; font-weight: 800; letter-spacing: .04em; }
+    .policy-card h1 { margin: 0 0 .8rem; font-size: clamp(1.65rem, 4vw, 2.3rem); font-weight: 900; color: #3d0e1e; }
+    .policy-card h2 { margin: 2.3rem 0 1rem; font-size: 1.4rem; font-weight: 900; color: #5c1a30; }
+    .policy-card h3 { margin: 1.45rem 0 .6rem; font-size: 1.08rem; font-weight: 800; color: #7f2c48; }
+    .policy-card p, .policy-card li { color: #4b3940; font-size: 1rem; line-height: 2; }
+    .policy-card p { margin: 0 0 .85rem; }
+    .policy-card ul { padding-inline-start: 1.45rem; margin: .35rem 0 1rem; }
+    .policy-card li { margin-bottom: .35rem; }
+    @media (max-width: 575px) { .policy-page { padding: 2rem .75rem 3rem; } .policy-card { padding: 1.5rem 1.1rem; border-radius: 18px; } }
+  </style>
+</body>
+</html>
