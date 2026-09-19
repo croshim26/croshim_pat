@@ -81,6 +81,7 @@ router.get("/pattern/:id", async (req, res) => {
 
     res.render("pages/pattern_view", {
       pattern,
+      isPatternOwner: req.session.userId === pattern.created_by,
       tools,
       parts,
       allAbbrs,
@@ -106,8 +107,8 @@ router.get("/pattern/:id", async (req, res) => {
           "publisher": { "@type": "Organization", "name": t.seo_site_name, "url": res.locals.siteUrl },
         },
       },
-      error_message: null,
-      success_message: null,
+      error_message: res.locals.errorMessage,
+      success_message: res.locals.successMessage,
     });
   } catch (err) {
     console.error("Pattern view error:", err);

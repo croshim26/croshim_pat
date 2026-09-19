@@ -2,7 +2,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 const User = require("../models/user");
-const { sendPasswordResetEmail } = require("../util/mailer");
+const { sendPasswordResetEmail, sendWelcomeVerificationEmail } = require("../util/mailer");
 
 const SALT_ROUNDS = 10;
 
@@ -46,7 +46,9 @@ exports.postRegister = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-    await User.create({
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+    const verificationExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    const user = await User.create({
       firstName,
       lastName,
       email,
@@ -56,9 +58,18 @@ exports.postRegister = async (req, res) => {
       gender:             gender             || null,
       crochet_experience: crochet_experience || null,
       age:                age ? parseInt(age) : null,
+      email_verification_token: verificationToken,
+      email_verification_token_expiry: verificationExpiry,
     });
 
-    req.flash("success", "Registration completed successfully.");
+    const appUrl = (process.env.APP_URL || `${req.protocol}://${req.get("host")}`).replace(/\/$/, "");
+    sendWelcomeVerificationEmail({
+      toEmail: user.email,
+      firstName: user.firstName,
+      verifyUrl: `${appUrl}/verify-email/${verificationToken}`,
+    }).catch((emailError) => console.error("Welcome verification email error:", emailError));
+
+    req.flash("success", "Registration completed successfully. Please check your email to verify your account.");
     return res.redirect("/");
   } catch (error) {
     console.error("postRegister error:", error);
@@ -70,6 +81,38 @@ exports.postRegister = async (req, res) => {
 
     req.flash("error", "Registration failed. Please try again.");
     return res.redirect("/register");
+  }
+};
+
+/* =========================================================
+   GET /verify-email/:token
+   Confirm ownership of the email address used at registration.
+   ========================================================= */
+exports.verifyEmail = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email_verification_token: req.params.token,
+        email_verification_token_expiry: { [Op.gt]: new Date() },
+      },
+    });
+
+    if (!user) {
+      req.flash("error", "رابط تأكيد البريد غير صالح أو منتهي الصلاحية.");
+      return res.redirect("/");
+    }
+
+    await user.update({
+      email_verified_at: new Date(),
+      email_verification_token: null,
+      email_verification_token_expiry: null,
+    });
+    req.flash("success", "تم تأكيد بريدك الإلكتروني بنجاح.");
+    return res.redirect("/");
+  } catch (error) {
+    console.error("verifyEmail error:", error);
+    req.flash("error", "حدث خطأ أثناء تأكيد البريد. يرجى المحاولة مجدداً.");
+    return res.redirect("/");
   }
 };
 

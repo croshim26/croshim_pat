@@ -44,6 +44,7 @@ router.post("/login", loginLimiter, authController.postLogin);
 // Register
 router.get("/register", authController.getRegister);
 router.post("/register", registerLimiter, authController.postRegister);
+router.get("/verify-email/:token", authController.verifyEmail);
 
 // Logout
 router.post("/logout", authController.postLogout);
