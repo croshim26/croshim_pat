@@ -261,8 +261,8 @@ app.use((req, res, next) => {
    ========================================================= */
 app.get("/", (req, res) => {
 res.render("pages/landing", {
-  error_message: req.flash("error")[0] || null,
-  success_message: req.flash("success")[0] || null,
+  error_message: res.locals.errorMessage,
+  success_message: res.locals.successMessage,
 });
 });
 
