@@ -4,55 +4,501 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NCLMN2BEVN"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-NCLMN2BEVN');
+    function gtag(){ dataLayer.push(arguments); }
+    gtag("js", new Date());
+    gtag("config", "G-NCLMN2BEVN");
   </script>
+
   <meta charset="utf-8">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>طلبات الوصول | <%= t.seo_site_name %></title>
 
-  <!-- External CSS -->
+  <title><%= pageTitle %> | <%= t.seo_site_name %></title>
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
 
-  <!-- App CSS -->
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/layout.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/pages/products.css">
 
-  
+  <style>
+    .requests-page {
+      min-height: 70vh;
+      padding: 48px 0 80px;
+      background:
+        radial-gradient(rgba(194, 79, 114, .1) 1px, transparent 1px),
+        #fff9fa;
+      background-size: 20px 20px;
+    }
+
+    .access-container {
+      max-width: 920px;
+    }
+
+    .access-hero {
+      padding: 28px;
+      margin-bottom: 25px;
+      border: 1px solid #f1d6de;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #fff, #fff4f7);
+      box-shadow: 0 12px 34px rgba(155, 58, 90, .09);
+    }
+
+    .access-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 28px;
+    }
+
+    .access-tabs a {
+      padding: 10px 14px;
+      border: 1px solid #ecc2cf;
+      border-radius: 10px;
+      background: #fff;
+      color: #963b5a;
+      font-size: .82rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: .15s ease;
+    }
+
+    .access-tabs a:hover {
+      background: #fff0f4;
+      color: #963b5a;
+      text-decoration: none;
+    }
+
+    .access-tabs a.active {
+      border-color: #b43e61;
+      background: #b43e61;
+      color: #fff;
+    }
+
+    .access-hero-content {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .access-hero-icon {
+      display: grid;
+      width: 58px;
+      height: 58px;
+      flex-shrink: 0;
+      place-items: center;
+      border-radius: 17px;
+      background: linear-gradient(135deg, #a9385b, #e6829d);
+      color: #fff;
+      font-size: 1.4rem;
+    }
+
+    .access-count {
+      display: inline-block;
+      margin-bottom: 5px;
+      color: #a33c5c;
+      font-size: .78rem;
+      font-weight: 900;
+    }
+
+    .access-hero h1 {
+      margin: 0;
+      color: #283243;
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
+
+    .access-hero p {
+      margin: 5px 0 0;
+      color: #748093;
+      font-size: .88rem;
+    }
+
+    .requests-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .request-card {
+      padding: 20px;
+      border: 1px solid #f1e2e6;
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: 0 8px 25px rgba(155, 58, 90, .08);
+    }
+
+    .request-card-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .request-product-icon {
+      display: grid;
+      width: 45px;
+      height: 45px;
+      flex-shrink: 0;
+      place-items: center;
+      border-radius: 13px;
+      background: #fff0f4;
+      color: #b74769;
+      font-size: 1.1rem;
+    }
+
+    .request-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .request-small-label {
+      display: block;
+      color: #9aa1ae;
+      font-size: .7rem;
+      font-weight: 800;
+    }
+
+    .request-title {
+      display: inline-block;
+      margin: 2px 0 6px;
+      color: #293344;
+      font-size: 1.05rem;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .request-title:hover {
+      color: #aa3d5f;
+      text-decoration: none;
+    }
+
+    .request-person {
+      margin: 0;
+      color: #738093;
+      font-size: .78rem;
+    }
+
+    .request-person i {
+      color: #be4b6d;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 10px;
+      border-radius: 30px;
+      font-size: .74rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .status-pill.approved {
+      background: #e5f7eb;
+      color: #24763f;
+    }
+
+    .status-pill.pending {
+      background: #fff5d7;
+      color: #987207;
+    }
+
+    .status-pill.rejected {
+      background: #fff0f0;
+      color: #bf3838;
+    }
+
+    .request-card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 17px;
+      padding-top: 14px;
+      border-top: 1px solid #f4e8eb;
+    }
+
+    .details-link {
+      color: #a33d5e;
+      font-size: .8rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .details-link:hover {
+      color: #7d2947;
+      text-decoration: none;
+    }
+
+    .request-status-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .request-status-actions form {
+      margin: 0;
+    }
+
+    .mini-action {
+      border: 0;
+      padding: 7px 10px;
+      border-radius: 7px;
+      color: #fff;
+      font-family: Cairo, sans-serif;
+      font-size: .72rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .mini-action.approve { background: #2da34c; }
+    .mini-action.reject { background: #db424d; }
+    .mini-action.pending { background: #d29b14; }
+
+    .empty-state {
+      padding: 60px 20px;
+      border-radius: 18px;
+      background: #fff;
+      color: #7c8695;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(155, 58, 90, .08);
+    }
+
+    .empty-state i {
+      display: block;
+      margin-bottom: 13px;
+      color: #ca5f7e;
+      font-size: 3rem;
+    }
+
+    @media (max-width: 576px) {
+      .access-hero {
+        padding: 20px;
+      }
+
+      .request-card-top {
+        flex-wrap: wrap;
+      }
+
+      .status-pill {
+        margin-right: 59px;
+      }
+
+      .request-card-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 
 <body>
   <%- include("../partials/navbar") %>
-  
-  <main class="container py-5" style="max-width:900px">
-    <h1 class="products-title">طلبات الوصول</h1>
-    <% if (!requests.length) { %><p class="text-muted">لا توجد طلبات وصول حتى الآن.</p><% } %>
-    <% requests.forEach(function (request) { %>
-      <a href="/access-requests/<%= request.id %>" class="d-block p-3 mb-3 bg-white rounded shadow-sm text-dark text-decoration-none">
-        <strong><%= request.product.product_name %></strong>
-        <span class="badge badge-<%= request.status === 'approved' ? 'success' : request.status === 'rejected' ? 'danger' : 'warning' %> mx-2"><%= request.status %></span>
-        <small class="d-block mt-1">طالب الوصول: <%= request.requester.firstName %> <%= request.requester.lastName %></small>
-      </a>
-    <% }) %>
+
+  <main class="requests-page">
+    <div class="container access-container">
+
+      <% if (success_message) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= success_message %>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      <% } %>
+
+      <% if (error_message) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= error_message %>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      <% } %>
+
+      <section class="access-hero" data-aos="fade-up">
+        <div class="access-tabs">
+          <a
+            href="/access-requests/received"
+            class="<%= pageMode === 'received' ? 'active' : '' %>"
+          >
+            <i class="fas fa-inbox"></i>
+            <%= t.nav_received_requests %>
+          </a>
+
+          <a
+            href="/access-requests/sent"
+            class="<%= pageMode === 'sent' ? 'active' : '' %>"
+          >
+            <i class="fas fa-paper-plane"></i>
+            <%= t.nav_sent_requests %>
+          </a>
+        </div>
+
+        <div class="access-hero-content">
+          <div class="access-hero-icon">
+            <i class="fas <%= pageMode === 'received' ? 'fa-inbox' : 'fa-paper-plane' %>"></i>
+          </div>
+
+          <div>
+            <span class="access-count"><%= requests.length %> <%= t.access_request_count %></span>
+            <h1><%= pageTitle %></h1>
+            <p><%= pageSubtitle %></p>
+          </div>
+        </div>
+      </section>
+
+      <% if (requests && requests.length > 0) { %>
+        <section class="requests-list">
+
+          <% requests.forEach(function(request, index) { %>
+            <%
+              const isOwner = Number(request.owner_id) === Number(currentUserId);
+
+              const statusLabel = request.status === "approved"
+                ? t.access_approved
+                : request.status === "rejected"
+                  ? t.access_rejected
+                  : t.access_pending;
+
+              const statusClass = request.status === "approved"
+                ? "approved"
+                : request.status === "rejected"
+                  ? "rejected"
+                  : "pending";
+
+              const person = pageMode === "received"
+                ? request.requester
+                : request.owner;
+
+              const personLabel = pageMode === "received"
+                ? t.access_requester
+                : t.access_owner;
+            %>
+
+            <article
+              class="request-card"
+              data-aos="fade-up"
+              data-aos-delay="<%= index * 60 %>"
+            >
+              <div class="request-card-top">
+                <div class="request-product-icon">
+                  <i class="fas fa-file-alt"></i>
+                </div>
+
+                <div class="request-info">
+                  <span class="request-small-label"><%= t.access_product_name %></span>
+
+                  <a
+                    href="/access-requests/<%= request.id %>"
+                    class="request-title"
+                  >
+                    <%= request.product ? request.product.product_name : t.access_unknown %>
+                  </a>
+
+                  <p class="request-person">
+                    <i class="fas fa-user"></i>
+                    <%= personLabel %>:
+
+                    <strong>
+                      <%= person
+                        ? person.firstName + " " + person.lastName
+                        : t.access_unknown
+                      %>
+                    </strong>
+                  </p>
+                </div>
+
+                <span class="status-pill <%= statusClass %>">
+                  <i class="fas <%= request.status === 'approved'
+                    ? 'fa-check-circle'
+                    : request.status === 'rejected'
+                      ? 'fa-times-circle'
+                      : 'fa-clock' %>"></i>
+
+                  <%= statusLabel %>
+                </span>
+              </div>
+
+              <div class="request-card-bottom">
+                <a
+                  href="/access-requests/<%= request.id %>"
+                  class="details-link"
+                >
+                  <%= t.access_view_details %>
+                  <i class="fas fa-arrow-left"></i>
+                </a>
+
+                <% if (isOwner) { %>
+                  <div class="request-status-actions">
+
+                    <% if (request.status !== "approved") { %>
+                      <form
+                        action="/access-requests/<%= request.id %>/status/approved"
+                        method="POST"
+                      >
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                        <button type="submit" class="mini-action approve">
+                          <i class="fas fa-check"></i>
+                          <%= t.access_approve %>
+                        </button>
+                      </form>
+                    <% } %>
+
+                    <% if (request.status !== "rejected") { %>
+                      <form
+                        action="/access-requests/<%= request.id %>/status/rejected"
+                        method="POST"
+                      >
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                        <button type="submit" class="mini-action reject">
+                          <i class="fas fa-times"></i>
+                          <%= t.access_reject %>
+                        </button>
+                      </form>
+                    <% } %>
+
+                    <% if (request.status !== "pending") { %>
+                      <form
+                        action="/access-requests/<%= request.id %>/status/pending"
+                        method="POST"
+                      >
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                        <button type="submit" class="mini-action pending">
+                          <i class="fas fa-clock"></i>
+                          <%= t.access_review %>
+                        </button>
+                      </form>
+                    <% } %>
+
+                  </div>
+                <% } %>
+              </div>
+            </article>
+          <% }) %>
+
+        </section>
+      <% } else { %>
+        <section class="empty-state" data-aos="fade-up">
+          <i class="fas fa-box-open"></i>
+          <h4><%= t.access_empty_title %></h4>
+          <p class="mb-0"><%= t.access_empty_desc %></p>
+        </section>
+      <% } %>
+
+    </div>
   </main>
 
-
-    <%- include("../partials/footer") %>
+  <%- include("../partials/footer") %>
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-  <script>AOS.init({ once: true, duration: 500 });</script>
-
-
+  <script>
+    AOS.init({ once: true, duration: 500 });
+  </script>
 </body>
 </html>

@@ -20,6 +20,9 @@ router.post("/add_product", loggedin, productController.createProduct);
 
 router.post('/products/:id/toggle-published', loggedin,productController.toggleProductPublished);
 router.post('/products/:id/toggle-pattern-published',loggedin, productController.togglePatternPublished);
+router.post('/products/:id/grant-access',loggedin, productController.accessProductByEmail);
+
+
 
 router.post("/delete_product/:productId", loggedin, productController.deleteProduct);
 
