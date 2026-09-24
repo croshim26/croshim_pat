@@ -18,11 +18,27 @@
   padding:2rem;
   box-shadow:0 25px 70px rgba(0,0,0,.22);
   backdrop-filter:blur(14px);
+  position:relative;
+  overflow:hidden;
+}
+
+.auth-card::before{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  top:-105px;
+  left:-75px;
+  border-radius:50%;
+  background:rgba(232,160,176,.22);
+  pointer-events:none;
 }
 
 .auth-card-header{
   text-align:center;
   margin-bottom:1.5rem;
+  position:relative;
+  padding:.35rem .5rem 0;
 }
 
 .auth-brand{
@@ -38,6 +54,19 @@
 .auth-brand .logo-name{font-size:1.1rem;font-weight:1000;color:#0f172a}
 .auth-brand .logo-name span{font-weight:500;color:#9b3a5a}
 
+.auth-header-kicker{
+  display:table;
+  margin:0 auto .55rem;
+  padding:.28rem .7rem;
+  border-radius:999px;
+  color:#9b3a5a;
+  background:rgba(155,58,90,.09);
+  font-size:.72rem;
+  font-weight:900;
+  letter-spacing:.02em;
+}
+.auth-header-kicker i{margin-inline-end:.2rem;}
+
 .auth-card-header h1{
   font-size:1.8rem;
   font-weight:1000;
@@ -50,6 +79,29 @@
   color:#6b7280;
   font-weight:700;
 }
+
+.auth-flash{
+  display:flex;
+  align-items:flex-start;
+  gap:.65rem;
+  margin:0 0 1.25rem;
+  padding:.85rem 2.6rem .85rem 1rem;
+  border:1px solid transparent;
+  border-radius:14px;
+  font-size:.88rem;
+  font-weight:700;
+  line-height:1.6;
+}
+[dir="rtl"] .auth-flash{padding:.85rem 1rem .85rem 2.6rem;}
+.auth-flash > i{font-size:1.15rem;margin-top:.18rem;}
+.auth-flash > div{display:flex;flex-wrap:wrap;gap:.25rem .4rem;}
+.auth-flash strong{font-weight:1000;}
+.auth-flash .close{position:absolute;top:.55rem;right:.75rem;padding:0;font-size:1.35rem;line-height:1;color:inherit;text-shadow:none;opacity:.65;}
+[dir="rtl"] .auth-flash .close{right:auto;left:.75rem;}
+.auth-flash .close:hover{opacity:1;}
+.auth-flash--error{color:#9b2c2c;background:#fff1f2;border-color:#fecdd3;}
+.auth-flash--success{color:#166534;background:#f0fdf4;border-color:#bbf7d0;}
+.auth-flash .alert-link{color:inherit;font-weight:1000;text-decoration:underline;}
 
 .register-form label{
   font-weight:800;

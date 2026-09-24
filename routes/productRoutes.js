@@ -28,6 +28,7 @@ router.post("/delete_product/:productId", loggedin, productController.deleteProd
 
 router.get("/pattern-builder", loggedin, productController.getPatternBuilder);
 router.post("/pattern-builder/save", loggedin, productController.savePattern);
+router.post("/pattern/:id/share-email", loggedin, productController.sharePatternByEmail);
 router.get("/pattern-builder/load/:id", loggedin, productController.loadPattern);
 router.post("/pattern-builder/delete/:id", loggedin, productController.deletePattern);
 router.post("/pattern-builder/upload-image",    loggedin, productController.uploadCoverImage);

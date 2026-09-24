@@ -2,7 +2,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 const User = require("../models/user");
-const { sendPasswordResetEmail } = require("../util/mailer");
+const { sendPasswordResetEmail, sendWelcomeEmail } = require("../util/mailer");
 
 const SALT_ROUNDS = 10;
 
@@ -11,8 +11,8 @@ const SALT_ROUNDS = 10;
    ========================================================= */
 exports.getRegister = (req, res) => {
   res.render("pages/register", {
-    success_message: req.flash("success")[0] || null,
-    error_message: req.flash("error")[0] || null,
+    success_message: res.locals.successMessage,
+    error_message: res.locals.errorMessage,
   });
 };
 
@@ -22,16 +22,66 @@ exports.getRegister = (req, res) => {
    ========================================================= */
 exports.postRegister = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone, password, country, gender, crochet_experience, age } = req.body;
+    const language = req.session.lang === "en" ? "en" : "ar";
+    const messages = language === "en"
+      ? {
+          required: "Please fill in all required fields.",
+          email: "Please enter a valid email address.",
+          password: "Your password must be at least 8 characters.",
+          age: "Please enter an age between 10 and 100.",
+          exists: "An account with this email already exists.",
+          success: "Registration completed successfully. Welcome to Croshim Studio!",
+          failed: "Registration failed. Please try again.",
+        }
+      : {
+          required: "يرجى تعبئة جميع الحقول المطلوبة.",
+          email: "يرجى إدخال بريد إلكتروني صحيح.",
+          password: "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+          age: "يرجى إدخال عمر بين 10 و100.",
+          exists: "يوجد حساب مسجل بهذا البريد الإلكتروني بالفعل.",
+          success: "تم إنشاء الحساب بنجاح. أهلاً بك في كروشيم ستوديو!",
+          failed: "تعذر إنشاء الحساب. يرجى المحاولة مرة أخرى.",
+        };
+
+    const firstName = String(req.body.firstName || "").trim();
+    const lastName = String(req.body.lastName || "").trim();
+    const email = String(req.body.email || "").trim().toLowerCase();
+    const phone = String(req.body.phone || "").trim();
+    const password = String(req.body.password || "");
+    const country = String(req.body.country || "").trim() || null;
+    const gender = String(req.body.gender || "").trim() || null;
+    const crochet_experience = String(req.body.crochet_experience || "").trim() || null;
+    const ageInput = String(req.body.age || "").trim();
 
     if (!firstName || !lastName || !email || !phone || !password) {
-      req.flash("error", "Please fill in all required fields.");
+      req.flash("error", messages.required);
       return res.redirect("/register");
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      req.flash("error", "Please enter a valid email address.");
+      req.flash("error", messages.email);
+      return res.redirect("/register");
+    }
+
+    if (password.length < 8) {
+      req.flash("error", messages.password);
+      return res.redirect("/register");
+    }
+
+    const ageNumber = ageInput === "" ? null : Number(ageInput);
+    if (ageNumber !== null && (!Number.isInteger(ageNumber) || ageNumber < 10 || ageNumber > 100)) {
+      req.flash("error", messages.age);
+      return res.redirect("/register");
+    }
+
+    if (gender && !["female", "male"].includes(gender)) {
+      req.flash("error", messages.required);
+      return res.redirect("/register");
+    }
+
+    if (crochet_experience && !["beginner", "intermediate", "advanced"].includes(crochet_experience)) {
+      req.flash("error", messages.required);
       return res.redirect("/register");
     }
 
@@ -40,13 +90,13 @@ exports.postRegister = async (req, res) => {
     });
 
     if (existingUser) {
-      req.flash("error", "Email already exists.");
+      req.flash("error", messages.exists);
       return res.redirect("/register");
     }
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-    await User.create({
+    const user = await User.create({
       firstName,
       lastName,
       email,
@@ -55,21 +105,63 @@ exports.postRegister = async (req, res) => {
       country:            country            || null,
       gender:             gender             || null,
       crochet_experience: crochet_experience || null,
-      age:                age ? parseInt(age) : null,
+      age:                ageNumber,
     });
 
-    req.flash("success", "Registration completed successfully.");
+    sendWelcomeEmail({
+      toEmail: user.email,
+      firstName: user.firstName,
+      language,
+    }).catch((emailError) => console.error("Welcome email error:", emailError));
+
+    req.flash("success", messages.success);
     return res.redirect("/");
   } catch (error) {
     console.error("postRegister error:", error);
 
     if (error?.name === "SequelizeUniqueConstraintError") {
-      req.flash("error", "Email already exists.");
+      req.flash("error", req.session.lang === "en"
+        ? "An account with this email already exists."
+        : "يوجد حساب مسجل بهذا البريد الإلكتروني بالفعل.");
       return res.redirect("/register");
     }
 
-    req.flash("error", "Registration failed. Please try again.");
+    req.flash("error", req.session.lang === "en"
+      ? "Registration failed. Please try again."
+      : "تعذر إنشاء الحساب. يرجى المحاولة مرة أخرى.");
     return res.redirect("/register");
+  }
+};
+
+/* =========================================================
+   GET /verify-email/:token
+   Confirm ownership of the email address used at registration.
+   ========================================================= */
+exports.verifyEmail = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email_verification_token: req.params.token,
+        email_verification_token_expiry: { [Op.gt]: new Date() },
+      },
+    });
+
+    if (!user) {
+      req.flash("error", "رابط تأكيد البريد غير صالح أو منتهي الصلاحية.");
+      return res.redirect("/");
+    }
+
+    await user.update({
+      email_verified_at: new Date(),
+      email_verification_token: null,
+      email_verification_token_expiry: null,
+    });
+    req.flash("success", "تم تأكيد بريدك الإلكتروني بنجاح.");
+    return res.redirect("/");
+  } catch (error) {
+    console.error("verifyEmail error:", error);
+    req.flash("error", "حدث خطأ أثناء تأكيد البريد. يرجى المحاولة مجدداً.");
+    return res.redirect("/");
   }
 };
 

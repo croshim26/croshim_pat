@@ -46,6 +46,21 @@ const User =sequelize.define('user',{
         allowNull: true,
     },
 
+    email_verification_token: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+
+    email_verification_token_expiry: {
+        type: Sequelize.DATE,
+        allowNull: true,
+    },
+
+    email_verified_at: {
+        type: Sequelize.DATE,
+        allowNull: true,
+    },
+
     is_admin: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
@@ -85,4 +100,3 @@ const User =sequelize.define('user',{
 });
 
 module.exports=User
-

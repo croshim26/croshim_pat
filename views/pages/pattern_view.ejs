@@ -87,6 +87,13 @@
     .btn-pv-print:hover  { filter: brightness(1.08); color: #fff; }
     .btn-pv-back   { background: rgba(155,58,90,.08); color: var(--mauve); border: 1px solid rgba(155,58,90,.18); }
     .btn-pv-back:hover   { background: rgba(155,58,90,.15); color: var(--mauve); }
+    .pv-share-panel { display:none; width:100%; background:var(--soft-pink); border:1px solid var(--blush); border-radius:12px; padding:12px; }
+    .pv-share-panel.is-open { display:block; }
+    .pv-share-grid { display:grid; grid-template-columns:1fr 1fr auto; gap:8px; align-items:start; }
+    .pv-share-panel input, .pv-share-panel textarea { width:100%; border:1px solid var(--code-border); border-radius:8px; padding:8px 10px; font:inherit; font-size:.8rem; background:#fff; }
+    .pv-share-panel textarea { resize:vertical; min-height:39px; }
+    .pv-share-note { grid-column:1 / -1; margin:0; color:var(--text-mid); font-size:.76rem; }
+    @media (max-width: 620px) { .pv-share-grid { grid-template-columns:1fr; } }
 
     /* ── Page cards ── */
     .pages-wrap {
@@ -201,7 +208,10 @@
   <button class="btn-pv btn-pv-print" onclick="window.print()">
     <i class="fas fa-print"></i> <%= t.pv_print_btn %>
   </button>
-  <% if (isAuthenticated) { %>
+  <% if (isPatternOwner) { %>
+  <button type="button" class="btn-pv btn-pv-back" onclick="document.getElementById('pv-share-panel').classList.toggle('is-open')">
+    <i class="fas fa-envelope"></i> مشاركة بالبريد
+  </button>
   <a class="btn-pv btn-pv-back" href="/pattern-builder?load=<%= pattern.id %>">
     <i class="fas fa-magic"></i> <%= t.pv_open_builder %>
   </a>
@@ -209,7 +219,21 @@
   <a class="btn-pv btn-pv-back" href="/dashboard">
     <i class="fas fa-arrow-left"></i> <%= t.pv_back %>
   </a>
+  <% if (isPatternOwner) { %>
+  <form id="pv-share-panel" class="pv-share-panel" method="post" action="/pattern/<%= pattern.id %>/share-email">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="pv-share-grid">
+      <input type="email" name="recipient_email" required maxlength="254" placeholder="بريد المستلم الإلكتروني">
+      <textarea name="message" maxlength="500" placeholder="رسالة قصيرة (اختياري)"></textarea>
+      <button class="btn-pv btn-pv-print" type="submit"><i class="fas fa-paper-plane"></i> إرسال</button>
+      <p class="pv-share-note">يمكن مشاركة الباترونات المنشورة فقط، حتى يستطيع المستلم فتح الرابط.</p>
+    </div>
+  </form>
+  <% } %>
 </div>
+
+<% if (success_message) { %><div class="alert alert-success text-center mb-0 rounded-0"><%= success_message %></div><% } %>
+<% if (error_message) { %><div class="alert alert-danger text-center mb-0 rounded-0"><%= error_message %></div><% } %>
 
 <div class="pages-wrap">
 
