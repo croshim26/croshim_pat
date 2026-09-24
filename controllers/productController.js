@@ -3,7 +3,7 @@ const { Op } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 const SavedPattern = require("../models/saved_pattern");
 
-const { Product, User } = require("../models");
+const { Product, User,AccessRequest } = require("../models");
 const supabase = require("../util/supabase");
 const { log } = require("console");
 
@@ -64,6 +64,28 @@ exports.getAllProducts = async (req, res) => {
       offset: (page - 1) * limit,
     });
 
+const productIds = products.map((product) => product.id);
+
+const accessRequests = req.session.userId
+  ? await AccessRequest.findAll({
+      where: {
+        requester_id: req.session.userId,
+        product_id: { [Op.in]: productIds },
+      },
+      attributes: ["product_id", "status"],
+    })
+  : [];
+
+const accessStatusByProductId = Object.fromEntries(
+  accessRequests.map((request) => [request.product_id, request.status])
+);
+
+const productsWithAccess = products.map((product) => ({
+  ...product.toJSON(),
+  isOwner: Number(product.user_id) === Number(req.session.userId),
+  accessStatus: accessStatusByProductId[product.id] || null,
+}));
+
     const firstPage = Math.max(1, Math.min(page - 2, totalPages - 4));
     const lastPage = Math.min(totalPages, firstPage + 4);
     const pageNumbers = Array.from(
@@ -72,9 +94,10 @@ exports.getAllProducts = async (req, res) => {
     );
 
     return res.render("pages/all_products", {
-      products,
+      products: productsWithAccess,
       searchQuery,
       pagination: { page, totalPages, totalProducts: count, pageSize: limit, pageNumbers },
+      viewerUserId: req.session.userId || null,
       success_message: req.flash("success")[0] || null,
       error_message: req.flash("error")[0] || null,
     });
@@ -477,7 +500,6 @@ exports.savePatternPdf = async (req, res) => {
 };
 
 exports.savePatternAsProduct = async (req, res) => {
-  console.log('test test');
   
   try {
     const userId    = req.session.userId;
@@ -504,5 +526,86 @@ exports.savePatternAsProduct = async (req, res) => {
   } catch (err) {
     console.error('savePatternAsProduct error:', err);
     res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+
+
+/* =========================================================
+   POST /products/:id/grant-access
+   Give an existing user access using their email
+   ========================================================= */
+exports.accessProductByEmail = async (req, res) => {
+  try {
+    const recipientEmail = String(req.body.recipient_email || "")
+      .trim()
+      .toLowerCase();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(recipientEmail)) {
+      req.flash("error", "Please enter a valid email address.");
+      return res.redirect("/dashboard");
+    }
+
+    // Confirm this product belongs to the logged-in owner
+    const product = await Product.findOne({
+      where: {
+        id: req.params.id,
+        user_id: req.session.userId,
+      },
+    });
+
+    if (!product) {
+      req.flash("error", "Product not found or you do not own it.");
+      return res.redirect("/dashboard");
+    }
+
+    // Find the requester by the entered email
+    const requester = await User.findOne({
+      where: { email: recipientEmail },
+    });
+
+    if (!requester) {
+      req.flash("error", "No Croshim account exists with this email.");
+      return res.redirect("/dashboard");
+    }
+
+    if (requester.id === req.session.userId) {
+      req.flash("error", "You already own this product.");
+      return res.redirect("/dashboard");
+    }
+
+    // Create the request, or update it if it already exists.
+    const [accessRequest, created] = await AccessRequest.findOrCreate({
+      where: {
+        product_id: product.id,
+        requester_id: requester.id,
+      },
+      defaults: {
+        owner_id: req.session.userId,
+        status: "approved",
+        approved_at: new Date(),
+      },
+    });
+
+    if (!created) {
+      await accessRequest.update({
+        owner_id: req.session.userId,
+        status: "approved",
+        approved_at: new Date(),
+      });
+    }
+
+    req.flash(
+      "success",
+      `Access approved for ${requester.email}.`
+    );
+
+    return res.redirect("/dashboard");
+  } catch (error) {
+    console.error("accessProductByEmail error:", error);
+    req.flash("error", "Could not grant access. Please try again.");
+    return res.redirect("/dashboard");
   }
 };

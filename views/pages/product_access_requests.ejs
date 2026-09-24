@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title><%= t.access_available_title %> | <%= t.seo_site_name %></title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages/products.css">
+
+  <style>
+    .access-page {
+      min-height: 80vh;
+      padding: 45px 0 70px;
+      background: linear-gradient(135deg, #fff9fa, #fff1f5);
+    }
+
+    .access-header {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .access-header h1 {
+      color: #8f3855;
+      font-size: 2rem;
+      font-weight: 900;
+    }
+
+    .access-header p {
+      color: #697386;
+      font-size: .95rem;
+    }
+
+    .approved-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 30px;
+      background: #e6f5eb;
+      color: #257440;
+      font-size: .76rem;
+      font-weight: 800;
+    }
+
+    .access-card {
+      height: 100%;
+      overflow: hidden;
+      border: 0;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 8px 28px rgba(155, 58, 90, .12);
+      transition: transform .2s ease;
+    }
+
+    .access-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .access-cover {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      background: #fff0f4;
+    }
+
+    .access-cover-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 190px;
+      background: linear-gradient(135deg, #fff0f4, #f8dce5);
+      color: #bd5474;
+      font-size: 3rem;
+    }
+
+    .access-card-body {
+      padding: 20px;
+      text-align: right;
+    }
+
+    .access-label {
+      display: block;
+      margin-bottom: 4px;
+      color: #9a7280;
+      font-size: .75rem;
+      font-weight: 800;
+    }
+
+    .access-product-name {
+      margin-bottom: 12px;
+      color: #273244;
+      font-size: 1.15rem;
+      font-weight: 900;
+    }
+
+    .access-description {
+      min-height: 45px;
+      margin-bottom: 15px;
+      color: #657084;
+      font-size: .84rem;
+      line-height: 1.8;
+    }
+
+    .access-owner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 13px 0;
+      color: #586274;
+      font-size: .83rem;
+    }
+
+    .access-owner i {
+      color: #b74769;
+    }
+
+    .access-date {
+      margin-bottom: 15px;
+      color: #8d96a4;
+      font-size: .75rem;
+    }
+
+    .open-pattern-btn {
+      display: block;
+      width: 100%;
+      padding: 11px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #a9385b, #dc718d);
+      color: #fff !important;
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none !important;
+      transition: filter .15s ease;
+    }
+
+    .open-pattern-btn:hover {
+      filter: brightness(1.08);
+    }
+
+    .empty-access {
+      padding: 65px 20px;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 8px 28px rgba(155, 58, 90, .1);
+      color: #7b8594;
+      text-align: center;
+    }
+
+    .empty-access i {
+      margin-bottom: 16px;
+      color: #d46e8a;
+      font-size: 3rem;
+    }
+  </style>
+</head>
+
+<body>
+  <%- include("../partials/navbar") %>
+
+  <main class="access-page">
+    <div class="container">
+
+      <% if (success_message) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= success_message %>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      <% } %>
+
+      <% if (error_message) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= error_message %>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      <% } %>
+
+      <header class="access-header">
+        <h1><i class="fas fa-check-circle"></i> <%= t.access_available_title %></h1>
+        <p><%= t.access_available_subtitle %></p>
+      </header>
+
+      <div class="row">
+
+        <% if (accessRequests && accessRequests.length > 0) { %>
+          <% accessRequests.forEach(function(accessRequest) { %>
+
+            <% const product = accessRequest.product; %>
+
+            <% if (product) { %>
+              <div class="col-12 col-sm-6 col-md-4 mb-4">
+                <article class="access-card">
+
+                  <% if (product.pattern && product.pattern.cover_image) { %>
+                    <img
+                      class="access-cover"
+                      src="<%= product.pattern.cover_image %>"
+                      alt="<%= product.product_name %>"
+                    >
+                  <% } else { %>
+                    <div class="access-cover-placeholder">🧶</div>
+                  <% } %>
+
+                  <div class="access-card-body">
+                    <span class="approved-badge">
+                      <i class="fas fa-check-circle"></i>
+                      <%= t.access_granted %>
+                    </span>
+
+                    <div class="mt-3">
+                      <span class="access-label"><%= t.access_product_name %></span>
+                      <h2 class="access-product-name"><%= product.product_name %></h2>
+                    </div>
+
+                    <span class="access-label"><%= t.label_product_desc %></span>
+                    <p class="access-description">
+                      <%= product.product_description || t.access_no_description %>
+                    </p>
+
+                    <div class="access-owner">
+                      <i class="fas fa-user"></i>
+                      <span>
+                        <%= t.access_owner %>:
+                        <%= accessRequest.owner
+                          ? accessRequest.owner.firstName + " " + accessRequest.owner.lastName
+                          : t.access_unknown
+                        %>
+                      </span>
+                    </div>
+
+                    <% if (accessRequest.approved_at) { %>
+                      <p class="access-date">
+                        <i class="far fa-calendar-check"></i>
+                        <%= t.access_approved_on %>: <%= new Date(accessRequest.approved_at).toLocaleDateString(lang === "en" ? "en-US" : "ar-SA") %>
+                      </p>
+                    <% } %>
+
+                    <% if (product.pattern) { %>
+                      <a href="/pattern/<%= product.pattern.id %>" class="open-pattern-btn">
+                        <i class="fas fa-book-open"></i>
+                        <%= t.access_open_file %>
+                      </a>
+                    <% } else if (product.pdf_path) { %>
+                      <a
+                        href="<%= product.pdf_path %>"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="open-pattern-btn"
+                      >
+                        <i class="fas fa-file-pdf"></i>
+                        <%= t.access_view_file %>
+                      </a>
+                    <% } %>
+
+                  </div>
+                </article>
+              </div>
+            <% } %>
+
+          <% }) %>
+
+        <% } else { %>
+          <div class="col-12">
+            <div class="empty-access">
+              <i class="fas fa-box-open"></i>
+              <h4><%= t.access_no_approved_title %></h4>
+              <p><%= t.access_no_approved_desc %></p>
+              <a href="/all_products" class="btn btn-outline-danger">
+                <%= t.access_browse_products %>
+              </a>
+            </div>
+          </div>
+        <% } %>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

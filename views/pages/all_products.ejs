@@ -13,7 +13,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= t.seo_site_name %> | جميع المنتجات</title>
+  <title><%= t.seo_site_name %> | <%= t.products_all_title %></title>
 
   <!-- External CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -76,6 +76,81 @@
   text-decoration: underline;
 }
 
+.product-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.my-product-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #fff0f4;
+  border: 1px solid #efb8c7;
+  color: #a6385b;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.product-owner-file-note,
+.access-approved-note,
+.access-pending-note,
+.access-rejected-note {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.product-owner-file-note {
+  background: #fff0f4;
+  color: #a6385b;
+  border: 1px solid #efbdca;
+}
+
+.access-approved-note {
+  background: #e8f7ed;
+  color: #24713d;
+  border: 1px solid #bde5c9;
+}
+
+.access-pending-note {
+  background: #fff8df;
+  color: #9b7514;
+  border: 1px solid #f0dc9a;
+}
+
+.access-rejected-note {
+  background: #fff0f0;
+  color: #b33333;
+  border: 1px solid #efbcbc;
+}
+
+.request-again-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 9px;
+  border: 1px solid #b74769;
+  border-radius: 8px;
+  background: #fff;
+  color: #a6385b;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.request-again-btn:hover {
+  background: #fff0f4;
+}
+
+
+
 </style>
 
 <body>
@@ -90,22 +165,22 @@
       <!-- ALERTS -->
       <% if (success_message) { %>
         <div class="alert alert-success alert-dismissible fade show hero-alert mt-3" role="alert">
-          <strong>تم بنجاح!</strong> <%= success_message %>
+          <strong><%= t.alert_success_prefix %></strong> <%= success_message %>
           <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
       <% } %>
       <% if (error_message) { %>
         <div class="alert alert-danger alert-dismissible fade show hero-alert mt-3" role="alert">
-          <strong>خطأ!</strong> <%= error_message %>
+          <strong><%= t.alert_error_prefix %></strong> <%= error_message %>
           <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
       <% } %>
 
       <!-- PAGE HEADER -->
       <header class="page-header" data-aos="fade-up">
-        <h1 class="products-title">جميع المنتجات</h1>
+        <h1 class="products-title"><%= t.products_all_title %></h1>
         <p class="products-subtitle">
-          تصفح منتجات الكروشيه وملفات الباترن المتاحة
+          <%= t.products_browse_subtitle %>
         </p>
       </header>
 
@@ -117,14 +192,14 @@
               type="search"
               name="q"
               class="form-control search-input"
-              placeholder="ابحث عن منتج باسمه أو وصفه..."
+              placeholder="<%= t.products_search_placeholder %>"
               autocomplete="off"
               value="<%= searchQuery || '' %>"
             >
           </div>
-          <button type="submit" class="search-submit">بحث</button>
+          <button type="submit" class="search-submit"><%= t.btn_search %></button>
           <span class="search-count">
-            <%= pagination.totalProducts %> <%= searchQuery ? 'نتيجة' : 'منتج' %>
+            <%= pagination.totalProducts %> <%= t.stat_label %>
           </span>
       </form>
 
@@ -154,10 +229,19 @@
 
 
                 <div class="product-header">
-                  <span class="label-title">اسم المنتج</span>
+                  <span class="label-title"><%= t.label_product_name %></span>
                   <h2 class="product-name">
                     <%= product.product_name %>
                   </h2>
+                      <% if (
+      viewerUserId &&
+      Number(product.user_id) === Number(viewerUserId)
+    ) { %>
+      <span class="my-product-flag">
+        <i class="fas fa-flag"></i>
+        <%= t.products_my_flag %>
+      </span>
+    <% } %>
  
 
                 </div>
@@ -165,13 +249,13 @@
                 <div class="product-body">
 
                   <div class="product-meta">
-                    <span class="label-title">اسم العميل</span>
+                    <span class="label-title"><%= t.products_owner %></span>
                     <div class="product-owner">
                       <i class="fas fa-user"></i>
                       <span>
                         <%= product.user
                           ? product.user.firstName + " " + product.user.lastName
-                          : "غير معروف"
+                          : t.access_unknown
                         %>
                       </span>
                     </div>
@@ -179,23 +263,41 @@
 
 
                   <div class="product-meta">
-                    <span class="label-title">وصف المنتج</span>
+                    <span class="label-title"><%= t.label_product_desc %></span>
                     <p class="product-description">
                       <%= product.product_description %>
                     </p>
                   </div>
                     
-           <div class="product-meta">
-  <span class="label-title">ملف المنتج</span>
+<div class="product-meta">
+  <span class="label-title"><%= t.label_product_file %></span>
 
   <% if (!product.pdf_path) { %>
+
     <div class="no-file">
       <i class="far fa-folder-open"></i>
-      لا يوجد ملف للمنتج
+      <%= t.no_file %>
     </div>
 
+  <% } else if (product.isOwner) { %>
+
+    <div class="product-owner-file-note">
+      <i class="fas fa-flag"></i>
+      <%= t.products_my_note %>
+    </div>
+
+    <a
+      href="<%= product.pdf_path %>"
+      target="_blank"
+      class="btn pdf-btn"
+      rel="noopener noreferrer"
+    >
+      <i class="fas fa-book-open"></i>
+      <%= t.products_open %>
+    </a>
+
   <% } else if (product.is_pattern_published) { %>
-    <!-- Owner published this PDF for everybody -->
+
     <a
       href="<%= product.pdf_path %>"
       target="_blank"
@@ -203,22 +305,62 @@
       rel="noopener noreferrer"
     >
       <i class="fas fa-file-pdf"></i>
-      عرض ملف المنتج
+      <%= t.access_view_file %>
     </a>
 
+  <% } else if (isAuthenticated && product.accessStatus === "approved") { %>
+
+    <div class="access-approved-note">
+      <i class="fas fa-check-circle"></i>
+      <%= t.products_access_approved %>
+    </div>
+
+    <a
+      href="<%= product.pdf_path %>"
+      target="_blank"
+      class="btn pdf-btn"
+      rel="noopener noreferrer"
+    >
+      <i class="fas fa-book-open"></i>
+      <%= t.products_open %>
+    </a>
+
+  <% } else if (isAuthenticated && product.accessStatus === "pending") { %>
+
+    <div class="access-pending-note">
+      <i class="fas fa-clock"></i>
+      <%= t.products_request_pending %>
+    </div>
+
+  <% } else if (isAuthenticated && product.accessStatus === "rejected") { %>
+
+  <div class="access-rejected-note">
+    <i class="fas fa-times-circle"></i>
+    <%= t.products_request_rejected %>
+  </div>
+
+  <form action="/products/<%= product.id %>/request-access" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <button type="submit" class="btn request-again-btn">
+      <i class="fas fa-redo"></i>
+      <%= t.products_request_again %>
+    </button>
+  </form>
+
   <% } else if (isAuthenticated) { %>
-    <!-- File is private: logged-in user can request permission -->
+
     <form action="/products/<%= product.id %>/request-access" method="POST">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
       <button type="submit" class="btn pdf-btn">
         <i class="fas fa-lock"></i>
-        طلب الوصول للملف
+        <%= t.products_request_file %>
       </button>
     </form>
 
   <% } else { %>
-    <!-- File is private: visitor must sign up first -->
+
     <button
       type="button"
       class="btn pdf-btn"
@@ -226,21 +368,22 @@
       data-target="#loginModal"
     >
       <i class="fas fa-lock"></i>
-      طلب الوصول للملف
+      <%= t.products_request_file %>
     </button>
 
     <div class="access-signup-note">
       <i class="fas fa-lock"></i>
-      <span>لطلب الوصول للملف، يرجى إنشاء حساب أو تسجيل الدخول.</span>
+      <span><%= t.products_login_to_request %></span>
 
       <div class="access-signup-actions">
-        <a href="/register">إنشاء حساب</a>
+        <a href="/register"><%= t.link_register %></a>
         <span>·</span>
         <button type="button" data-toggle="modal" data-target="#loginModal">
-          تسجيل الدخول
+          <%= t.nav_login %>
         </button>
       </div>
     </div>
+
   <% } %>
 </div>
 
@@ -255,8 +398,8 @@
           <div class="col-12" data-aos="fade-up">
             <div class="empty-state">
               <i class="fas fa-box-open empty-icon"></i>
-              <h5>لا توجد منتجات حالياً</h5>
-              <p>يمكنك إضافة منتج جديد من خلال نموذج الإضافة.</p>
+              <h5><%= t.products_no_items %></h5>
+              <p><%= t.products_no_items_desc %></p>
             </div>
           </div>
 
@@ -266,10 +409,10 @@
 
       <% if (pagination.totalPages > 1) { %>
         <% const searchSuffix = searchQuery ? '&q=' + encodeURIComponent(searchQuery) : ''; %>
-        <nav class="products-pager" aria-label="صفحات المنتجات">
+        <nav class="products-pager" aria-label="<%= t.products_all_title %>">
           <% if (pagination.page > 1) { %>
             <a class="pager-btn" href="/all_products?page=<%= pagination.page - 1 %><%= searchSuffix %>">
-              <i class="fas fa-chevron-right"></i> السابق
+              <i class="fas fa-chevron-right"></i> <%= t.products_previous %>
             </a>
           <% } %>
 
@@ -283,7 +426,7 @@
 
           <% if (pagination.page < pagination.totalPages) { %>
             <a class="pager-btn" href="/all_products?page=<%= pagination.page + 1 %><%= searchSuffix %>">
-              التالي <i class="fas fa-chevron-left"></i>
+              <%= t.products_next %> <i class="fas fa-chevron-left"></i>
             </a>
           <% } %>
         </nav>

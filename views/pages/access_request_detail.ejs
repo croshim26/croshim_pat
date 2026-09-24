@@ -4,64 +4,609 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NCLMN2BEVN"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-NCLMN2BEVN');
+    function gtag(){ dataLayer.push(arguments); }
+    gtag("js", new Date());
+    gtag("config", "G-NCLMN2BEVN");
   </script>
+
   <meta charset="utf-8">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>طلبات الوصول | <%= t.seo_site_name %></title>
 
-  <!-- External CSS -->
+  <title><%= t.access_view_details %> | <%= t.seo_site_name %></title>
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
-
-  <!-- App CSS -->
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/layout.css">
   <link rel="stylesheet" href="/css/components.css">
-  <link rel="stylesheet" href="/css/pages/products.css">
+
+  <style>
+    .access-detail-page {
+      min-height: 70vh;
+      padding: 48px 0 80px;
+      background:
+        radial-gradient(rgba(194, 79, 114, .1) 1px, transparent 1px),
+        #fff9fa;
+      background-size: 20px 20px;
+    }
+
+    .detail-container {
+      max-width: 900px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 18px;
+      color: #7d8796;
+      font-size: .86rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #a6385b;
+      text-decoration: none;
+    }
+
+    .request-hero {
+      padding: 28px;
+      border: 1px solid #f1d6de;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #fff, #fff4f7);
+      box-shadow: 0 12px 34px rgba(155, 58, 90, .1);
+    }
+
+    .request-hero-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .product-icon {
+      display: grid;
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      place-items: center;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #a9385b, #e6829d);
+      color: #fff;
+      font-size: 1.45rem;
+    }
+
+    .request-heading {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .request-eyebrow {
+      display: block;
+      margin-bottom: 4px;
+      color: #a23d5d;
+      font-size: .75rem;
+      font-weight: 900;
+    }
+
+    .request-title {
+      margin: 0;
+      color: #283243;
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 30px;
+      font-size: .78rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .status-approved {
+      background: #e5f7eb;
+      color: #24763f;
+    }
+
+    .status-pending {
+      background: #fff5d7;
+      color: #987207;
+    }
+
+    .status-rejected {
+      background: #fff0f0;
+      color: #bf3838;
+    }
+
+    .request-summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 25px;
+      padding-top: 18px;
+      border-top: 1px solid #f1e2e7;
+    }
+
+    .summary-box {
+      padding: 13px;
+      border: 1px solid #f4e4e9;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .75);
+    }
+
+    .summary-label {
+      display: block;
+      margin-bottom: 5px;
+      color: #9aa1ae;
+      font-size: .7rem;
+      font-weight: 800;
+    }
+
+    .summary-value {
+      color: #4a5566;
+      font-size: .86rem;
+      font-weight: 800;
+    }
+
+    .summary-value i {
+      margin-left: 5px;
+      color: #bc4a6c;
+    }
+
+    .section-card {
+      margin-top: 18px;
+      padding: 25px;
+      border: 1px solid #f1e2e6;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 8px 25px rgba(155, 58, 90, .08);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 18px;
+      color: #303a4b;
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    .section-heading i {
+      color: #b74769;
+    }
+
+    .status-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .status-actions form {
+      margin: 0;
+    }
+
+    .action-btn {
+      border: 0;
+      padding: 9px 13px;
+      border-radius: 8px;
+      color: #fff;
+      font-family: Cairo, sans-serif;
+      font-size: .78rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .action-btn:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+    }
+
+    .approve-btn { background: #2da34c; }
+    .reject-btn { background: #db424d; }
+    .pending-btn { background: #d29b14; }
+
+    .file-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 16px;
+      padding: 10px 14px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #a9385b, #dc718d);
+      color: #fff !important;
+      font-size: .82rem;
+      font-weight: 800;
+      text-decoration: none !important;
+    }
+
+    .readonly-note {
+      margin: 0;
+      color: #778396;
+      font-size: .83rem;
+      line-height: 1.8;
+    }
+
+    .readonly-note i {
+      color: #b74769;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 0;
+      border-bottom: 1px solid #f4e8eb;
+    }
+
+    .history-item:last-child { border-bottom: 0; }
+
+    .history-icon {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      place-items: center;
+      border-radius: 50%;
+      background: #fff0f4;
+      color: #b74769;
+      font-size: .78rem;
+    }
+
+    .history-copy { flex: 1; color: #556173; font-size: .82rem; }
+    .history-date { color: #9aa1ae; font-size: .72rem; white-space: nowrap; }
+
+    .message-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message-item {
+      max-width: 82%;
+      padding: 13px 15px;
+      border-radius: 14px 14px 3px 14px;
+      background: #fff1f5;
+      border: 1px solid #f2d7df;
+    }
+
+    .message-item.requester-message {
+      align-self: flex-start;
+      border-radius: 14px 14px 14px 3px;
+      background: #f7f9fb;
+      border-color: #e7ebef;
+    }
+
+    .message-sender {
+      color: #9d3859;
+      font-size: .77rem;
+      font-weight: 900;
+    }
+
+    .message-item.requester-message .message-sender {
+      color: #5f6c7c;
+    }
+
+    .message-body {
+      margin: 5px 0 0;
+      color: #4d5869;
+      font-size: .86rem;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    .message-form {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid #f3e5e9;
+    }
+
+    .message-textarea {
+      border: 1px solid #e8beca;
+      border-radius: 10px;
+      resize: vertical;
+    }
+
+    .message-textarea:focus {
+      border-color: #b74769;
+      box-shadow: 0 0 0 3px rgba(183, 71, 105, .13);
+    }
+
+    .send-btn {
+      margin-top: 9px;
+      border: 0;
+      padding: 10px 15px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #a9385b, #dc718d);
+      color: #fff;
+      font-family: Cairo, sans-serif;
+      font-size: .8rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    @media (max-width: 576px) {
+      .request-hero,
+      .section-card {
+        padding: 20px;
+      }
+
+      .request-hero-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .request-heading {
+        align-items: flex-start;
+      }
+
+      .request-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .message-item {
+        max-width: 100%;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <%- include("../partials/navbar") %>
-  <main class="container py-5" style="max-width:820px">
-    <a href="/access-requests" class="text-muted">← العودة إلى الطلبات</a>
-    <section class="bg-white rounded shadow-sm p-4 mt-3">
-      <h1 class="h4"><%= request.product.product_name %></h1>
-      <p>الحالة: <strong><%= request.status %></strong></p>
-      <% if (isOwner && request.status === 'pending') { %>
-        <form class="d-inline" action="/access-requests/<%= request.id %>/approved" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-success">قبول الطلب</button></form>
-        <form class="d-inline" action="/access-requests/<%= request.id %>/rejected" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-outline-danger">رفض</button></form>
-      <% } %>
-      <% if (request.status === 'approved' && !isOwner) { %>
-        <a class="btn pdf-btn" href="<%= request.product.pdf_path %>" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-pdf"></i> عرض ملف المنتج</a>
-      <% } %>
-    </section>
-    <section class="bg-white rounded shadow-sm p-4 mt-3">
-      <% request.messages.forEach(function (message) { %>
-        <div class="p-3 mb-2 rounded <%= message.sender_id === request.requester_id ? 'bg-light' : 'border' %>">
-          <strong><%= message.sender.firstName %> <%= message.sender.lastName %></strong>
-          <p class="mb-0"><%= message.body %></p>
+
+  <%
+    const statusLabel = request.status === "approved"
+      ? t.access_approved
+      : request.status === "rejected"
+        ? t.access_rejected
+        : t.access_pending;
+
+    const statusClass = request.status === "approved"
+      ? "status-approved"
+      : request.status === "rejected"
+        ? "status-rejected"
+        : "status-pending";
+
+    const statusIcon = request.status === "approved"
+      ? "fa-check-circle"
+      : request.status === "rejected"
+        ? "fa-times-circle"
+        : "fa-clock";
+
+    const requesterName = request.requester
+      ? request.requester.firstName + " " + request.requester.lastName
+      : t.access_unknown;
+
+    const backUrl = isOwner
+      ? "/access-requests/received"
+      : "/access-requests/sent";
+  %>
+
+  <main class="access-detail-page">
+    <div class="container detail-container">
+
+      <a href="<%= backUrl %>" class="back-link">
+        <i class="fas fa-arrow-right"></i>
+        <%= t.access_detail_back %>
+      </a>
+
+      <% if (typeof successMessage !== "undefined" && successMessage) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= successMessage %>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
-      <% }) %>
-      <form class="mt-3" action="/access-requests/<%= request.id %>/messages" method="POST">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <textarea name="body" class="form-control" rows="3" maxlength="3000" required placeholder="اكتب رسالتك..."></textarea>
-        <button class="btn pdf-btn mt-2" type="submit"><i class="fas fa-paper-plane"></i> إرسال</button>
-      </form>
-    </section>
+      <% } %>
+
+      <% if (typeof errorMessage !== "undefined" && errorMessage) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= errorMessage %>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      <% } %>
+
+      <section class="request-hero">
+        <div class="request-hero-top">
+          <div class="request-heading">
+            <div class="product-icon">
+              <i class="fas fa-file-alt"></i>
+            </div>
+
+            <div>
+              <span class="request-eyebrow">
+                <%= isOwner ? t.access_detail_received : t.access_detail_sent %>
+              </span>
+
+              <h1 class="request-title">
+                <%= request.product ? request.product.product_name : t.access_unknown %>
+              </h1>
+            </div>
+          </div>
+
+          <span class="status-pill <%= statusClass %>">
+            <i class="fas <%= statusIcon %>"></i>
+            <%= statusLabel %>
+          </span>
+        </div>
+
+        <div class="request-summary">
+          <div class="summary-box">
+            <span class="summary-label"><%= t.access_requester %></span>
+            <span class="summary-value">
+              <i class="fas fa-user"></i>
+              <%= requesterName %>
+            </span>
+          </div>
+
+          <div class="summary-box">
+            <span class="summary-label"><%= t.nav_access_requests %></span>
+            <span class="summary-value">
+              <i class="fas <%= statusIcon %>"></i>
+              <%= statusLabel %>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <% if (request.statusHistory && request.statusHistory.length > 0) { %>
+        <section class="section-card">
+          <h2 class="section-heading">
+            <i class="fas fa-history"></i>
+            <%= t.access_history %>
+          </h2>
+
+          <div class="history-list">
+            <% request.statusHistory.forEach(function(entry) { %>
+              <div class="history-item">
+                <span class="history-icon"><i class="fas fa-exchange-alt"></i></span>
+                <div class="history-copy">
+                  <strong><%= entry.old_status ? t.access_history_changed : t.access_history_created %></strong>
+                  — <%= entry.changedBy
+                    ? entry.changedBy.firstName + " " + entry.changedBy.lastName
+                    : t.access_unknown %>
+                </div>
+                <span class="history-date">
+                  <%= new Date(entry.changed_at).toLocaleString(lang === "en" ? "en-US" : "ar-SA") %>
+                </span>
+              </div>
+            <% }) %>
+          </div>
+        </section>
+      <% } %>
+
+      <section class="section-card">
+        <h2 class="section-heading">
+          <i class="fas fa-shield-alt"></i>
+          <%= t.access_manage %>
+        </h2>
+
+        <% if (isOwner) { %>
+          <div class="status-actions">
+
+            <% if (request.status !== "approved") { %>
+              <form action="/access-requests/<%= request.id %>/status/approved" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                <button type="submit" class="action-btn approve-btn">
+                  <i class="fas fa-check"></i>
+                  <%= t.access_approve_request %>
+                </button>
+              </form>
+            <% } %>
+
+            <% if (request.status !== "rejected") { %>
+              <form action="/access-requests/<%= request.id %>/status/rejected" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                <button type="submit" class="action-btn reject-btn">
+                  <i class="fas fa-times"></i>
+                  <%= t.access_reject_request %>
+                </button>
+              </form>
+            <% } %>
+
+            <% if (request.status !== "pending") { %>
+              <form action="/access-requests/<%= request.id %>/status/pending" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                <button type="submit" class="action-btn pending-btn">
+                  <i class="fas fa-clock"></i>
+                  <%= t.access_return_pending %>
+                </button>
+              </form>
+            <% } %>
+
+          </div>
+        <% } else { %>
+          <p class="readonly-note">
+            <i class="fas fa-eye"></i>
+            <%= t.access_readonly_note %>
+          </p>
+        <% } %>
+
+        <% if (
+          request.product &&
+          request.product.pdf_path &&
+          (isOwner || request.status === "approved")
+        ) { %>
+          <a
+            href="<%= request.product.pdf_path %>"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="file-btn"
+          >
+            <i class="fas fa-file-pdf"></i>
+            <%= isOwner ? t.access_open_file : t.access_view_file %>
+          </a>
+        <% } %>
+      </section>
+
+      <section class="section-card">
+        <h2 class="section-heading">
+          <i class="fas fa-comments"></i>
+          <%= t.access_messages %>
+        </h2>
+
+        <% if (request.messages && request.messages.length > 0) { %>
+          <div class="message-list">
+            <% request.messages.forEach(function(message) { %>
+              <div class="message-item <%= message.sender_id === request.requester_id ? "requester-message" : "" %>">
+                <div class="message-sender">
+                  <i class="fas fa-user"></i>
+                  <%= message.sender
+                    ? message.sender.firstName + " " + message.sender.lastName
+                    : "مستخدم"
+                  %>
+                </div>
+
+                <p class="message-body"><%= message.body %></p>
+              </div>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <p class="text-muted mb-0"><%= t.access_no_messages %></p>
+        <% } %>
+
+        <form class="message-form" action="/access-requests/<%= request.id %>/messages" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+          <textarea
+            name="body"
+            class="form-control message-textarea"
+            rows="3"
+            maxlength="3000"
+            required
+            placeholder="<%= t.access_message_placeholder %>"
+          ></textarea>
+
+          <button class="send-btn" type="submit">
+            <i class="fas fa-paper-plane"></i>
+            <%= t.access_send_message %>
+          </button>
+        </form>
+      </section>
+
+    </div>
   </main>
 
-      <%- include("../partials/footer") %>
+  <%- include("../partials/footer") %>
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-  <script>AOS.init({ once: true, duration: 500 });</script>
 </body>
 </html>
