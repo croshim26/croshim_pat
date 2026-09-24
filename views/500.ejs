@@ -5,7 +5,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>خطأ في الخادم — <%= t.seo_site_name %></title>
+  <title><%= t.error_server_title %> — <%= t.seo_site_name %></title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
   <style>
     body { margin:0; background:#fdf0f3; display:flex; align-items:center; justify-content:center; min-height:100vh; font-family:'Cairo',sans-serif; }
@@ -20,9 +20,9 @@
 <body>
   <div class="box">
     <div class="logo">croshim</div>
-    <h1>حدث خطأ في الخادم</h1>
-    <p>نعتذر — حدث شيء غير متوقع. يرجى المحاولة مرة أخرى.</p>
-    <a href="/">العودة للصفحة الرئيسية</a>
+    <h1><%= t.error_server_title %></h1>
+    <p><%= t.error_server_desc %></p>
+    <a href="/"><%= t.error_back_home %></a>
   </div>
 </body>
 </html>

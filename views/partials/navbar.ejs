@@ -121,9 +121,9 @@
 
       <li class="nav-item dropdown">
         <a class="nav-link hero-link nav-segment dropdown-toggle" href="#" id="productsDropdown"
-           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">المنتجات</a>
+           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= t.nav_products %></a>
         <div class="dropdown-menu" aria-labelledby="productsDropdown">
-          <a class="dropdown-item" data-nav-path="/all_products" href="/all_products"><i class="fas fa-th-large"></i> تصفح المنتجات</a>
+          <a class="dropdown-item" data-nav-path="/all_products" href="/all_products"><i class="fas fa-th-large"></i> <%= t.nav_browse_products %></a>
           <% if (isAuthenticated) { %>
             <a class="dropdown-item" data-nav-path="/dashboard" href="/dashboard"><i class="fas fa-box"></i> <%= t.nav_my_products %></a>
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#exampleModal3"><i class="fas fa-plus-circle"></i> <%= t.nav_add_product %></a>
@@ -134,7 +134,7 @@
       <% if (isAuthenticated) { %>
         <li class="nav-item dropdown">
           <a class="nav-link hero-link nav-segment dropdown-toggle" href="#" id="patternsDropdown"
-             role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">الباترونات</a>
+             role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= t.nav_patterns %></a>
           <div class="dropdown-menu" aria-labelledby="patternsDropdown">
             <a class="dropdown-item" data-nav-path="/pattern-builder" href="/pattern-builder"><i class="fas fa-book"></i> <%= t.nav_workbook %></a>
           </div>
@@ -143,7 +143,7 @@
 
       <li class="nav-item dropdown">
         <a class="nav-link hero-link nav-segment dropdown-toggle" href="#" id="moreDropdown"
-           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">المزيد</a>
+           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= t.nav_more %></a>
         <div class="dropdown-menu" aria-labelledby="moreDropdown">
           <a class="dropdown-item" data-nav-path="/feedback" href="/feedback"><i class="fas fa-lightbulb"></i> <%= t.nav_feedback %></a>
           <a class="dropdown-item" href="/#about"><i class="fas fa-heart"></i> <%= t.nav_about %></a>
@@ -162,11 +162,53 @@
 
       <% if (isAuthenticated) { %>
 
-        <li class="nav-item">
-          <a class="nav-link hero-link nav-requests" data-nav-path="/access-requests" href="/access-requests">
-            <i class="fas fa-user-friends"></i> طلبات الوصول
-          </a>
-        </li>
+
+<li class="nav-item dropdown">
+  <a
+    class="nav-link hero-link nav-segment dropdown-toggle"
+    href="#"
+    id="accessRequestsDropdown"
+    role="button"
+    data-toggle="dropdown"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <%= t.nav_access_requests %>
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="accessRequestsDropdown">
+
+    <a
+      class="dropdown-item"
+      data-nav-path="/access-requests/received"
+      href="/access-requests/received"
+    >
+      <i class="fas fa-inbox"></i>
+      <%= t.nav_received_requests %>
+    </a>
+
+    <a
+      class="dropdown-item"
+      data-nav-path="/access-requests/sent"
+      href="/access-requests/sent"
+    >
+      <i class="fas fa-paper-plane"></i>
+      <%= t.nav_sent_requests %>
+    </a>
+
+    <div class="dropdown-divider"></div>
+
+    <a
+      class="dropdown-item"
+      data-nav-path="/product-access-requests"
+      href="/product-access-requests"
+    >
+      <i class="fas fa-unlock-alt"></i>
+      <%= t.nav_available_patterns %>
+    </a>
+
+  </div>
+</li>
 
         <form id="magic-form" action="/logout" method="POST" style="display:none;">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
