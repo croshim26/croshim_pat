@@ -20,11 +20,15 @@ router.post("/add_product", loggedin, productController.createProduct);
 
 router.post('/products/:id/toggle-published', loggedin,productController.toggleProductPublished);
 router.post('/products/:id/toggle-pattern-published',loggedin, productController.togglePatternPublished);
+router.post('/products/:id/grant-access',loggedin, productController.accessProductByEmail);
+
+
 
 router.post("/delete_product/:productId", loggedin, productController.deleteProduct);
 
 router.get("/pattern-builder", loggedin, productController.getPatternBuilder);
 router.post("/pattern-builder/save", loggedin, productController.savePattern);
+router.post("/pattern/:id/share-email", loggedin, productController.sharePatternByEmail);
 router.get("/pattern-builder/load/:id", loggedin, productController.loadPattern);
 router.post("/pattern-builder/delete/:id", loggedin, productController.deletePattern);
 router.post("/pattern-builder/upload-image",    loggedin, productController.uploadCoverImage);

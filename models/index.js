@@ -3,6 +3,7 @@ const Product = require("./product");
 const SavedPattern = require("./saved_pattern");
 const AccessRequest = require("./access_request");
 const Message = require("./message");
+const AccessRequestStatusHistory = require("./access_request_status_history");
 
 User.hasMany(Product, { foreignKey: "user_id" });
 Product.belongsTo(User, { foreignKey: "user_id" });
@@ -53,4 +54,26 @@ Message.belongsTo(AccessRequest, {
 User.hasMany(Message, { foreignKey: "sender_id" });
 Message.belongsTo(User, { foreignKey: "sender_id", as: "sender" });
 
-module.exports = { User, Product, SavedPattern,AccessRequest,Message };
+
+
+AccessRequest.hasMany(AccessRequestStatusHistory, {
+  foreignKey: "access_request_id",
+  as: "statusHistory",
+});
+
+AccessRequestStatusHistory.belongsTo(AccessRequest, {
+  foreignKey: "access_request_id",
+});
+
+User.hasMany(AccessRequestStatusHistory, {
+  foreignKey: "changed_by",
+  as: "accessStatusChanges",
+});
+
+AccessRequestStatusHistory.belongsTo(User, {
+  foreignKey: "changed_by",
+  as: "changedBy",
+});
+
+
+module.exports = { User, Product, SavedPattern,AccessRequest,Message,AccessRequestStatusHistory };

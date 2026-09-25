@@ -3,8 +3,9 @@ const { Op } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 const SavedPattern = require("../models/saved_pattern");
 
-const { Product, User } = require("../models");
+const { Product, User,AccessRequest } = require("../models");
 const supabase = require("../util/supabase");
+const { sendPatternReadyEmail, sendPatternShareEmail } = require("../util/mailer");
 const { log } = require("console");
 
 
@@ -64,6 +65,28 @@ exports.getAllProducts = async (req, res) => {
       offset: (page - 1) * limit,
     });
 
+const productIds = products.map((product) => product.id);
+
+const accessRequests = req.session.userId
+  ? await AccessRequest.findAll({
+      where: {
+        requester_id: req.session.userId,
+        product_id: { [Op.in]: productIds },
+      },
+      attributes: ["product_id", "status"],
+    })
+  : [];
+
+const accessStatusByProductId = Object.fromEntries(
+  accessRequests.map((request) => [request.product_id, request.status])
+);
+
+const productsWithAccess = products.map((product) => ({
+  ...product.toJSON(),
+  isOwner: Number(product.user_id) === Number(req.session.userId),
+  accessStatus: accessStatusByProductId[product.id] || null,
+}));
+
     const firstPage = Math.max(1, Math.min(page - 2, totalPages - 4));
     const lastPage = Math.min(totalPages, firstPage + 4);
     const pageNumbers = Array.from(
@@ -72,9 +95,10 @@ exports.getAllProducts = async (req, res) => {
     );
 
     return res.render("pages/all_products", {
-      products,
+      products: productsWithAccess,
       searchQuery,
       pagination: { page, totalPages, totalProducts: count, pageSize: limit, pageNumbers },
+      viewerUserId: req.session.userId || null,
       success_message: req.flash("success")[0] || null,
       error_message: req.flash("error")[0] || null,
     });
@@ -358,6 +382,7 @@ exports.savePattern = async (req, res) => {
   try {
     const { id, name, subtitle, emoji, cover_image, tools, abbrs, parts, color_theme } = req.body;
     let pattern;
+    let wasCreated = false;
     if (id) {
       pattern = await SavedPattern.findOne({ where: { id, created_by: req.session.userId } });
       if (pattern) await pattern.update({ name: name || "باترن جديد", subtitle, emoji, cover_image, tools, abbrs, parts, color_theme: color_theme || 'rose' });
@@ -376,10 +401,85 @@ exports.savePattern = async (req, res) => {
         color_theme: color_theme || 'rose',
         created_by: req.session.userId,
       });
+      wasCreated = true;
+    }
+
+    // A builder may save repeatedly while working, so email only once: when
+    // the pattern is first created. A mail delivery problem must never lose a
+    // successfully saved pattern.
+    if (wasCreated) {
+      const user = await User.findByPk(req.session.userId, {
+        attributes: ["email", "firstName"],
+      });
+      if (user?.email) {
+        const appUrl = (process.env.APP_URL || `${req.protocol}://${req.get("host")}`).replace(/\/$/, "");
+        sendPatternReadyEmail({
+          toEmail: user.email,
+          firstName: user.firstName,
+          patternName: pattern.name,
+          patternUrl: `${appUrl}/pattern/${pattern.id}`,
+        }).catch((emailError) => console.error("Pattern-ready email error:", emailError));
+      }
     }
     res.json({ success: true, pattern });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+/* =========================================================
+   POST /pattern/:id/share-email
+   The owner can email a public pattern link to one recipient.
+   ========================================================= */
+exports.sharePatternByEmail = async (req, res) => {
+  const patternId = Number.parseInt(req.params.id, 10);
+  const back = Number.isInteger(patternId) ? `/pattern/${patternId}` : "/dashboard";
+  try {
+    const recipientEmail = String(req.body.recipient_email || "").trim().toLowerCase();
+    const message = String(req.body.message || "").trim().slice(0, 500);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(recipientEmail)) {
+      req.flash("error", "يرجى إدخال بريد إلكتروني صحيح للمستلم.");
+      return res.redirect(back);
+    }
+
+    const pattern = await SavedPattern.findOne({
+      where: { id: patternId, created_by: req.session.userId },
+    });
+    if (!pattern) {
+      req.flash("error", "لم يتم العثور على الباترون أو لا تملكين صلاحية مشاركته.");
+      return res.redirect("/dashboard");
+    }
+
+    const publishedProduct = await Product.findOne({
+      where: { saved_pattern_id: pattern.id, is_pattern_published: true },
+      attributes: ["id"],
+    });
+    if (!publishedProduct) {
+      req.flash("error", "انشري الباترون من لوحة التحكم أولاً، ثم يمكنك مشاركته عبر البريد.");
+      return res.redirect(back);
+    }
+
+    const user = await User.findByPk(req.session.userId, {
+      attributes: ["firstName", "lastName", "email"],
+    });
+    const senderName = [user?.firstName, user?.lastName].filter(Boolean).join(" ") || user?.email;
+    const appUrl = (process.env.APP_URL || `${req.protocol}://${req.get("host")}`).replace(/\/$/, "");
+    await sendPatternShareEmail({
+      toEmail: recipientEmail,
+      senderName,
+      patternName: pattern.name,
+      patternUrl: `${appUrl}/pattern/${pattern.id}`,
+      message,
+    });
+
+    req.flash("success", "تم إرسال رابط الباترون إلى البريد الإلكتروني.");
+    return res.redirect(back);
+  } catch (error) {
+    console.error("sharePatternByEmail error:", error);
+    req.flash("error", "تعذر إرسال البريد الآن. يرجى المحاولة مجدداً.");
+    return res.redirect(back);
   }
 };
 
@@ -477,7 +577,6 @@ exports.savePatternPdf = async (req, res) => {
 };
 
 exports.savePatternAsProduct = async (req, res) => {
-  console.log('test test');
   
   try {
     const userId    = req.session.userId;
@@ -504,5 +603,86 @@ exports.savePatternAsProduct = async (req, res) => {
   } catch (err) {
     console.error('savePatternAsProduct error:', err);
     res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+
+
+/* =========================================================
+   POST /products/:id/grant-access
+   Give an existing user access using their email
+   ========================================================= */
+exports.accessProductByEmail = async (req, res) => {
+  try {
+    const recipientEmail = String(req.body.recipient_email || "")
+      .trim()
+      .toLowerCase();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(recipientEmail)) {
+      req.flash("error", "Please enter a valid email address.");
+      return res.redirect("/dashboard");
+    }
+
+    // Confirm this product belongs to the logged-in owner
+    const product = await Product.findOne({
+      where: {
+        id: req.params.id,
+        user_id: req.session.userId,
+      },
+    });
+
+    if (!product) {
+      req.flash("error", "Product not found or you do not own it.");
+      return res.redirect("/dashboard");
+    }
+
+    // Find the requester by the entered email
+    const requester = await User.findOne({
+      where: { email: recipientEmail },
+    });
+
+    if (!requester) {
+      req.flash("error", "No Croshim account exists with this email.");
+      return res.redirect("/dashboard");
+    }
+
+    if (requester.id === req.session.userId) {
+      req.flash("error", "You already own this product.");
+      return res.redirect("/dashboard");
+    }
+
+    // Create the request, or update it if it already exists.
+    const [accessRequest, created] = await AccessRequest.findOrCreate({
+      where: {
+        product_id: product.id,
+        requester_id: requester.id,
+      },
+      defaults: {
+        owner_id: req.session.userId,
+        status: "approved",
+        approved_at: new Date(),
+      },
+    });
+
+    if (!created) {
+      await accessRequest.update({
+        owner_id: req.session.userId,
+        status: "approved",
+        approved_at: new Date(),
+      });
+    }
+
+    req.flash(
+      "success",
+      `Access approved for ${requester.email}.`
+    );
+
+    return res.redirect("/dashboard");
+  } catch (error) {
+    console.error("accessProductByEmail error:", error);
+    req.flash("error", "Could not grant access. Please try again.");
+    return res.redirect("/dashboard");
   }
 };

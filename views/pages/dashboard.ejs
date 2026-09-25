@@ -26,6 +26,75 @@
   <link rel="stylesheet" href="/css/layout.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/pages/products.css">
+
+
+<style>
+
+.pink-email-card {
+  margin-top: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, #fff5f7, #fde8ee);
+  border: 1px solid #f2c5d1;
+  border-radius: 14px;
+  text-align: right;
+  direction: rtl;
+}
+
+.pink-email-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 11px;
+  color: #8f3855;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.pink-email-title span {
+  font-size: 21px;
+}
+
+.pink-email-card input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 12px;
+  direction: ltr;
+  text-align: left;
+  color: #343a40;
+  background: #fff;
+  border: 1px solid #e6b8c5;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+.pink-email-card input:focus {
+  border-color: #b74769;
+  box-shadow: 0 0 0 3px rgba(183, 71, 105, 0.15);
+}
+
+.pink-email-card button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 11px;
+  border: 0;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ad3d60, #dc7892);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.pink-email-card button:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+</style>
+
+
 </head>
 
 <body>
@@ -180,6 +249,33 @@
                     <% if (!product.is_published) { %>
                       <p class="vis-hint"><%= t.dash_hidden_hint %></p>
                     <% } %>
+
+<form class="pink-email-card" action="/products/<%= product.id %>/grant-access" method="POST">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <div class="pink-email-title">
+    <span>🧶</span>
+    <label for="">مشاركة الباترون</label>
+  </div>
+
+  <input
+
+    type="email"
+    name="recipient_email"
+    placeholder="name@example.com"
+    autocomplete="email"
+    maxlength="254"
+    required
+  >
+
+  <button type="submit">
+    <i class="fas fa-paper-plane"></i>
+    مشاركة الباترون
+  </button>
+</form>
+
+
+
                   </div>
 
 
@@ -192,6 +288,8 @@
                       <%= t.btn_delete_product %>
                     </button>
                   </form>
+
+
 
                 </div>
 
