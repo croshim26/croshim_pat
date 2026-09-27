@@ -91,6 +91,12 @@
     border: 1px solid rgba(232,160,176,.30);
   }
   .nav-requests:hover { background: rgba(232,160,176,.34) !important; }
+  .nav-help-center {
+    background: rgba(232,160,176,.22);
+    border: 1px solid rgba(232,160,176,.35);
+    border-radius: 14px;
+  }
+  .nav-help-center:hover { background: rgba(232,160,176,.36) !important; }
 </style>
 
 <%- include("./demo_banner") %>
@@ -117,6 +123,10 @@
 
       <li class="nav-item">
         <a class="nav-link hero-link" data-nav-path="/" href="/"><%= t.nav_home %></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link hero-link nav-help-center" data-nav-path="/help-center" href="/help-center"><i class="fas fa-life-ring"></i> <%= t.nav_help_center %></a>
       </li>
 
       <li class="nav-item dropdown">
