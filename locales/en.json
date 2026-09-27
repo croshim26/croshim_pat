@@ -294,5 +294,22 @@
   "access_status_updated": "The access request status was updated.",
   "nav_products": "Products", "nav_browse_products": "Browse Products", "nav_patterns": "Patterns", "nav_more": "More",
   "products_all_title": "All Products", "products_browse_subtitle": "Browse available crochet products and pattern files.", "products_search_placeholder": "Search by product name or description...", "btn_search": "Search", "products_result": "results", "products_owner": "Product owner", "products_my_flag": "Your product", "products_my_note": "This product belongs to you", "products_open": "Open product", "products_access_approved": "Your request was approved", "products_request_pending": "Your request is under review", "products_request_rejected": "Your request was not approved", "products_request_again": "Request access again", "products_request_file": "Request file access", "products_login_to_request": "Create an account or log in to request file access.", "products_no_items": "No products yet", "products_no_items_desc": "Add a new product to get started.", "products_previous": "Previous", "products_next": "Next", "footer_rights": "All rights reserved.",
-  "error_forbidden_title": "Access forbidden", "error_not_found_title": "Page not found", "error_server_title": "A server error occurred", "error_back_home": "Back to home", "error_forbidden_desc": "You do not have permission to access this page.", "error_not_found_desc": "This page does not exist or may have moved.", "error_server_desc": "Sorry — something unexpected happened. Please try again."
+  "error_forbidden_title": "Access forbidden", "error_not_found_title": "Page not found", "error_server_title": "A server error occurred", "error_back_home": "Back to home", "error_forbidden_desc": "You do not have permission to access this page.", "error_not_found_desc": "This page does not exist or may have moved.", "error_server_desc": "Sorry — something unexpected happened. Please try again.",
+  "nav_help_center": "Help Center",
+  "footer_help_center": "Help Center",
+  "help_eyebrow": "Croshim Studio support",
+  "help_title": "How can we help?",
+  "help_subtitle": "Simple, step-by-step guides to help you use Croshim Studio with confidence.",
+  "help_browse_articles": "Browse guides",
+  "help_contact_support": "Contact support",
+  "help_guides_label": "Help guides",
+  "help_guides_title": "Learn the essentials",
+  "help_guides_subtitle": "Choose a guide to understand each part of the platform.",
+  "help_read_article": "Read guide",
+  "help_article_label": "Guide",
+  "help_more_title": "Still need help?",
+  "help_more_desc": "Send us a question, suggestion, or report and our team will review it.",
+  "help_send_message": "Send a message",
+  "help_back_to_guides": "Back to help guides",
+  "help_open_step": "Open this page"
 }

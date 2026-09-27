@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= pageTitle %></title>
+
+  <%- include("../partials/seo", { seo }) %>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages/help-center.css">
+</head>
+<body>
+  <%- include("../partials/navbar") %>
+
+  <main class="help-page">
+    <section class="help-hero">
+      <div class="container">
+        <span class="help-eyebrow"><i class="fas fa-life-ring"></i> <%= t.help_eyebrow %></span>
+        <h1><%= t.help_title %></h1>
+        <p><%= t.help_subtitle %></p>
+        <div class="help-hero-actions">
+          <a class="help-primary-link" href="#help-articles"><i class="fas fa-book-open"></i> <%= t.help_browse_articles %></a>
+          <a class="help-secondary-link" href="/feedback"><i class="fas fa-comment-dots"></i> <%= t.help_contact_support %></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="help-content container" id="help-articles">
+      <div class="help-section-heading">
+        <div>
+          <span><%= t.help_guides_label %></span>
+          <h2><%= t.help_guides_title %></h2>
+        </div>
+        <p><%= t.help_guides_subtitle %></p>
+      </div>
+
+      <div class="help-card-grid">
+        <% articles.forEach(function(article, index) { %>
+          <a class="help-card" href="#<%= article.slug %>">
+            <span class="help-card-number"><%= String(index + 1).padStart(2, '0') %></span>
+            <span class="help-card-icon"><i class="fas <%= article.icon %>"></i></span>
+            <h3><%= article.title %></h3>
+            <p><%= article.summary %></p>
+            <span class="help-card-read"><%= t.help_read_article %> <i class="fas fa-arrow-left"></i></span>
+          </a>
+        <% }) %>
+      </div>
+
+      <div class="help-article-list">
+        <% articles.forEach(function(article, index) { %>
+          <article class="help-article" id="<%= article.slug %>">
+            <header class="help-article-header">
+              <span class="help-article-icon"><i class="fas <%= article.icon %>"></i></span>
+              <div>
+                <span class="help-article-label"><%= t.help_article_label %> <%= index + 1 %></span>
+                <h2><%= article.title %></h2>
+                <p><%= article.summary %></p>
+              </div>
+              <a class="help-back-top" href="#help-articles" aria-label="<%= t.help_back_to_guides %>"><i class="fas fa-arrow-up"></i></a>
+            </header>
+
+            <div class="help-article-body">
+              <% let stepNumber = 0; %>
+              <% article.sections.forEach(function(section) { %>
+                <section class="help-article-section">
+                  <h3><%= section.heading %></h3>
+                  <% if (section.body) { %><p><%= section.body %></p><% } %>
+                  <% if (section.steps) { %>
+                    <ol>
+                      <% section.steps.forEach(function(step) { const stepLink = article.stepLinks[stepNumber++]; %>
+                        <li>
+                          <span><%= step %></span>
+                          <% if (stepLink) { %>
+                            <a class="help-step-link" href="<%= stepLink %>"><i class="fas fa-external-link-alt"></i> <%= t.help_open_step %></a>
+                          <% } %>
+                        </li>
+                      <% }) %>
+                    </ol>
+                  <% } %>
+                </section>
+              <% }) %>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+
+      <section class="help-support-card">
+        <div class="help-support-icon"><i class="fas fa-question"></i></div>
+        <div>
+          <h2><%= t.help_more_title %></h2>
+          <p><%= t.help_more_desc %></p>
+        </div>
+        <a href="/feedback" class="help-primary-link"><i class="fas fa-paper-plane"></i> <%= t.help_send_message %></a>
+      </section>
+    </section>
+  </main>
+
+  <%- include("../partials/footer") %>
+  <% if (isAuthenticated) { %>
+    <%- include("../partials/add_product") %>
+  <% } else { %>
+    <%- include("../partials/login-modal") %>
+  <% } %>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
