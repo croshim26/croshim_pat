@@ -43,6 +43,12 @@
       </a>
     </li>
     <li>
+      <a href="/ezshm_crochem/user-activity" class="<%= currentPage === 'user-activity' ? 'active' : '' %>">
+        <i class="fas fa-chart-line"></i>
+        نشاط المستخدمين
+      </a>
+    </li>
+    <li>
       <a href="/ezshm_crochem/feedback" class="<%= currentPage === 'feedback' ? 'active' : '' %>">
         <i class="fas fa-comment-dots"></i>
         الاقتراحات والشكاوى
@@ -76,3 +82,5 @@
     sidebar.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
   })();
 </script>
+
+<%- include('../partials/activity_tracker') %>

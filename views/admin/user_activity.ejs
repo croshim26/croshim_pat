@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>نشاط المستخدمين — <%= t.seo_site_name %></title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/pages/admin.css">
+</head>
+<body><div class="admin-shell">
+  <%- include('./_sidebar', { currentPage: 'user-activity' }) %>
+  <div class="admin-main"><div class="admin-topbar"><h1 class="admin-topbar-title">نشاط المستخدمين</h1><span class="admin-topbar-user"><i class="fas fa-user-shield"></i><%= adminUser.firstName %> <%= adminUser.lastName %></span></div>
+  <main class="admin-content">
+    <% if (successMessage) { %><div class="admin-alert admin-alert-success"><i class="fas fa-check-circle"></i><%= successMessage %></div><% } %>
+    <% if (errorMessage) { %><div class="admin-alert admin-alert-error"><i class="fas fa-exclamation-circle"></i><%= errorMessage %></div><% } %>
+    <section class="admin-page-intro"><div><p class="admin-eyebrow">تحليلات الحسابات</p><h2>متابعة استخدام كل مستخدم</h2><p>الزيارات، آخر صفحة، آخر تفاعل، وإجمالي الوقت المسجل. لا يتم حفظ كلمات المرور أو نصوص النماذج.</p></div></section>
+    <section class="admin-products-panel">
+      <label class="admin-search-wrap"><i class="fas fa-search"></i><input id="activitySearch" type="search" placeholder="ابحثي بالاسم أو البريد الإلكتروني" aria-label="البحث في نشاط المستخدمين"></label>
+      <% if (!users.length) { %><div class="admin-empty"><i class="fas fa-users"></i>لا يوجد مستخدمون بعد.</div><% } else { %>
+        <div class="user-activity-grid" id="activityGrid">
+          <% users.forEach(function (user) { const a = user.activity || {}; const timeSeconds = Number(a.timeSeconds || 0); const totalMinutes = Math.floor(timeSeconds / 60); const seconds = timeSeconds % 60; const searchText = `${user.firstName || ''} ${user.lastName || ''} ${user.email || ''}`.toLowerCase(); %>
+            <article class="user-activity-card" data-search="<%= searchText %>">
+              <div class="user-activity-head"><div class="user-avatar"><i class="fas fa-user"></i></div><div><h3><%= user.firstName %> <%= user.lastName %></h3><p><%= user.email %></p></div><a href="/ezshm_crochem/user-activity/<%= user.id %>" class="btn-action btn-soft" aria-label="عرض سجل النشاط"><i class="fas fa-chevron-left"></i></a></div>
+              <div class="user-activity-stats"><div><span>الزيارات</span><strong><%= Number(a.visitCount || 0) %></strong></div><div><span>الوقت المسجل</span><strong><%= totalMinutes ? `${totalMinutes} د` : `${seconds} ث` %></strong></div></div>
+              <dl class="user-activity-details"><div><dt><i class="fas fa-bullseye"></i> مصدر الاكتساب</dt><dd><%= a.acquisition ? `${a.acquisition.first_source} / ${a.acquisition.first_medium}` : 'غير متاح' %><small><%= a.acquisition?.first_campaign ? `الحملة: ${a.acquisition.first_campaign}` : (a.acquisition?.first_referrer_host || 'زيارة مباشرة أو قبل بدء التتبع') %></small></dd></div><div><dt><i class="fas fa-mouse-pointer"></i> آخر تفاعل</dt><dd><%= a.lastEventLabel %><small><%= a.lastInteractionAt ? new Date(a.lastInteractionAt).toLocaleString('ar-SA') : 'لم يسجل نشاط بعد' %></small></dd></div><div><dt><i class="fas fa-map-marker-alt"></i> آخر صفحة</dt><dd class="path-value"><%= a.lastPage || '—' %><small><%= a.lastPageAt ? new Date(a.lastPageAt).toLocaleString('ar-SA') : '—' %></small></dd></div></dl>
+              <a href="/ezshm_crochem/user-activity/<%= user.id %>" class="activity-detail-link">عرض آخر 100 تفاعل <i class="fas fa-arrow-left"></i></a>
+            </article>
+          <% }) %>
+        </div>
+        <div class="admin-empty admin-no-results" id="activityNoResults" hidden><i class="fas fa-search"></i>لا يوجد مستخدم يطابق البحث.</div>
+      <% } %>
+    </section>
+  </main></div>
+</div>
+<script>document.getElementById('activitySearch')?.addEventListener('input', function () { const q=this.value.trim().toLowerCase(); let visible=0; document.querySelectorAll('.user-activity-card').forEach(function(card){const show=!q||card.dataset.search.includes(q);card.hidden=!show;if(show)visible++;}); document.getElementById('activityNoResults').hidden=visible!==0; });</script>
+</body></html>

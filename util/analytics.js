@@ -9,6 +9,8 @@ const ALLOWED_EVENTS = new Set([
   "access_request_created",
 ]);
 
+const USER_ACTIVITY_EVENTS = new Set(["page_view", "page_time"]);
+
 const getVisitorId = (req, res) => {
   const existing = req.cookies?.croshim_visitor_id;
   if (typeof existing === "string" && /^[a-f0-9-]{36}$/i.test(existing)) return existing;
@@ -59,4 +61,36 @@ async function recordEngagementEvent({ req, res, eventName, productId, patternId
   return true;
 }
 
-module.exports = { ALLOWED_EVENTS, recordEngagementEvent };
+const getActivitySessionId = (req) => {
+  const now = Date.now();
+  const inactiveFor = now - Number(req.session.activityLastSeenAt || 0);
+  // A new visit begins after 30 minutes without activity, even if the user
+  // remains signed in for longer in the same browser.
+  if (!req.session.activitySessionId || inactiveFor > 30 * 60 * 1000) {
+    req.session.activitySessionId = uuidv4();
+  }
+  req.session.activityLastSeenAt = now;
+  return req.session.activitySessionId;
+};
+
+const cleanPagePath = (value) => {
+  const path = String(value || "").trim();
+  return path.startsWith("/") ? path.slice(0, 500) : "/";
+};
+
+async function recordUserActivity({ req, eventName, pagePath, durationSeconds }) {
+  if (!req.session?.userId || !USER_ACTIVITY_EVENTS.has(eventName)) return false;
+  const duration = Number.parseInt(durationSeconds, 10);
+  await EngagementEvent.create({
+    event_name: eventName,
+    user_id: req.session.userId,
+    session_id: getActivitySessionId(req),
+    page_path: cleanPagePath(pagePath || req.path),
+    duration_seconds: eventName === "page_time" && Number.isInteger(duration)
+      ? Math.max(0, Math.min(duration, 60 * 60 * 8))
+      : null,
+  });
+  return true;
+}
+
+module.exports = { ALLOWED_EVENTS, USER_ACTIVITY_EVENTS, recordEngagementEvent, recordUserActivity };
