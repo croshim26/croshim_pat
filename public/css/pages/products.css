@@ -548,3 +548,23 @@ body::before{
     justify-content:center;
   }
 }
+.analytics-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  margin: .1rem 0 .95rem;
+}
+.analytics-summary span {
+  display: inline-flex;
+  align-items: center;
+  gap: .28rem;
+  padding: .28rem .52rem;
+  border: 1px solid rgba(155,58,90,.14);
+  border-radius: 999px;
+  color: #8a5163;
+  background: #fff7f9;
+  font-size: .72rem;
+  font-weight: 800;
+}
+.analytics-summary i { color: #b84e6e; }
+.analytics-summary strong { color: #66243d; }

@@ -311,5 +311,9 @@
   "help_more_desc": "أرسلي سؤالك أو اقتراحك أو بلاغك، وسيقوم فريقنا بمراجعته.",
   "help_send_message": "إرسال رسالة",
   "help_back_to_guides": "العودة إلى أدلة المساعدة",
-  "help_open_step": "فتح الصفحة"
+  "help_open_step": "فتح الصفحة",
+  "analytics_summary_label": "إحصاءات التفاعل",
+  "analytics_file_opens": "فتح الملف",
+  "analytics_pattern_views": "مشاهدة الباترون",
+  "analytics_access_requests": "طلب وصول"
 }

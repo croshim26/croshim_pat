@@ -1,9 +1,9 @@
 const path = require("path");
-const { Op } = require("sequelize");
+const { Op, fn, col } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 const SavedPattern = require("../models/saved_pattern");
 
-const { Product, User,AccessRequest } = require("../models");
+const { Product, User, AccessRequest, EngagementEvent } = require("../models");
 const supabase = require("../util/supabase");
 const { sendPatternReadyEmail, sendPatternShareEmail } = require("../util/mailer");
 const { log } = require("console");
@@ -153,11 +153,34 @@ exports.getProducts = async (req, res, next) => {
       order: [["createdAt", "DESC"]],
     });
 
-    
-    
-    
+    const productIds = products.map((product) => product.id);
+    const patternIds = products.map((product) => product.pattern?.id).filter(Boolean);
+    const [productEvents, patternEvents] = await Promise.all([
+      productIds.length ? EngagementEvent.findAll({
+        attributes: ["product_id", "event_name", [fn("COUNT", col("id")), "count"]],
+        where: { product_id: { [Op.in]: productIds } }, group: ["product_id", "event_name"], raw: true,
+      }) : [],
+      patternIds.length ? EngagementEvent.findAll({
+        attributes: ["pattern_id", "event_name", [fn("COUNT", col("id")), "count"]],
+        where: { pattern_id: { [Op.in]: patternIds } }, group: ["pattern_id", "event_name"], raw: true,
+      }) : [],
+    ]);
+    const productStats = Object.fromEntries(productIds.map((id) => [id, { fileOpens: 0, accessRequests: 0, patternViews: 0 }]));
+    productEvents.forEach((event) => {
+      const stats = productStats[event.product_id];
+      if (!stats) return;
+      if (event.event_name === "product_file_open") stats.fileOpens = Number(event.count);
+      if (event.event_name === "access_request_created") stats.accessRequests = Number(event.count);
+    });
+    const productIdByPatternId = Object.fromEntries(products.filter((product) => product.pattern).map((product) => [product.pattern.id, product.id]));
+    patternEvents.forEach((event) => {
+      const productId = productIdByPatternId[event.pattern_id];
+      if (productId && event.event_name === "pattern_view") productStats[productId].patternViews = Number(event.count);
+    });
+    const productsWithAnalytics = products.map((product) => ({ ...product.toJSON(), analytics: productStats[product.id] }));
+
     return res.render("pages/dashboard", {
-      products,
+      products: productsWithAnalytics,
       currentUser,
       success_message: req.flash("success")[0] || null,
       error_message: req.flash("error")[0] || null,
