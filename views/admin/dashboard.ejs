@@ -64,11 +64,28 @@
         </div>
       </div>
 
-      <div class="admin-table-wrap" style="padding:1.5rem;">
-        <p style="font-weight:700;color:#9e677a;margin:0;line-height:2;">
-          مرحباً بك في لوحة تحكم <%= t.seo_site_name %>. استخدم القائمة الجانبية للتنقل بين الأقسام.
-        </p>
-      </div>
+      <section class="admin-dashboard-section">
+        <div class="admin-dashboard-section-head">
+          <div>
+            <p class="admin-eyebrow">آخر الإضافات</p>
+            <h2>أحدث المنتجات</h2>
+          </div>
+          <a href="/ezshm_crochem/products">إدارة كل المنتجات <i class="fas fa-arrow-left"></i></a>
+        </div>
+        <% if (!latestProducts.length) { %>
+          <div class="admin-empty"><i class="fas fa-box-open"></i>لا توجد منتجات بعد.</div>
+        <% } else { %>
+          <div class="admin-dashboard-products">
+            <% latestProducts.forEach(function (product) { %>
+              <a class="admin-dashboard-product" href="/ezshm_crochem/products">
+                <span class="admin-dashboard-product-icon"><i class="fas fa-box-open"></i></span>
+                <span class="admin-dashboard-product-info"><strong><%= product.product_name || 'منتج بلا اسم' %></strong><small><%= product.user ? `${product.user.firstName || ''} ${product.user.lastName || ''}`.trim() : `مستخدم #${product.user_id}` %></small></span>
+                <span class="status-pill <%= product.is_published ? 'status-live' : 'status-hidden' %>"><%= product.is_published ? 'منشور' : 'مخفي' %></span>
+              </a>
+            <% }) %>
+          </div>
+        <% } %>
+      </section>
 
     </div>
   </div>

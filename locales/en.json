@@ -311,5 +311,9 @@
   "help_more_desc": "Send us a question, suggestion, or report and our team will review it.",
   "help_send_message": "Send a message",
   "help_back_to_guides": "Back to help guides",
-  "help_open_step": "Open this page"
+  "help_open_step": "Open this page",
+  "analytics_summary_label": "Engagement statistics",
+  "analytics_file_opens": "file opens",
+  "analytics_pattern_views": "pattern views",
+  "analytics_access_requests": "access requests"
 }

@@ -7,6 +7,7 @@ const {
   User,
   AccessRequestStatusHistory,
 } = require("../models");
+const { recordEngagementEvent } = require("../util/analytics");
 
 
 const userCanAccess = (request, userId) =>
@@ -43,6 +44,11 @@ exports.create = async (req, res, next) => {
         sender_id: req.session.userId,
         body: t.access_default_message,
       });
+      try {
+        await recordEngagementEvent({ req, res, eventName: "access_request_created", productId: product.id });
+      } catch (error) {
+        console.error("Access-request analytics error:", error.message);
+      }
       req.flash("success", t.access_request_sent);
     } else if (request.status === "rejected") {
       await request.update({ status: "pending", approved_at: null });

@@ -16,7 +16,13 @@ router.post("/ezshm_crochem/users/:id/delete", admin.deleteUser);
 
 /* ── Products ──────────────────────────────────────────── */
 router.get("/ezshm_crochem/products", admin.getProducts);
+router.post("/ezshm_crochem/products/:id/toggle-published", admin.toggleProductPublished);
+router.post("/ezshm_crochem/products/:id/toggle-pattern-published", admin.togglePatternPublished);
 router.post("/ezshm_crochem/products/:id/delete", admin.deleteProduct);
+
+/* ── Saved patterns ───────────────────────────────────── */
+router.get("/ezshm_crochem/saved-patterns", admin.getSavedPatternsPage);
+router.post("/ezshm_crochem/saved-patterns/:id/delete", admin.deleteSavedPatternFromList);
 
 /* ── Suggestions & Complaints ──────────────────────────── */
 router.get("/ezshm_crochem/feedback", admin.getFeedback);

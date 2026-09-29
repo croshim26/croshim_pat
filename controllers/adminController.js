@@ -1,24 +1,31 @@
-const User = require("../models/user");
-const Product = require("../models/product");
-const SavedPattern = require("../models/saved_pattern");
+const { User, Product, SavedPattern } = require("../models");
 const AppSetting = require("../models/app_setting");
 const Feedback = require("../models/feedback");
 
-const locals = (req, extra = {}) => ({
-  successMessage: req.flash("success")[0] || null,
-  errorMessage: req.flash("error")[0] || null,
+const locals = (req, res, extra = {}) => ({
+  successMessage: res.locals.successMessage || req.flash("success")[0] || null,
+  errorMessage: res.locals.errorMessage || req.flash("error")[0] || null,
   ...extra,
 });
 
 /* ── Dashboard ─────────────────────────────────────────── */
 exports.getDashboard = async (req, res, next) => {
   try {
-    const [userCount, productCount, savedPatternCount] =
-      await Promise.all([User.count(), Product.count(), SavedPattern.count()]);
+    const [userCount, productCount, savedPatternCount, latestProducts] =
+      await Promise.all([
+        User.count(),
+        Product.count(),
+        SavedPattern.count(),
+        Product.findAll({
+          limit: 5,
+          order: [["createdAt", "DESC"]],
+          include: [{ model: User, attributes: ["firstName", "lastName"], required: false }],
+        }),
+      ]);
     res.render("admin/dashboard", {
       pageTitle: "لوحة التحكم",
-      userCount, productCount, savedPatternCount,
-      ...locals(req),
+      userCount, productCount, savedPatternCount, latestProducts,
+      ...locals(req, res),
     });
   } catch (err) {
     console.error("getDashboard error:", err);
@@ -30,7 +37,7 @@ exports.getDashboard = async (req, res, next) => {
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.findAll({ order: [["createdAt", "DESC"]] });
-    res.render("admin/users", { pageTitle: "المستخدمون", users, ...locals(req) });
+    res.render("admin/users", { pageTitle: "المستخدمون", users, ...locals(req, res) });
   } catch (err) {
     console.error("getUsers error:", err);
     next(err);
@@ -90,12 +97,54 @@ exports.deleteUser = async (req, res) => {
 /* ── Products ──────────────────────────────────────────── */
 exports.getProducts = async (req, res, next) => {
   try {
-    const products = await Product.findAll({ order: [["createdAt", "DESC"]] });
-    res.render("admin/products", { pageTitle: "المنتجات", products, ...locals(req) });
+    const products = await Product.findAll({
+      order: [["createdAt", "DESC"]],
+      include: [
+        { model: User, attributes: ["id", "firstName", "lastName", "email"], required: false },
+        { model: SavedPattern, as: "pattern", attributes: ["id", "name", "emoji"], required: false },
+      ],
+    });
+    res.render("admin/products", { pageTitle: "المنتجات", products, ...locals(req, res) });
   } catch (err) {
     console.error("getProducts error:", err);
     next(err);
   }
+};
+
+exports.toggleProductPublished = async (req, res) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+    if (!product) {
+      req.flash("error", "المنتج غير موجود.");
+      return res.redirect("/ezshm_crochem/products");
+    }
+    await product.update({ is_published: !product.is_published });
+    req.flash("success", product.is_published ? "تم نشر المنتج في المتجر." : "تم إخفاء المنتج من المتجر.");
+  } catch (err) {
+    console.error("toggleProductPublished error:", err);
+    req.flash("error", "تعذر تحديث ظهور المنتج.");
+  }
+  return res.redirect("/ezshm_crochem/products");
+};
+
+exports.togglePatternPublished = async (req, res) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+    if (!product) {
+      req.flash("error", "المنتج غير موجود.");
+      return res.redirect("/ezshm_crochem/products");
+    }
+    if (!product.pdf_path) {
+      req.flash("error", "لا يمكن نشر ملف باترن لمنتج لا يحتوي على ملف PDF.");
+      return res.redirect("/ezshm_crochem/products");
+    }
+    await product.update({ is_pattern_published: !product.is_pattern_published });
+    req.flash("success", product.is_pattern_published ? "أصبح ملف الباترن متاحاً للجميع." : "أصبح ملف الباترن خاصاً.");
+  } catch (err) {
+    console.error("togglePatternPublished error:", err);
+    req.flash("error", "تعذر تحديث ظهور ملف الباترن.");
+  }
+  return res.redirect("/ezshm_crochem/products");
 };
 
 exports.deleteProduct = async (req, res) => {
@@ -115,7 +164,7 @@ exports.deleteProduct = async (req, res) => {
 exports.getFeedback = async (req, res, next) => {
   try {
     const items = await Feedback.findAll({ order: [["createdAt", "DESC"]] });
-    res.render("admin/feedback", { pageTitle: "الاقتراحات والشكاوى", items, ...locals(req) });
+    res.render("admin/feedback", { pageTitle: "الاقتراحات والشكاوى", items, ...locals(req, res) });
   } catch (err) {
     console.error("getFeedback error:", err);
     next(err);
@@ -141,7 +190,7 @@ exports.getSavedPatternsPage = async (req, res, next) => {
       attributes: ["id", "name", "emoji", "subtitle", "createdAt"],
       order: [["createdAt", "DESC"]],
     });
-    res.render("admin/saved_patterns", { pageTitle: "الباترنات المحفوظة", savedPatterns, ...locals(req) });
+    res.render("admin/saved_patterns", { pageTitle: "الباترنات المحفوظة", savedPatterns, ...locals(req, res) });
   } catch (err) {
     console.error("getSavedPatternsPage error:", err);
     next(err);
@@ -167,7 +216,7 @@ exports.getPatternBuilder = async (req, res, next) => {
       attributes: ["id", "name", "emoji", "createdAt"],
       order: [["createdAt", "DESC"]],
     });
-    res.render("admin/pattern_builder", { pageTitle: "Pattern Builder", savedPatterns, ...locals(req) });
+    res.render("admin/pattern_builder", { pageTitle: "Pattern Builder", savedPatterns, ...locals(req, res) });
   } catch (err) {
     console.error("getPatternBuilder error:", err);
     next(err);
@@ -232,4 +281,3 @@ async function getSetting(key) {
 async function setSetting(key, value) {
   await AppSetting.upsert({ key, value });
 }
-
