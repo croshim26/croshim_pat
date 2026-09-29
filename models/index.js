@@ -5,6 +5,7 @@ const AccessRequest = require("./access_request");
 const Message = require("./message");
 const AccessRequestStatusHistory = require("./access_request_status_history");
 const EngagementEvent = require("./engagement_event");
+const UserAcquisition = require("./user_acquisition");
 
 User.hasMany(Product, { foreignKey: "user_id" });
 Product.belongsTo(User, { foreignKey: "user_id" });
@@ -84,6 +85,8 @@ EngagementEvent.belongsTo(SavedPattern, { foreignKey: "pattern_id" });
 
 User.hasMany(EngagementEvent, { foreignKey: "user_id", as: "engagementEvents" });
 EngagementEvent.belongsTo(User, { foreignKey: "user_id" });
+User.hasOne(UserAcquisition, { foreignKey: "user_id", as: "acquisition" });
+UserAcquisition.belongsTo(User, { foreignKey: "user_id" });
 
 
-module.exports = { User, Product, SavedPattern, AccessRequest, Message, AccessRequestStatusHistory, EngagementEvent };
+module.exports = { User, Product, SavedPattern, AccessRequest, Message, AccessRequestStatusHistory, EngagementEvent, UserAcquisition };

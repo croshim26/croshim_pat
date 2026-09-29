@@ -64,6 +64,25 @@
         </div>
       </div>
 
+      <% const engagementMinutes = Math.floor(engagement.timeSeconds / 60); %>
+      <section class="admin-dashboard-section engagement-dashboard">
+        <div class="admin-dashboard-section-head">
+          <div>
+            <p class="admin-eyebrow">آخر 7 أيام</p>
+            <h2>تفاعل المستخدمين</h2>
+          </div>
+          <a href="/ezshm_crochem/user-activity">تفاصيل المستخدمين <i class="fas fa-arrow-left"></i></a>
+        </div>
+        <div class="engagement-grid">
+          <div class="engagement-card"><span class="engagement-icon"><i class="fas fa-user-check"></i></span><div><strong><%= engagement.activeUsers %></strong><span>مستخدم نشط</span></div></div>
+          <div class="engagement-card"><span class="engagement-icon"><i class="fas fa-sign-in-alt"></i></span><div><strong><%= engagement.visits %></strong><span>زيارة</span></div></div>
+          <div class="engagement-card"><span class="engagement-icon"><i class="fas fa-eye"></i></span><div><strong><%= engagement.pageViews %></strong><span>مشاهدة صفحة</span></div></div>
+          <div class="engagement-card"><span class="engagement-icon"><i class="fas fa-clock"></i></span><div><strong><%= engagementMinutes ? `${engagementMinutes} د` : `${engagement.timeSeconds} ث` %></strong><span>وقت مسجل</span></div></div>
+          <div class="engagement-card"><span class="engagement-icon"><i class="fas fa-hand-pointer"></i></span><div><strong><%= engagement.keyActions %></strong><span>تفاعل مهم</span></div></div>
+        </div>
+        <p class="engagement-note"><i class="fas fa-info-circle"></i> التفاعلات المهمة تشمل عرض الباترن، فتح ملف المنتج، وطلبات الوصول.</p>
+      </section>
+
       <section class="admin-dashboard-section">
         <div class="admin-dashboard-section-head">
           <div>

@@ -126,6 +126,10 @@
                   <% } %>
                 </td>
                 <td style="white-space:nowrap;display:flex;gap:6px;flex-wrap:wrap;">
+                  <a href="/ezshm_crochem/user-activity/<%= user.id %>" class="btn-action btn-soft" title="عرض نشاط المستخدم">
+                    <i class="fas fa-chart-line"></i>
+                    النشاط
+                  </a>
                   <form action="/ezshm_crochem/users/<%= user.id %>/toggle-admin" method="POST" style="display:inline;">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn-action btn-toggle" title="تبديل الصلاحية">

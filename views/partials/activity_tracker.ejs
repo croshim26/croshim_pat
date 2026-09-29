@@ -1,0 +1,24 @@
+<% if (isAuthenticated) { %>
+<script>
+  (function () {
+    var startedAt = Date.now();
+    var sent = false;
+    function reportTime() {
+      if (sent) return;
+      sent = true;
+      var seconds = Math.round((Date.now() - startedAt) / 1000);
+      if (seconds < 1) return;
+      fetch('/analytics/activity', {
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json', 'x-csrf-token': '<%= csrfToken %>' },
+        body: JSON.stringify({ eventName: 'page_time', pagePath: window.location.pathname, durationSeconds: seconds })
+      }).catch(function () {});
+    }
+    window.addEventListener('pagehide', reportTime);
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') reportTime();
+    });
+  })();
+</script>
+<% } %>

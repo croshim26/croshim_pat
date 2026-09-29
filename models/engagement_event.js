@@ -10,6 +10,9 @@ const EngagementEvent = sequelize.define("engagement_event", {
   pattern_id: { type: Sequelize.INTEGER, allowNull: true },
   user_id: { type: Sequelize.INTEGER, allowNull: true },
   visitor_id: { type: Sequelize.STRING(64), allowNull: true },
+  session_id: { type: Sequelize.STRING(64), allowNull: true },
+  page_path: { type: Sequelize.STRING(500), allowNull: true },
+  duration_seconds: { type: Sequelize.INTEGER, allowNull: true },
 });
 
 module.exports = EngagementEvent;

@@ -23,6 +23,8 @@ const accessRequestRoutes = require("./routes/accessRequestRoutes");
 const helpCenterRoutes = require("./routes/helpCenterRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const i18n = require("./middleware/i18n");
+const { recordUserActivity } = require("./util/analytics");
+const { rememberAcquisition, attachAcquisitionToUser } = require("./util/acquisition");
 
 const sequelize = require("./util/database");
 
@@ -255,6 +257,26 @@ app.use((req, res, next) => {
   res.locals.canonicalUrl =
     SITE_URL + req.path + (req.query.lang === "en" ? "?lang=en" : "");
 
+  next();
+});
+
+/* Keep campaign/referral attribution in the browser session until a visitor
+   registers or signs in; then attach it to their account. */
+app.use((req, res, next) => {
+  rememberAcquisition(req);
+  if (req.session.loggedIn && req.session.userId) {
+    attachAcquisitionToUser(req).catch((error) => console.error("Acquisition tracking error:", error.message));
+  }
+  next();
+});
+
+/* Signed-in account activity only. This deliberately stores paths without
+   query strings and never captures form fields or private message content. */
+app.use((req, res, next) => {
+  if (req.method === "GET" && req.session.loggedIn && req.session.userId && !req.path.startsWith("/analytics/")) {
+    recordUserActivity({ req, eventName: "page_view", pagePath: req.path })
+      .catch((error) => console.error("Page activity tracking error:", error.message));
+  }
   next();
 });
 
