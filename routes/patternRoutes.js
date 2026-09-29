@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 const router  = express.Router();
 
 const { SavedPattern, Product, AccessRequest } = require("../models");
+const { recordEngagementEvent } = require("../util/analytics");
 
 const DEFAULT_ABBR = [
   { key: "MR",   val: "magic ring / magic loop" },
@@ -60,6 +61,12 @@ router.get("/pattern/:id", async (req, res) => {
     const pattern = await SavedPattern.findByPk(id);
     if (!pattern || !(await isPatternVisibleTo(pattern, req))) {
       return res.status(404).render("404");
+    }
+
+    try {
+      await recordEngagementEvent({ req, res, eventName: "pattern_view", patternId: pattern.id });
+    } catch (error) {
+      console.error("Pattern analytics error:", error.message);
     }
 
     // Render the read-only workbook view for everyone

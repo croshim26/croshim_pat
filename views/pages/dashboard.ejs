@@ -185,6 +185,12 @@
                     <p class="product-description"><%= product.product_description %></p>
                   </div>
 
+                  <div class="analytics-summary" aria-label="<%= t.analytics_summary_label %>">
+                    <span><i class="fas fa-file-pdf"></i> <strong><%= product.analytics.fileOpens %></strong> <%= t.analytics_file_opens %></span>
+                    <% if (product.pattern) { %><span><i class="fas fa-book-open"></i> <strong><%= product.analytics.patternViews %></strong> <%= t.analytics_pattern_views %></span><% } %>
+                    <span><i class="fas fa-unlock-alt"></i> <strong><%= product.analytics.accessRequests %></strong> <%= t.analytics_access_requests %></span>
+                  </div>
+
                   <div class="product-meta">
                     <span class="label-title"><%= t.label_product_file %></span>
 

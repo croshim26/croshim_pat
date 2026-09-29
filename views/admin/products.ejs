@@ -1,16 +1,8 @@
 <!DOCTYPE html>
 <html lang="<%= lang %>" dir="<%= dir %>">
 <head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NCLMN2BEVN"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-NCLMN2BEVN');
-  </script>
   <meta charset="utf-8">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>المنتجات — <%= t.seo_site_name %></title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
@@ -19,92 +11,69 @@
 </head>
 <body>
 <div class="admin-shell">
-
   <%- include('./_sidebar', { currentPage: 'products' }) %>
-
   <div class="admin-main">
     <div class="admin-topbar">
-      <h1 class="admin-topbar-title">المنتجات</h1>
-      <span class="admin-topbar-user">
-        <i class="fas fa-user-shield"></i>
-        <%= adminUser.firstName %> <%= adminUser.lastName %>
-      </span>
+      <h1 class="admin-topbar-title">إدارة المنتجات</h1>
+      <span class="admin-topbar-user"><i class="fas fa-user-shield"></i><%= adminUser.firstName %> <%= adminUser.lastName %></span>
     </div>
-
-    <div class="admin-content">
-
-      <% if (successMessage) { %>
-        <div class="admin-alert admin-alert-success"><i class="fas fa-check-circle"></i> <%= successMessage %></div>
-      <% } %>
-      <% if (errorMessage) { %>
-        <div class="admin-alert admin-alert-error"><i class="fas fa-exclamation-circle"></i> <%= errorMessage %></div>
-      <% } %>
-
-      <div class="admin-table-wrap">
-        <div class="admin-table-head">
-          <h2 class="admin-table-title">
-            <i class="fas fa-box-open"></i>
-            قائمة المنتجات
-            <span class="admin-count"><%= products.length %></span>
-          </h2>
+    <main class="admin-content">
+      <% if (successMessage) { %><div class="admin-alert admin-alert-success"><i class="fas fa-check-circle"></i><%= successMessage %></div><% } %>
+      <% if (errorMessage) { %><div class="admin-alert admin-alert-error"><i class="fas fa-exclamation-circle"></i><%= errorMessage %></div><% } %>
+      <section class="admin-page-intro">
+        <div><p class="admin-eyebrow">المتجر والملفات</p><h2>كل المنتجات في مكان واحد</h2><p>راجعي صاحب المنتج، حالة ظهوره، وملف الباترن من دون مغادرة صفحة الإدارة.</p></div>
+        <a class="btn-action btn-primary-action" href="/all_products" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i>عرض المتجر</a>
+      </section>
+      <section class="admin-products-panel">
+        <div class="admin-products-toolbar">
+          <label class="admin-search-wrap"><i class="fas fa-search"></i><input id="productSearch" type="search" placeholder="ابحثي بالاسم أو صاحب المنتج أو البريد الإلكتروني" aria-label="البحث في المنتجات"></label>
+          <select id="productFilter" class="admin-select" aria-label="تصفية المنتجات">
+            <option value="all">كل المنتجات (<%= products.length %>)</option><option value="published">المنشورة في المتجر</option><option value="hidden">المخفية من المتجر</option><option value="public-file">ملفات متاحة للجميع</option><option value="private-file">ملفات خاصة</option>
+          </select>
         </div>
-
-        <% if (products.length === 0) { %>
-          <div class="admin-empty">
-            <i class="fas fa-box-open"></i>
-            لا توجد منتجات بعد.
-          </div>
+        <% if (!products.length) { %>
+          <div class="admin-empty"><i class="fas fa-box-open"></i>لا توجد منتجات بعد.</div>
         <% } else { %>
-        <div style="overflow-x:auto;">
-          <table class="atbl">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>اسم المنتج</th>
-                <th>معرف المستخدم</th>
-                <th>ملف PDF</th>
-                <th>تاريخ الإضافة</th>
-                <th>إجراءات</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% products.forEach(function(p) { %>
-              <tr>
-                <td><%= p.id %></td>
-                <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="<%= p.product_name %>">
-                  <%= p.product_name %>
-                </td>
-                <td><%= p.user_id %></td>
-                <td>
-                  <% if (p.pdf_path) { %>
-                    <a href="<%= p.pdf_path %>" target="_blank" class="btn-action btn-toggle">
-                      <i class="fas fa-file-pdf"></i> عرض
-                    </a>
-                  <% } else { %>
-                    <span style="color:#9e677a;font-size:.82rem;">—</span>
-                  <% } %>
-                </td>
-                <td><%= new Date(p.createdAt).toLocaleDateString('ar-SA') %></td>
-                <td>
-                  <form action="/ezshm_crochem/products/<%= p.id %>/delete" method="POST"
-                    onsubmit="return confirm('حذف هذا المنتج نهائياً؟');">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button type="submit" class="btn-action btn-del">
-                      <i class="fas fa-trash-alt"></i> حذف
-                    </button>
-                  </form>
-                </td>
-              </tr>
-              <% }); %>
-            </tbody>
-          </table>
-        </div>
+          <p class="admin-results-count" id="productResults"><%= products.length %> منتجات</p>
+          <div class="admin-product-grid" id="productGrid">
+            <% products.forEach(function (p) {
+              const ownerName = p.user ? `${p.user.firstName || ''} ${p.user.lastName || ''}`.trim() : `مستخدم #${p.user_id}`;
+              const searchText = `${p.product_name || ''} ${p.product_description || ''} ${ownerName} ${p.user?.email || ''}`.toLowerCase();
+              const fileState = !p.pdf_path ? 'no-file' : (p.is_pattern_published ? 'public-file' : 'private-file');
+              const visibilityState = p.is_published ? 'published' : 'hidden';
+            %>
+              <article class="admin-product-card" data-search="<%= searchText %>" data-visibility="<%= visibilityState %>" data-file-state="<%= fileState %>">
+                <div class="admin-product-card-head"><div class="admin-product-icon"><i class="fas fa-box-open"></i></div><div class="admin-product-title-wrap"><h3 title="<%= p.product_name %>"><%= p.product_name || 'منتج بلا اسم' %></h3><span>رقم المنتج #<%= p.id %> · <%= new Date(p.createdAt).toLocaleDateString('ar-SA') %></span></div></div>
+                <p class="admin-product-description"><%= p.product_description || 'لا يوجد وصف لهذا المنتج.' %></p>
+                <div class="admin-product-owner"><i class="fas fa-user"></i><div><strong><%= ownerName %></strong><small><%= p.user?.email || `معرف المستخدم: ${p.user_id}` %></small></div></div>
+                <% if (p.pattern) { %><div class="admin-pattern-link"><span><%= p.pattern.emoji || '🧶' %> <%= p.pattern.name %></span><a href="/pattern/<%= p.pattern.id %>" target="_blank" rel="noopener noreferrer">عرض الباترن</a></div><% } %>
+                <div class="admin-status-list">
+                  <div class="admin-status-row"><div><span class="admin-status-label">ظهور المنتج</span><span class="status-pill <%= p.is_published ? 'status-live' : 'status-hidden' %>"><i class="fas <%= p.is_published ? 'fa-eye' : 'fa-eye-slash' %>"></i><%= p.is_published ? 'ظاهر في المتجر' : 'مخفي من المتجر' %></span></div><form action="/ezshm_crochem/products/<%= p.id %>/toggle-published" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn-action btn-soft" type="submit"><%= p.is_published ? 'إخفاء' : 'نشر' %></button></form></div>
+                  <div class="admin-status-row"><div><span class="admin-status-label">ملف الباترن</span><% if (!p.pdf_path) { %><span class="status-pill status-none"><i class="fas fa-file-excel"></i>لا يوجد ملف</span><% } else { %><span class="status-pill <%= p.is_pattern_published ? 'status-live' : 'status-private' %>"><i class="fas <%= p.is_pattern_published ? 'fa-unlock' : 'fa-lock' %>"></i><%= p.is_pattern_published ? 'متاح للجميع' : 'خاص بطلب وصول' %></span><% } %></div><% if (p.pdf_path) { %><form action="/ezshm_crochem/products/<%= p.id %>/toggle-pattern-published" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn-action btn-soft" type="submit"><%= p.is_pattern_published ? 'جعل خاص' : 'جعل عام' %></button></form><% } %></div>
+                </div>
+                <div class="admin-product-actions"><% if (p.pdf_path) { %><a href="<%= p.pdf_path %>" target="_blank" rel="noopener noreferrer" class="btn-action btn-toggle"><i class="fas fa-file-pdf"></i>فتح PDF</a><% } %><form action="/ezshm_crochem/products/<%= p.id %>/delete" method="POST" onsubmit="return confirm('حذف هذا المنتج نهائياً؟ لا يمكن التراجع عن هذه العملية.');"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button type="submit" class="btn-action btn-del"><i class="fas fa-trash-alt"></i>حذف</button></form></div>
+              </article>
+            <% }) %>
+          </div>
+          <div class="admin-empty admin-no-results" id="productNoResults" hidden><i class="fas fa-search"></i>لا توجد منتجات مطابقة للبحث أو التصفية.</div>
         <% } %>
-      </div>
-
-    </div>
+      </section>
+    </main>
   </div>
-
 </div>
+<script>
+  (function () {
+    const search = document.getElementById('productSearch'), filter = document.getElementById('productFilter');
+    const cards = Array.from(document.querySelectorAll('.admin-product-card')), count = document.getElementById('productResults'), empty = document.getElementById('productNoResults');
+    if (!search || !filter) return;
+    function updateProducts() {
+      const query = search.value.trim().toLowerCase(), selected = filter.value; let visible = 0;
+      cards.forEach((card) => { const show = (!query || card.dataset.search.includes(query)) && (selected === 'all' || card.dataset.visibility === selected || card.dataset.fileState === selected); card.hidden = !show; if (show) visible += 1; });
+      if (count) count.textContent = `${visible} ${visible === 1 ? 'منتج' : 'منتجات'}`;
+      if (empty) empty.hidden = visible !== 0;
+    }
+    search.addEventListener('input', updateProducts); filter.addEventListener('change', updateProducts);
+  })();
+</script>
 </body>
 </html>
