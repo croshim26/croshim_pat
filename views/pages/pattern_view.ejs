@@ -240,6 +240,7 @@
   <%
     const PARTS_PER_PAGE = 4;
     const emoji = pattern.emoji || '🧶';
+    const patternDisplayName = displayName || pattern.name;
     const hasCover = !!pattern.cover_image;
     const chunks = [];
     for (let i = 0; i < parts.length; i += PARTS_PER_PAGE) chunks.push(parts.slice(i, i + PARTS_PER_PAGE));
@@ -260,8 +261,12 @@
                  border:5px solid rgba(255,255,255,.8);box-shadow:0 10px 40px rgba(155,58,82,.3);">
       </div>
       <div style="position:relative;z-index:1;text-align:center;">
-        <div class="pattern-title-ar" style="font-size:1.75rem;"><%= pattern.name %></div>
+        <div class="pattern-title-ar" style="font-size:1.75rem;"><%= patternDisplayName %></div>
+        <% if (patternDisplayName && pattern.name && patternDisplayName.trim() !== pattern.name.trim()) { %>
+          <div style="margin-top:7px;color:#765866;font-size:.78rem;font-weight:700;"><strong style="color:#9b3a5a;"><%= lang === 'en' ? 'Maker’s original pattern name:' : 'اسم الباترون الأصلي من المصمم:' %></strong> <%= pattern.name %></div>
+        <% } %>
         <% if (pattern.subtitle) { %><div class="pattern-subtitle-ar"><%= pattern.subtitle %></div><% } %>
+        <% if (pattern.taxonomy) { %><div style="margin-top:10px;color:#9b3a5a;font-weight:800;font-size:.82rem;"><i class="fas fa-tags"></i> <%= lang === 'en' ? pattern.taxonomy.pattern_type_en : pattern.taxonomy.pattern_type_ar %> · <%= lang === 'en' ? pattern.taxonomy.pattern_format_en : pattern.taxonomy.pattern_format_ar %></div><% } %>
       </div>
     </div>
     <div class="dots-deco"><span></span><span></span><span></span><span></span><span></span><span></span></div>
@@ -281,8 +286,12 @@
         <div><div class="brand-name">croshim</div><div class="brand-tagline">crochet with heart</div></div>
         <div class="yarn-icon"><%= emoji %></div>
       </div>
-      <div class="pattern-title-ar"><%= pattern.name %></div>
+      <div class="pattern-title-ar"><%= patternDisplayName %></div>
+      <% if (patternDisplayName && pattern.name && patternDisplayName.trim() !== pattern.name.trim()) { %>
+        <div style="margin-top:6px;color:#765866;font-size:.74rem;font-weight:700;"><strong style="color:#9b3a5a;"><%= lang === 'en' ? 'Maker’s original pattern name:' : 'اسم الباترون الأصلي من المصمم:' %></strong> <%= pattern.name %></div>
+      <% } %>
       <% if (pattern.subtitle) { %><div class="pattern-subtitle-ar"><%= pattern.subtitle %></div><% } %>
+      <% if (pattern.taxonomy) { %><div style="margin-top:8px;color:#9b3a5a;font-weight:800;font-size:.78rem;"><i class="fas fa-tags"></i> <%= lang === 'en' ? pattern.taxonomy.pattern_type_en : pattern.taxonomy.pattern_type_ar %> · <%= lang === 'en' ? pattern.taxonomy.pattern_format_en : pattern.taxonomy.pattern_format_ar %></div><% } %>
     </div>
     <div class="dots-deco"><span></span><span></span><span></span><span></span><span></span><span></span></div>
     <div class="page-body">
@@ -321,7 +330,7 @@
       <div class="brand-row" style="margin-bottom:0;">
         <div class="brand-name" style="font-size:1.15rem;">croshim</div>
         <div style="text-align:center;flex:1;">
-          <div class="pattern-title-ar" style="font-size:1.25rem;"><%= emoji %> <%= pattern.name %></div>
+          <div class="pattern-title-ar" style="font-size:1.25rem;"><%= emoji %> <%= patternDisplayName %></div>
         </div>
         <div class="yarn-icon" style="font-size:1.55rem;">🧶</div>
       </div>

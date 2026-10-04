@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const { User, Product, SavedPattern, EngagementEvent, UserAcquisition } = require("../models");
+const { User, Product, SavedPattern, EngagementEvent, UserAcquisition, PatternTaxonomy } = require("../models");
 const AppSetting = require("../models/app_setting");
 const Feedback = require("../models/feedback");
 
@@ -225,7 +225,7 @@ exports.getProducts = async (req, res, next) => {
       order: [["createdAt", "DESC"]],
       include: [
         { model: User, attributes: ["id", "firstName", "lastName", "email"], required: false },
-        { model: SavedPattern, as: "pattern", attributes: ["id", "name", "emoji"], required: false },
+        { model: SavedPattern, as: "pattern", attributes: ["id", "name", "emoji"], include: [{ model: PatternTaxonomy, as: "taxonomy", attributes: ["formal_name_en", "formal_name_ar", "pattern_type", "pattern_type_en", "pattern_type_ar", "pattern_format", "pattern_format_en", "pattern_format_ar"], required: false }], required: false },
       ],
     });
     res.render("admin/products", { pageTitle: "المنتجات", products, ...locals(req, res) });
@@ -312,6 +312,7 @@ exports.getSavedPatternsPage = async (req, res, next) => {
   try {
     const savedPatterns = await SavedPattern.findAll({
       attributes: ["id", "name", "emoji", "subtitle", "createdAt"],
+      include: [{ model: PatternTaxonomy, as: "taxonomy", attributes: ["formal_name_en", "formal_name_ar", "pattern_type", "pattern_type_en", "pattern_type_ar", "pattern_format", "pattern_format_en", "pattern_format_ar", "confidence"], required: false }],
       order: [["createdAt", "DESC"]],
     });
     res.render("admin/saved_patterns", { pageTitle: "الباترنات المحفوظة", savedPatterns, ...locals(req, res) });
