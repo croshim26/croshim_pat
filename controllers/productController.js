@@ -3,7 +3,7 @@ const { Op, fn, col } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 const SavedPattern = require("../models/saved_pattern");
 
-const { Product, User, AccessRequest, EngagementEvent } = require("../models");
+const { Product, User, AccessRequest, EngagementEvent, PatternTaxonomy } = require("../models");
 const supabase = require("../util/supabase");
 const { sendPatternReadyEmail, sendPatternShareEmail } = require("../util/mailer");
 const { log } = require("console");
@@ -19,12 +19,27 @@ const locals = (req, extra = {}) => ({
    Show all products with owner names and linked patterns.
    ========================================================= */
 const ALL_PRODUCTS_PAGE_SIZE = 12;
+const TAXONOMY_TYPES = [
+  ["amigurumi", "أميجورومي", "Amigurumi"], ["clothing", "ملابس", "Clothing"],
+  ["baby_kids", "أطفال ورُضّع", "Baby & Kids"], ["hats_headwear", "قبعات", "Hats & Headwear"],
+  ["scarves_shawls", "أوشحة وشالات", "Scarves & Shawls"], ["bags_purses", "حقائب ومحافظ", "Bags & Purses"],
+  ["accessories", "إكسسوارات", "Accessories"], ["home_decor", "ديكور منزلي", "Home Décor"],
+  ["blankets_throws", "بطانيات", "Blankets & Throws"], ["flowers_appliques", "ورود وتطبيقات", "Flowers & Appliqués"],
+  ["seasonal_gifts", "موسمي وهدايا", "Seasonal & Gifts"], ["other", "أخرى", "Other"],
+].map(([value, ar, en]) => ({ value, ar, en }));
+const TAXONOMY_FORMATS = [
+  { value: "2d", ar: "ثنائي الأبعاد (2D)", en: "2D" },
+  { value: "3d", ar: "ثلاثي الأبعاد (3D)", en: "3D" },
+  { value: "other", ar: "أخرى", en: "Other" },
+];
 
 exports.getAllProducts = async (req, res) => {
   try {
     const requestedPage = Number.parseInt(req.query.page, 10);
     const page = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
     const searchQuery = String(req.query.q || "").trim().slice(0, 100);
+    const selectedType = TAXONOMY_TYPES.some((type) => type.value === req.query.type) ? req.query.type : "";
+    const selectedFormat = TAXONOMY_FORMATS.some((format) => format.value === req.query.format) ? req.query.format : "";
     const limit = ALL_PRODUCTS_PAGE_SIZE;
     const where = { is_published: true };
 
@@ -36,12 +51,31 @@ exports.getAllProducts = async (req, res) => {
       ];
     }
 
-    const count = await Product.count({ where });
+    const taxonomyWhere = {};
+    if (selectedType) taxonomyWhere.pattern_type = selectedType;
+    if (selectedFormat) taxonomyWhere.pattern_format = selectedFormat;
+    const hasTaxonomyFilter = Boolean(selectedType || selectedFormat);
+    const patternInclude = {
+      model: SavedPattern,
+      as: "pattern",
+      attributes: ["id", "name", "emoji", "cover_image", "createdAt"],
+      include: [{
+        model: PatternTaxonomy,
+        as: "taxonomy",
+        attributes: ["formal_name_en", "formal_name_ar", "pattern_type", "pattern_type_en", "pattern_type_ar", "pattern_format", "pattern_format_en", "pattern_format_ar"],
+        where: hasTaxonomyFilter ? taxonomyWhere : undefined,
+        required: hasTaxonomyFilter,
+      }],
+      required: hasTaxonomyFilter,
+    };
+    const count = await Product.count({ where, include: hasTaxonomyFilter ? [patternInclude] : [], distinct: true, col: "id" });
     const totalPages = Math.max(1, Math.ceil(count / limit));
 
     if (page > totalPages) {
       const params = new URLSearchParams({ page: String(totalPages) });
       if (searchQuery) params.set("q", searchQuery);
+      if (selectedType) params.set("type", selectedType);
+      if (selectedFormat) params.set("format", selectedFormat);
       return res.redirect(`/all_products?${params.toString()}`);
     }
 
@@ -52,12 +86,7 @@ exports.getAllProducts = async (req, res) => {
       ],
       include: [
         { model: User, attributes: ["firstName", "lastName"] },
-        {
-          model: SavedPattern,
-          as: "pattern",
-          attributes: ["id", "name", "emoji", "cover_image", "createdAt"],
-          required: false,
-        },
+        patternInclude,
       ],
       where,
       order: [["createdAt", "DESC"]],
@@ -97,6 +126,10 @@ const productsWithAccess = products.map((product) => ({
     return res.render("pages/all_products", {
       products: productsWithAccess,
       searchQuery,
+      selectedType,
+      selectedFormat,
+      taxonomyTypes: TAXONOMY_TYPES,
+      taxonomyFormats: TAXONOMY_FORMATS,
       pagination: { page, totalPages, totalProducts: count, pageSize: limit, pageNumbers },
       viewerUserId: req.session.userId || null,
       success_message: req.flash("success")[0] || null,
@@ -146,6 +179,12 @@ exports.getProducts = async (req, res, next) => {
           model: SavedPattern,
           as: "pattern",
           attributes: ["id", "name", "emoji", "cover_image", "createdAt"],
+          include: [{
+            model: PatternTaxonomy,
+            as: "taxonomy",
+            attributes: ["formal_name_en", "formal_name_ar", "pattern_type", "pattern_type_en", "pattern_type_ar", "pattern_format", "pattern_format_en", "pattern_format_ar"],
+            required: false,
+          }],
           required: false,
         },
       ],

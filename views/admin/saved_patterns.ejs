@@ -101,6 +101,7 @@
                 <th>#</th>
                 <th>الباترن</th>
                 <th>الوصف</th>
+                <th>التصنيف</th>
                 <th>تاريخ الإنشاء</th>
                 <th>إجراءات</th>
               </tr>
@@ -117,6 +118,14 @@
                 </td>
                 <td class="subtitle-cell" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
                   <%= p.subtitle || '—' %>
+                </td>
+                <td>
+                  <% if (p.taxonomy) { %>
+                    <span class="status-pill status-live"><%= p.taxonomy.pattern_type_ar %></span>
+                    <span class="status-pill status-private"><%= p.taxonomy.pattern_format_ar %></span>
+                  <% } else { %>
+                    <span style="color:#9e677a;font-size:.78rem;">بانتظار التصنيف</span>
+                  <% } %>
                 </td>
                 <td><%= new Date(p.createdAt).toLocaleDateString('ar-SA') %></td>
                 <td>

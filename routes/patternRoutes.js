@@ -2,7 +2,7 @@ const express = require("express");
 const { Op } = require("sequelize");
 const router  = express.Router();
 
-const { SavedPattern, Product, AccessRequest } = require("../models");
+const { SavedPattern, Product, AccessRequest, PatternTaxonomy } = require("../models");
 const { recordEngagementEvent } = require("../util/analytics");
 
 const DEFAULT_ABBR = [
@@ -58,7 +58,14 @@ router.get("/pattern/:id", async (req, res) => {
       return res.status(404).render("404");
     }
 
-    const pattern = await SavedPattern.findByPk(id);
+    const pattern = await SavedPattern.findByPk(id, {
+      include: [{
+        model: PatternTaxonomy,
+        as: "taxonomy",
+        attributes: ["formal_name_en", "formal_name_ar", "pattern_type", "pattern_type_en", "pattern_type_ar", "pattern_format", "pattern_format_en", "pattern_format_ar", "confidence"],
+        required: false,
+      }],
+    });
     if (!pattern || !(await isPatternVisibleTo(pattern, req))) {
       return res.status(404).render("404");
     }
@@ -80,14 +87,19 @@ router.get("/pattern/:id", async (req, res) => {
     /* SEO: keyword-rich title + description per pattern. Cover images stored
        as base64 data URLs are skipped — og:image needs a real URL. */
     const t = res.locals.t;
-    const seoTitle = `${pattern.name} — ${t.seo_pattern_suffix} | ${t.seo_site_name}`;
-    const seoDesc = [pattern.name, pattern.subtitle, t.seo_pattern_desc]
+    const formalName = res.locals.lang === "en"
+      ? pattern.taxonomy?.formal_name_en
+      : pattern.taxonomy?.formal_name_ar;
+    const displayName = formalName || pattern.name;
+    const seoTitle = `${displayName} — ${t.seo_pattern_suffix} | ${t.seo_site_name}`;
+    const seoDesc = [displayName, pattern.subtitle, t.seo_pattern_desc]
       .filter(Boolean)
       .join(" — ");
     const coverIsUrl = /^https?:\/\//.test(pattern.cover_image || "");
 
     res.render("pages/pattern_view", {
       pattern,
+      displayName,
       isPatternOwner: req.session.userId === pattern.created_by,
       tools,
       parts,

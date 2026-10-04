@@ -92,6 +92,19 @@
   transform: translateY(-1px);
 }
 
+.dashboard-original-product-name {
+  margin: 7px 0 0;
+  color: #7a6670;
+  font-size: .74rem;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.dashboard-original-product-name strong {
+  color: #9b3a5a;
+  font-weight: 900;
+}
+
 </style>
 
 
@@ -155,11 +168,14 @@
                   const rawCover = (product.pattern && product.pattern.cover_image) || "";
                   const cover = /^(https?:\/\/|data:image\/)/i.test(rawCover) ? rawCover : null;
                   const coverEmoji = (product.pattern && product.pattern.emoji) || "🧶";
+                  const originalProductName = product.product_name || "";
+                  const formalPatternName = product.pattern?.taxonomy ? (lang === 'en' ? product.pattern.taxonomy.formal_name_en : product.pattern.taxonomy.formal_name_ar) : null;
+                  const displayProductName = formalPatternName || originalProductName;
                 %>
                 <% if (cover) { %>
                   <img
                     src="<%= cover %>"
-                    alt="<%= (product.pattern && product.pattern.name) || product.product_name || "" %>"
+                    alt="<%= displayProductName %>"
                     class="product-cover"
                     loading="lazy"
                     onerror="this.onerror=null;this.hidden=true;if(this.nextElementSibling){this.nextElementSibling.hidden=false;}"
@@ -173,8 +189,14 @@
 
 
                 <div class="product-header">
-                  <span class="label-title"><%= t.label_product_name %></span>
-                  <h2 class="product-name"><%= product.product_name %></h2>
+                  <span class="label-title"><%= formalPatternName ? (lang === 'en' ? 'Formal pattern name' : 'اسم الباترون الرسمي') : t.label_product_name %></span>
+                  <h2 class="product-name"><%= displayProductName %></h2>
+                  <% if (formalPatternName && originalProductName && formalPatternName.trim() !== originalProductName.trim()) { %>
+                    <p class="dashboard-original-product-name">
+                      <strong><%= lang === 'en' ? 'Maker’s product name:' : 'اسم المنتج الذي أدخله المصمم:' %></strong>
+                      <%= originalProductName %>
+                    </p>
+                  <% } %>
 
                 </div>
 
