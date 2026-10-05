@@ -3,7 +3,7 @@ const { Op, fn, col } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 const SavedPattern = require("../models/saved_pattern");
 
-const { Product, User, AccessRequest, EngagementEvent, PatternTaxonomy } = require("../models");
+const { Product, User, AccessRequest, EngagementEvent, PatternTaxonomy, PatternClassificationJob } = require("../models");
 const supabase = require("../util/supabase");
 const { sendPatternReadyEmail, sendPatternShareEmail } = require("../util/mailer");
 const { log } = require("console");
@@ -14,6 +14,24 @@ const locals = (req, extra = {}) => ({
   errorMessage: req.flash("error")[0] || null,
   ...extra,
 });
+
+async function queuePatternClassification(patternId) {
+  if (!patternId) return;
+
+  const taxonomy = await PatternTaxonomy.findOne({
+    where: { saved_pattern_id: patternId },
+    attributes: ["id"],
+  });
+  if (taxonomy) return;
+
+  const [job, created] = await PatternClassificationJob.findOrCreate({
+    where: { saved_pattern_id: patternId },
+    defaults: { status: "pending" },
+  });
+  if (created) {
+    console.log(`Pattern ${patternId} queued for taxonomy classification (job ${job.id}).`);
+  }
+}
 /* =========================================================
    GET /all-products
    Show all products with owner names and linked patterns.
@@ -464,6 +482,17 @@ exports.savePattern = async (req, res) => {
         created_by: req.session.userId,
       });
       wasCreated = true;
+
+    }
+
+    // Queue both brand-new patterns and older patterns that are saved again
+    // but still have no taxonomy. A completed taxonomy is never requeued.
+    try {
+      await queuePatternClassification(pattern.id);
+    } catch (queueError) {
+      // The pattern is already safely saved. Keep creation available if the
+      // worker migration has not yet been deployed, and log the repair hint.
+      console.error("Pattern classification queue error:", queueError);
     }
 
     // A builder may save repeatedly while working, so email only once: when
@@ -650,6 +679,11 @@ exports.savePatternAsProduct = async (req, res) => {
     const existing = await Product.findOne({ where: { user_id: userId, pdf_path: pdfPath } });
     if (existing) {
       await existing.update({ product_name: name || 'باترن كروشيه', product_description: description || '' });
+      try {
+        await queuePatternClassification(patternId);
+      } catch (queueError) {
+        console.error("Pattern classification queue error:", queueError);
+      }
       return res.json({ success: true, productId: existing.id });
     }
 
@@ -660,6 +694,12 @@ exports.savePatternAsProduct = async (req, res) => {
       pdf_path:            pdfPath,
       saved_pattern_id: saved_pattern_id || null,
     });
+
+    try {
+      await queuePatternClassification(patternId);
+    } catch (queueError) {
+      console.error("Pattern classification queue error:", queueError);
+    }
 
     res.json({ success: true, productId: product.id });
   } catch (err) {
