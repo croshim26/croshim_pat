@@ -158,9 +158,40 @@ async function sendPatternShareEmail({ toEmail, senderName, patternName, pattern
   });
 }
 
+async function sendAccessApprovedEmail({
+  toEmail,
+  requesterName,
+  ownerName,
+  productName,
+  accessUrl,
+}) {
+  const recipient = escapeHtml(requesterName || "صانعة الكروشيه");
+  const owner = escapeHtml(ownerName || "صاحبة المنتج");
+  const product = escapeHtml(productName || "باترن كروشيه");
+
+  await sendEmail({
+    to: toEmail,
+    subject: `تمت الموافقة على طلب الوصول: ${productName || "باترن كروشيه"} — Croshim Studio`,
+    html: `
+      <div dir="rtl" style="font-family:Arial,sans-serif;max-width:520px;margin:auto;padding:32px 24px;background:#faf9f7;border-radius:16px;border:1px solid #e8ddd5;">
+        <div style="text-align:center;margin-bottom:28px;">
+          <span style="font-size:2rem;">🧶</span>
+          <h2 style="margin:8px 0 4px;color:#0f172a;">Croshim Studio</h2>
+        </div>
+        <p style="color:#374151;line-height:1.8;">مرحباً ${recipient}،</p>
+        <p style="color:#374151;line-height:1.8;">تمت موافقة ${owner} على طلبك للوصول إلى <strong>${product}</strong>.</p>
+        <p style="color:#6b7280;line-height:1.7;">يمكنك الآن فتح الطلب والوصول إلى ملف المنتج من حسابك.</p>
+        <div style="text-align:center;margin:28px 0;">
+          <a href="${accessUrl}" style="display:inline-block;padding:14px 32px;background:linear-gradient(135deg,#9b3a5a,#e8a0b0);color:#fff;text-decoration:none;border-radius:14px;font-weight:bold;">فتح الطلب</a>
+        </div>
+      </div>`,
+  });
+}
+
 module.exports = {
   sendPasswordResetEmail,
   sendWelcomeEmail,
   sendPatternReadyEmail,
   sendPatternShareEmail,
+  sendAccessApprovedEmail,
 };

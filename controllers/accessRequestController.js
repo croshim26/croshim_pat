@@ -8,6 +8,7 @@ const {
   AccessRequestStatusHistory,
 } = require("../models");
 const { recordEngagementEvent } = require("../util/analytics");
+const { sendAccessApprovedEmail } = require("../util/mailer");
 
 
 const userCanAccess = (request, userId) =>
@@ -193,7 +194,9 @@ exports.sendMessage = async (req, res, next) => {
 exports.setStatus = async (req, res, next) => {
   try {
     const { t } = res.locals;
-    const request = await AccessRequest.findByPk(req.params.id);
+    const request = await AccessRequest.findByPk(req.params.id, {
+      include: requestIncludes,
+    });
 
     if (!request || Number(request.owner_id) !== Number(req.session.userId)) {
       return res.status(403).render("403");
@@ -225,6 +228,29 @@ exports.setStatus = async (req, res, next) => {
       changed_by: req.session.userId,
       changed_at: new Date(),
     });
+
+    // Direct pattern sharing already sends its own email. This covers the
+    // private-sharing flow, where access is granted after a request.
+    // Do not await delivery: a Resend problem must not undo the approval.
+    if (status === "approved" && request.requester?.email) {
+      const appUrl = (process.env.APP_URL || `${req.protocol}://${req.get("host")}`).replace(/\/$/, "");
+      const requesterName = [request.requester.firstName, request.requester.lastName]
+        .filter(Boolean)
+        .join(" ");
+      const ownerName = [request.owner?.firstName, request.owner?.lastName]
+        .filter(Boolean)
+        .join(" ");
+
+      sendAccessApprovedEmail({
+        toEmail: request.requester.email,
+        requesterName,
+        ownerName,
+        productName: request.product?.product_name,
+        accessUrl: `${appUrl}/access-requests/${request.id}`,
+      }).catch((emailError) => {
+        console.error("Access-approved email error:", emailError);
+      });
+    }
 
     req.flash("success", t.access_status_updated);
     return res.redirect(`/access-requests/${request.id}`);
