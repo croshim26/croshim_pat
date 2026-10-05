@@ -28,6 +28,7 @@
 .footer-links a:hover{background:rgba(155,58,90,.1);color:#3d0e1e;text-decoration:none}
 .footer-contact,.footer-social{display:flex;gap:10px;align-items:center}
 .footer-contact{font-weight:800;color:rgba(61,14,30,.78)}
+.verification-link{display:flex;align-items:center;gap:9px;margin-top:12px;padding:10px;border-radius:13px;background:rgba(155,58,90,.07);border:1px solid rgba(155,58,90,.14);color:#6b1a30;text-decoration:none;transition:.2s}.verification-link:hover{background:rgba(155,58,90,.12);color:#6b1a30;text-decoration:none;transform:translateY(-1px)}.verification-link>i:first-child{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:10px;background:linear-gradient(135deg,#9b3a5a,#e8a0b0);color:#fff}.verification-link span{display:flex;min-width:0;flex:1;flex-direction:column}.verification-link strong{font-size:.76rem;font-weight:1000}.verification-link small{font-size:.7rem;font-weight:800;color:rgba(61,14,30,.67);direction:ltr;text-align:right}.verification-external{font-size:.7rem;color:#9b3a5a}
 .footer-contact i,.social-btn{
   display:inline-flex;align-items:center;justify-content:center;border-radius:14px;
   background:rgba(155,58,90,.1);border:1px solid rgba(155,58,90,.1)
