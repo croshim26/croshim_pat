@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const { User, Product, SavedPattern, EngagementEvent, UserAcquisition, PatternTaxonomy } = require("../models");
+const { User, Product, SavedPattern, EngagementEvent, UserAcquisition, PatternTaxonomy, PatternClassificationJob } = require("../models");
 const AppSetting = require("../models/app_setting");
 const Feedback = require("../models/feedback");
 
@@ -358,6 +358,20 @@ exports.savePattern = async (req, res) => {
     }
     if (!pattern) {
       pattern = await SavedPattern.create({ name: name || "باترن جديد", subtitle, emoji, cover_image, tools, abbrs, parts, created_by: req.session.userId });
+    }
+    try {
+      const taxonomy = await PatternTaxonomy.findOne({
+        where: { saved_pattern_id: pattern.id },
+        attributes: ["id"],
+      });
+      if (!taxonomy) {
+        await PatternClassificationJob.findOrCreate({
+          where: { saved_pattern_id: pattern.id },
+          defaults: { status: "pending" },
+        });
+      }
+    } catch (queueError) {
+      console.error("Pattern classification queue error:", queueError);
     }
     res.json({ success: true, pattern });
   } catch (err) {
