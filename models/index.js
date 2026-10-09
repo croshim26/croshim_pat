@@ -7,6 +7,7 @@ const AccessRequestStatusHistory = require("./access_request_status_history");
 const EngagementEvent = require("./engagement_event");
 const UserAcquisition = require("./user_acquisition");
 const PatternTaxonomy = require("./pattern_taxonomy");
+const PatternClassificationJob = require("./pattern_classification_job");
 
 User.hasMany(Product, { foreignKey: "user_id" });
 Product.belongsTo(User, { foreignKey: "user_id" });
@@ -24,6 +25,8 @@ SavedPattern.hasMany(Product, {
 });
 SavedPattern.hasOne(PatternTaxonomy, { foreignKey: "saved_pattern_id", as: "taxonomy" });
 PatternTaxonomy.belongsTo(SavedPattern, { foreignKey: "saved_pattern_id" });
+SavedPattern.hasOne(PatternClassificationJob, { foreignKey: "saved_pattern_id", as: "classificationJob" });
+PatternClassificationJob.belongsTo(SavedPattern, { foreignKey: "saved_pattern_id" });
 
 
 
@@ -92,4 +95,4 @@ User.hasOne(UserAcquisition, { foreignKey: "user_id", as: "acquisition" });
 UserAcquisition.belongsTo(User, { foreignKey: "user_id" });
 
 
-module.exports = { User, Product, SavedPattern, AccessRequest, Message, AccessRequestStatusHistory, EngagementEvent, UserAcquisition, PatternTaxonomy };
+module.exports = { User, Product, SavedPattern, AccessRequest, Message, AccessRequestStatusHistory, EngagementEvent, UserAcquisition, PatternTaxonomy, PatternClassificationJob };
