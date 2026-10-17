@@ -447,7 +447,7 @@
       </div>
 
       <% if (pagination.totalPages > 1) { %>
-        <% const searchSuffix = (searchQuery ? '&q=' + encodeURIComponent(searchQuery) : '') + (selectedType ? '&type=' + encodeURIComponent(selectedType) : '') + (selectedFormat ? '&format=' + encodeURIComponent(selectedFormat) : ''); %>
+        <% const searchSuffix = (searchQuery ? '&q=' + encodeURIComponent(searchQuery) : '') + (selectedType ? '&type=' + encodeURIComponent(selectedType) : '') + (selectedFormat ? '&format=' + encodeURIComponent(selectedFormat) : '') + (selectedCreatorId ? '&creator=' + encodeURIComponent(selectedCreatorId) : ''); %>
         <nav class="products-pager" aria-label="<%= t.products_all_title %>">
           <% if (pagination.page > 1) { %>
             <a class="pager-btn" href="/all_products?page=<%= pagination.page - 1 %><%= searchSuffix %>">

@@ -315,5 +315,6 @@
   "analytics_summary_label": "Engagement statistics",
   "analytics_file_opens": "file opens",
   "analytics_pattern_views": "pattern views",
-  "analytics_access_requests": "access requests"
+  "analytics_access_requests": "access requests",
+  "nav_creators": "Creators", "creators_title": "Meet the creators", "creators_subtitle": "Explore crochet creators and discover their published products.", "creators_product_count": "published products", "creators_view_products": "View products", "creators_no_items": "No creators have published products yet.", "creators_back": "Back to creators", "creators_products_by": "Products by", "creators_no_products": "This creator has no public products right now.", "creators_all_products": "Browse all products"
 }
