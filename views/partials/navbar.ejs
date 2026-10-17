@@ -134,6 +134,7 @@
            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= t.nav_products %></a>
         <div class="dropdown-menu" aria-labelledby="productsDropdown">
           <a class="dropdown-item" data-nav-path="/all_products" href="/all_products"><i class="fas fa-th-large"></i> <%= t.nav_browse_products %></a>
+          <a class="dropdown-item" data-nav-path="/creators" href="/creators"><i class="fas fa-users"></i> <%= t.nav_creators %></a>
           <% if (isAuthenticated) { %>
             <a class="dropdown-item" data-nav-path="/dashboard" href="/dashboard"><i class="fas fa-box"></i> <%= t.nav_my_products %></a>
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#exampleModal3"><i class="fas fa-plus-circle"></i> <%= t.nav_add_product %></a>

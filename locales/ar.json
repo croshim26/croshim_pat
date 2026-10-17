@@ -315,5 +315,6 @@
   "analytics_summary_label": "إحصاءات التفاعل",
   "analytics_file_opens": "فتح الملف",
   "analytics_pattern_views": "مشاهدة الباترون",
-  "analytics_access_requests": "طلب وصول"
+  "analytics_access_requests": "طلب وصول",
+  "nav_creators": "المصممات", "creators_title": "تعرّفي على المصممات", "creators_subtitle": "استكشفي مصممات الكروشيه والمنتجات المنشورة من أعمالهن.", "creators_product_count": "منتجات منشورة", "creators_view_products": "عرض المنتجات", "creators_no_items": "لا توجد مصممات لديهن منتجات منشورة حتى الآن.", "creators_back": "العودة إلى المصممات", "creators_products_by": "منتجات المصممة", "creators_no_products": "لا توجد منتجات عامة لهذه المصممة حالياً.", "creators_all_products": "تصفح كل المنتجات"
 }
