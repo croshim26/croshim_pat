@@ -13,6 +13,8 @@ const router = express.Router();
 // };
 
 router.get("/all_products", productController.getAllProducts);
+router.get("/creators", productController.getCreators);
+router.get("/creators/:id", productController.getCreatorProducts);
 
 router.get("/dashboard", loggedin, productController.getProducts);
 router.get("/add_product", loggedin, productController.getAddProduct);

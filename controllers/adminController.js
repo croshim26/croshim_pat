@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
 const { User, Product, SavedPattern, EngagementEvent, UserAcquisition, PatternTaxonomy, PatternClassificationJob } = require("../models");
-const AppSetting = require("../models/app_setting");
 const Feedback = require("../models/feedback");
 
 const locals = (req, res, extra = {}) => ({
@@ -16,7 +15,6 @@ const ACTIVITY_EVENT_LABELS = {
   product_file_open: "فتح ملف المنتج",
   access_request_created: "إرسال طلب وصول",
 };
-
 async function addActivityToUsers(users) {
   const userIds = users.map((user) => Number(user.id)).filter(Number.isInteger);
   if (!userIds.length) return users;
@@ -401,22 +399,3 @@ exports.deletePattern = async (req, res) => {
     res.status(500).json({ success: false, error: err.message });
   }
 };
-
-/* ══════════════════════════════════════════════════════════
-   INSTAGRAM
-══════════════════════════════════════════════════════════ */
-
-const IG_ENV_MAP = {
-  ig_user_id:      process.env.IG_USER_ID,
-  ig_access_token: process.env.IG_ACCESS_TOKEN,
-  ig_base_url:     process.env.IG_BASE_URL,
-};
-
-async function getSetting(key) {
-  const row = await AppSetting.findOne({ where: { key } });
-  if (row && row.value) return row.value;
-  return IG_ENV_MAP[key] || null;
-}
-async function setSetting(key, value) {
-  await AppSetting.upsert({ key, value });
-}

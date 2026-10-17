@@ -48,6 +48,66 @@ const TAXONOMY_FORMATS = [
   { value: "other", ar: "أخرى", en: "Other" },
 ];
 
+const CREATORS_PAGE_SIZE = 24;
+
+exports.getCreators = async (req, res) => {
+  try {
+    const requestedPage = Number.parseInt(req.query.page, 10);
+    const page = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+    const where = { is_published: true };
+    const totalCreators = await Product.count({ where, distinct: true, col: "user_id" });
+    const totalPages = Math.max(1, Math.ceil(totalCreators / CREATORS_PAGE_SIZE));
+    if (page > totalPages) return res.redirect(`/creators?page=${totalPages}`);
+
+    const creatorRows = await Product.findAll({
+      attributes: ["user_id", [fn("COUNT", col("id")), "productCount"], [fn("MAX", col("createdAt")), "latestProductAt"]],
+      where,
+      group: ["user_id"],
+      order: [[fn("MAX", col("createdAt")), "DESC"]],
+      limit: CREATORS_PAGE_SIZE,
+      offset: (page - 1) * CREATORS_PAGE_SIZE,
+      raw: true,
+    });
+    const creatorIds = creatorRows.map((row) => Number(row.user_id));
+    const users = creatorIds.length ? await User.findAll({ where: { id: { [Op.in]: creatorIds } }, attributes: ["id", "firstName", "lastName"] }) : [];
+    const usersById = new Map(users.map((user) => [Number(user.id), user.toJSON()]));
+    const creators = creatorRows.map((row) => ({
+      ...usersById.get(Number(row.user_id)),
+      productCount: Number(row.productCount),
+      latestProductAt: row.latestProductAt,
+    })).filter((creator) => creator.id);
+
+    return res.render("pages/creators", { creators, pagination: { page, totalPages, totalCreators } });
+  } catch (error) {
+    console.error("getCreators error:", error);
+    return res.status(500).render("500", { pageTitle: "Server Error" });
+  }
+};
+
+exports.getCreatorProducts = async (req, res) => {
+  try {
+    const creatorId = Number.parseInt(req.params.id, 10);
+    if (!Number.isInteger(creatorId) || creatorId < 1) return res.status(404).render("404");
+    const creator = await User.findByPk(creatorId, { attributes: ["id", "firstName", "lastName"] });
+    if (!creator) return res.status(404).render("404");
+    const products = await Product.findAll({
+      attributes: ["id", "user_id", "product_name", "product_description", "createdAt"],
+      where: { user_id: creatorId, is_published: true },
+      include: [{
+        model: SavedPattern,
+        as: "pattern",
+        attributes: ["id", "emoji", "cover_image"],
+        include: [{ model: PatternTaxonomy, as: "taxonomy", attributes: ["formal_name_en", "formal_name_ar", "pattern_type_en", "pattern_type_ar", "pattern_format_en", "pattern_format_ar"] }],
+      }],
+      order: [["createdAt", "DESC"]],
+    });
+    return res.render("pages/creator_products", { creator: creator.toJSON(), products: products.map((product) => product.toJSON()) });
+  } catch (error) {
+    console.error("getCreatorProducts error:", error);
+    return res.status(500).render("500", { pageTitle: "Server Error" });
+  }
+};
+
 exports.getAllProducts = async (req, res) => {
   try {
     const requestedPage = Number.parseInt(req.query.page, 10);
@@ -55,8 +115,11 @@ exports.getAllProducts = async (req, res) => {
     const searchQuery = String(req.query.q || "").trim().slice(0, 100);
     const selectedType = TAXONOMY_TYPES.some((type) => type.value === req.query.type) ? req.query.type : "";
     const selectedFormat = TAXONOMY_FORMATS.some((format) => format.value === req.query.format) ? req.query.format : "";
+    const creatorId = Number.parseInt(req.query.creator, 10);
+    const selectedCreatorId = Number.isInteger(creatorId) && creatorId > 0 ? creatorId : null;
     const limit = ALL_PRODUCTS_PAGE_SIZE;
     const where = { is_published: true };
+    if (selectedCreatorId) where.user_id = selectedCreatorId;
 
     // PostgreSQL ILIKE makes Arabic and English product search case-insensitive.
     if (searchQuery) {
@@ -91,6 +154,7 @@ exports.getAllProducts = async (req, res) => {
       if (searchQuery) params.set("q", searchQuery);
       if (selectedType) params.set("type", selectedType);
       if (selectedFormat) params.set("format", selectedFormat);
+      if (selectedCreatorId) params.set("creator", String(selectedCreatorId));
       return res.redirect(`/all_products?${params.toString()}`);
     }
 
@@ -143,6 +207,7 @@ const productsWithAccess = products.map((product) => ({
       searchQuery,
       selectedType,
       selectedFormat,
+      selectedCreatorId,
       taxonomyTypes: TAXONOMY_TYPES,
       taxonomyFormats: TAXONOMY_FORMATS,
       pagination: { page, totalPages, totalProducts: count, pageSize: limit, pageNumbers },
