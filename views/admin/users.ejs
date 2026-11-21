@@ -68,6 +68,8 @@
                 <th>الاسم</th>
                 <th>البريد الإلكتروني</th>
                 <th>الهاتف</th>
+                <th>IP التسجيل</th>
+                <th>بلد التسجيل</th>
                 <th>الجنس</th>
                 <th>العمر</th>
                 <th>الصلاحية</th>
@@ -84,6 +86,8 @@
                 <td><%= user.firstName %> <%= user.lastName %></td>
                 <td><%= user.email %></td>
                 <td><%= user.phone || '—' %></td>
+                <td><code style="font-size:.78rem;"><%= user.registration_ip || '—' %></code></td>
+                <td><%= user.registration_country || '—' %></td>
                 <td>
                   <% if (user.gender === 'female')     { %>أنثى
                   <% } else if (user.gender === 'male') { %>ذكر
