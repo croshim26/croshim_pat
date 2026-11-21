@@ -30,6 +30,12 @@ const User =sequelize.define('user',{
         allowNull:true
     },
 
+    phone_normalized: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        unique: true,
+    },
+
     email: {
         type:Sequelize.STRING,
         allowNull:true,
@@ -95,6 +101,16 @@ const User =sequelize.define('user',{
 
     last_login: {
         type: Sequelize.DATE,
+        allowNull: true,
+    },
+
+    registration_ip: {
+        type: Sequelize.STRING(45),
+        allowNull: true,
+    },
+
+    registration_country: {
+        type: Sequelize.STRING(2),
         allowNull: true,
     },
 });

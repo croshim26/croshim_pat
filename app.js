@@ -53,6 +53,7 @@ app.use(
           "https://unpkg.com",
           "https://developers.facebook.com",
           "https://www.googletagmanager.com",
+          "https://challenges.cloudflare.com",
         ],
         styleSrc: [
           "'self'",
@@ -74,8 +75,9 @@ app.use(
           "'self'",
           "https://www.google-analytics.com",
           "https://region1.google-analytics.com",
+          "https://challenges.cloudflare.com",
         ],
-        frameSrc: ["'none'"],
+        frameSrc: ["https://challenges.cloudflare.com"],
         objectSrc: ["'none'"],
         scriptSrcAttr: ["'unsafe-inline'"],
         upgradeInsecureRequests: [],
