@@ -3,8 +3,12 @@ const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 const User = require("../models/user");
 const { sendPasswordResetEmail, sendWelcomeEmail } = require("../util/mailer");
+const { getClientIp, getRegistrationCountry } = require("../util/clientIp");
+const { isTurnstileConfigured, verifyTurnstile } = require("../util/turnstile");
 
 const SALT_ROUNDS = 10;
+
+const normalizePhone = (phone) => String(phone || "").replace(/\D/g, "");
 
 /* =========================================================
    GET Register Page
@@ -13,6 +17,7 @@ exports.getRegister = (req, res) => {
   res.render("pages/register", {
     success_message: res.locals.successMessage,
     error_message: res.locals.errorMessage,
+    turnstileSiteKey: process.env.TURNSTILE_SITE_KEY || null,
   });
 };
 
@@ -30,6 +35,10 @@ exports.postRegister = async (req, res) => {
           password: "Your password must be at least 8 characters.",
           age: "Please enter an age between 10 and 100.",
           exists: "An account with this email already exists.",
+          phoneExists: "An account with this phone number already exists.",
+          phone: "Please enter a valid phone number.",
+          captcha: "Please complete the security check and try again.",
+          captchaUnavailable: "Registration security is temporarily unavailable. Please try again later.",
           success: "Registration completed successfully. Welcome to Croshim Studio!",
           failed: "Registration failed. Please try again.",
         }
@@ -39,6 +48,10 @@ exports.postRegister = async (req, res) => {
           password: "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
           age: "يرجى إدخال عمر بين 10 و100.",
           exists: "يوجد حساب مسجل بهذا البريد الإلكتروني بالفعل.",
+          phoneExists: "يوجد حساب مسجل برقم الهاتف هذا بالفعل.",
+          phone: "يرجى إدخال رقم هاتف صحيح.",
+          captcha: "يرجى إكمال التحقق الأمني ثم المحاولة مرة أخرى.",
+          captchaUnavailable: "حماية التسجيل غير متاحة مؤقتاً. يرجى المحاولة لاحقاً.",
           success: "تم إنشاء الحساب بنجاح. أهلاً بك في كروشيم ستوديو!",
           failed: "تعذر إنشاء الحساب. يرجى المحاولة مرة أخرى.",
         };
@@ -47,15 +60,39 @@ exports.postRegister = async (req, res) => {
     const lastName = String(req.body.lastName || "").trim();
     const email = String(req.body.email || "").trim().toLowerCase();
     const phone = String(req.body.phone || "").trim();
+    const phoneNormalized = normalizePhone(phone);
     const password = String(req.body.password || "");
     const country = String(req.body.country || "").trim() || null;
     const gender = String(req.body.gender || "").trim() || null;
     const crochet_experience = String(req.body.crochet_experience || "").trim() || null;
     const ageInput = String(req.body.age || "").trim();
+    const registrationIp = getClientIp(req);
+    const registrationCountry = getRegistrationCountry(req);
 
     if (!firstName || !lastName || !email || !phone || !password) {
       req.flash("error", messages.required);
       return res.redirect("/register");
+    }
+
+    if (phoneNormalized.length < 7 || phoneNormalized.length > 15) {
+      req.flash("error", messages.phone);
+      return res.redirect("/register");
+    }
+
+    if (process.env.TURNSTILE_REQUIRED === "true") {
+      if (!isTurnstileConfigured()) {
+        console.error("TURNSTILE_REQUIRED is enabled but Turnstile keys are missing.");
+        req.flash("error", messages.captchaUnavailable);
+        return res.redirect("/register");
+      }
+      const captcha = await verifyTurnstile({
+        token: String(req.body["cf-turnstile-response"] || ""),
+        remoteIp: registrationIp,
+      });
+      if (!captcha.success) {
+        req.flash("error", messages.captcha);
+        return res.redirect("/register");
+      }
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -94,6 +131,23 @@ exports.postRegister = async (req, res) => {
       return res.redirect("/register");
     }
 
+    const existingPhone = await User.findOne({ where: { phone_normalized: phoneNormalized } });
+    // Older users predate phone_normalized. Compare their saved phone values
+    // too, so a differently formatted duplicate cannot be registered.
+    const legacyPhones = existingPhone
+      ? []
+      : await User.findAll({
+          where: { phone: { [Op.ne]: null } },
+          attributes: ["phone"],
+        });
+    const matchingLegacyPhone = legacyPhones.some(
+      (user) => normalizePhone(user.phone) === phoneNormalized
+    );
+    if (existingPhone || matchingLegacyPhone) {
+      req.flash("error", messages.phoneExists);
+      return res.redirect("/register");
+    }
+
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     const user = await User.create({
@@ -101,11 +155,14 @@ exports.postRegister = async (req, res) => {
       lastName,
       email,
       phone,
+      phone_normalized:   phoneNormalized,
       password: hashedPassword,
       country:            country            || null,
       gender:             gender             || null,
       crochet_experience: crochet_experience || null,
       age:                ageNumber,
+      registration_ip:    registrationIp,
+      registration_country: registrationCountry,
     });
 
     sendWelcomeEmail({
@@ -120,6 +177,16 @@ exports.postRegister = async (req, res) => {
     console.error("postRegister error:", error);
 
     if (error?.name === "SequelizeUniqueConstraintError") {
+      const duplicatePhone =
+        error?.errors?.some((item) => item.path === "phone_normalized") ||
+        Boolean(error?.fields?.phone_normalized) ||
+        (Array.isArray(error?.fields) && error.fields.includes("phone_normalized"));
+      if (duplicatePhone) {
+        req.flash("error", req.session.lang === "en"
+          ? "An account with this phone number already exists."
+          : "يوجد حساب مسجل برقم الهاتف هذا بالفعل.");
+        return res.redirect("/register");
+      }
       req.flash("error", req.session.lang === "en"
         ? "An account with this email already exists."
         : "يوجد حساب مسجل بهذا البريد الإلكتروني بالفعل.");
